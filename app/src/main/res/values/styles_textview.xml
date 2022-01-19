@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="LoginEditText.Base" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
+        <item name="boxCornerRadiusTopStart">@dimen/edit_corner_radius</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/edit_corner_radius</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/edit_corner_radius</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/edit_corner_radius</item>
+        <item name="boxStrokeWidth">0dp</item>
+    </style>
+
+    <style name="LoginEditText" parent="LoginEditText.Base">
+        <item name="android:layout_height">55dp</item>
+        <item name="boxBackgroundColor">?attr/colorSurface</item>
+    </style>
+</resources>

@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Mshirika App</string>
+    <string name="mshirika">Mshirika</string>
+
+    <!--Login-->
+    <string name="password">password</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="sign_in">Sign In</string>
+    <string name="username">username</string>
+
+    <!--Home-->
+    <string name="more">More</string>
+    <string name="add_fab_desc">Add new clients, groups or centers</string>
+
+    <!--Search Fragment-->
+    <string name="centers">Centers</string>
+    <string name="groups">Groups</string>
+    <string name="clients">Clients</string>
+    <string name="loan_accounts">Loan Accounts</string>
+    <string name="savings_accounts">Savings Accounts</string>
+</resources>

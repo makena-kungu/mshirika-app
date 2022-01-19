@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="query_background">@color/transparent</color>
+    <color name="primary_textColor">@color/white</color>
+    <color name="secondary_textColor">@color/smoke_white</color>
+    <color name="bg_search_card">@color/some_gray</color>
+    <color name="bg_search_appbar">#111111</color>
+</resources>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="co.ke.mshirika.mshirika_app.ui.LoginFragment" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:padding="10dp">
+
+            <include
+                android:id="@+id/logo_container"
+                layout="@layout/layout_logo"
+                android:layout_width="@dimen/logo_size"
+                android:layout_height="@dimen/logo_size"
+                app:layout_constraintBottom_toTopOf="@id/welcome"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sign_in" />
+
+
+            <TextView
+                android:id="@+id/welcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/roboto_bold"
+                android:textAppearance="@style/MshirikaApp.Title"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toTopOf="@id/more_info"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="Welcome Back" />
+
+            <TextView
+                android:id="@+id/more_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/roboto_light"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@id/username_card"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="Key in your credentials to sign in" />
+
+            <TextView
+                android:id="@+id/sign_in"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/sign_in"
+                android:textAppearance="@style/MshirikaApp.Title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Sign In" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/edit_text_conts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="2dp"
+                app:constraint_referenced_ids="username_card,password_card" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/username_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                app:cardCornerRadius="@dimen/edit_corner_radius"
+                app:layout_constraintBottom_toTopOf="@id/password_card">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/username_lo"
+                    style="@style/LoginEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    app:startIconDrawable="@drawable/ic_round_person_24">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/username" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/password_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="@dimen/edit_corner_radius"
+                app:layout_constraintBottom_toTopOf="@id/remember_me">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/password_lo"
+                    style="@style/LoginEditText"
+                    android:layout_width="match_parent"
+                    app:passwordToggleEnabled="true"
+                    app:startIconDrawable="@drawable/ic_round_lock_24">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/password"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="@string/password"
+                        android:inputType="textVisiblePassword" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <CheckBox
+                android:id="@+id/remember_me"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:checked="true"
+                android:onCheckedChanged="@{fragment.checkChanged()}"
+                android:text="@string/remember_me"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@id/sign_in_button"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:checked="true" />
+
+            <TextView
+                android:id="@+id/forgot_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:minHeight="48dp"
+                android:onClick="@{fragment.forgotPassword()}"
+                android:textColor="#FF0000"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/remember_me"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toEndOf="@id/remember_me"
+                app:layout_constraintTop_toTopOf="@id/remember_me"
+                tools:text="Forgot Password?" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sign_in_button"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginBottom="15dp"
+                android:fontFamily="@font/roboto_medium"
+                android:onClick="@{fragment.signIn()}"
+                android:text="@string/sign_in"
+                android:textAppearance="@style/TextAppearance.Button"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>
