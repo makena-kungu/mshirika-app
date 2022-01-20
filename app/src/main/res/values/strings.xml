@@ -18,4 +18,10 @@
     <string name="clients">Clients</string>
     <string name="loan_accounts">Loan Accounts</string>
     <string name="savings_accounts">Savings Accounts</string>
+    <string name="withdraw">Withdraw</string>
+    <string name="transfer">Transfer</string>
+    <string name="charge">Charge</string>
+    <string name="waive">Waive</string>
+    <string name="waive_charge">Waive Charge</string>
+    <string name="deposit">Deposit</string>
 </resources>

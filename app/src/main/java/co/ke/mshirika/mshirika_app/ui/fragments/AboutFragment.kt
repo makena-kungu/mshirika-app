@@ -1,4 +1,4 @@
-package co.ke.mshirika.mshirika_app.ui
+package co.ke.mshirika.mshirika_app.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle

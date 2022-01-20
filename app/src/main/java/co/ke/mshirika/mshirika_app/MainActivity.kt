@@ -10,7 +10,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 
-    fun more(item:MenuItem) {
+    fun more(item: MenuItem) {
         // TODO: 19/01/2022 show a bottom sheet dialog here with a menu
+
     }
 }

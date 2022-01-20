@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="tv_transaction">
+        <item name="android:layout_width">95dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingVertical" tools:ignore="NewApi">16dp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+    </style>
+
+
+</resources>

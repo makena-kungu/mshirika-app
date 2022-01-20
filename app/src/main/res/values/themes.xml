@@ -6,7 +6,7 @@
         <item name="colorPrimaryVariant">@color/white</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/purple_500</item>
+        <item name="colorSecondary">@color/purple</item>
         <item name="colorSecondaryVariant">@color/purple_700</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
@@ -20,8 +20,11 @@
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Mshirika.SmallComponent</item>
         <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Mshirika.MediumComponent</item>
         <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Mshirika.LargeComponent</item>
+
+        <!--Styles-->
         <item name="materialButtonStyle">@style/Widget.Mshirika.Button</item>
         <item name="materialCardViewStyle">@style/Widget.Mshirika.CardView</item>
+        <item name="tabStyle">@style/Widget.Mshirika.TabLayout</item>
     </style>
 
     <style name="Theme.MshirikaApp" parent="Theme.MshirikaApp.Base">
@@ -29,7 +32,7 @@
     </style>
     
     <style name="Widget.Mshirika.Button.Base" parent="Widget.Material3.Button.ElevatedButton">
-        <item name="backgroundTint">@color/purple_500</item>
+        <item name="backgroundTint">@color/purple</item>
         <item name="android:layout_height">55dp</item>
         <item name="android:textAppearance">@style/TextAppearance.Button</item>
         <item name="shapeAppearance">@style/ShapeAppearance.Mshirika.SmallComponent</item>
@@ -44,6 +47,19 @@
     </style>
 
     <style name="Widget.Mshirika.CardView" parent="Widget.Mshirika.CardView.Base">
+    </style>
+
+    <style name="Widget.Mshirika.TabLayout.Base" parent="Widget.Material3.TabLayout">
+        <item name="tabIndicator">@drawable/bg_tab_indicator</item>
+        <item name="tabIndicatorFullWidth">false</item>
+        <item name="tabIndicatorHeight">4dp</item>
+        <item name="tabMode">scrollable</item>
+        <item name="tabTextColor">@color/tab_indicator</item>
+    </style>
+
+    <style name="Widget.Mshirika.TabLayout" parent="Widget.Mshirika.TabLayout.Base">
+
+        <item name="tabIndicatorColor">@color/tab_indicator</item>
     </style>
 
     <style name="ShapeAppearance.Mshirika.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">

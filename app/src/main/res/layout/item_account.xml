@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewHolder"
+            type="co.ke.mshirika.mshirika_app.ui.adapters.AccountsAdapter.AccountsViewHolder" />
+    </data>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:drawablePadding="16dp"
+        android:onClick="@{(view) -> viewHolder.click()}"
+        android:gravity="center_vertical"
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="18sp"
+        android:textColor="@color/primary_textColor"
+        app:drawableEndCompat="@drawable/ic_round_navigate_next_24"
+        app:drawableTint="@color/primary_textColor"
+        tools:drawableStartCompat="@drawable/ic_round_roofing_24"
+        tools:text="Savings Account" />
+</layout>

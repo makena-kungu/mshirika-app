@@ -4,6 +4,6 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">65dp</item>
         <item name="cornerRadius">8dp</item>
-        <item name="backgroundTint">@color/purple_500</item>
+        <item name="backgroundTint">@color/purple</item>
     </style>
 </resources>

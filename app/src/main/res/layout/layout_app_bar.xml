@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:elevation="1dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/TextAppearance.Toolbar.Title"
+        tools:title="Title" />
+</com.google.android.material.appbar.AppBarLayout>

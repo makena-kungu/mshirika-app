@@ -7,7 +7,7 @@
 
         <variable
             name="fragment"
-            type="co.ke.mshirika.mshirika_app.ui.LoginFragment" />
+            type="co.ke.mshirika.mshirika_app.ui.fragments.LoginFragment" />
     </data>
 
     <ScrollView

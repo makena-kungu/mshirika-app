@@ -37,13 +37,17 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|enterAlways"
+            app:layout_scrollFlags="noScroll">
+
+            <!--
+            app:tabIndicatorGravity="bottom"
             app:tabIndicator="@drawable/bg_tab_indicator"
             app:tabIndicatorColor="@color/tab_indicator"
             app:tabIndicatorFullWidth="false"
             app:tabIndicatorHeight="4dp"
             app:tabMode="scrollable"
-            app:tabTextColor="@color/purple_500">
+            app:tabTextColor="@color/purple_500"
+            -->
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/client_tab"
