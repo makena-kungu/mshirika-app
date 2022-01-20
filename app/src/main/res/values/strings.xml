@@ -24,4 +24,8 @@
     <string name="waive">Waive</string>
     <string name="waive_charge">Waive Charge</string>
     <string name="deposit">Deposit</string>
+    <string name="transaction_history">Transaction History</string>
+    <string name="view_all">View All +</string>
+    <string name="loan_balance">Loan Balance</string>
+    <string name="available_balance">Available Balance</string>
 </resources>

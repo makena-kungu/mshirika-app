@@ -5,4 +5,6 @@
     <color name="secondary_textColor">@color/smoke_white</color>
     <color name="bg_search_card">@color/some_gray</color>
     <color name="bg_search_appbar">#111111</color>
+    <color name="beautiful_text">#64B5F6</color>
+    <color name="some_heading">#FF4081</color>
 </resources>

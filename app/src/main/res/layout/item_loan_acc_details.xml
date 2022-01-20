@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingVertical="5dp"
+    android:weightSum="10">
+
+    <!--implement onclick wrt the view holder presented-->
+
+    <TextView
+        android:id="@+id/details_heading"
+        android:layout_width="0dp"
+        android:textAppearance="@style/Item.Secondary"
+        android:textSize="18sp"
+        tools:text="Transaction ID"
+        android:layout_height="wrap_content"
+        android:layout_weight="5" />
+
+    <TextView
+        android:id="@+id/details_value"
+        android:layout_width="0dp"
+        android:textAppearance="@style/Item.Primary"
+        android:textSize="16sp"
+        tools:text="34987434"
+        android:gravity="end"
+        android:layout_height="wrap_content"
+        android:layout_weight="5" />
+</LinearLayout>

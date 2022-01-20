@@ -20,4 +20,6 @@
     <color name="primary_textColor">@color/black</color>
     <color name="secondary_textColor">#3e3e3e</color>
     <color name="tab_indicator">@color/purple</color>
+    <color name="beautiful_text">#092F57</color>
+    <color name="some_heading">#D80677</color>
 </resources>

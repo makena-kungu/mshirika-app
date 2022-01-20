@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <!--Add frag savings acc here to implement onclick-->
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/summary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="10dp"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/account_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:textColor="@color/some_heading"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Loan Account" />
+
+                    <TextView
+                        android:id="@+id/account_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="@color/beautiful_text"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/account_type"
+                        tools:text="Devt Loan" />
+
+                    <TextView
+                        android:id="@+id/available_bal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@string/loan_balance"
+                        android:textColor="@color/beautiful_text"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/bal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:textColor="#2CA409"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/available_bal"
+                        tools:text="$23,450.00" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/loan_details"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="8dp"
+                        tools:itemCount="5"
+                        tools:listitem="@layout/item_loan_acc_details"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintTop_toBottomOf="@id/bal" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/deposit_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{}">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/deposit"
+                    style="@style/tv_transaction"
+                    android:text="@string/deposit"
+                    app:drawableTopCompat="@drawable/ic_deposit" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/withdraw_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{}">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/withdraw"
+                    style="@style/tv_transaction"
+                    android:text="@string/withdraw"
+                    app:drawableTopCompat="@drawable/ic_withdraw" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/transfer_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{}">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/transfer"
+                    style="@style/tv_transaction"
+                    android:text="@string/transfer"
+                    app:drawableTopCompat="@drawable/ic_transfer" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/charge_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{}">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/charge"
+                    style="@style/tv_transaction"
+                    android:text="@string/charge"
+                    app:drawableTopCompat="@drawable/ic_charge" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/waive_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{}">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/waive"
+                    style="@style/tv_transaction"
+                    android:text="@string/waive_charge"
+                    app:drawableTopCompat="@drawable/ic_waive" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/transaction_flow"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:layout_marginTop="18dp"
+                android:elevation="10dp"
+                android:orientation="horizontal"
+                app:constraint_referenced_ids="deposit_card,withdraw_card,transfer_card,charge_card,waive_card"
+                app:flow_firstHorizontalStyle="spread_inside"
+                app:flow_maxElementsWrap="3"
+                app:flow_wrapMode="chain"
+                app:layout_constraintTop_toBottomOf="@id/summary" />
+
+            <TextView
+                android:id="@+id/transaction_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/transaction_history"
+                android:textAppearance="@style/TextAppearance.Toolbar.Title"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/transaction_flow" />
+
+            <TextView
+                android:id="@+id/view_all"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:gravity="center_vertical"
+                android:onClick="@{}"
+                android:text="@string/view_all"
+                app:layout_constraintBottom_toBottomOf="@id/transaction_history"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/transaction_history" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/transactions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/transaction_history"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_transaction" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>
