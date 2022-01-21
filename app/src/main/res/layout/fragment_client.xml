@@ -7,15 +7,16 @@
 
     <include
         android:id="@+id/app_bar_layout"
+        layout="@layout/layout_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/layout_app_bar"/>
+        android:layout_height="wrap_content" />
 
     <androidx.core.widget.NestedScrollView
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
@@ -25,10 +26,14 @@
 
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/clients_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:outlineSpotShadowColor="@color/some_color"
-                app:cardElevation="10dp"
+                app:cardElevation="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:strokeColor="@color/purple"
+                app:strokeWidth="1dp"
                 tools:targetApi="p">
 
                 <LinearLayout
@@ -94,12 +99,50 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/savings_account"
+                style="@style/Client.Button"
+                android:text="@string/new_savings"
+                app:icon="@drawable/ic_round_monetization_on_24" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/loan_account"
+                style="@style/Client.Button"
+                android:text="@string/loan"
+                app:icon="@drawable/ic_round_account_balance_24" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/charges"
+                style="@style/Client.Button"
+                android:text="@string/charges"
+                app:icon="@drawable/ic_round_receipt_long_24" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/more"
+                style="@style/Client.Button"
+                android:text="@string/more"
+                app:icon="@drawable/ic_baseline_more_horiz_24" />
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/button_flow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
+                app:constraint_referenced_ids="savings_account,loan_account,charges,more"
+                app:flow_horizontalStyle="spread_inside"
+                app:flow_maxElementsWrap="2"
+                app:flow_wrapMode="aligned"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/clients_card" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/accounts_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:outlineSpotShadowColor="@color/some_color"
                 app:cardElevation="10dp"
+                app:layout_constraintTop_toBottomOf="@id/button_flow"
                 tools:targetApi="p">
 
                 <LinearLayout
@@ -121,33 +164,35 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/savings_accounts"
-                        tools:listitem="@layout/item_account"
-                        android:paddingHorizontal="20dp"
-                        tools:itemCount="3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                        android:paddingHorizontal="20dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_account" />
 
                     <TextView
                         android:layout_width="match_parent"
-                        tools:text="Loan Accounts"
+                        android:layout_height="wrap_content"
                         android:background="#fdf0f7"
                         android:paddingHorizontal="30dp"
                         android:paddingVertical="8dp"
                         android:textAppearance="@style/MshirikaApp.Title"
                         android:textColor="#d80677"
                         android:textSize="18sp"
-                        android:layout_height="wrap_content"/>
+                        tools:text="Loan Accounts" />
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/loan_Accounts"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/loan_Accounts"
-                        tools:listitem="@layout/item_account"
+                        android:orientation="vertical"
                         android:paddingHorizontal="20dp"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="1"
+                        tools:listitem="@layout/item_account" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
