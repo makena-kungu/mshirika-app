@@ -103,7 +103,7 @@
                 android:id="@+id/savings_account"
                 style="@style/Client.Button"
                 android:text="@string/new_savings"
-                app:icon="@drawable/ic_round_monetization_on_24" />
+                app:icon="@drawable/ic_baseline_account_balance_wallet_24" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/loan_account"
@@ -118,6 +118,18 @@
                 app:icon="@drawable/ic_round_receipt_long_24" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/payment"
+                style="@style/Client.Button"
+                android:text="@string/payment"
+                app:icon="@drawable/ic_round_monetization_on_24" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/edit"
+                style="@style/Client.Button"
+                android:text="@string/edit"
+                app:icon="@drawable/ic_baseline_edit_24" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/more"
                 style="@style/Client.Button"
                 android:text="@string/more"
@@ -128,7 +140,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:constraint_referenced_ids="savings_account,loan_account,charges,more"
+                app:constraint_referenced_ids="savings_account,loan_account,payment,edit,charges,more"
                 app:flow_horizontalStyle="spread_inside"
                 app:flow_maxElementsWrap="2"
                 app:flow_wrapMode="aligned"

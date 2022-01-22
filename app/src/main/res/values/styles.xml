@@ -11,5 +11,37 @@
         <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
+    <style name="Widget.Mshirika.TextInputEditText" parent="">
+        <item name="android:layout_height">54dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingStart">6dp</item>
+        <item name="android:paddingEnd">6dp</item>
+    </style>
 
+    <style name="Widget.Mshirika.TextInputEditText.SingleLine">
+        <item name="maxLines">1</item>
+    </style>
+
+    <style name="Widget.Mshirika.TextAutoComplete" parent="">
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+    </style>
+
+    <style name="Widget.Mshirika.TextInputLayout.FilledBox" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingHorizontal" tools:targetApi="o">20dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+    </style>
+
+    <style name="Widget.Mshirika.TextInputLayout.FilledBox.DropDown" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingHorizontal" tools:targetApi="o">20dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+    </style>
 </resources>
