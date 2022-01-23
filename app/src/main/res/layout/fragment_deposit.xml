@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="frag"
+            type="co.ke.mshirika.mshirika_app.ui.fragments.FragmentDeposit" />
+
+        <variable
+            name="viewmodel"
+            type="co.ke.mshirika.mshirika_app.ui.viewModels.DepositViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="30dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/amount_lo"
+            style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:prefixText="Ksh">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/amount"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/amount_required"
+                tools:text="30,000" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/product_name_lo"
+            style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/product_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:afterTextChanged="@{(text) -> viewmodel.paymentMode(text)}"
+                android:hint="@string/mode_of_payment" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/receipt_no_lo"
+            style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/receipt_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:hint="Receipt No*" />
+            <!--
+                todo add this fields hint dynamically in sync with the
+                     mode of payment selected
+             -->
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/submit"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:onClick="@{(view) -> frag.submit()}"
+            android:text="@string/submit"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Mshirika.MediumComponent" />
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            app:constraint_referenced_ids="amount_lo,product_name_lo,receipt_no_lo,submit"
+            app:flow_verticalGap="12dp"
+            app:flow_wrapMode="aligned"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

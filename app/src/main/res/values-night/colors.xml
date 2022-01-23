@@ -7,4 +7,5 @@
     <color name="bg_search_appbar">#111111</color>
     <color name="beautiful_text">#64B5F6</color>
     <color name="some_heading">#FF4081</color>
+    <color name="link_text_color">#64B5F6</color>
 </resources>

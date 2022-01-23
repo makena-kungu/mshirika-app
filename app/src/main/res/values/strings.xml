@@ -26,6 +26,8 @@
     <string name="withdraw">Withdraw</string>
 
     <!--Home-->
+    <string name="add">Add</string>
+    <string name="add_charge">Add Charge</string>
     <string name="add_fab_desc">Add new clients, groups or centers</string>
 
     <!--Login-->
@@ -59,4 +61,11 @@
     <string name="repaid_every">Repaid Every</string>
     <string name="overdue_charges">Overdue Charges</string>
     <string name="collaterals_data">Collaterals Data</string>
+    <string name="action">Action</string>
+    <string name="mode_of_payment">Mode of payment</string>
+    <string name="submit">Submit</string>
+    <string name="transaction_date">Transaction Date (dd/mm/yyyy)</string>
+    <string name="bank_date">Bank Date (dd/mm/yyyy)</string>
+    <string name="submitted_on">Submitted On (dd/mm/yyyy)</string>
+    <string name="product_name">Product Name*</string>
 </resources>

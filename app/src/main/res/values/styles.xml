@@ -44,4 +44,12 @@
         <item name="boxCornerRadiusTopEnd">8dp</item>
         <item name="boxCornerRadiusTopStart">8dp</item>
     </style>
+
+    <style name="Widget.Mshirika.TextInputLayout.OutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.MediumComponent</item>
+    </style>
+
+    <style name="Widget.Mshirika.TextInputLayout.OutlinedBox.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.MediumComponent</item>
+    </style>
 </resources>

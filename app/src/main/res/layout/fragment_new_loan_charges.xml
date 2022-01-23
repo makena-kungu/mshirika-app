@@ -13,26 +13,40 @@
             android:id="@+id/charge_lo"
             style="@style/Widget.Mshirika.TextInputLayout.FilledBox.DropDown"
             android:layout_width="0dp"
-            android:paddingEnd="0dp"
             android:paddingStart="0dp"
-            app:layout_constraintWidth_percent=".7"
+            android:paddingEnd="0dp"
+            app:layout_constraintWidth_percent=".67"
             tools:ignore="RtlSymmetry">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/charge"
                 style="@style/Widget.Mshirika.TextInputEditText.SingleLine"
+                android:editable="false"
                 android:hint="@string/charge" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/add_charge"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:scaleY="1.4"
-            android:scaleX="1.4"
-            android:background="@color/transparent"
-            android:src="@drawable/ic_round_receipt_long_24"
-            app:layout_constraintWidth_percent=".25" />
+            android:layout_height="64dp"
+            android:text="@string/add"
+            android:textColor="@color/purple"
+            app:icon="@drawable/ic_round_add_24"
+            app:iconGravity="textStart"
+            app:iconTint="@color/purple"
+            app:layout_constraintWidth_percent=".21"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Mshirika.SmallComponent"
+            app:strokeWidth="1dp" />
+
+        <TextView
+            android:id="@+id/charges_h"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/charges"
+            android:textAppearance="@style/TextAppearance.Toolbar.Title"
+            android:textColor="@color/beautiful_text"
+            android:textSize="20sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/charges"
@@ -47,8 +61,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/overdue_charges"
-            android:textColor="@color/beautiful_text"
             android:textAppearance="@style/TextAppearance.Toolbar.Title"
+            android:textColor="@color/beautiful_text"
             android:textSize="20sp" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -63,9 +77,9 @@
             android:id="@+id/collaterals_data_h"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/beautiful_text"
             android:text="@string/collaterals_data"
             android:textAppearance="@style/TextAppearance.Toolbar.Title"
+            android:textColor="@color/beautiful_text"
             android:textSize="20sp" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -77,13 +91,14 @@
             tools:itemCount="3" />
 
         <androidx.constraintlayout.helper.widget.Flow
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            app:constraint_referenced_ids="charge_lo,add_charge,charges,overdue_charges_h, overdue_charges_list,collaterals_data_h,collaterals_data"
-            app:flow_wrapMode="chain"
+            app:constraint_referenced_ids="charge_lo,add_charge,charges_h,charges,overdue_charges_h,overdue_charges_list,collaterals_data_h,collaterals_data"
+            app:flow_firstHorizontalStyle="spread_inside"
             app:flow_verticalGap="10dp"
+            app:flow_wrapMode="chain2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"

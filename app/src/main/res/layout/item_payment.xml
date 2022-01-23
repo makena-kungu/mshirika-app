@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/amount_lo"
+            style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintWidth_percent=".59"
+            app:prefixText="Ksh">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/amount"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="phone|numberDecimal"
+                tools:hint="St. Teresa Eastleigh Shares"
+                tools:text="30,000" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/acc_charge_lo"
+            style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintWidth_percent=".4"
+            app:prefixText="Ksh">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/acc1_charge"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="phone|numberDecimal"
+                android:hint="@string/charge"
+                tools:text="30,000" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="amount_lo,acc_charge_lo"
+            app:flow_wrapMode="chain"
+            app:flow_horizontalStyle="spread_inside"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
