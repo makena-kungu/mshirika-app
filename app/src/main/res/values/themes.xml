@@ -32,10 +32,10 @@
     </style>
     
     <style name="Widget.Mshirika.Button.Base" parent="Widget.Material3.Button.ElevatedButton">
-        <item name="backgroundTint">@color/purple</item>
+        <item name="backgroundTint">@color/button</item>
         <item name="android:layout_height">55dp</item>
         <item name="android:textAppearance">@style/TextAppearance.Button</item>
-        <item name="shapeAppearance">@style/ShapeAppearance.Mshirika.SmallComponent</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.SmallComponent</item>
     </style>
 
     <style name="Widget.Mshirika.Button" parent="Widget.Mshirika.Button.Base">

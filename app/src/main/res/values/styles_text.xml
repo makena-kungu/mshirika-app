@@ -16,6 +16,11 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="TextAppearance.Mshirika.Title" parent="TextAppearance.AppCompat.Title">
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
     <style name="Item.Primary" parent="">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/primary_textColor</item>

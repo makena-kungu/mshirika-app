@@ -5,6 +5,7 @@
     <!--Global-->
     <string name="account">Account</string>
     <string name="client">Client</string>
+    <string name="client_">Client(s)</string>
     <string name="more">More</string>
     <string name="office">Office</string>
 
@@ -68,4 +69,19 @@
     <string name="bank_date">Bank Date (dd/mm/yyyy)</string>
     <string name="submitted_on">Submitted On (dd/mm/yyyy)</string>
     <string name="product_name">Product Name*</string>
+    <string name="closed_on_required">Closed On*</string>
+    <string name="confirm">Confirm</string>
+    <string name="reason_for_closure">Reason For Closure</string>
+    <string name="new_user">New User</string>
+    <string name="parameter">Parameter*</string>
+    <string name="office_required">Office*</string>
+    <string name="message_required">Message*</string>
+    <string name="send">Send</string>
+    <string name="note">Note</string>
+    <string name="transfer_date">Date of Transfer(dd/mm/yyyy)</string>
+    <string name="staff_required">Staff*</string>
+    <string name="upload">Upload</string>
+    <string name="select_file">Select File</string>
+    <string name="legal_form">Legal Form*</string>
+    <string name="download">Download</string>
 </resources>
