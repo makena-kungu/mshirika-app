@@ -20,7 +20,11 @@
         <entry key="..\:/Users/edkun/AndroidStudioProjects/Mshirikaapp/app/src/main/res/layout/fragment_import.xml" value="0.2" />
         <entry key="..\:/Users/edkun/AndroidStudioProjects/Mshirikaapp/app/src/main/res/layout/fragment_loan_account.xml" value="0.25" />
         <entry key="..\:/Users/edkun/AndroidStudioProjects/Mshirikaapp/app/src/main/res/layout/fragment_login.xml" value="0.22" />
-        <entry key="..\:/Users/edkun/AndroidStudioProjects/Mshirikaapp/app/src/main/res/layout/fragment_new_client.xml" value="0.12894736842105264" />
+        <entry key="..\:/Users/edkun/AndroidStudioProjects/Mshirikaapp/app/src/main/res/layout/fragment_new_client.xml" value="0.16" />
+        <entry key="..\:/Users/edkun/AndroidStudioProjects/Mshirikaapp/app/src/main/res/layout/fragment_new_client_address.xml" value="0.2" />
+        <entry key="..\:/Users/edkun/AndroidStudioProjects/Mshirikaapp/app/src/main/res/layout/fragment_new_client_family.xml" value="0.2" />
+        <entry key="..\:/Users/edkun/AndroidStudioProjects/Mshirikaapp/app/src/main/res/layout/fragment_new_client_general.xml" value="0.12894736842105264" />
+        <entry key="..\:/Users/edkun/AndroidStudioProjects/Mshirikaapp/app/src/main/res/layout/fragment_new_client_preview.xml" value="0.18" />
         <entry key="..\:/Users/edkun/AndroidStudioProjects/Mshirikaapp/app/src/main/res/layout/fragment_new_loan.xml" value="0.22" />
         <entry key="..\:/Users/edkun/AndroidStudioProjects/Mshirikaapp/app/src/main/res/layout/fragment_new_loan_charges.xml" value="0.18" />
         <entry key="..\:/Users/edkun/AndroidStudioProjects/Mshirikaapp/app/src/main/res/layout/fragment_new_loan_details.xml" value="0.20416666666666666" />
@@ -41,6 +45,7 @@
         <entry key="..\:/Users/edkun/AndroidStudioProjects/Mshirikaapp/app/src/main/res/layout/item_loan_acc_details.xml" value="0.25" />
         <entry key="..\:/Users/edkun/AndroidStudioProjects/Mshirikaapp/app/src/main/res/layout/item_organisation.xml" value="0.12894736842105264" />
         <entry key="..\:/Users/edkun/AndroidStudioProjects/Mshirikaapp/app/src/main/res/layout/item_payment.xml" value="0.2" />
+        <entry key="..\:/Users/edkun/AndroidStudioProjects/Mshirikaapp/app/src/main/res/layout/item_preview.xml" value="0.12894736842105264" />
         <entry key="..\:/Users/edkun/AndroidStudioProjects/Mshirikaapp/app/src/main/res/layout/item_transaction.xml" value="0.25" />
         <entry key="..\:/Users/edkun/AndroidStudioProjects/Mshirikaapp/app/src/main/res/layout/item_transaction_details.xml" value="0.1814814814814815" />
         <entry key="..\:/Users/edkun/AndroidStudioProjects/Mshirikaapp/app/src/main/res/layout/item_user.xml" value="0.16" />

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="16dp"
+    android:weightSum="10">
+
+    <TextView
+        android:id="@+id/property"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:textAppearance="@style/Item.Secondary"
+        tools:text="Date of Birth" />
+
+    <TextView
+        android:id="@+id/value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:gravity="end"
+        android:textAlignment="gravity"
+        android:textAppearance="@style/Item.Primary"
+        tools:text="24th Jan, 2022" />
+
+</LinearLayout>
