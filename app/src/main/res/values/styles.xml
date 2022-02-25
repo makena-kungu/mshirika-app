@@ -2,13 +2,23 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="tv_transaction">
-        <item name="android:layout_width">95dp</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/transparent</item>
-        <item name="android:drawablePadding">8dp</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:drawablePadding">5dp</item>
         <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:maxLines">1</item>
         <item name="android:paddingVertical" tools:ignore="NewApi">16dp</item>
         <item name="fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <style name="card_transaction">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="cardElevation">0dp</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.MediumComponent</item>
     </style>
 
     <style name="Widget.Mshirika.TextInputEditText" parent="">

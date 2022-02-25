@@ -1,6 +1,7 @@
 package co.ke.mshirika.mshirika_app
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-class MshirikaApplication: Application() {
-}
+@HiltAndroidApp
+class MshirikaApplication : Application()

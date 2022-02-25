@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="8dp"
-    app:cardElevation="8dp"
+    android:layout_marginVertical="4dp"
+    app:cardElevation="3dp"
     app:shapeAppearanceOverlay="@style/ShapeAppearance.Mshirika.MediumComponent">
 
     <androidx.constraintlayout.widget.ConstraintLayout

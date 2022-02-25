@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.main.utils.DepositFragment">
 
     <data>
 
         <variable
             name="frag"
-            type="co.ke.mshirika.mshirika_app.ui.fragments.FragmentDeposit" />
+            type="co.ke.mshirika.mshirika_app.ui.main.utils.DepositFragment" />
 
         <variable
             name="viewmodel"
@@ -44,8 +45,8 @@
                 android:id="@+id/product_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:afterTextChanged="@{(text) -> viewmodel.paymentMode(text)}"
                 android:hint="@string/mode_of_payment" />
+                <!--android:afterTextChanged="@{(text) -> viewmodel.paymentMode(text)}"-->
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

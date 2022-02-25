@@ -17,11 +17,11 @@
             android:id="@+id/product_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:afterTextChanged="@{(text) -> viewmodel.paymentMode(text)}"
             android:editable="false"
             android:hint="@string/product_name"
             tools:ignore="Deprecated" />
     </com.google.android.material.textfield.TextInputLayout>
+    <!--android:afterTextChanged="@{(text) -> viewmodel.paymentMode(text)}"-->
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/submitted_on_lo"

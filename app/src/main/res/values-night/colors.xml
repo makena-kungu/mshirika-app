@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="query_background">@color/transparent</color>
-    <color name="primary_textColor">@color/white</color>
-    <color name="secondary_textColor">@color/smoke_white</color>
+    <color name="beautiful_text">#64B5F6</color>
     <color name="bg_search_card">@color/some_gray</color>
     <color name="bg_search_appbar">#111111</color>
-    <color name="beautiful_text">#64B5F6</color>
-    <color name="some_heading">#FF4081</color>
+    <color name="bg_search_view">@color/cardview_dark_background</color>
     <color name="link_text_color">#64B5F6</color>
+    <color name="primary_textColor">@color/white</color>
+    <color name="query_background">@color/transparent</color>
+    <color name="secondary_textColor">@color/smoke_white</color>
+    <color name="some_heading">#FF4081</color>
+    <color name="bg_loan_account">#3C383A</color>
+    <color name="colorAppBar">#1e1e1e</color>
+    <color name="colorClientAppbar">#363443</color>
+    <color name="colorUnelevatedActionBar">#121212</color>
+    <color name="loanAccountsText">#EC407A</color>
+    <color name="textBalance">#2CA409</color>
 </resources>

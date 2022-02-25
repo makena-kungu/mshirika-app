@@ -5,9 +5,9 @@
 
     <data>
 
-        <variable
+        <!--<variable
             name="fragment"
-            type="co.ke.mshirika.mshirika_app.ui.fragments." />
+            type="co.ke.mshirika.mshirika_app.ui.fragments.TransferFragment" />-->
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -187,8 +187,8 @@
                             android:layout_height="48dp"
                             android:background="@color/transparent"
                             android:contentDescription="@string/date_picker_desc"
-                            android:onClick="@{(view) -> fragment.openCalendarPicker()}"
                             app:srcCompat="@drawable/ic_baseline_calendar_month_24" />
+<!--                            android:onClick="@{(view) -> fragment.openCalendarPicker()}"-->
 
                         <androidx.constraintlayout.helper.widget.Flow
                             android:id="@+id/date_flow"
@@ -227,8 +227,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:onClick="@{(view) -> fragment.submit()}"
                     android:text="@string/transfer" />
+                    <!--android:onClick="@{(view) -> fragment.submit()}"-->
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 

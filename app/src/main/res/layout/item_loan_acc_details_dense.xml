@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="pair"
+            type="kotlin.Pair&lt;String, String>" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingVertical="4dp"
+        android:weightSum="10">
+
+        <!--implement onclick wrt the view holder presented-->
+
+        <TextView
+            android:id="@+id/details_heading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:maxLines="1"
+            android:text="@{pair.first}"
+            android:textAppearance="@style/Item.Secondary"
+            android:textSize="16sp"
+            tools:text="Transaction ID" />
+
+        <TextView
+            android:id="@+id/details_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:gravity="end"
+            android:maxLines="1"
+            android:text="@{pair.second}"
+            android:textAppearance="@style/Item.Primary"
+            android:textSize="16sp"
+            tools:text="34987434" />
+    </LinearLayout>
+</layout>

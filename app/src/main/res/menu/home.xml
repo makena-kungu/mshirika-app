@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action"
-        app:showAsAction="always"
-        android:onClick="more"
-        android:icon="@drawable/ic_baseline_more_vert_24"
-        android:title="@string/more" />
+        android:icon="@drawable/abc_ic_search_api_material"
+        android:title="@string/more"
+        android:visible="false"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="always" />
 </menu>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/main_fragments"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/action_homeFragment_to_clientFragment"
+            android:title="@string/clients" />
+
+        <item
+            android:id="@+id/groups"
+            android:title="@string/groups" />
+
+        <item
+            android:id="@+id/center"
+            android:title="@string/centers" />
+    </group>
+
+    <group android:id="@+id/group2">
+        <item
+            android:id="@+id/subtitle"
+            android:title="Subtitle">
+            <menu>
+                <item
+                    android:id="@+id/item1"
+                    android:title="Item 1" />
+            </menu>
+        </item>
+    </group>
+
+
+    <item
+        android:id="@+id/settings"
+        android:title="Settings" />
+
+    <item
+        android:id="@+id/about"
+        android:title="About" />
+</menu>

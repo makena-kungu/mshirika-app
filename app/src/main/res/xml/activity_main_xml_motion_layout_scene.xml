@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:autoTransition="none"
+        motion:constraintSetEnd="@+id/showing"
+        motion:constraintSetStart="@id/hidden"
+        motion:duration="@integer/material_motion_duration_medium_1"
+        motion:motionInterpolator="linear">
+        <KeyFrameSet />
+    </Transition>
+
+    <ConstraintSet android:id="@+id/showing" />
+
+    <ConstraintSet android:id="@+id/hidden">
+        <Constraint
+            android:id="@+id/internet_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintVertical_bias="1">
+            <CustomAttribute
+                motion:attributeName="maxHeight"
+                motion:customIntegerValue="0" />
+        </Constraint>
+    </ConstraintSet>
+</MotionScene>

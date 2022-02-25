@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
+    android:layout_height="40dp"
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:paddingVertical="5dp"
@@ -14,7 +14,7 @@
         android:id="@+id/details_heading"
         android:layout_width="0dp"
         android:textAppearance="@style/Item.Secondary"
-        android:textSize="18sp"
+        android:textSize="16sp"
         tools:text="Transaction ID"
         android:layout_height="wrap_content"
         android:layout_weight="5" />

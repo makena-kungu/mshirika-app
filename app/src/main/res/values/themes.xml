@@ -2,27 +2,32 @@
     <!-- Base application theme. -->
     <style name="Theme.MshirikaApp.Base" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimary">@color/purple</item>
         <item name="colorPrimaryVariant">@color/white</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/purple</item>
-        <item name="colorSecondaryVariant">@color/purple_700</item>
+        <item name="colorSecondaryVariant">@color/purple_dark</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
+        <item name="android:windowLightStatusBar" tools:targetApi="M">true</item>
         <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
         <item name="android:enforceStatusBarContrast" tools:ignore="NewApi">true</item>
         <!-- Customize your theme here. -->
+        <item name="background">@color/colorBackground</item>
 
-        <item name="background">#DDECFF</item>
-        
         <!--Shapes-->
-        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Mshirika.SmallComponent</item>
-        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Mshirika.MediumComponent</item>
-        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Mshirika.LargeComponent</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Mshirika.SmallComponent
+        </item>
+        <item name="shapeAppearanceMediumComponent">
+            @style/ShapeAppearance.Mshirika.MediumComponent
+        </item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Mshirika.LargeComponent
+        </item>
 
         <!--Styles-->
         <item name="materialButtonStyle">@style/Widget.Mshirika.Button</item>
+        <item name="searchViewStyle">@style/Widget.AppCompat.SearchView.ActionBar</item>
         <item name="materialCardViewStyle">@style/Widget.Mshirika.CardView</item>
         <item name="tabStyle">@style/Widget.Mshirika.TabLayout</item>
     </style>
@@ -30,7 +35,7 @@
     <style name="Theme.MshirikaApp" parent="Theme.MshirikaApp.Base">
 
     </style>
-    
+
     <style name="Widget.Mshirika.Button.Base" parent="Widget.Material3.Button.ElevatedButton">
         <item name="backgroundTint">@color/button</item>
         <item name="android:layout_height">55dp</item>
@@ -42,11 +47,12 @@
 
     </style>
 
-    <style name="Widget.Mshirika.CardView.Base" parent="Widget.Material3.CardView.Filled">
+    <style name="Widget.Mshirika.CardView.Base" parent="Widget.MaterialComponents.CardView">
         <item name="shapeAppearance">@style/ShapeAppearance.Mshirika.LargeComponent</item>
     </style>
 
     <style name="Widget.Mshirika.CardView" parent="Widget.Mshirika.CardView.Base">
+
     </style>
 
     <style name="Widget.Mshirika.TabLayout.Base" parent="Widget.Material3.TabLayout">
@@ -75,6 +81,20 @@
     <style name="ShapeAppearance.Mshirika.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="Theme.MshirikaApp.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.MshirikaApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorPrimary">@color/colorAppBar</item>
+        <item name="colorOnPrimary">@color/black</item>
+    </style>
+
+    <style name="Theme.MshirikaApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorOnPrimary">@color/black</item>
     </style>
 
 </resources>

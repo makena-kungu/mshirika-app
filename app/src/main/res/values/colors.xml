@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple">#7367f0</color>
-    <color name="purple_700">#FF3700B3</color>
+    <color name="purple_light">#A995FF</color>
+    <color name="purple">#7367F0</color>
+    <color name="purple_dark">#393CBD</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="green">#007a3c</color>
+    <color name="stop">#cf142b</color>
     <color name="smoke_white">#e3e3e3</color>
     <color name="transparent">#00000000</color>
     <color name="some_color">#868A9A</color>
@@ -14,13 +16,30 @@
 
     <color name="feint_purple">#DEECFF</color>
 
+    <color name="bg_loan_account">#fdf0f7</color>
     <color name="bg_search_card">@color/smoke_white</color>
     <color name="bg_search_appbar">?colorSurface</color>
+    <color name="bg_search_view">#EFEFEF</color>
+
+    <color name="colorAppBar">@color/white</color>
+    <color name="colorClientAppbar">#B0ABE4</color>
+    <color name="colorBackground">#DDECFF</color>
+    <color name="colorPrimary">@color/purple</color>
+    <color name="colorSecondary">@color/purple</color>
+    <color name="colorUnelevatedActionBar">#fff</color>
+    <color name="colorInternetStatusTextOnline">#ffff</color>
+    <color name="colorInternetStatusTextOffline">#ffff</color>
+
+    <color name="ic_mshirika_launcher_background">#EEEEFA</color>
+
     <color name="query_background">@color/transparent</color>
     <color name="primary_textColor">@color/black</color>
     <color name="secondary_textColor">#3e3e3e</color>
     <color name="tab_indicator">@color/purple</color>
     <color name="beautiful_text">#092F57</color>
     <color name="some_heading">#D80677</color>
-    <color name="link_text_color">#0277BD</color>
+    <color name="link_text_color">#283593</color>
+    <color name="no_internet">#3C3C3C</color>
+    <color name="loanAccountsText">#d80677</color>
+    <color name="textBalance">#2CA409</color>
 </resources>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@+id/collapsed"
+        motion:constraintSetStart="@id/expanded">
+        <KeyFrameSet>
+            <KeyAttribute
+                android:alpha="0.3"
+                android:scaleX="0.3"
+                android:scaleY="0.3"
+                motion:framePosition="50"
+                motion:motionTarget="@+id/client_mobile_number" />
+            <KeyAttribute
+                android:alpha="0.3"
+                android:scaleX="0.3"
+                android:scaleY="0.3"
+                motion:framePosition="50"
+                motion:motionTarget="@+id/client_membership_no" />
+            <KeyAttribute
+                android:alpha="0.3"
+                android:scaleX="0.3"
+                android:scaleY="0.3"
+                motion:framePosition="50"
+                motion:motionTarget="@+id/available_bal" />
+            <KeyPosition
+                motion:curveFit="linear"
+                motion:framePosition="51"
+                motion:keyPositionType="deltaRelative"
+                motion:motionTarget="@+id/client_membership_no"
+                motion:pathMotionArc="none"
+                motion:percentX="0" />
+            <KeyPosition
+                motion:framePosition="40"
+                motion:keyPositionType="deltaRelative"
+                motion:motionTarget="@+id/client_image"
+                motion:percentX="1"
+                motion:sizePercent="1" />
+        </KeyFrameSet>
+    </Transition>
+
+    <ConstraintSet android:id="@+id/expanded" />
+
+    <ConstraintSet android:id="@+id/collapsed">
+        <Constraint
+            android:id="@+id/client_image"
+            android:layout_width="@dimen/client_small_logo"
+            android:layout_height="@dimen/client_small_logo"
+            android:layout_marginStart="64dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintHorizontal_bias="0"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintVertical_bias="0.5" />
+        <Constraint
+            android:id="@+id/client_image_error"
+            android:layout_width="@dimen/client_small_logo"
+            android:layout_height="@dimen/client_small_logo"
+            android:scaleX=".7"
+            android:scaleY=".7"
+            android:visibility="invisible"
+            motion:layout_constraintBottom_toBottomOf="@id/client_image"
+            motion:layout_constraintEnd_toEndOf="@id/client_image"
+            motion:layout_constraintStart_toStartOf="@id/client_image"
+            motion:layout_constraintTop_toTopOf="@id/client_image" />
+        <Constraint
+            android:id="@+id/client_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="48dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintHorizontal_bias="0"
+            motion:layout_constraintStart_toEndOf="@id/client_image"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintVertical_bias="0.15">
+            <CustomAttribute
+                motion:attributeName="maxLines"
+                motion:customIntegerValue="1" />
+        </Constraint>
+        <Constraint
+            android:id="@+id/client_mobile_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX=".5"
+            android:scaleY=".5"
+            android:visibility="gone"
+            motion:layout_constraintBottom_toTopOf="@id/available_bal"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/client_name" />
+        <Constraint
+            android:id="@+id/available_bal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX=".5"
+            android:scaleY=".5"
+            android:visibility="gone"
+            motion:layout_constraintBottom_toTopOf="@id/balance"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/client_mobile_number" />
+        <Constraint
+            android:id="@+id/client_membership_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX=".5"
+            android:scaleY=".5"
+            android:visibility="gone"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/balance" />
+        <Constraint
+            android:id="@+id/balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="@id/client_name"
+            motion:layout_constraintHorizontal_bias="0"
+            motion:layout_constraintStart_toStartOf="@id/client_name"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintVertical_bias="0.85" />
+    </ConstraintSet>
+</MotionScene>

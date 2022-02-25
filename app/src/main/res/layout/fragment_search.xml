@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".ui.search.SearchFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -13,71 +15,52 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:contentInsetEnd="10dp"
             app:layout_scrollFlags="scroll|enterAlways">
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/search_card"
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/search_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="15dp"
-                app:cardBackgroundColor="@color/bg_search_card"
-                app:cardCornerRadius="30dp">
-
-                <androidx.appcompat.widget.SearchView
-                    android:id="@+id/search_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:iconifiedByDefault="false"
-                    app:queryBackground="@color/query_background"
-                    app:queryHint="Search..." />
-            </com.google.android.material.card.MaterialCardView>
+                android:layout_marginVertical="4dp"
+                android:background="@drawable/bg_search_view"
+                app:iconifiedByDefault="false"
+                app:queryBackground="@color/query_background"
+                app:queryHint="Search..." />
         </com.google.android.material.appbar.MaterialToolbar>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="noScroll">
-
-            <!--
-            app:tabIndicatorGravity="bottom"
+            app:layout_scrollFlags="noScroll"
             app:tabIndicator="@drawable/bg_tab_indicator"
             app:tabIndicatorColor="@color/tab_indicator"
             app:tabIndicatorFullWidth="false"
+            app:tabIndicatorGravity="bottom"
             app:tabIndicatorHeight="4dp"
-            app:tabMode="scrollable"
-            app:tabTextColor="@color/purple_500"
-            -->
+            app:tabMode="auto"
+            app:tabTextColor="@color/purple">
 
             <com.google.android.material.tabs.TabItem
-                android:id="@+id/client_tab"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/clients" />
 
             <com.google.android.material.tabs.TabItem
-                android:id="@+id/group_tab"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/groups" />
 
             <com.google.android.material.tabs.TabItem
-                android:id="@+id/center_tab"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/centers" />
 
             <com.google.android.material.tabs.TabItem
-                android:id="@+id/loan_account_tab"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/loan_accounts" />
-
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/savings_account"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/savings_accounts" />
         </com.google.android.material.tabs.TabLayout>
     </com.google.android.material.appbar.AppBarLayout>
 

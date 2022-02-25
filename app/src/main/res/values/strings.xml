@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Mshirika App</string>
     <string name="mshirika">Mshirika</string>
 
@@ -6,8 +6,13 @@
     <string name="account">Account</string>
     <string name="client">Client</string>
     <string name="client_">Client(s)</string>
+    <string name="lost_connectivity">Internet Connection Lost</string>
     <string name="more">More</string>
+    <string name="offline">Offline</string>
+    <string name="no_internet">No Internet Connection!</string>
     <string name="office">Office</string>
+    <string name="online">Online</string>
+    <string name="search">Search</string>
 
     <!--Client-->
     <string name="available_balance">Available Balance</string>
@@ -90,6 +95,7 @@
     <string name="date_of_birth">Date of Birth (dd/mm/yyyy)</string>
     <string name="pick_date_desc">Pick date of birth from the calendar</string>
     <string name="member_no">Member Number</string>
+    <string name="member_no_">Member Number: %1$s</string>
     <string name="mobile_no">Mobile Number</string>
     <string name="gender">Gender</string>
     <string name="is_staff">Is Staff?</string>
@@ -111,4 +117,31 @@
     <string name="address">Address</string>
     <string name="postal_code">Postal Code</string>
     <string name="county">County</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="key_in_your_credentials_to_sign_in">Key in your credentials to sign in</string>
+    <string name="open_drawer">Open</string>
+    <string name="close_drawer">Close</string>
+    <string name="my_savings">My Savings</string>
+    <string name="my_loans">My Loans</string>
+    <string name="retry" tools:override="true">Retry</string>
+    <string name="title_activity_launcher">LauncherActivity</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="make_payment">Make Payment</string>
+
+    <string name="external_id">External ID: %1$s</string>
+    <string name="account_no">"Account No: %1$s"</string>
+
+    <string name="desc_create_client">Create A New Client</string>
+    <string name="desc_create_group">Create A New Group</string>
+    <string name="desc_create_center">Create A New Center</string>
+    <string name="client_s_member_number">Client\'s Member Number</string>
+    <string name="client_card_transition_name">Client Card Details</string>
 </resources>
