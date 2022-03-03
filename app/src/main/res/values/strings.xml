@@ -12,7 +12,7 @@
     <string name="no_internet">No Internet Connection!</string>
     <string name="office">Office</string>
     <string name="online">Online</string>
-    <string name="search">Search</string>
+    <string name="search">Search…</string>
 
     <!--Client-->
     <string name="available_balance">Available Balance</string>
@@ -139,9 +139,32 @@
     <string name="external_id">External ID: %1$s</string>
     <string name="account_no">"Account No: %1$s"</string>
 
+    <!--Transition-->
+    <string name="client_card_transition_name">Client Card Details</string>
+    <string name="client_card">Client Card %d</string>
+    <string name="loan_card_transition_name">Loan Card Details</string>
+    <string name="loan_card">Loan Card %d</string>
+    <string name="center_card_transition_name">Center Card Details</string>
+    <string name="center_card">Center Card %d</string>
+    <string name="group_card_transition_name">Group Card Details</string>
+    <string name="group_card">group Card %d</string>
+
     <string name="desc_create_client">Create A New Client</string>
     <string name="desc_create_group">Create A New Group</string>
     <string name="desc_create_center">Create A New Center</string>
     <string name="client_s_member_number">Client\'s Member Number</string>
-    <string name="client_card_transition_name">Client Card Details</string>
+
+    <string name="loans">Loans</string>
+    <string name="searching_card">Searching Card</string>
+    <string name="search_fragment_card">Card For Searching Fragment</string>
+    <string name="search_icon">Search Icon</string>
+    <string name="center">Center</string>
+    <string name="group">Group</string>
+    <string name="make_repayment">Make Repayment</string>
+    <string name="repayment_date">Repayment Date (dd/MM/yyyy)</string>
+    <string name="transactions">Transactions</string>
+    <string name="balance">balance</string>
+    <string name="loan_date">Loan Date</string>
+    <string name="due_date">Due Date</string>
+    <string name="amount_due">Amount Due</string>
 </resources>

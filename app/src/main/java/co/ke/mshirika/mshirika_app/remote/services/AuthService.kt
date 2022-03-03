@@ -12,5 +12,5 @@ interface AuthService {
 
     @Headers("Fineract-Platform-TenantId: default")
     @POST(EndPoint.AUTHENTICATION)
-    fun login(@Body login: Login): Response<Staff>
+    suspend fun login(@Body login: Login): Response<Staff>
 }

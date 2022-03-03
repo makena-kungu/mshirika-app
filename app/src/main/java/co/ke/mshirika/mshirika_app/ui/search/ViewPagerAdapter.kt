@@ -8,21 +8,25 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 class ViewPagerAdapter(fm: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fm, lifecycle) {
 
-    private val fragments = mutableListOf<Fragment>()
+    private val _fragments = mutableListOf<Fragment>()
+
+    operator fun get(position: Int): Fragment {
+        return _fragments[position]
+    }
 
     override fun getItemCount(): Int {
-        return fragments.size
+        return _fragments.size
     }
 
     override fun createFragment(position: Int): Fragment {
-        return fragments[position]
+        return _fragments[position]
     }
 
     fun addFragment(vararg fragments: Fragment) {
-        this.fragments += fragments
+        _fragments += fragments
 
         fragments.forEach { fragment ->
-            this.fragments.indexOf(fragment).also {
+            _fragments.indexOf(fragment).also {
                 notifyItemInserted(it)
             }
         }

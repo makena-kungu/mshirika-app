@@ -21,8 +21,13 @@ class DataStore(private val context: Context) {
         }
     }
 
-    val isLoggedIn = context.datastore.data.map { !it[AUTH_KEY].isNullOrBlank() }
-    val authKey = context.datastore.data.map { Base64Utils.decode(it[AUTH_KEY]).decodeToString() }
+    val isLoggedIn = context.datastore
+        .data
+        .map { !it[AUTH_KEY].isNullOrBlank() }
+
+    val authKey = context.datastore
+        .data
+        .map { Base64Utils.decode(it[AUTH_KEY]).decodeToString() }
 
     suspend fun authKey(): String? {
         var authKey: String? = null

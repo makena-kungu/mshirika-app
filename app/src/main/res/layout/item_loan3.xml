@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.ke.mshirika.mshirika_app.utility.BindingUtils" />
+
+        <variable
+            name="dueDate"
+            type="String" />
+
+        <variable
+            name="amountDue"
+            type="String" />
+
+        <variable
+            name="loan"
+            type="co.ke.mshirika.mshirika_app.data.response.LoanAccount" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:cardMaxElevation="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="10dp">
+
+            <TextView
+                android:id="@+id/loan_product_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{loan.loanProductName}"
+                android:textAppearance="?textAppearanceBodyLarge"
+                android:textColor="?android:textColorSecondary"
+                app:layout_constraintEnd_toStartOf="@id/loan_client_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Business Loan" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/loan_client_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:layout_constraintBottom_toBottomOf="@id/loan_client_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/loan_client_name"
+                app:shapeAppearanceOverlay="?roundedImage"
+                tools:src="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/loan_client_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{loan.clientName}"
+                android:textAppearance="?textAppearanceHeadline5"
+                app:layout_constraintBottom_toTopOf="@id/due"
+                app:layout_constraintEnd_toStartOf="@id/loan_client_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/loan_product_name"
+                tools:text="John Doe"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/due"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="?textAppearanceHeadline6"
+                app:layout_constraintBottom_toTopOf="@id/loan_due_date"
+                app:layout_constraintEnd_toStartOf="@id/loan_client_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/loan_client_name"
+                tools:text="Due" />
+
+            <TextView
+                android:id="@+id/loan_due_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{dueDate}"
+                android:textAppearance="?textAppearanceBody1"
+                app:layout_constraintEnd_toStartOf="@+id/loan_amount_due"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/due"
+                tools:text="@tools:sample/date/ddmmyy" />
+
+            <TextView
+                android:id="@+id/loan_amount_due"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{amountDue}"
+                android:textAppearance="?textAppearanceBody1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/loan_due_date"
+                app:layout_constraintTop_toTopOf="@id/loan_due_date"
+                tools:text="Ksh100" />
+
+            <TextView
+                android:id="@+id/loan_principal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="?textAppearanceLabelLarge"
+                app:layout_constraintEnd_toStartOf="@id/loan_interest"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/loan_due_date"
+                tools:text="@string/principal" />
+
+            <TextView
+                android:id="@+id/loan_interest"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="?textAppearanceLabelLarge"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/loan_principal"
+                app:layout_constraintTop_toBottomOf="@id/loan_due_date"
+                tools:text="Interest" />
+
+            <TextView
+                android:id="@+id/loan_principal_amount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{BindingUtils.amount(loan.principal)}"
+                android:textAppearance="?textAppearanceBodyLarge"
+                app:layout_constraintEnd_toStartOf="@id/loan_interest_amount"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/loan_interest"
+                tools:text="Ksh1,000" />
+
+            <TextView
+                android:id="@+id/loan_interest_amount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center_vertical|start"
+                android:maxLines="1"
+                android:text="@{BindingUtils.amount(loan.originalSchedule.totalInterestCharged)}"
+                android:textAppearance="?textAppearanceBodyLarge"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/loan_principal_amount"
+                app:layout_constraintTop_toBottomOf="@id/loan_interest"
+                tools:text="Ksh1,000" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/client_make_repayment"
+                style="?materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/make_repayment"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/loan_principal_amount" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

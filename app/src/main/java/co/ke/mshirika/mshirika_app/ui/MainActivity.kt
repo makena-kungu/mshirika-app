@@ -23,14 +23,18 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.transition.TransitionManager.beginDelayedTransition
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.databinding.ActivityMainBinding
-import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.findNavigationController
+import co.ke.mshirika.mshirika_app.ui.util.OnFragmentsAttach
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkMonitor
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkState.Offline
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkState.Online
+import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.findNavigationController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.transition.MaterialSharedAxis
+import com.google.android.material.transition.MaterialSharedAxis.Y
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import java.time.Duration
@@ -39,7 +43,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(),
     Toolbar.OnMenuItemClickListener,
-    NavigationView.OnNavigationItemSelectedListener {
+    NavigationView.OnNavigationItemSelectedListener,
+    OnFragmentsAttach {
     private val viewModel: MainViewModel by viewModels()
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -270,6 +275,18 @@ class MainActivity : AppCompatActivity(),
         navController.apply {
             removeOnDestinationChangedListener(appBarListener)
             removeOnDestinationChangedListener(fabListener)
+        }
+    }
+
+    override fun hideAppBar(hide: Boolean) {
+        MaterialSharedAxis(Y, hide).apply {
+            duration = resources.getInteger(R.integer.material_motion_duration_medium_2).toLong()
+            binding.appBar.apply {
+                addTarget(this)
+                isVisible = !hide
+            }
+        }.also {
+            beginDelayedTransition(binding.root, it)
         }
     }
 }

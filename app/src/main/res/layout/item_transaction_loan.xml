@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.ke.mshirika.mshirika_app.utility.BindingUtils" />
+
+        <variable
+            name="transaction"
+            type="co.ke.mshirika.mshirika_app.data.response.LoanAccount.LoanTransaction" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="3dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/loan_transaction_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|start"
+                android:maxLines="1"
+                android:text="@{transaction.type.value}"
+                android:textAppearance="?textAppearanceHeadline5"
+                tools:text="Repayment" />
+
+            <TextView
+                android:id="@+id/loan_transaction_date_h"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:maxLines="1"
+                android:textAppearance="?textAppearanceBodyLarge"
+                app:layout_constraintWidth_percent=".39"
+                tools:text="transaction date" />
+
+            <TextView
+                android:id="@+id/loan_transaction_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|end"
+                android:maxLines="1"
+                android:text="@{BindingUtils.mediumDate(transaction.submittedOnDate)}"
+                android:textAppearance="?textAppearanceBody1"
+                app:layout_constraintWidth_percent=".61"
+                tools:text="22 Feb, 2022" />
+
+            <TextView
+                android:id="@+id/loan_transaction_principal_h"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:maxLines="1"
+                android:textAppearance="?textAppearanceBodyLarge"
+                app:layout_constraintWidth_percent=".39"
+                tools:text="principal" />
+
+            <TextView
+                android:id="@+id/loan_transaction_principal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|end"
+                android:maxLines="1"
+                android:text="@{BindingUtils.amount(transaction.principalPortion)}"
+                android:textAppearance="?textAppearanceBody1"
+                app:layout_constraintWidth_percent=".61"
+                tools:text="Kshs2,000.00" />
+
+            <TextView
+                android:id="@+id/loan_transaction_interest_h"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:textAppearance="?textAppearanceBodyLarge"
+                app:layout_constraintWidth_percent=".39"
+                tools:text="interest" />
+
+            <TextView
+                android:id="@+id/loan_transaction_interest"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|end"
+                android:maxLines="1"
+                android:text="@{BindingUtils.amount(transaction.interestPortion)}"
+                android:textAppearance="?textAppearanceBody1"
+                app:layout_constraintWidth_percent=".61"
+                tools:text="Kshs300" />
+
+            <TextView
+                android:id="@+id/loan_transaction_balance_h"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:maxLines="1"
+                android:text="@string/balance"
+                android:textAppearance="?textAppearanceBodyLarge"
+                app:layout_constraintWidth_percent=".39" />
+
+            <TextView
+                android:id="@+id/loan_transaction_balance"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|end"
+                android:text="@{BindingUtils.amount(transaction.outstandingLoanBalance)}"
+                android:textAppearance="?textAppearanceBody1"
+                app:layout_constraintWidth_percent=".61"
+                tools:text="Kshs600" />
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:constraint_referenced_ids="loan_transaction_type,loan_transaction_date_h,loan_transaction_date,loan_transaction_principal_h,loan_transaction_principal,loan_transaction_interest_h,loan_transaction_interest,loan_transaction_balance_h,loan_transaction_balance"
+                app:flow_maxElementsWrap="5"
+                app:flow_verticalGap="5dp"
+                app:flow_wrapMode="chain2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

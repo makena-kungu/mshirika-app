@@ -1,88 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginHorizontal="3dp"
-    android:layout_marginVertical="3dp"
-    app:shapeAppearanceOverlay="@style/ShapeAppearance.Mshirika.SmallComponent">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+        <variable
+            name="position"
+            type="Integer" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="5dp">
+        android:layout_marginHorizontal="3dp"
+        android:layout_marginVertical="3dp"
+        android:transitionName="@{@string/client_card(position)}">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/client_image"
-            android:layout_width="@dimen/client_image"
-            android:layout_height="@dimen/client_image"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearance="@style/Logo" />
-
-        <TextView
-            android:id="@+id/client_image_error"
-            android:layout_width="@dimen/client_image"
-            android:layout_height="@dimen/client_image"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:background="@drawable/bg_tab_indicator"
-            tools:text="C" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".54" />
+            android:clipToPadding="false"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp">
 
-        <Space
-            android:id="@+id/space"
-            android:layout_width="8dp"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/client_image"
-            app:layout_constraintTop_toTopOf="parent" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/loan_client_image"
+                android:layout_width="@dimen/client_image"
+                android:layout_height="@dimen/client_image"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearance="?roundImage" />
 
-        <TextView
-            android:id="@+id/client_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textAppearance="@style/Item.Primary"
-            app:layout_constraintBottom_toTopOf="@id/guideline"
-            app:layout_constraintEnd_toStartOf="@id/client_status"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toEndOf="@id/space"
-            tools:text="Client's Name" />
+            <TextView
+                android:id="@+id/client_image_error"
+                android:layout_width="@dimen/client_image"
+                android:layout_height="@dimen/client_image"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:background="@drawable/bg_image_text_sub"
+                tools:text="C" />
 
-        <TextView
-            android:id="@+id/client_membership_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:textAppearance="@style/Item.Secondary"
-            app:layout_constraintStart_toEndOf="@id/space"
-            app:layout_constraintTop_toBottomOf="@id/guideline"
-            tools:text="Member No" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent=".54" />
 
-        <TextView
-            android:id="@+id/client_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/client_membership_number"
-            app:layout_constraintBottom_toBottomOf="@id/client_membership_number"
-            tools:text="Dormant" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+            <Space
+                android:id="@+id/space"
+                android:layout_width="8dp"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/loan_client_image"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/client_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/Item.Primary"
+                app:layout_constraintBottom_toTopOf="@id/guideline"
+                app:layout_constraintEnd_toStartOf="@id/client_status"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/space"
+                tools:text="Client's Name" />
+
+            <TextView
+                android:id="@+id/client_membership_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textAppearance="@style/Item.Secondary"
+                app:layout_constraintStart_toEndOf="@id/space"
+                app:layout_constraintTop_toBottomOf="@id/guideline"
+                tools:text="Member No" />
+
+            <TextView
+                android:id="@+id/client_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/client_membership_number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/client_membership_number"
+                tools:text="Dormant" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

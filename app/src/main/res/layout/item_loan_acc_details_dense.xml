@@ -17,8 +17,6 @@
         android:paddingVertical="4dp"
         android:weightSum="10">
 
-        <!--implement onclick wrt the view holder presented-->
-
         <TextView
             android:id="@+id/details_heading"
             android:layout_width="0dp"
@@ -26,7 +24,7 @@
             android:layout_weight="5"
             android:maxLines="1"
             android:text="@{pair.first}"
-            android:textAppearance="@style/Item.Secondary"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
             android:textSize="16sp"
             tools:text="Transaction ID" />
 
@@ -38,8 +36,8 @@
             android:gravity="end"
             android:maxLines="1"
             android:text="@{pair.second}"
-            android:textAppearance="@style/Item.Primary"
-            android:textSize="16sp"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textSize="18sp"
             tools:text="34987434" />
     </LinearLayout>
 </layout>

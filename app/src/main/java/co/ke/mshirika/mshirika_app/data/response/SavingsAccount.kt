@@ -3,6 +3,7 @@ package co.ke.mshirika.mshirika_app.data.response
 
 import android.os.Parcelable
 import androidx.recyclerview.widget.DiffUtil
+import co.ke.mshirika.mshirika_app.data.response.common.Currency
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -27,19 +28,6 @@ data class SavingsAccount(
         val code: String,
         val id: Int,
         val value: String
-    ) : Parcelable {
-
-    }
-
-    @Parcelize
-    data class Currency(
-        val code: String,
-        val decimalPlaces: Int,
-        val displayLabel: String,
-        val displaySymbol: String,
-        val inMultiplesOf: Int,
-        val name: String,
-        val nameCode: String
     ) : Parcelable
 
     @Parcelize

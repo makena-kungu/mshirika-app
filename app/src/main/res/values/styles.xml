@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="tv_transaction">
+    <style name="Widget.Mshirika.Client.OutlinedButton" parent="Widget.Material3.Button.ElevatedButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="layout_constraintWidth_percent">.48</item>
+        <item name="android:layout_height">65dp</item>
+    </style>
+
+    <style name="Widget.Mshirika.ImageView.Round" parent="Widget.Mshirika.Shape">
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="Widget.Mshirika.ImageView.Rounded" parent="Widget.Mshirika.Shape">
+        <item name="cornerSize">20%</item>
+    </style>
+
+    <style name="Widget.Mshirika.TextView.Style" parent="">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/transparent</item>
@@ -14,11 +28,18 @@
         <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
-    <style name="card_transaction">
+    <style name="Widget.Mshirika.Transaction.CardView" parent="Widget.Material3.CardView.Outlined">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="cardElevation">0dp</item>
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.MediumComponent</item>
+    </style>
+
+    <style name="Widget.Mshirika.Transition.CardView" parent="Widget.Material3.CardView.Outlined">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="cardCornerRadius">0dp</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="cardElevation">0dp</item>
     </style>
 
     <style name="Widget.Mshirika.TextInputEditText" parent="">
@@ -56,26 +77,30 @@
     </style>
 
     <style name="Widget.Mshirika.TextInputLayout.OutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.MediumComponent</item>
+        <!--<item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.MediumComponent</item>-->
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="Widget.Mshirika.TextInputLayout.OutlinedBox.Dense" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.MediumComponent</item>
+        <!--<item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.MediumComponent</item>-->
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="Widget.Mshirika.TextInputLayout.OutlinedBox.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.MediumComponent</item>
+        <!--<item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.MediumComponent</item>-->
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="Widget.Mshirika.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.MediumComponent</item>
+        <!--<item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.MediumComponent</item>-->
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Widget.Mshirika.Shape" parent="">
+        <item name="cornerFamily">rounded</item>
     </style>
 </resources>

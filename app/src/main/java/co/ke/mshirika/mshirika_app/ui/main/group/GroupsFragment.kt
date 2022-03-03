@@ -8,17 +8,19 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import co.ke.mshirika.mshirika_app.utility.DataStore
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.data.response.Group
 import co.ke.mshirika.mshirika_app.databinding.FragmentGroupsBinding
 import co.ke.mshirika.mshirika_app.ui.main.utils.State
+import co.ke.mshirika.mshirika_app.ui.search.OnSearchListener
+import co.ke.mshirika.mshirika_app.utility.DataStore
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class GroupsFragment : Fragment(R.layout.fragment_groups), SearchView.OnQueryTextListener,
-    OnGroupClickListener {
+    OnGroupClickListener,
+    OnSearchListener {
 
     private var _binding: FragmentGroupsBinding? = null
     private val binding: FragmentGroupsBinding get() = _binding!!
@@ -86,4 +88,7 @@ class GroupsFragment : Fragment(R.layout.fragment_groups), SearchView.OnQueryTex
     override fun onClickGroup(group: Group, position: Int) {
         TODO("Not yet implemented")
     }
+
+    override val title: String
+        get() = getString(R.string.groups)
 }

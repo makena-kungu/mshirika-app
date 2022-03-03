@@ -34,7 +34,7 @@ class CentersRepo @Inject constructor(
             ),
             pagingSourceFactory = {
                 CentersPS(
-                    authKey,
+                    authKey = authKey,
                     centersService = centersService
                 )
             }

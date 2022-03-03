@@ -16,11 +16,8 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:transitionName="@string/client_card_transition_name"
-            app:cardCornerRadius="0dp"
-            app:cardMaxElevation="0dp">
+            style="?attr/backgroundCardView"
+            android:transitionName="@string/client_card_transition_name">
 
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -31,7 +28,6 @@
                     android:id="@+id/appBarLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorAppBar"
                     app:elevation="0dp">
 
                     <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -66,7 +62,7 @@
                     app:layoutDescription="@xml/fragment_client_xml_constraintlayout_scene">
 
                     <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/client_image"
+                        android:id="@+id/loan_client_image"
                         android:layout_width="@dimen/client_logo"
                         android:layout_height="@dimen/client_logo"
                         android:layout_gravity="center_horizontal"
@@ -76,24 +72,23 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias=".15"
-                        app:shapeAppearanceOverlay="@style/Logo"
-                        tools:srcCompat="@tools:sample/avatars"/>
+                        app:shapeAppearanceOverlay="?roundedImage"
+                        tools:srcCompat="@tools:sample/avatars" />
 
                     <TextView
                         android:id="@+id/client_image_error"
                         android:layout_width="@dimen/client_logo"
                         android:layout_height="@dimen/client_logo"
-                        android:background="@color/bg_search_view"
                         android:gravity="center"
                         android:scaleX=".7"
                         android:scaleY=".7"
                         android:textColor="@color/white"
                         android:textSize="65sp"
                         android:visibility="invisible"
-                        app:layout_constraintBottom_toBottomOf="@+id/client_image"
-                        app:layout_constraintEnd_toEndOf="@id/client_image"
-                        app:layout_constraintStart_toStartOf="@id/client_image"
-                        app:layout_constraintTop_toTopOf="@id/client_image"
+                        app:layout_constraintBottom_toBottomOf="@+id/loan_client_image"
+                        app:layout_constraintEnd_toEndOf="@id/loan_client_image"
+                        app:layout_constraintStart_toStartOf="@id/loan_client_image"
+                        app:layout_constraintTop_toTopOf="@id/loan_client_image"
                         tools:scaleX="1"
                         tools:scaleY="1"
                         tools:text="C"
@@ -108,12 +103,12 @@
                         android:fontFamily="@font/roboto_regular"
                         android:marqueeRepeatLimit="marquee_forever"
                         android:maxLines="2"
-                        tools:text="Client's Name"
                         android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge"
                         android:textColor="?android:textColorPrimary"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/client_image" />
+                        app:layout_constraintTop_toBottomOf="@+id/loan_client_image"
+                        tools:text="Client's Name" />
 
                     <TextView
                         android:id="@+id/client_mobile_number"
@@ -123,14 +118,14 @@
                         android:gravity="center"
                         android:maxLines="1"
                         android:minHeight="48dp"
-                        tools:text="+254715417011"
                         android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
                         android:textColorLink="?android:textColorLink"
                         android:textSize="20sp"
                         app:layout_constraintBottom_toTopOf="@id/available_bal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/client_name" />
+                        app:layout_constraintTop_toBottomOf="@id/client_name"
+                        tools:text="+254715417011" />
 
                     <TextView
                         android:id="@+id/available_bal"
@@ -154,12 +149,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="5dp"
                         android:maxLines="1"
-                        tools:text="$23,450.00"
                         android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
                         app:layout_constraintBottom_toTopOf="@id/client_membership_no"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/available_bal" />
+                        app:layout_constraintTop_toBottomOf="@id/available_bal"
+                        tools:text="$23,450.00" />
 
                     <TextView
                         android:id="@+id/client_membership_no"
@@ -167,12 +162,12 @@
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/client_s_member_number"
                         android:maxLines="1"
-                        tools:text="030323"
                         android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/balance" />
+                        app:layout_constraintTop_toBottomOf="@id/balance"
+                        tools:text="030323" />
                 </androidx.constraintlayout.motion.widget.MotionLayout>
 
                 <androidx.core.widget.NestedScrollView
@@ -189,42 +184,42 @@
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/savings_account"
-                            style="@style/Client.Button"
+                            style="?clientOutlinedButton"
                             android:onClick="@{(view)->fragment.newSavingsAccount()}"
                             android:text="@string/new_savings"
                             app:icon="@drawable/ic_outline_savings_24" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/loan_account"
-                            style="@style/Client.Button"
+                            style="?clientOutlinedButton"
                             android:onClick="@{(view)->fragment.newLoanAccount()}"
                             android:text="@string/loan"
                             app:icon="@drawable/ic_round_account_balance_24" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/charges"
-                            style="@style/Client.Button"
+                            style="?clientOutlinedButton"
                             android:onClick="@{(view)->fragment.charges()}"
                             android:text="@string/charges"
                             app:icon="@drawable/ic_round_receipt_long_24" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/payment"
-                            style="@style/Client.Button"
+                            style="?clientOutlinedButton"
                             android:onClick="@{(view)->fragment.payment()}"
                             android:text="@string/payment"
                             app:icon="@drawable/ic_round_monetization_on_24" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/edit"
-                            style="@style/Client.Button"
+                            style="?clientOutlinedButton"
                             android:onClick="@{(view)->fragment.edit()}"
                             android:text="@string/edit"
                             app:icon="@drawable/ic_baseline_edit_24" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/action"
-                            style="@style/Client.Button"
+                            style="?clientOutlinedButton"
                             android:onClick="@{(view) -> fragment.actions()}"
                             android:text="@string/action"
                             app:icon="@drawable/ic_baseline_more_horiz_24" />
@@ -242,25 +237,11 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-
                         <include
-                            android:id="@+id/savings_stuff"
-                            layout="@layout/fragment_savings_account"
+                            android:id="@+id/loans_and_transactions"
+                            layout="@layout/content_loans_and_transactions"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
-
-                        <com.google.android.material.progressindicator.CircularProgressIndicator
-                            android:id="@+id/progress_bar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:indicatorColor="@color/purple"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias=".12"
-                            app:trackColor="@color/ic_mshirika_launcher_background"
-                            tools:indeterminate="true" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.core.widget.NestedScrollView>
             </androidx.coordinatorlayout.widget.CoordinatorLayout>

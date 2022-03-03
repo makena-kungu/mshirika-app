@@ -3,42 +3,46 @@ package co.ke.mshirika.mshirika_app.ui.search
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
-import co.ke.mshirika.mshirika_app.data.response.Client
-import co.ke.mshirika.mshirika_app.data.response.Group
-import co.ke.mshirika.mshirika_app.data.response.LoanAccount
-import co.ke.mshirika.mshirika_app.data.response.Center
-import co.ke.mshirika.mshirika_app.remote.services.SearchService
+import androidx.lifecycle.viewModelScope
+import co.ke.mshirika.mshirika_app.repositories.SearchRepo
 import co.ke.mshirika.mshirika_app.utility.mld
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val searchService: SearchService,
+    private val repo: SearchRepo,
     stateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _centers = MutableSharedFlow<Center>()
-    private val _clients = MutableSharedFlow<Client>()
-    private val _groups = MutableSharedFlow<Group>()
-    private val _loans = MutableSharedFlow<LoanAccount>()
-
-    val centers = _centers.asSharedFlow()
-    val clients = _clients.asSharedFlow()
-    val groups = _groups.asSharedFlow()
-    val loans = _loans.asSharedFlow()
+    val centers
+        get() = repo.centers
+    val clients
+        get() = repo.clients
+    val groups
+        get() = repo.groups
+    val loans
+        get() = repo.loans
 
     private val _query = stateHandle.getLiveData<String>(KEY_QUERY)
-    private val query = _query.switchMap {
-        //query for groups, centers, clients and loan accounts
 
-        mld<Unit>()
-    }
+    var authKey: String? = null
 
     fun setQuery(query: String) {
         _query.value = query
+    }
+
+    init {
+        _query.switchMap { query ->
+            authKey?.also { authKey ->
+                viewModelScope.launch(IO) {
+                    repo.search(authKey, query)
+                }
+            }
+            mld<Nothing>()
+        }
     }
 
     companion object {

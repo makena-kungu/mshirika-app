@@ -8,10 +8,9 @@ import co.ke.mshirika.mshirika_app.repositories.ClientsRepo
 import co.ke.mshirika.mshirika_app.ui.main.utils.State
 import co.ke.mshirika.mshirika_app.ui.main.utils.State.NORMAL
 import co.ke.mshirika.mshirika_app.ui.main.utils.State.SEARCHING
+import co.ke.mshirika.mshirika_app.utility.network.Result.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,19 +20,25 @@ class ClientsViewModel @Inject constructor(
     private val authKey: Flow<String>,
     state: SavedStateHandle
 ) : ViewModel() {
+
+    //Do recall that the init block is at the bottom
     private val _headers = mutableMapOf("Fineract-Platform-TenantId" to "default")
 
-    private val _clients = repo.clients(_headers["Authorization"]!!)
+    private val _clients = repo.clients(_headers["Authorization"]!!).cachedIn(viewModelScope)
     private val _state = state.getLiveData(STATE, DEFAULT)
-    private val _filteredClients = repo.searched
+    private val _filteredClients = MutableStateFlow<PagingData<Client>>(PagingData.empty())
+    val searchedClients = repo.searchedClients
 
-    val clients: Flow<PagingData<Client>> = _state.switchMap {
-        when (it) {
-            SEARCHING -> _filteredClients
-            NORMAL -> _clients
-            else -> flowOf(PagingData.empty()) //when it is null
-        }.cachedIn(viewModelScope).asLiveData()
-    }.asFlow()
+    suspend fun getClients(): StateFlow<PagingData<Client>> {
+        val clients = _state.switchMap {
+            when (it) {
+                SEARCHING -> _filteredClients.asStateFlow()
+                NORMAL -> _clients
+                else -> flowOf(PagingData.empty()) //when it is null
+            }.asLiveData()
+        }.asFlow()
+        return clients.stateIn(viewModelScope)
+    }
 
     fun search(query: String) {
         viewModelScope.launch { repo.search(query, _headers) }
@@ -47,6 +52,13 @@ class ClientsViewModel @Inject constructor(
         viewModelScope.launch {
             authKey.collectLatest {
                 _headers["Authorization"] = it
+            }
+
+            searchedClients.collectLatest { outcome ->
+                if (outcome is Success)
+                    outcome.data?.let {
+                        _filteredClients.value = it
+                    }
             }
         }
     }

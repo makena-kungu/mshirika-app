@@ -8,17 +8,21 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import co.ke.mshirika.mshirika_app.utility.DataStore
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.data.response.Center
 import co.ke.mshirika.mshirika_app.databinding.FragmentCentersBinding
 import co.ke.mshirika.mshirika_app.ui.main.utils.State
+import co.ke.mshirika.mshirika_app.ui.search.OnSearchListener
+import co.ke.mshirika.mshirika_app.ui.util.Transitions.itemToDetailReentry
+import co.ke.mshirika.mshirika_app.ui.util.Transitions.itemToDetailTransition
+import co.ke.mshirika.mshirika_app.utility.DataStore
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class CentersFragment : Fragment(R.layout.fragment_centers), SearchView.OnQueryTextListener,
-    OnCenterClickListener {
+    OnCenterClickListener,
+    OnSearchListener {
 
     private var _binding: FragmentCentersBinding? = null
     private val binding: FragmentCentersBinding get() = _binding!!
@@ -32,6 +36,7 @@ class CentersFragment : Fragment(R.layout.fragment_centers), SearchView.OnQueryT
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        itemToDetailReentry(view)
         _binding = FragmentCentersBinding.bind(view)
 
         lifecycleScope.launchWhenCreated {
@@ -83,7 +88,12 @@ class CentersFragment : Fragment(R.layout.fragment_centers), SearchView.OnQueryT
         return true
     }
 
-    override fun onClickCenter(center: Center, position: Int) {
-        TODO("Not yet implemented")
+    override fun onClickCenter(center: Center, position: Int, view: View) {
+        CentersFragmentDirections.actionGlobalCenterFragment().also {
+            itemToDetailTransition(it, view to getString(R.string.center_card_transition_name))
+        }
     }
+
+    override val title: String
+        get() = getString(R.string.centers)
 }

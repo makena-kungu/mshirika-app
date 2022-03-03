@@ -2,6 +2,7 @@ package co.ke.mshirika.mshirika_app.data.response
 
 import android.os.Parcelable
 import androidx.recyclerview.widget.DiffUtil
+import co.ke.mshirika.mshirika_app.remote.response.utils.Respondent
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -28,7 +29,7 @@ data class Client(
     val timeline: Timeline,
     val savingsAccountId: Int,
     val legalForm: LegalForm,
-) : Parcelable {
+) : Parcelable, Respondent {
 
     @Parcelize
     data class Status(

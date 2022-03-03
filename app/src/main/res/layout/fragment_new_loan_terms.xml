@@ -25,16 +25,16 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="20dp"
         android:text="@string/term_options"
-        android:textColor="@color/beautiful_text"
         android:textAppearance="@style/TextAppearance.Toolbar.Title"
+        android:textColor="@color/beautiful_text"
         android:textSize="20sp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/loan_term_lo"
-        android:layout_width="0dp"
-        app:layout_constraintWidth_percent=".5"
-        android:paddingEnd="5dp"
         style="@style/Widget.Mshirika.TextInputLayout.FilledBox"
+        android:layout_width="0dp"
+        android:paddingEnd="5dp"
+        app:layout_constraintWidth_percent=".5"
         tools:ignore="RtlSymmetry">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -47,12 +47,13 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/frequency_lo"
-        android:layout_width="0dp"
-        app:layout_constraintWidth_percent=".5"
-        android:paddingStart="5dp"
         style="@style/Widget.Mshirika.TextInputLayout.FilledBox.DropDown"
-        tools:prefixText="Ksh"
-        tools:ignore="RtlSymmetry">
+        android:layout_width="0dp"
+        android:paddingStart="5dp"
+        app:layout_constraintWidth_percent=".5"
+        tools:ignore="RtlSymmetry"
+        tools:prefixText="Ksh">
+
         <androidx.appcompat.widget.AppCompatAutoCompleteTextView
             android:id="@+id/loan_term"
             style="@style/Widget.Mshirika.TextInputEditText.SingleLine"
@@ -65,9 +66,9 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="20dp"
         android:paddingVertical="10dp"
-        android:textColor="@color/beautiful_text"
         android:text="@string/repayment_schedule"
         android:textAppearance="@style/TextAppearance.Toolbar.Title"
+        android:textColor="@color/beautiful_text"
         android:textSize="20sp" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -75,7 +76,8 @@
         style="@style/Widget.Mshirika.TextInputLayout.FilledBox"
         android:layout_width="0dp"
         android:paddingEnd="5dp"
-        app:layout_constraintWidth_percent=".5">
+        app:layout_constraintWidth_percent=".5"
+        tools:ignore="RtlSymmetry">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/repay_every"
@@ -96,7 +98,7 @@
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/repayment_freq"
             style="@style/Widget.Mshirika.TextInputEditText.SingleLine"
-            android:hint="@string/frequency"/>
+            android:hint="@string/frequency" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -104,8 +106,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="principal_lo,term_options,loan_term_lo,frequency_lo,repayment_schedule,repay_every_lo,repayment_freq_lo"
-        app:flow_wrapMode="chain"
         app:flow_verticalGap="8dp"
+        app:flow_wrapMode="chain"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -1,10 +1,10 @@
 package co.ke.mshirika.mshirika_app.ui.main.client.adapters
 
-import android.content.res.Resources
 import android.util.Size
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StringRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,11 +12,16 @@ import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.data.response.LoanAccount
 import co.ke.mshirika.mshirika_app.databinding.ItemLoanBinding
+import co.ke.mshirika.mshirika_app.ui.main.client.adapters.LoanAccountsAdapter.LoanViewHolder
+import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.amt
 import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.date
 import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.drawable
+import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.mediumDate
+import java.util.*
+import kotlin.math.abs
 
 class LoanAccountsAdapter(private val listener: LoanClickListener) :
-    ListAdapter<LoanAccount, LoanAccountsAdapter.LoanViewHolder>(LoanAccount) {
+    ListAdapter<LoanAccount, LoanViewHolder>(LoanAccount) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         LoanViewHolder(
@@ -29,43 +34,40 @@ class LoanAccountsAdapter(private val listener: LoanClickListener) :
 
     override fun onBindViewHolder(holder: LoanViewHolder, position: Int) {
         getItem(position)?.let {
-            holder.bind(it)
+            holder.bindLoan(it)
         }
     }
 
     inner class LoanViewHolder(private val binding: ItemLoanBinding) :
         RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
-        private val resources: Resources = itemView.resources
+        private val resources
+            get() = itemView.context.resources
+        private val theme
+            get() = itemView.context.theme
 
         init {
-            binding.loanType.setOnClickListener(this)
+            binding.clientMakeRepayment.setOnClickListener(this)
         }
 
         override fun onClick(v: View?) {
             if (absoluteAdapterPosition != NO_POSITION)
                 getItem(absoluteAdapterPosition)?.let {
-                    listener.loanClicked(it)
+                    listener.onClickLoan(it)
                 }
         }
 
-        fun bind(acc: LoanAccount) {
+        fun bindLoan(loan: LoanAccount) {
+            loan.bind()
+        }
+
+        fun LoanAccount.bind() {
             binding.apply {
-                loanType.text = acc.productName
-                loanDetails.apply {
-                    LoanAccountDetailsAdapter(
-                        mutableListOf(
-                            "Loan Date" to acc.timeline.submittedOnDate.date,
-                            "Due Date" to "",//this will be derived from the repayment schedule
-                            "Amount Due" to "",
-                            "Loan Balance" to ""
-                        )
-                    ).also {
-                        adapter = it
-                    }
-                }
+                loanType.text = loanProductName
+                loanDetails.adapter = LoanAccountDetailsAdapter(list)
                 val color: IntArray
-                when (acc.productName) {
+
+                when (loanProductName) {
                     "Development Loan" -> {
                         color = colors[2]
                         R.drawable.ic_round_roofing_24
@@ -80,14 +82,14 @@ class LoanAccountsAdapter(private val listener: LoanClickListener) :
                     }
                     else -> {
                         when {
-                            acc.productName.contains(
+                            loanProductName.contains(
                                 "fees",
                                 true
                             ) -> {
                                 color = colors[1]
                                 R.drawable.ic_round_escalator_warning_24
                             }
-                            acc.productName.contains(
+                            loanProductName.contains(
                                 "medical",
                                 true
                             ) -> {
@@ -100,20 +102,46 @@ class LoanAccountsAdapter(private val listener: LoanClickListener) :
                             }
                         }
                     }
-                }
-                    .also {
-                        ResourcesCompat.getDrawable(resources, it, null)?.let {
-                            loanIcon.apply {
-                                setImageDrawable(
-                                    Size(width, height).drawable(color, it)
-                                )
-                            }
+                }.also {
+                    ResourcesCompat.getDrawable(resources, it, theme)?.let {
+                        loanIcon.apply {
+                            setImageDrawable(
+                                Size(width, height).drawable(color, it)
+                            )
                         }
                     }
+                }
+
             }
         }
 
-        private val colors =
+        private val LoanAccount.list: MutableList<Pair<String, String>>
+            get() {
+                val list =
+                    mutableListOf(getString(R.string.loan_date) to timeline.submittedOnDate.mediumDate)
+                val period = repaymentSchedule.periods.find {
+                    //finding the best fitting date
+                    val time = Calendar.getInstance().timeInMillis
+                    time >= it.fromDate.date && time <= it.dueDate.date
+                }
+
+                period?.apply {
+                    list += getString(R.string.due_date) to dueDate.mediumDate
+                    val amountDue = interestDue + principalDue
+                    val loanBal =
+                        abs((principalPaid + interestPaid) - principalDisbursed)
+                    list += getString(R.string.amount_due) to amountDue.amt
+                    list += getString(R.string.loan_balance) to loanBal.amt
+                }
+
+                return list
+            }
+
+        private fun getString(@StringRes resId: Int): String {
+            return resources.getString(resId)
+        }
+
+        val colors =
             arrayOf(
                 intArrayOf(
                     color(android.R.color.holo_orange_dark),
@@ -138,6 +166,6 @@ class LoanAccountsAdapter(private val listener: LoanClickListener) :
 
 
     interface LoanClickListener {
-        fun loanClicked(acc: LoanAccount)
+        fun onClickLoan(acc: LoanAccount)
     }
 }

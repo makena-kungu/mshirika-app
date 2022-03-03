@@ -1,100 +1,46 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Theme.MshirikaApp.Base" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple</item>
-        <item name="colorPrimaryVariant">@color/white</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/purple</item>
-        <item name="colorSecondaryVariant">@color/purple_dark</item>
-        <item name="colorOnSecondary">@color/white</item>
-        <!-- Status bar color. -->
-        <item name="android:windowLightStatusBar" tools:targetApi="M">true</item>
-        <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
-        <item name="android:enforceStatusBarContrast" tools:ignore="NewApi">true</item>
-        <!-- Customize your theme here. -->
-        <item name="background">@color/colorBackground</item>
 
-        <!--Shapes-->
-        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Mshirika.SmallComponent
-        </item>
-        <item name="shapeAppearanceMediumComponent">
-            @style/ShapeAppearance.Mshirika.MediumComponent
-        </item>
-        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Mshirika.LargeComponent
-        </item>
+    <style name="Theme.MshirikaApp" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/md_theme_light_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_light_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_theme_light_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/md_theme_light_secondary</item>
+        <item name="colorOnSecondary">@color/md_theme_light_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_theme_light_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_light_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/md_theme_light_tertiary</item>
+        <item name="colorOnTertiary">@color/md_theme_light_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/md_theme_light_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/md_theme_light_onTertiaryContainer</item>
+        <item name="colorError">@color/md_theme_light_error</item>
+        <item name="colorErrorContainer">@color/md_theme_light_errorContainer</item>
+        <item name="colorOnError">@color/md_theme_light_onError</item>
+        <item name="colorOnErrorContainer">@color/md_theme_light_onErrorContainer</item>
+        <item name="android:colorBackground">@color/md_theme_light_background</item>
+        <item name="colorOnBackground">@color/md_theme_light_onBackground</item>
+        <item name="colorSurface">@color/md_theme_light_surface</item>
+        <item name="colorOnSurface">@color/md_theme_light_onSurface</item>
+        <item name="colorSurfaceVariant">@color/md_theme_light_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/md_theme_light_onSurfaceVariant</item>
+        <item name="colorOutline">@color/md_theme_light_outline</item>
+        <item name="colorOnSurfaceInverse">@color/md_theme_light_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
+        <!--<item name="colorInversePrimary">@color/md_theme_light_inversePrimary</item>
+        <item name="colorShadow">@color/md_theme_light_shadow</item>-->
+        <item name="colorPrimaryInverse">@color/md_theme_light_primaryInverse</item>
 
-        <!--Styles-->
-        <item name="materialButtonStyle">@style/Widget.Mshirika.Button</item>
-        <item name="searchViewStyle">@style/Widget.AppCompat.SearchView.ActionBar</item>
-        <item name="materialCardViewStyle">@style/Widget.Mshirika.CardView</item>
-        <item name="tabStyle">@style/Widget.Mshirika.TabLayout</item>
+        <item name="android:statusBarColor">?attr/colorCustomPrimaryContainer</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:enforceStatusBarContrast" tools:targetApi="q">true</item>
+
+        <item name="colorCustomPrimaryContainer">@color/md_theme_light_primaryContainer</item>
+
+        <item name="backgroundCardView">@style/Widget.Mshirika.Transition.CardView</item>
+        <item name="clientOutlinedButton">@style/Widget.Mshirika.Client.OutlinedButton</item>
+        <item name="roundImage">@style/Widget.Mshirika.ImageView.Round</item>
+        <item name="roundedImage">@style/Widget.Mshirika.ImageView.Rounded</item>
+        <item name="transactionCardView">@style/Widget.Mshirika.Transaction.CardView</item>
+        <item name="transactionTextView">@style/Widget.Mshirika.TextView.Style</item>
     </style>
-
-    <style name="Theme.MshirikaApp" parent="Theme.MshirikaApp.Base">
-
-    </style>
-
-    <style name="Widget.Mshirika.Button.Base" parent="Widget.Material3.Button.ElevatedButton">
-        <item name="backgroundTint">@color/button</item>
-        <item name="android:layout_height">55dp</item>
-        <item name="android:textAppearance">@style/TextAppearance.Button</item>
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.SmallComponent</item>
-    </style>
-
-    <style name="Widget.Mshirika.Button" parent="Widget.Mshirika.Button.Base">
-
-    </style>
-
-    <style name="Widget.Mshirika.CardView.Base" parent="Widget.MaterialComponents.CardView">
-        <item name="shapeAppearance">@style/ShapeAppearance.Mshirika.LargeComponent</item>
-    </style>
-
-    <style name="Widget.Mshirika.CardView" parent="Widget.Mshirika.CardView.Base">
-
-    </style>
-
-    <style name="Widget.Mshirika.TabLayout.Base" parent="Widget.Material3.TabLayout">
-        <item name="tabIndicator">@drawable/bg_tab_indicator</item>
-        <item name="tabIndicatorFullWidth">false</item>
-        <item name="tabIndicatorHeight">4dp</item>
-        <item name="tabMode">scrollable</item>
-        <item name="tabTextColor">@color/tab_indicator</item>
-    </style>
-
-    <style name="Widget.Mshirika.TabLayout" parent="Widget.Mshirika.TabLayout.Base">
-
-        <item name="tabIndicatorColor">@color/tab_indicator</item>
-    </style>
-
-    <style name="ShapeAppearance.Mshirika.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">8dp</item>
-    </style>
-
-    <style name="ShapeAppearance.Mshirika.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">12dp</item>
-    </style>
-
-    <style name="ShapeAppearance.Mshirika.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">16dp</item>
-    </style>
-
-    <style name="Theme.MshirikaApp.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="Theme.MshirikaApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="colorPrimary">@color/colorAppBar</item>
-        <item name="colorOnPrimary">@color/black</item>
-    </style>
-
-    <style name="Theme.MshirikaApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
-        <item name="colorOnPrimary">@color/black</item>
-    </style>
-
 </resources>

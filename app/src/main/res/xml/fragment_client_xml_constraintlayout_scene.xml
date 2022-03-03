@@ -34,7 +34,7 @@
             <KeyPosition
                 motion:framePosition="40"
                 motion:keyPositionType="deltaRelative"
-                motion:motionTarget="@+id/client_image"
+                motion:motionTarget="@+id/loan_client_image"
                 motion:percentX="1"
                 motion:sizePercent="1" />
         </KeyFrameSet>
@@ -44,7 +44,7 @@
 
     <ConstraintSet android:id="@+id/collapsed">
         <Constraint
-            android:id="@+id/client_image"
+            android:id="@+id/loan_client_image"
             android:layout_width="@dimen/client_small_logo"
             android:layout_height="@dimen/client_small_logo"
             android:layout_marginStart="64dp"
@@ -61,10 +61,10 @@
             android:scaleX=".7"
             android:scaleY=".7"
             android:visibility="invisible"
-            motion:layout_constraintBottom_toBottomOf="@id/client_image"
-            motion:layout_constraintEnd_toEndOf="@id/client_image"
-            motion:layout_constraintStart_toStartOf="@id/client_image"
-            motion:layout_constraintTop_toTopOf="@id/client_image" />
+            motion:layout_constraintBottom_toBottomOf="@id/loan_client_image"
+            motion:layout_constraintEnd_toEndOf="@id/loan_client_image"
+            motion:layout_constraintStart_toStartOf="@id/loan_client_image"
+            motion:layout_constraintTop_toTopOf="@id/loan_client_image" />
         <Constraint
             android:id="@+id/client_name"
             android:layout_width="wrap_content"
@@ -75,7 +75,7 @@
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintHorizontal_bias="0"
-            motion:layout_constraintStart_toEndOf="@id/client_image"
+            motion:layout_constraintStart_toEndOf="@id/loan_client_image"
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintVertical_bias="0.15">
             <CustomAttribute

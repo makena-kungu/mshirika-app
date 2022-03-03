@@ -15,7 +15,7 @@ import co.ke.mshirika.mshirika_app.databinding.FragmentLoginBinding
 import co.ke.mshirika.mshirika_app.ui.MainActivity
 import co.ke.mshirika.mshirika_app.utility.DataStore
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkMonitor
-import co.ke.mshirika.mshirika_app.utility.network.Outcome
+import co.ke.mshirika.mshirika_app.utility.network.Result
 import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.snackS
 import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.text
 import com.google.android.gms.common.util.Base64Utils.encode
@@ -59,19 +59,19 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             lifecycleScope.launchWhenCreated {
                 viewModel.auth.collectLatest { outcome ->
                     when (outcome) {
-                        is Outcome.Empty -> {
+                        is co.ke.mshirika.mshirika_app.utility.network.Outcome.Result.Empty -> {
                             //do nothing
                         }
-                        is Outcome.Error -> {
+                        is co.ke.mshirika.mshirika_app.utility.network.Outcome.Result.Error -> {
                             TODO("display a snackbar")
                         }
-                        is Outcome.Loading -> {
+                        is co.ke.mshirika.mshirika_app.utility.network.Outcome.Result.Loading -> {
                             //rather than showing the progress bar, Show A dialog with only a progressbar
                             // and that is non-dismissible
                             loadingDialog.show()
                             // TODO: check if I'm required to recreate the dialog once it's dismissed
                         }
-                        is Outcome.Success -> {
+                        is co.ke.mshirika.mshirika_app.utility.network.Outcome.Result.Success -> {
                             loadingDialog.apply {
                                 outcome.handle()
                                 if (isShowing) dismiss()
@@ -83,11 +83,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
     }
 
-    private fun Outcome<Staff>.handle(): Boolean? = when (this) {
-        is Outcome.Empty -> null
-        is Outcome.Loading -> null
-        is Outcome.Error -> {
-            msg?.let { msg ->
+    private fun Result<Staff>.handle(): Boolean? = when (this) {
+        is co.ke.mshirika.mshirika_app.utility.network.Outcome.Result.Empty -> null
+        is co.ke.mshirika.mshirika_app.utility.network.Outcome.Result.Loading -> null
+        is co.ke.mshirika.mshirika_app.utility.network.Outcome.Result.Error -> {
+            msg.let { msg ->
                 Snackbar
                     .make(
                         binding.root,
@@ -105,9 +105,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                         show()
                         retried
                     }
-            } ?: false
+            }
         }
-        is Outcome.Success -> {
+        is co.ke.mshirika.mshirika_app.utility.network.Outcome.Result.Success -> {
             data?.apply {
                 lifecycleScope.launchWhenCreated {
                     success(base64EncodedAuthenticationKey)

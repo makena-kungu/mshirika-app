@@ -3,6 +3,8 @@ package co.ke.mshirika.mshirika_app.data.response
 
 import android.os.Parcelable
 import androidx.recyclerview.widget.DiffUtil
+import co.ke.mshirika.mshirika_app.data.response.common.Currency
+import co.ke.mshirika.mshirika_app.remote.response.utils.Respondent
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -70,7 +72,7 @@ data class LoanRepaymentSchedule(
     val timeline: Timeline,
     val transactionProcessingStrategyId: Int,
     val transactionProcessingStrategyName: String
-) : Parcelable {
+) : Parcelable, Respondent {
 
     @Parcelize
     data class AmortizationType(
@@ -104,39 +106,6 @@ data class LoanRepaymentSchedule(
         val startDate: List<Int>,
         val title: String,
         val type: Type
-    ) : Parcelable
-
-    @Parcelize
-    data class Currency(
-        val code: String,
-        val decimalPlaces: Int,
-        val displayLabel: String,
-        val displaySymbol: String,
-        val inMultiplesOf: Int,
-        val name: String,
-        val nameCode: String
-    ) : Parcelable
-
-    @Parcelize
-    data class CurrencyX(
-        val code: String,
-        val decimalPlaces: Int,
-        val displayLabel: String,
-        val displaySymbol: String,
-        val inMultiplesOf: Int,
-        val name: String,
-        val nameCode: String
-    ) : Parcelable
-
-    @Parcelize
-    data class CurrencyXX(
-        val code: String,
-        val decimalPlaces: Int,
-        val displayLabel: String,
-        val displaySymbol: String,
-        val inMultiplesOf: Int,
-        val name: String,
-        val nameCode: String
     ) : Parcelable
 
     @Parcelize
@@ -287,7 +256,7 @@ data class LoanRepaymentSchedule(
 
     @Parcelize
     data class RepaymentSchedule(
-        val currency: CurrencyX,
+        val currency: Currency,
         val loanTermInDays: Int,
         val periods: List<Period>,
         val totalFeeChargesCharged: Int,
@@ -336,7 +305,7 @@ data class LoanRepaymentSchedule(
 
     @Parcelize
     data class Summary(
-        val currency: CurrencyXX,
+        val currency: Currency,
         val feeChargesCharged: Double,
         val feeChargesDueAtDisbursementCharged: Double,
         val feeChargesOutstanding: Double,

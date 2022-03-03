@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingHorizontal="10dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/make_payment_card"
+            style="?attr/transactionCardView"
+            android:layout_width="0dp"
+            android:onClick="@{}">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/make_payment"
+                style="?transactionTextView"
+                android:text="@string/deposit"
+                app:drawableTopCompat="@drawable/ic_deposit" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/withdraw_card"
+            style="?attr/transactionCardView"
+            android:layout_width="0dp"
+            android:onClick="@{}">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/withdraw"
+                style="?transactionTextView"
+                android:text="@string/withdraw"
+                app:drawableTopCompat="@drawable/ic_withdraw" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/transfer_card"
+            style="?attr/transactionCardView"
+            android:onClick="@{}">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/transfer"
+                style="?transactionTextView"
+                android:text="@string/transfer"
+                app:drawableTopCompat="@drawable/ic_transfer" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/charge_card"
+            style="?attr/transactionCardView"
+            android:onClick="@{}">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/charge"
+                style="?transactionTextView"
+                android:text="@string/charge"
+                app:drawableTopCompat="@drawable/ic_charge" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/waive_card"
+            style="?attr/transactionCardView"
+            android:onClick="@{}">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/waive"
+                style="?transactionTextView"
+                android:text="@string/waive_charge"
+                app:drawableTopCompat="@drawable/ic_waive" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/transaction_flow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:elevation="3dp"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:constraint_referenced_ids="transfer_card,charge_card,waive_card,make_payment_card,withdraw_card"
+            app:flow_firstHorizontalStyle="spread_inside"
+            app:flow_horizontalGap="5dp"
+            app:flow_maxElementsWrap="3"
+            app:flow_verticalGap="8dp"
+            app:flow_wrapMode="chain"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone" />
+
+        <TextView
+            android:id="@+id/loan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/loans"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/loans"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/loans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:nestedScrollingEnabled="false"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/loan"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_loan" />
+
+        <TextView
+            android:id="@+id/transaction_history"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/transaction_history"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+            app:layout_constraintBottom_toBottomOf="@id/view_all"
+            app:layout_constraintEnd_toStartOf="@id/view_all"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/view_all" />
+
+        <TextView
+            android:id="@+id/view_all"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:onClick="@{}"
+            android:text="@string/view_all"
+            android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/transactions"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/loans" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/transactions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:nestedScrollingEnabled="false"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_all"
+            tools:itemCount="4"
+            tools:listitem="@layout/item_transaction" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

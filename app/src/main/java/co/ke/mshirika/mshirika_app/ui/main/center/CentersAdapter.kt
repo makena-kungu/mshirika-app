@@ -6,7 +6,6 @@ import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.data.response.Center
 import co.ke.mshirika.mshirika_app.databinding.ItemCenterBinding
 import co.ke.mshirika.mshirika_app.ui.main.utils.MyPagingDataAdapter
@@ -45,19 +44,12 @@ class CentersAdapter(
         }
 
         private fun ItemCenterBinding.bind(center: Center) {
-            center.apply {
-                centerImage.apply {
-                    text = name[0].uppercase()
-                    context.random.let {
-                        colorMapping[absoluteAdapterPosition] = it
-                        drawable(it)
-                    }
-                }
-
-                centerName.text = name
-                root.context.apply {
-                    centerAccountNo.text = getString(R.string.account_no, accountNo)
-                    centerExternalId.text = getString(R.string.external_id, externalId)
+            setCenter(center)
+            centerImage.apply {
+                text = center.name[0].uppercase()
+                context.random.let {
+                    colorMapping[absoluteAdapterPosition] = it
+                    drawable(it)
                 }
             }
         }
@@ -66,7 +58,7 @@ class CentersAdapter(
             val pos = absoluteAdapterPosition
             if (pos != NO_POSITION)
                 getItem(pos)?.also {
-                    listener.onClickCenter(it, pos)
+                    listener.onClickCenter(it, pos,binding.centerAccountNo)
                 }
         }
     }

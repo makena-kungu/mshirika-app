@@ -1,0 +1,18 @@
+<resources>
+    <attr name="backgroundCardView" format="reference" />
+    <attr name="clientOutlinedButton" format="reference" />
+    <!--An image that is circular in shape-->
+    <attr name="roundImage" format="reference" />
+    <!--This is a square image with it's corners rounded-->
+    <attr name="roundedImage" format="reference" />
+    <attr name="transactionTextView" format="reference" />
+    <attr name="transactionCardView" format="reference" />
+
+
+    <attr name="colorCustomPrimaryContainer" format="color" />
+
+    <attr name="colorCustomprimary" format="color" />
+    <attr name="colorOnCustomprimary" format="color" />
+    <attr name="colorOnCustomprimaryContainer" format="color" />
+    <attr name="harmonizeCustomprimary" format="boolean" />
+</resources>

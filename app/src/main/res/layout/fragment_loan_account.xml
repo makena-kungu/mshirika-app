@@ -42,60 +42,60 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/make_payment_card"
-                style="@style/card_transaction"
+                style="?attr/transactionCardView"
                 android:onClick="@{}">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/make_payment"
-                    style="@style/tv_transaction"
+                    style="@style/Widget.Mshirika.TextView.Style"
                     android:text="@string/make_payment"
                     app:drawableTopCompat="@drawable/ic_deposit" />
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/withdraw_card"
-                style="@style/card_transaction"
+                style="?attr/transactionCardView"
                 android:onClick="@{}">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/withdraw"
-                    style="@style/tv_transaction"
+                    style="@style/Widget.Mshirika.TextView.Style"
                     android:text="@string/withdraw"
                     app:drawableTopCompat="@drawable/ic_withdraw" />
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/transfer_card"
-                style="@style/card_transaction"
+                style="?attr/transactionCardView"
                 android:onClick="@{}">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/transfer"
-                    style="@style/tv_transaction"
+                    style="@style/Widget.Mshirika.TextView.Style"
                     android:text="@string/transfer"
                     app:drawableTopCompat="@drawable/ic_transfer" />
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/charge_card"
-                style="@style/card_transaction"
+                style="?attr/transactionCardView"
                 android:onClick="@{}">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/charge"
-                    style="@style/tv_transaction"
+                    style="@style/Widget.Mshirika.TextView.Style"
                     android:text="@string/charge"
                     app:drawableTopCompat="@drawable/ic_charge" />
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/waive_card"
-                style="@style/card_transaction"
+                style="?attr/transactionCardView"
                 android:onClick="@{}">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/waive"
-                    style="@style/tv_transaction"
+                    style="@style/Widget.Mshirika.TextView.Style"
                     android:text="@string/waive_charge"
                     app:drawableTopCompat="@drawable/ic_waive" />
             </com.google.android.material.card.MaterialCardView>
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
                 android:elevation="3dp"
-                app:constraint_referenced_ids="transfer_card,charge_card,waive_card,make_payment_card"
+                app:constraint_referenced_ids="withdraw_card,transfer_card,charge_card,waive_card,make_payment_card"
                 app:flow_horizontalGap="5dp"
                 app:flow_maxElementsWrap="3"
                 app:flow_verticalGap="5dp"

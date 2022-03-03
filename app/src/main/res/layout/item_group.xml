@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="3dp"
-    android:layout_marginVertical="3dp"
-    app:shapeAppearanceOverlay="@style/ShapeAppearance.Mshirika.SmallComponent">
+    android:layout_marginVertical="3dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -25,8 +24,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearance="@style/Logo"
-            tools:background="@drawable/bg_tab_indicator"
+            app:shapeAppearance="?roundImage"
+            tools:background="@drawable/bg_image_text_sub"
             tools:text="C" />
 
         <Space

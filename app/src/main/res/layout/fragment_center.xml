@@ -1,72 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    tools:context=".ui.main.center.CenterFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingHorizontal="8dp">
+    <data>
 
-        <TextView
-            android:id="@+id/text1"
-            android:elegantTextHeight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/beautiful_text"
-            app:layout_constraintWidth="match_parent"
-            android:textAppearance="@style/MshirikaApp.Title"
-            tools:text="This Text 1" />
+    </data>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintWidth_percent="1"
-            tools:itemCount="3"
-            tools:listitem="@layout/item_horizontal_pair" />
+    <com.google.android.material.card.MaterialCardView
+        style="?attr/backgroundCardView"
+        android:transitionName="@string/center_card_transition_name">
 
-        <TextView
-            android:id="@+id/text2"
-            android:textColor="@color/beautiful_text"
-            android:elegantTextHeight="true"
-            android:layout_width="wrap_content"
-            app:layout_constraintWidth="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/MshirikaApp.Title"
-            tools:text="This Text 2" />
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintWidth_percent="1"
-            tools:itemCount="6"
-            tools:listitem="@layout/item_horizontal_pair" />
+            <include
+                android:id="@+id/app_bar"
+                layout="@layout/layout_app_bar_large" />
 
-        <androidx.constraintlayout.helper.widget.Flow
-            android:id="@+id/flow"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
-            android:orientation="horizontal"
-            app:constraint_referenced_ids="text1,list1,text2,list2"
-            app:flow_horizontalAlign="end"
-            app:flow_horizontalStyle="packed"
-            app:flow_maxElementsWrap="1"
-            app:flow_verticalGap="8dp"
-            app:flow_wrapMode="chain"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="8dp">
+
+                    <TextView
+                        android:id="@+id/text1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elegantTextHeight="true"
+                        android:textAppearance="?textAppearanceHeadline5"
+                        app:layout_constraintWidth="match_parent"
+                        tools:text="This Text 1" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/list1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintWidth_percent="1"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_horizontal_pair" />
+
+                    <TextView
+                        android:id="@+id/text2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elegantTextHeight="true"
+                        android:textAppearance="?textAppearanceHeadline5"
+                        app:layout_constraintWidth="match_parent"
+                        tools:text="This Text 2" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/list2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintWidth_percent="1"
+                        tools:itemCount="6"
+                        tools:listitem="@layout/item_horizontal_pair" />
+
+                    <androidx.constraintlayout.helper.widget.Flow
+                        android:id="@+id/flow"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="horizontal"
+                        app:constraint_referenced_ids="text1,list1,text2,list2"
+                        app:flow_horizontalAlign="end"
+                        app:flow_horizontalStyle="packed"
+                        app:flow_maxElementsWrap="1"
+                        app:flow_verticalGap="8dp"
+                        app:flow_wrapMode="chain"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

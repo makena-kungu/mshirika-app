@@ -1,7 +1,7 @@
 package co.ke.mshirika.mshirika_app.pagingSource
 
 import androidx.paging.PagingSource.LoadResult
-import co.ke.mshirika.mshirika_app.remote.response.roots.Feedback
+import co.ke.mshirika.mshirika_app.remote.response.utils.Feedback
 import co.ke.mshirika.mshirika_app.remote.services.ClientsService
 import retrofit2.HttpException
 import retrofit2.Response

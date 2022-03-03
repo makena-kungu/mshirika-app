@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_homeFragment_to_centersFragment"
             app:destination="@id/centersFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_fragmentLoans"
+            app:destination="@id/fragmentLoans" />
     </fragment>
     <fragment
         android:id="@+id/adminFragment"
@@ -69,20 +72,12 @@
         android:id="@+id/clientsFragment"
         android:name="co.ke.mshirika.mshirika_app.ui.main.client.ClientsFragment"
         android:label="@string/clients"
-        tools:layout="@layout/fragment_clients">
-        <action
-            android:id="@+id/action_clientsFragment2_to_clientFragment"
-            app:destination="@id/clientFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_clients"/>
     <fragment
         android:id="@+id/centersFragment"
         android:name="co.ke.mshirika.mshirika_app.ui.main.center.CentersFragment"
         android:label="fragment_centers"
-        tools:layout="@layout/fragment_centers" >
-        <action
-            android:id="@+id/action_centersFragment_to_centerFragment"
-            app:destination="@id/centerFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_centers" />
     <fragment
         android:id="@+id/groupsFragment"
         android:name="co.ke.mshirika.mshirika_app.ui.main.group.GroupsFragment"
@@ -91,5 +86,25 @@
     <fragment
         android:id="@+id/centerFragment"
         android:name="co.ke.mshirika.mshirika_app.ui.main.center.CenterFragment"
-        android:label="CenterFragment" />
+        android:label="fragment_center"
+        tools:layout="@layout/fragment_center" />
+    <fragment
+        android:id="@+id/fragmentLoans"
+        android:name="co.ke.mshirika.mshirika_app.ui.loans.LoansFragment"
+        android:label="fragment_loans"
+        tools:layout="@layout/fragment_loans" />
+    <action
+        android:id="@+id/action_global_clientFragment"
+        app:destination="@id/clientFragment" />
+    <action
+        android:id="@+id/action_global_centerFragment"
+        app:destination="@id/centerFragment" />
+    <fragment
+        android:id="@+id/loanRepaymentFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui.loans.LoanRepaymentFragment"
+        android:label="fragment_loan_repayment"
+        tools:layout="@layout/fragment_loan_repayment" />
+    <action
+        android:id="@+id/action_global_loanRepaymentFragment"
+        app:destination="@id/loanRepaymentFragment" />
 </navigation>

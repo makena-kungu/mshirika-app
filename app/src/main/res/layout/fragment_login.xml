@@ -75,15 +75,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:elevation="2dp"
-                app:constraint_referenced_ids="password_lo,password_lo" />
+                app:constraint_referenced_ids="password_lo,password_lo"
+                tools:layout_editor_absoluteX="10dp"
+                tools:layout_editor_absoluteY="10dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/username_lo"
-                style="@style/LoginEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="8dp"
                 app:layout_constraintBottom_toTopOf="@id/password_lo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:startIconDrawable="@drawable/ic_round_person_24">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -96,11 +99,12 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/password_lo"
-                style="@style/LoginEditText"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:endIconMode="password_toggle"
                 app:layout_constraintBottom_toTopOf="@id/remember_me"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:startIconDrawable="@drawable/ic_round_lock_24">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -122,6 +126,7 @@
                 android:textSize="14sp"
                 app:layout_constraintBottom_toTopOf="@id/sign_in_button"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintVertical_bias="1"
                 tools:checked="true" />
 
             <TextView
@@ -148,23 +153,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"
                 android:layout_marginBottom="15dp"
+                android:contentDescription="@string/sign_in"
                 android:fontFamily="@font/roboto_medium"
                 android:onClick="@{() -> fragment.login()}"
                 android:text="@string/sign_in"
                 android:textAppearance="@style/TextAppearance.Button"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent" />
-
-            <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:id="@+id/progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"
-                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                tools:layout_editor_absoluteX="10dp" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

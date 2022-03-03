@@ -2,6 +2,7 @@ package co.ke.mshirika.mshirika_app.data.response
 
 
 import android.os.Parcelable
+import co.ke.mshirika.mshirika_app.remote.response.utils.Respondent
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -18,7 +19,7 @@ data class Staff(
     val staffId: Int,
     val userId: Int,
     val username: String
-) : Parcelable {
+) : Parcelable,Respondent {
 
     @Parcelize
     data class Role(

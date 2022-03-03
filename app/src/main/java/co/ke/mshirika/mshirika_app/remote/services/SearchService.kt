@@ -1,7 +1,7 @@
 package co.ke.mshirika.mshirika_app.remote.services
 
-import co.ke.mshirika.mshirika_app.remote.response.SearchResponse
 import co.ke.mshirika.mshirika_app.remote.EndPoint
+import co.ke.mshirika.mshirika_app.remote.response.SearchResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.HeaderMap
@@ -15,5 +15,5 @@ interface SearchService {
         @Query("exactMatch") exactMatch: Boolean = false,
         @Query("query") query: String,
         @Query("resource") resource: Array<String>
-    ): Response<List<SearchResponse>>
+    ): Response<SearchResponse>
 }

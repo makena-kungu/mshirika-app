@@ -34,7 +34,7 @@ class SavingsAccountsAdapter(private val listener: SavingsClickListener) :
             itemView.setOnClickListener {
                 if (absoluteAdapterPosition != NO_POSITION)
                     getItem(absoluteAdapterPosition)?.let {
-                        listener.savingsClicked(it)
+                        listener.onSavingsClick(it)
                     }
             }
         }
@@ -72,6 +72,6 @@ class SavingsAccountsAdapter(private val listener: SavingsClickListener) :
     }
 
     interface SavingsClickListener {
-        fun savingsClicked(acc: SavingsAccount)
+        fun onSavingsClick(acc: SavingsAccount)
     }
 }

@@ -6,7 +6,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.View.INVISIBLE
 import androidx.annotation.FloatRange
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.view.isVisible
@@ -21,14 +20,17 @@ import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.data.response.Client
 import co.ke.mshirika.mshirika_app.data.response.LoanAccount
 import co.ke.mshirika.mshirika_app.data.response.SavingsAccount
+import co.ke.mshirika.mshirika_app.data.response.Transaction
+import co.ke.mshirika.mshirika_app.databinding.ContentLoansAndTransactionsBinding
 import co.ke.mshirika.mshirika_app.databinding.FragmentClientBinding
 import co.ke.mshirika.mshirika_app.remote.Urls
 import co.ke.mshirika.mshirika_app.ui.main.client.adapters.LoanAccountsAdapter
 import co.ke.mshirika.mshirika_app.ui.main.client.adapters.LoanAccountsAdapter.LoanClickListener
 import co.ke.mshirika.mshirika_app.ui.main.client.adapters.SavingsAccountsAdapter.SavingsClickListener
+import co.ke.mshirika.mshirika_app.ui.main.client.adapters.TransactionsAdapter
+import co.ke.mshirika.mshirika_app.ui.main.client.adapters.TransactionsAdapter.OnTransactionsItemClickListener
 import co.ke.mshirika.mshirika_app.ui.main.client.viewModels.ClientViewModel
-import co.ke.mshirika.mshirika_app.utility.network.Status.*
-import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.amt
+import co.ke.mshirika.mshirika_app.utility.network.Result.*
 import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.drawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -39,15 +41,11 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
-import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -55,17 +53,15 @@ import kotlin.math.abs
 class ClientFragment : Fragment(R.layout.fragment_client),
     SavingsClickListener,
     LoanClickListener,
-    Toolbar.OnMenuItemClickListener {
+    Toolbar.OnMenuItemClickListener,
+    OnTransactionsItemClickListener {
 
     private var _binding: FragmentClientBinding? = null
 
-    private val binding: FragmentClientBinding get() = _binding!!
-    private val viewModel by viewModels<ClientViewModel>()
     private val args by navArgs<ClientFragmentArgs>()
-    private val _activity by lazy {
-        requireActivity() as AppCompatActivity
-    }
+    private val binding get() = _binding!!
     private val lifecycleScope get() = viewLifecycleOwner.lifecycleScope
+    private val viewModel by viewModels<ClientViewModel>()
 
 
     @Inject
@@ -82,82 +78,14 @@ class ClientFragment : Fragment(R.layout.fragment_client),
 
         binding.fragment = this
         binding.apply {
-            clientToolbar.setupToolbar()
-
+            setupAppBar()
+            setupToolbar()
             lifecycleScope.launchWhenCreated {
-                viewModel.accounts.collectLatest { resource ->
-                    when (resource.status) {
-                        SUCCESS -> {
-                            resource.data?.let { response ->
-                                //do some calculations
-                                response.savingsAccounts
-                                    .sumOf { account ->
-                                        account.accountBalance
-                                    }.also { sum ->
-                                        availableBal.text = sum.amt
-                                    }
-
-                                response.loanAccounts.forEach { loanAccount ->
-                                    //query the repayment schedule
-                                    viewModel.query(loanAccount)
-                                    withContext(IO) {
-                                        viewModel.query(loanAccount).run {
-                                            when (status) {
-                                                SUCCESS -> data?.let {
-                                                    viewModel.save(it)
-                                                }
-                                                ERROR -> {
-                                                    message?.let {
-                                                        Snackbar.make(
-                                                            root,
-                                                            it,
-                                                            LENGTH_SHORT
-                                                        ).show()
-                                                    }
-
-                                                }
-                                                else -> {}
-                                            }
-
-                                        }
-                                    }
-                                }
-                            }
-                            false
-                        }
-                        ERROR -> {
-                            resource.message?.let {
-                                Snackbar.make(root, it, LENGTH_LONG).apply {
-                                    setAction(R.string.retry) {
-                                        viewModel.reload()
-                                    }
-                                    show()
-                                }
-                            }
-                            false
-                        }
-                        LOADING -> {
-                            //display a
-                            true
-                        }
-                        else -> null
-                    }?.also {
-                        //show or hide a progress bar depending on this value
-                        progressBar.isVisible = it
-                    }
-                }
-                viewModel.client.collectLatest { client ->
-                    client?.let { loadImage(it) }
-                }
-            }
-
-            AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
-                val scrollRange = appBarLayout.totalScrollRange.toFloat()
-                val percent = abs(verticalOffset) / scrollRange
-                constraintLayout.progress = percent
-                constraintLayout.addTransitionListener(AppBarTransition())
-            }.also {
-                appBarLayout.addOnOffsetChangedListener(it)
+                setupLoans()
+                accounts()
+                loansAndTransactions.setupTransactions()
+                viewModel.totalSavings.collectLatest { it?.let(balance::setText) }
+                viewModel.client.collectLatest { it?.let(this@ClientFragment::loadImage) }
             }
         }
     }
@@ -190,25 +118,88 @@ class ClientFragment : Fragment(R.layout.fragment_client),
             .into(binding.clientImage)
     }
 
-    private fun MaterialToolbar.setupToolbar() {
-        val navController = findNavController()
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
-        setNavigationOnClickListener {
-            //go back or pop up
-            navController.navigateUp(appBarConfiguration)
+    private suspend fun FragmentClientBinding.accounts() {
+        viewModel.accounts.collectLatest { outcome ->
+            when (outcome) {
+                is Empty -> false
+                is Loading -> true
+                is Error -> {
+                    Snackbar.make(root, outcome.msg, LENGTH_LONG).apply {
+                        setAction(R.string.retry) {
+                            viewModel.reload()
+                        }
+                        show()
+                    }
+                    false
+                }
+                is Success -> {
+                    false
+                }
+            }.also {
+                it
+            }
         }
-
-        inflateMenu(R.menu.client)
-        setOnMenuItemClickListener(this@ClientFragment)
     }
 
-    override fun savingsClicked(acc: SavingsAccount) {
+    private fun FragmentClientBinding.setupAppBar() {
+        AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            val scrollRange = appBarLayout.totalScrollRange.toFloat()
+            val percent = abs(verticalOffset) / scrollRange
+            constraintLayout.progress = percent
+            constraintLayout.addTransitionListener(AppBarTransition())
+        }.also {
+            appBarLayout.addOnOffsetChangedListener(it)
+        }
+    }
+
+    private suspend fun FragmentClientBinding.setupLoans() {
+        val adapter = LoanAccountsAdapter(this@ClientFragment)
+        loansAndTransactions.loans.adapter = adapter
+        viewModel.loans.collectLatest {
+            adapter.submitList(it)
+        }
+    }
+
+    private suspend fun ContentLoansAndTransactionsBinding.setupTransactions() {
+        val adapter = TransactionsAdapter(this@ClientFragment)
+        transactions.setHasFixedSize(true)
+        transactions.adapter = adapter
+        viewModel.transactions.collectLatest { outcome ->
+            when (outcome) {
+                is Success -> {
+                    outcome.data?.let {
+                        adapter.submitList(it.transactions)
+                    }
+                }
+                else -> {}
+            }
+        }
+    }
+
+    private fun FragmentClientBinding.setupToolbar() {
+        with(clientToolbar) {
+            val navController = findNavController()
+            val appBarConfiguration = AppBarConfiguration(navController.graph)
+            setNavigationOnClickListener {
+                //go back or pop up
+                navController.navigateUp(appBarConfiguration)
+            }
+
+            inflateMenu(R.menu.client)
+            setOnMenuItemClickListener(this@ClientFragment)
+        }
+    }
+
+    override fun onSavingsClick(acc: SavingsAccount) {
         //view account
     }
 
-    override fun loanClicked(acc: LoanAccount) {
-        //make payment for the loan
+    override fun onClickLoan(acc: LoanAccount) {
+        TODO("Not yet implemented")
+    }
 
+    override fun onClickTransaction(transaction: Transaction) {
+        TODO("Not yet implemented")
     }
 
     fun newSavingsAccount() {
@@ -290,9 +281,6 @@ class ClientFragment : Fragment(R.layout.fragment_client),
         }
 
         private fun FragmentClientBinding.bindClient(client: Client) {
-            val loanAccountsAdapter = LoanAccountsAdapter(this@ClientFragment)
-            viewModel.accounts
-
             client.apply {
                 clientName.text = displayName
                 clientMobileNumber.text = mobileNo
