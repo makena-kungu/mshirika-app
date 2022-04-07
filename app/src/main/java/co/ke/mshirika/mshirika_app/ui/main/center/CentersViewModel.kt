@@ -44,7 +44,7 @@ class CentersViewModel @Inject constructor(
 
     fun search(query: String, authKey: String) {
         viewModelScope.launch(IO) {
-            repo.search(query, authKey, viewModelScope)
+            repo.search(query, authKey)
         }
     }
 

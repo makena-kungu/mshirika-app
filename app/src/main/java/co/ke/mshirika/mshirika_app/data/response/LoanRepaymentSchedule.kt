@@ -4,7 +4,7 @@ package co.ke.mshirika.mshirika_app.data.response
 import android.os.Parcelable
 import androidx.recyclerview.widget.DiffUtil
 import co.ke.mshirika.mshirika_app.data.response.common.Currency
-import co.ke.mshirika.mshirika_app.remote.response.utils.Respondent
+import co.ke.mshirika.mshirika_app.remote.utils.Respondent
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

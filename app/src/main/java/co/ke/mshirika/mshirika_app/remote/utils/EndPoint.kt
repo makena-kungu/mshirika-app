@@ -1,4 +1,4 @@
-package co.ke.mshirika.mshirika_app.remote
+package co.ke.mshirika.mshirika_app.remote.utils
 
 object EndPoint {
     //This class contains all the Constants for API End Points

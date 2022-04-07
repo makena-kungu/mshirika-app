@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import co.ke.mshirika.mshirika_app.data.response.Client
 import co.ke.mshirika.mshirika_app.databinding.ItemClientBinding
-import co.ke.mshirika.mshirika_app.remote.Urls
+import co.ke.mshirika.mshirika_app.remote.utils.Urls
 import co.ke.mshirika.mshirika_app.ui.main.client.OnClientItemClickListener
 import co.ke.mshirika.mshirika_app.ui.main.utils.MyPagingDataAdapter
 import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.drawable

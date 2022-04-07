@@ -20,7 +20,7 @@ import co.ke.mshirika.mshirika_app.ui.main.utils.State.NORMAL
 import co.ke.mshirika.mshirika_app.ui.main.utils.State.SEARCHING
 import co.ke.mshirika.mshirika_app.ui.util.Transitions.itemToDetailTransition
 import co.ke.mshirika.mshirika_app.utility.DataStore
-import co.ke.mshirika.mshirika_app.utility.network.Result.*
+import co.ke.mshirika.mshirika_app.remote.utils.Outcome.*
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest

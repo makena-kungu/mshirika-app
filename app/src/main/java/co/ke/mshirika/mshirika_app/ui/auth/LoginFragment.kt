@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -15,7 +14,8 @@ import co.ke.mshirika.mshirika_app.databinding.FragmentLoginBinding
 import co.ke.mshirika.mshirika_app.ui.MainActivity
 import co.ke.mshirika.mshirika_app.utility.DataStore
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkMonitor
-import co.ke.mshirika.mshirika_app.utility.network.Result
+import co.ke.mshirika.mshirika_app.remote.utils.Outcome
+import co.ke.mshirika.mshirika_app.remote.utils.Outcome.*
 import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.snackS
 import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.text
 import com.google.android.gms.common.util.Base64Utils.encode
@@ -59,19 +59,19 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             lifecycleScope.launchWhenCreated {
                 viewModel.auth.collectLatest { outcome ->
                     when (outcome) {
-                        is co.ke.mshirika.mshirika_app.utility.network.Outcome.Result.Empty -> {
+                        is Empty -> {
                             //do nothing
                         }
-                        is co.ke.mshirika.mshirika_app.utility.network.Outcome.Result.Error -> {
+                        is Error -> {
                             TODO("display a snackbar")
                         }
-                        is co.ke.mshirika.mshirika_app.utility.network.Outcome.Result.Loading -> {
+                        is Loading -> {
                             //rather than showing the progress bar, Show A dialog with only a progressbar
                             // and that is non-dismissible
                             loadingDialog.show()
                             // TODO: check if I'm required to recreate the dialog once it's dismissed
                         }
-                        is co.ke.mshirika.mshirika_app.utility.network.Outcome.Result.Success -> {
+                        is Success -> {
                             loadingDialog.apply {
                                 outcome.handle()
                                 if (isShowing) dismiss()
@@ -83,10 +83,10 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
     }
 
-    private fun Result<Staff>.handle(): Boolean? = when (this) {
-        is co.ke.mshirika.mshirika_app.utility.network.Outcome.Result.Empty -> null
-        is co.ke.mshirika.mshirika_app.utility.network.Outcome.Result.Loading -> null
-        is co.ke.mshirika.mshirika_app.utility.network.Outcome.Result.Error -> {
+    private fun Outcome<Staff>.handle(): Boolean? = when (this) {
+        is Empty -> null
+        is Loading -> null
+        is Error -> {
             msg.let { msg ->
                 Snackbar
                     .make(
@@ -107,7 +107,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     }
             }
         }
-        is co.ke.mshirika.mshirika_app.utility.network.Outcome.Result.Success -> {
+        is Success -> {
             data?.apply {
                 lifecycleScope.launchWhenCreated {
                     success(base64EncodedAuthenticationKey)
@@ -138,7 +138,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 val password = password.text()
 
                 viewModel.login(username, password)
-                progressBar.isVisible = true
+                //progressBar.isVisible = true
                 signInButton.isEnabled = false
             }
         }

@@ -10,17 +10,13 @@ import co.ke.mshirika.mshirika_app.data.response.Search.Companion.ENTITY_CLIENT
 import co.ke.mshirika.mshirika_app.pagingSource.ClientsPS
 import co.ke.mshirika.mshirika_app.remote.response.AccountsResponse
 import co.ke.mshirika.mshirika_app.remote.response.TransactionResponse
-import co.ke.mshirika.mshirika_app.remote.response.utils.UnpackResponse.respond
 import co.ke.mshirika.mshirika_app.remote.services.ClientsService
 import co.ke.mshirika.mshirika_app.remote.services.SearchService
-import co.ke.mshirika.mshirika_app.utility.network.Result
-import co.ke.mshirika.mshirika_app.utility.network.Result.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
+import co.ke.mshirika.mshirika_app.remote.utils.Outcome
+import co.ke.mshirika.mshirika_app.remote.utils.Outcome.*
+import co.ke.mshirika.mshirika_app.remote.utils.UnpackResponse.respond
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import java.util.stream.Stream
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -32,10 +28,10 @@ class ClientsRepo @Inject constructor(
     private val searchedClientList = mutableListOf<Client>()
     private val loanAccounts = mutableListOf<LoanAccount>()
 
-    private val _accounts = MutableStateFlow<Result<AccountsResponse>>(Empty())
+    private val _accounts = MutableStateFlow<Outcome<AccountsResponse>>(Empty())
     private val _loans = MutableStateFlow<List<LoanAccount>>(emptyList())
-    private val _searchedClients = MutableStateFlow<Result<PagingData<Client>>>(Empty())
-    private val _transactions = MutableStateFlow<Result<TransactionResponse>>(Empty())
+    private val _searchedClients = MutableStateFlow<Outcome<PagingData<Client>>>(Empty())
+    private val _transactions = MutableStateFlow<Outcome<TransactionResponse>>(Empty())
 
     val accounts
         get() = _accounts
@@ -94,23 +90,8 @@ class ClientsRepo @Inject constructor(
         }.also { outcome ->
             when (outcome) {
                 is Success -> {
-                    outcome.data?.parallelStream()?.handleSearch(headers)
-                }
-                else -> {}
-            }
-        }
-    }
-
-    private suspend fun Stream<Search>.handleSearch(headers: Map<String, String>) {
-        forEach {
-            when (it.entityType) {
-                ENTITY_CLIENT -> {
-                    CoroutineScope(IO).launch {
-                        respond {
-                            clientsService.client(headers, it.entityId)
-                        }.apply {
-                            clientOutcome()
-                        }
+                    outcome.data?.forEach {
+                        it.handleSearch(headers)
                     }
                 }
                 else -> {}
@@ -118,7 +99,19 @@ class ClientsRepo @Inject constructor(
         }
     }
 
-    private fun Result<Client>.clientOutcome() {
+    private suspend fun Search.handleSearch(headers: Map<String, String>) {
+        when (entityType) {
+            ENTITY_CLIENT ->
+                respond {
+                    clientsService.client(headers, entityId)
+                }.apply {
+                    clientOutcome()
+                }
+            else -> {}
+        }
+    }
+
+    private fun Outcome<Client>.clientOutcome() {
         when (this) {
             is Success -> {
                 data?.let { client ->

@@ -1,7 +1,7 @@
 package co.ke.mshirika.mshirika_app.remote.response
 
 import co.ke.mshirika.mshirika_app.data.response.Client
-import co.ke.mshirika.mshirika_app.remote.response.utils.Feedback
+import co.ke.mshirika.mshirika_app.remote.utils.Feedback
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

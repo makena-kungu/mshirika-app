@@ -2,7 +2,7 @@ package co.ke.mshirika.mshirika_app.data.response
 
 
 import android.os.Parcelable
-import co.ke.mshirika.mshirika_app.remote.response.utils.Respondent
+import co.ke.mshirika.mshirika_app.remote.utils.Respondent
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

@@ -1,9 +1,8 @@
-package co.ke.mshirika.mshirika_app.remote.response.utils
+package co.ke.mshirika.mshirika_app.remote.utils
 
-import co.ke.mshirika.mshirika_app.remote.response.utils.DeveloperMessages.LOGIN
-import co.ke.mshirika.mshirika_app.utility.network.Result
-import co.ke.mshirika.mshirika_app.utility.network.Result.Companion.error
-import co.ke.mshirika.mshirika_app.utility.network.Result.Success
+import co.ke.mshirika.mshirika_app.remote.utils.DeveloperMessages.LOGIN
+import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Companion.error
+import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Success
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.HttpException
@@ -11,11 +10,11 @@ import retrofit2.Response
 import java.io.IOException
 
 object UnpackResponse {
-    inline fun <T : Respondent> respond(request: () -> Response<T>): Result<T> {
-        var result: Result<T>? = null
+    inline fun <T : Respondent> respond(request: () -> Response<T>): Outcome<T> {
+        var outcome: Outcome<T>? = null
         try {
             val response = request()
-            result = response.handle()
+            outcome = response.handle()
         } catch (e: IOException) {
             e.printStackTrace()
         } catch (e: HttpException) {
@@ -24,10 +23,10 @@ object UnpackResponse {
             //Any other error
             e.printStackTrace()
         }
-        return result ?: error()
+        return outcome ?: error()
     }
 
-    fun <T> Response<T>.handle(): Result<T> {
+    fun <T> Response<T>.handle(): Outcome<T> {
         if (isSuccessful) {
             return Success(body())
         }

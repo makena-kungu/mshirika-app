@@ -6,7 +6,7 @@ import co.ke.mshirika.mshirika_app.data.response.Client
 import co.ke.mshirika.mshirika_app.data.response.Loan
 import co.ke.mshirika.mshirika_app.data.response.SavingsAccount
 import co.ke.mshirika.mshirika_app.repositories.ClientsRepo
-import co.ke.mshirika.mshirika_app.utility.network.Result.Success
+import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Success
 import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.amt
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO

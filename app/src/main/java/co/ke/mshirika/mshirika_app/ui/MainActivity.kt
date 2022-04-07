@@ -27,6 +27,7 @@ import androidx.transition.TransitionManager.beginDelayedTransition
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.databinding.ActivityMainBinding
 import co.ke.mshirika.mshirika_app.ui.util.OnFragmentsAttach
+import co.ke.mshirika.mshirika_app.utility.DataStore
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkMonitor
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkState.Offline
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkState.Online
@@ -37,6 +38,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.google.android.material.transition.MaterialSharedAxis.Y
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import java.time.Duration
 import javax.inject.Inject
 
@@ -90,6 +92,12 @@ class MainActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        lifecycleScope.launchWhenCreated {
+            DataStore(context = this@MainActivity).authKey.collectLatest {
+                viewModel.updateKey(it)
+            }
+        }
 
         binding.apply {
             setSupportActionBar(toolbar)

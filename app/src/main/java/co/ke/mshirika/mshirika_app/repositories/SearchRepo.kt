@@ -4,12 +4,12 @@ import androidx.paging.PagingData
 import co.ke.mshirika.mshirika_app.data.response.*
 import co.ke.mshirika.mshirika_app.pagingSource.Util.headers
 import co.ke.mshirika.mshirika_app.remote.response.SearchResponse
-import co.ke.mshirika.mshirika_app.remote.response.utils.UnpackResponse.respond
+import co.ke.mshirika.mshirika_app.remote.utils.UnpackResponse.respond
 import co.ke.mshirika.mshirika_app.remote.services.ClientsService
 import co.ke.mshirika.mshirika_app.remote.services.GroupsService
 import co.ke.mshirika.mshirika_app.remote.services.SearchService
-import co.ke.mshirika.mshirika_app.utility.network.Result
-import co.ke.mshirika.mshirika_app.utility.network.Result.Success
+import co.ke.mshirika.mshirika_app.remote.utils.Outcome
+import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Success
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -117,17 +117,13 @@ class SearchRepo @Inject constructor(
         }
     }
 
-    private fun execute(
-        result: Result<SearchResponse>,
+    private suspend fun execute(
+        outcome: Outcome<SearchResponse>,
         block: suspend Search.() -> Unit
     ) {
-        if (result is Success) {
-            result.data?.run {
-                parallelStream().forEach {
-                    CoroutineScope(IO).launch {
-                        block(it)
-                    }
-                }
+        if (outcome is Success) {
+            outcome.data?.run {
+                forEach { block(it) }
             }
         }
     }

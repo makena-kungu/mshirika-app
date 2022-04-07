@@ -2,7 +2,7 @@ package co.ke.mshirika.mshirika_app.remote.services
 
 import co.ke.mshirika.mshirika_app.data.request.Login
 import co.ke.mshirika.mshirika_app.data.response.Staff
-import co.ke.mshirika.mshirika_app.remote.EndPoint
+import co.ke.mshirika.mshirika_app.remote.utils.EndPoint
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Headers

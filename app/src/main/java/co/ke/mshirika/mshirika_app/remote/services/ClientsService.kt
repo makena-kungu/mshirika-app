@@ -4,7 +4,7 @@ import co.ke.mshirika.mshirika_app.data.response.Client
 import co.ke.mshirika.mshirika_app.data.response.Loan
 import co.ke.mshirika.mshirika_app.data.response.LoanAccount
 import co.ke.mshirika.mshirika_app.data.response.LoanRepaymentSchedule
-import co.ke.mshirika.mshirika_app.remote.EndPoint
+import co.ke.mshirika.mshirika_app.remote.utils.EndPoint
 import co.ke.mshirika.mshirika_app.remote.response.AccountsResponse
 import co.ke.mshirika.mshirika_app.remote.response.ClientResponse
 import co.ke.mshirika.mshirika_app.remote.response.TransactionResponse

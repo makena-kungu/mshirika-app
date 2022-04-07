@@ -62,7 +62,7 @@
                     app:layoutDescription="@xml/fragment_client_xml_constraintlayout_scene">
 
                     <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/loan_client_image"
+                        android:id="@+id/client_image"
                         android:layout_width="@dimen/client_logo"
                         android:layout_height="@dimen/client_logo"
                         android:layout_gravity="center_horizontal"
@@ -85,10 +85,10 @@
                         android:textColor="@color/white"
                         android:textSize="65sp"
                         android:visibility="invisible"
-                        app:layout_constraintBottom_toBottomOf="@+id/loan_client_image"
-                        app:layout_constraintEnd_toEndOf="@id/loan_client_image"
-                        app:layout_constraintStart_toStartOf="@id/loan_client_image"
-                        app:layout_constraintTop_toTopOf="@id/loan_client_image"
+                        app:layout_constraintBottom_toBottomOf="@+id/client_image"
+                        app:layout_constraintEnd_toEndOf="@id/client_image"
+                        app:layout_constraintStart_toStartOf="@id/client_image"
+                        app:layout_constraintTop_toTopOf="@id/client_image"
                         tools:scaleX="1"
                         tools:scaleY="1"
                         tools:text="C"
@@ -107,7 +107,7 @@
                         android:textColor="?android:textColorPrimary"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/loan_client_image"
+                        app:layout_constraintTop_toBottomOf="@+id/client_image"
                         tools:text="Client's Name" />
 
                     <TextView

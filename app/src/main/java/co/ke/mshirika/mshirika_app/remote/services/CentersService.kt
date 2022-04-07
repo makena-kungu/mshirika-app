@@ -1,7 +1,7 @@
 package co.ke.mshirika.mshirika_app.remote.services
 
 import co.ke.mshirika.mshirika_app.data.response.Center
-import co.ke.mshirika.mshirika_app.remote.EndPoint
+import co.ke.mshirika.mshirika_app.remote.utils.EndPoint
 import co.ke.mshirika.mshirika_app.remote.response.CenterResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -20,7 +20,7 @@ interface CentersService {
     ): Response<CenterResponse>
 
     @GET("${EndPoint.CENTERS}/{id}")
-    fun center(
+    suspend fun center(
         @HeaderMap headers: Map<String, String>,
         @Path("id") accountID: Int
     ): Response<Center>

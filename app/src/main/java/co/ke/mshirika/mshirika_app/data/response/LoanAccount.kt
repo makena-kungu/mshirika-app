@@ -4,7 +4,7 @@ package co.ke.mshirika.mshirika_app.data.response
 import android.os.Parcelable
 import androidx.recyclerview.widget.DiffUtil
 import co.ke.mshirika.mshirika_app.data.response.common.Currency
-import co.ke.mshirika.mshirika_app.remote.response.utils.Respondent
+import co.ke.mshirika.mshirika_app.remote.utils.Respondent
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -72,7 +72,7 @@ data class LoanAccount(
     val transactionProcessingStrategyId: Int,
     val transactionProcessingStrategyName: String,
     val transactions: List<LoanTransaction>
-) : Parcelable, Respondent {
+) : Respondent {
 
     @Parcelize
     data class AmortizationType(

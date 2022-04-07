@@ -4,7 +4,7 @@ package co.ke.mshirika.mshirika_app.remote.response
 import android.os.Parcelable
 import co.ke.mshirika.mshirika_app.data.response.Transaction
 import co.ke.mshirika.mshirika_app.data.response.common.Currency
-import co.ke.mshirika.mshirika_app.remote.response.utils.Respondent
+import co.ke.mshirika.mshirika_app.remote.utils.Respondent
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -39,7 +39,7 @@ data class TransactionResponse(
     val transactions: List<Transaction>,
     val withHoldTax: Boolean,
     val withdrawalFeeForTransfers: Boolean
-) : Parcelable, Respondent {
+) : Respondent {
 
     @Parcelize
     data class BlockNarration(

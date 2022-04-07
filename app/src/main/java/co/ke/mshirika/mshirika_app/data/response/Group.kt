@@ -3,7 +3,7 @@ package co.ke.mshirika.mshirika_app.data.response
 
 import android.os.Parcelable
 import androidx.recyclerview.widget.DiffUtil
-import co.ke.mshirika.mshirika_app.remote.response.utils.Respondent
+import co.ke.mshirika.mshirika_app.remote.utils.Respondent
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -15,7 +15,7 @@ data class Group(
     val officeId: Int,
     val officeName: String,
     val status: Status
-) : Parcelable, Respondent {
+) : Respondent {
 
     @Parcelize
     data class Status(

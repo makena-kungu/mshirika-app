@@ -23,14 +23,15 @@ import co.ke.mshirika.mshirika_app.data.response.SavingsAccount
 import co.ke.mshirika.mshirika_app.data.response.Transaction
 import co.ke.mshirika.mshirika_app.databinding.ContentLoansAndTransactionsBinding
 import co.ke.mshirika.mshirika_app.databinding.FragmentClientBinding
-import co.ke.mshirika.mshirika_app.remote.Urls
+import co.ke.mshirika.mshirika_app.remote.utils.Urls
 import co.ke.mshirika.mshirika_app.ui.main.client.adapters.LoanAccountsAdapter
 import co.ke.mshirika.mshirika_app.ui.main.client.adapters.LoanAccountsAdapter.LoanClickListener
 import co.ke.mshirika.mshirika_app.ui.main.client.adapters.SavingsAccountsAdapter.SavingsClickListener
 import co.ke.mshirika.mshirika_app.ui.main.client.adapters.TransactionsAdapter
 import co.ke.mshirika.mshirika_app.ui.main.client.adapters.TransactionsAdapter.OnTransactionsItemClickListener
 import co.ke.mshirika.mshirika_app.ui.main.client.viewModels.ClientViewModel
-import co.ke.mshirika.mshirika_app.utility.network.Result.*
+import co.ke.mshirika.mshirika_app.remote.utils.Outcome.*
+import co.ke.mshirika.mshirika_app.ui.util.DetailsFragment
 import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.drawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -50,17 +51,13 @@ import javax.inject.Inject
 import kotlin.math.abs
 
 @AndroidEntryPoint
-class ClientFragment : Fragment(R.layout.fragment_client),
+class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_client),
     SavingsClickListener,
     LoanClickListener,
     Toolbar.OnMenuItemClickListener,
     OnTransactionsItemClickListener {
 
-    private var _binding: FragmentClientBinding? = null
-
     private val args by navArgs<ClientFragmentArgs>()
-    private val binding get() = _binding!!
-    private val lifecycleScope get() = viewLifecycleOwner.lifecycleScope
     private val viewModel by viewModels<ClientViewModel>()
 
 
@@ -74,7 +71,6 @@ class ClientFragment : Fragment(R.layout.fragment_client),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentClientBinding.bind(view)
 
         binding.fragment = this
         binding.apply {
@@ -107,7 +103,7 @@ class ClientFragment : Fragment(R.layout.fragment_client),
             .addHeader("Fineract-Platform-TenantId", "default").build()
         val url =
             GlideUrl(
-                "${Urls.BASE_URL}/fineract-provider/api/v1/clients/${client.id}/images",
+                "${Urls.BASE_URL}clients/${client.id}/images",
                 headers
             )
         Glide.with(requireActivity())
@@ -225,12 +221,6 @@ class ClientFragment : Fragment(R.layout.fragment_client),
     fun actions() {
         TODO("Display Bottom sheet with transfer and close actions")
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     inner class LoadImageListener : RequestListener<Drawable> {
         override fun onLoadFailed(
             e: GlideException?,

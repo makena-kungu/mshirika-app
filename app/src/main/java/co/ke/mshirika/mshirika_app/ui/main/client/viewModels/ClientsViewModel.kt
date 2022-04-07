@@ -8,7 +8,7 @@ import co.ke.mshirika.mshirika_app.repositories.ClientsRepo
 import co.ke.mshirika.mshirika_app.ui.main.utils.State
 import co.ke.mshirika.mshirika_app.ui.main.utils.State.NORMAL
 import co.ke.mshirika.mshirika_app.ui.main.utils.State.SEARCHING
-import co.ke.mshirika.mshirika_app.utility.network.Result.Success
+import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

@@ -6,15 +6,13 @@ import androidx.paging.PagingData
 import co.ke.mshirika.mshirika_app.data.response.Group
 import co.ke.mshirika.mshirika_app.pagingSource.GroupsPS
 import co.ke.mshirika.mshirika_app.pagingSource.Util.headers
-import co.ke.mshirika.mshirika_app.remote.response.GroupResponse
 import co.ke.mshirika.mshirika_app.remote.services.GroupsService
 import co.ke.mshirika.mshirika_app.remote.services.SearchService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Success
+import co.ke.mshirika.mshirika_app.remote.utils.UnpackResponse.respond
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class GroupsRepo @Inject constructor(
@@ -40,44 +38,29 @@ class GroupsRepo @Inject constructor(
             }
         ).flow
 
-    suspend fun search(query: String, authKey: String, coroutineScope: CoroutineScope) {
-        searchService.search(
-            map = headers(authKey),
-            query = query,
-            resource = arrayOf("groups")
-        ).let {
-            kotlin.runCatching { it }
+    suspend fun search(query: String, authKey: String) {
+        val headers = headers(authKey)
+        respond {
+            searchService.search(
+                map = headers,
+                query = query,
+                resource = arrayOf("groups")
+            )
         }.apply {
-            val result: Result<GroupResponse> = when {
-                isSuccess -> {
-                    val lt = getOrNull()!!.body()?.run {
-                        val list = mutableListOf<Group>()
-                        //query the groups with the provided accountIds
-                        parallelStream().forEach {
-                            coroutineScope.launch(Dispatchers.IO) {
-                                groupsService.group(
-                                    headers = headers(authKey),
-                                    accountID = it.entityId
-                                ).apply {
-                                    if (isSuccessful) {
-                                        body()?.let { list += it }
-                                    }
-                                }
-                            }
-                        }
-                        list
-                    } ?: emptyList()
-                    Result.success(GroupResponse(lt))
-                }
-                else -> {
-                    //create a throwable for why the failure occurred
-                    Result.failure(exceptionOrNull()!!)
-                }
-            }
+            if (this !is Success) return
+            val list = mutableListOf<Group>()
+            data?.forEach { search ->
+                respond {
+                    groupsService.group(
+                        headers = headers,
+                        accountID = search.entityId
+                    )
+                }.apply {
+                    if (this !is Success || data == null) return
 
-            when {
-                result.isSuccess -> result.getOrNull()
-                    ?.also { _searched.tryEmit(PagingData.from(it.pageItems)) }
+                    list += data
+                    _searched.tryEmit(PagingData.from(list))
+                }
             }
         }
     }
