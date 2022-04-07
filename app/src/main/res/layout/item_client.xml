@@ -25,7 +25,7 @@
             android:paddingVertical="5dp">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/loan_client_image"
+                android:id="@+id/client_image"
                 android:layout_width="@dimen/client_image"
                 android:layout_height="@dimen/client_image"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -58,7 +58,7 @@
                 android:layout_width="8dp"
                 android:layout_height="match_parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/loan_client_image"
+                app:layout_constraintStart_toEndOf="@id/client_image"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
