@@ -26,14 +26,12 @@
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/app_bar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/Theme.MshirikaApp.AppBarOverlay">
+                android:layout_height="wrap_content">
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    app:popupTheme="@style/Theme.MshirikaApp.PopupOverlay"
                     app:titleCentered="true"
                     app:titleTextColor="@color/black"
                     tools:title="Home" />

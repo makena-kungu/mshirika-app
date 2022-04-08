@@ -7,15 +7,11 @@ import android.view.View
 import android.view.View.INVISIBLE
 import androidx.annotation.FloatRange
 import androidx.appcompat.widget.Toolbar
+import androidx.appcompat.widget.Toolbar.OnMenuItemClickListener
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.data.response.Client
 import co.ke.mshirika.mshirika_app.data.response.LoanAccount
@@ -23,6 +19,7 @@ import co.ke.mshirika.mshirika_app.data.response.SavingsAccount
 import co.ke.mshirika.mshirika_app.data.response.Transaction
 import co.ke.mshirika.mshirika_app.databinding.ContentLoansAndTransactionsBinding
 import co.ke.mshirika.mshirika_app.databinding.FragmentClientBinding
+import co.ke.mshirika.mshirika_app.remote.utils.Outcome.*
 import co.ke.mshirika.mshirika_app.remote.utils.Urls
 import co.ke.mshirika.mshirika_app.ui.main.client.adapters.LoanAccountsAdapter
 import co.ke.mshirika.mshirika_app.ui.main.client.adapters.LoanAccountsAdapter.LoanClickListener
@@ -30,7 +27,6 @@ import co.ke.mshirika.mshirika_app.ui.main.client.adapters.SavingsAccountsAdapte
 import co.ke.mshirika.mshirika_app.ui.main.client.adapters.TransactionsAdapter
 import co.ke.mshirika.mshirika_app.ui.main.client.adapters.TransactionsAdapter.OnTransactionsItemClickListener
 import co.ke.mshirika.mshirika_app.ui.main.client.viewModels.ClientViewModel
-import co.ke.mshirika.mshirika_app.remote.utils.Outcome.*
 import co.ke.mshirika.mshirika_app.ui.util.DetailsFragment
 import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.drawable
 import com.bumptech.glide.Glide
@@ -54,7 +50,7 @@ import kotlin.math.abs
 class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_client),
     SavingsClickListener,
     LoanClickListener,
-    Toolbar.OnMenuItemClickListener,
+    OnMenuItemClickListener,
     OnTransactionsItemClickListener {
 
     private val args by navArgs<ClientFragmentArgs>()
@@ -86,11 +82,18 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
         }
     }
 
+    override val resId: Int
+        get() = R.id.client
+
+    override val toolbar: Toolbar
+        get() = binding.clientToolbar
+
     override fun onMenuItemClick(item: MenuItem?): Boolean = item?.run {
         when (itemId) {
             R.id.edit -> {
+                binding.setupToolbar()
                 //edit the client
-                true
+                TODO("NOT YET IMPLEMENTED")
             }
             else -> false
         }
@@ -117,7 +120,6 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
     private suspend fun FragmentClientBinding.accounts() {
         viewModel.accounts.collectLatest { outcome ->
             when (outcome) {
-                is Empty -> false
                 is Loading -> true
                 is Error -> {
                     Snackbar.make(root, outcome.msg, LENGTH_LONG).apply {
@@ -128,11 +130,9 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
                     }
                     false
                 }
-                is Success -> {
-                    false
-                }
+                else -> false
             }.also {
-                it
+                progressHorizontal.isVisible = it
             }
         }
     }
@@ -174,15 +174,16 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
 
     private fun FragmentClientBinding.setupToolbar() {
         with(clientToolbar) {
-            val navController = findNavController()
+            // TODO: move this logic to the abstract custom class
+            /*val navController = findNavController()
             val appBarConfiguration = AppBarConfiguration(navController.graph)
             setNavigationOnClickListener {
                 //go back or pop up
                 navController.navigateUp(appBarConfiguration)
-            }
+            }*/
 
-            inflateMenu(R.menu.client)
-            setOnMenuItemClickListener(this@ClientFragment)
+            /*inflateMenu(R.menu.client)
+            setOnMenuItemClickListener(this@ClientFragment)*/
         }
     }
 
@@ -221,6 +222,7 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
     fun actions() {
         TODO("Display Bottom sheet with transfer and close actions")
     }
+
     inner class LoadImageListener : RequestListener<Drawable> {
         override fun onLoadFailed(
             e: GlideException?,
@@ -228,28 +230,29 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
             target: Target<Drawable>?,
             isFirstResource: Boolean
         ): Boolean {
-            binding.apply {
-                lifecycleScope.launch {
-                    viewModel.client.collectLatest { client ->
-                        client?.let {
-                            clientImage.visibility = INVISIBLE
-                            clientImageError.apply {
-                                isVisible = true
-                                drawable(args.colors)
-                                text = it.displayName[0].uppercase()
-                                animate().apply {
-                                    scaleX(1f)
-                                    scaleY(1f)
-                                    duration = 200L
-                                    start()
-                                }
-                            }
-                            bindClient(it)
-                        }
-                    }
-                }
+            lifecycleScope.launchWhenCreated {
+                binding.loadBackupImage()
             }
             return true
+        }
+
+        private suspend fun FragmentClientBinding.loadBackupImage() {
+            viewModel.client.collectLatest {
+                if (it == null) return@collectLatest
+                clientImage.visibility = INVISIBLE
+                clientImageError.apply {
+                    isVisible = true
+                    drawable(args.colors)
+                    text = it.displayName[0].uppercase()
+                    animate().apply {
+                        scaleX(1f)
+                        scaleY(1f)
+                        duration = 200L
+                        start()
+                    }
+                }
+                bindClient(it)
+            }
         }
 
         override fun onResourceReady(
@@ -262,9 +265,7 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
             //bind all other details if the image has been loaded
             lifecycleScope.launch {
                 viewModel.client.collectLatest { client ->
-                    client?.let {
-                        binding.bindClient(it)
-                    }
+                    client?.let { binding.bindClient(it) }
                 }
             }
             return true

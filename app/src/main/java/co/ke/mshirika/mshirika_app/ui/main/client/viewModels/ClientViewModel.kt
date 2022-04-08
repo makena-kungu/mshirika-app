@@ -5,42 +5,37 @@ import androidx.lifecycle.viewModelScope
 import co.ke.mshirika.mshirika_app.data.response.Client
 import co.ke.mshirika.mshirika_app.data.response.Loan
 import co.ke.mshirika.mshirika_app.data.response.SavingsAccount
-import co.ke.mshirika.mshirika_app.repositories.ClientsRepo
+import co.ke.mshirika.mshirika_app.pagingSource.Util.headers
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Success
+import co.ke.mshirika.mshirika_app.repositories.ClientsRepo
 import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.amt
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class ClientViewModel @Inject constructor(
-    private val clientsRepo: ClientsRepo,
-    private val authKey: Flow<String>
+    private val repo: ClientsRepo,
+    private val authKey: String
 ) : ViewModel() {
 
-    private val _accounts get() = clientsRepo.accounts
     private val _client = MutableStateFlow<Client?>(null)
-    private val _loans
-        get() = clientsRepo.loans
     private val _totalSavings = MutableStateFlow<String?>(null)
 
+    private val _accounts get() = repo.accounts
+    private val _loans
+        get() = repo.loans
+
     private val headers: Map<String, String> by lazy {
-        val map = mutableMapOf(
-            "Fineract-Platform-TenantId" to "default"
-        )
-        viewModelScope.launch {
-            withContext(viewModelScope.coroutineContext) {
-                authKey.last()
-            }.also {
-                map["Authorization"] = it
-            }
-        }
-        map
+        headers(authKey)
     }
 
+    //they are showing a snackbar
     val accounts
         get() = _accounts.asSharedFlow()
     val loans
@@ -50,13 +45,13 @@ class ClientViewModel @Inject constructor(
     val totalSavings
         get() = _totalSavings.asStateFlow()
     val transactions
-        get() = clientsRepo.transactions
+        get() = repo.transactions
 
 
     fun reload() =
         viewModelScope.launch(IO) {
             client.collectLatest { client ->
-                client?.let { clientsRepo.accounts(it.id, headers) }
+                client?.let { repo.accounts(it.id, headers) }
             }
         }
 
@@ -64,7 +59,7 @@ class ClientViewModel @Inject constructor(
     fun setClient(client: Client) {
         viewModelScope.launch(IO) {
             _client.value = client
-            clientsRepo.apply {
+            repo.apply {
                 client.apply {
                     accounts(id, headers)
                     loans(id, headers)
@@ -83,7 +78,7 @@ class ClientViewModel @Inject constructor(
             it.productName.contains("shares", ignoreCase = true)
         }?.also {
             viewModelScope.launch(IO) {
-                clientsRepo.transaction(
+                repo.transactions(
                     accountId = it.id,
                     headers = headers
                 )
@@ -92,9 +87,9 @@ class ClientViewModel @Inject constructor(
     }
 
     private fun List<Loan>.loans() {
-        parallelStream().forEach {
-            viewModelScope.launch(IO) {
-                clientsRepo.loans(it.id, headers)
+        viewModelScope.launch(IO) {
+            forEach {
+                repo.loans(it.id, headers)
             }
         }
     }
@@ -108,14 +103,6 @@ class ClientViewModel @Inject constructor(
                         savingsAccounts.savingAccounts()
                         loans.loans()
                     }
-                when (outcome) {
-                    is Success -> {
-                        outcome.data?.apply {
-
-                        }
-                    }
-                    else -> {}
-                }
             }
         }
     }

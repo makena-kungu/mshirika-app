@@ -144,7 +144,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnClientItemClickList
         TODO("Not yet implemented")
     }
 
-    override fun LoanAccount.onLoanClicked() {
+    override fun onLoanClicked(loanAccount:LoanAccount) {
         SearchFragmentDirections.actionGlobalLoanRepaymentFragment().also {
             itemToDetailTransition(it)
         }

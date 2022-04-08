@@ -79,4 +79,6 @@
     <color name="textBalance">#2CA409</color>
     <color name="transparent">#00000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="bg_search_view">?cardBackgroundColor</color>
 </resources>

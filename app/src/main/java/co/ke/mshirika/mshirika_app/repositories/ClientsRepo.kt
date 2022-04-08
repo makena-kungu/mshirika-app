@@ -18,11 +18,9 @@ import co.ke.mshirika.mshirika_app.remote.utils.UnpackResponse.respond
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class ClientsRepo @Inject constructor(
-    private val clientsService: ClientsService,
+    private val service: ClientsService,
     private val searchService: SearchService
 ) {
     private val searchedClientList = mutableListOf<Client>()
@@ -53,7 +51,7 @@ class ClientsRepo @Inject constructor(
             pagingSourceFactory = {
                 ClientsPS(
                     authKey,
-                    clientsService
+                    service
                 )
             }
         ).flow
@@ -62,7 +60,7 @@ class ClientsRepo @Inject constructor(
         _accounts.value = Loading()
 
         respond {
-            clientsService.accounts(headers, clientId)
+            service.accounts(headers, clientId)
         }.also {
             _accounts.value = it
         }
@@ -70,7 +68,7 @@ class ClientsRepo @Inject constructor(
 
     suspend fun loans(loanId: Int, headers: Map<String, String>) {
         respond {
-            clientsService.loans(headers, loanId)
+            service.loans(headers, loanId)
         }.apply {
             if (this is Success) data?.let { loanAccounts += it }
             _loans.value = loanAccounts
@@ -103,7 +101,7 @@ class ClientsRepo @Inject constructor(
         when (entityType) {
             ENTITY_CLIENT ->
                 respond {
-                    clientsService.client(headers, entityId)
+                    service.client(headers, entityId)
                 }.apply {
                     clientOutcome()
                 }
@@ -124,9 +122,9 @@ class ClientsRepo @Inject constructor(
         }
     }
 
-    suspend fun transaction(accountId: Int, headers: Map<String, String>) {
+    suspend fun transactions(accountId: Int, headers: Map<String, String>) {
         respond {
-            clientsService.transactions(
+            service.transactions(
                 headers,
                 accountId
             )

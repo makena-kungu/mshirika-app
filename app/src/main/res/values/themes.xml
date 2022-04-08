@@ -40,6 +40,8 @@
         <item name="clientOutlinedButton">@style/Widget.Mshirika.Client.OutlinedButton</item>
         <item name="roundImage">@style/Widget.Mshirika.ImageView.Round</item>
         <item name="roundedImage">@style/Widget.Mshirika.ImageView.Rounded</item>
+        <item name="textInputEditText">@style/Widget.Mshirika.TextInputEditText</item>
+        <item name="textInputEditTextDate">@style/Widget.Mshirika.TextInputEditText.Date</item>
         <item name="transactionCardView">@style/Widget.Mshirika.Transaction.CardView</item>
         <item name="transactionTextView">@style/Widget.Mshirika.TextView.Style</item>
     </style>

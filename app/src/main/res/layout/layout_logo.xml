@@ -4,7 +4,6 @@
     android:layout_width="@dimen/logo_size"
     android:layout_height="@dimen/logo_size"
     android:layout_gravity="center_horizontal"
-    app:cardElevation="5dp"
     app:contentPadding="20dp"
     app:shapeAppearanceOverlay="?roundImage">
 

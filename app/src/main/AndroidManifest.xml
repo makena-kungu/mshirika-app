@@ -25,7 +25,7 @@
             android:name=".ui.auth.LauncherActivity"
             android:exported="true"
             android:label="@string/title_activity_launcher"
-            android:theme="@style/Theme.MshirikaApp.NoActionBar">
+            android:theme="@style/Theme.MshirikaApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

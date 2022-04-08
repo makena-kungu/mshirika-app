@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:paddingStart="0dp"
         android:paddingEnd="0dp"
-        app:layout_constraintWidth_percent=".67"
+        app:layout_constraintWidth_percent=".55"
         tools:ignore="RtlSymmetry">
 
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -23,16 +23,13 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/add_charge"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        style="?materialButtonOutlinedStyle"
         android:layout_width="0dp"
         android:layout_height="64dp"
         android:text="@string/add"
-        android:textColor="@color/purple"
         app:icon="@drawable/ic_round_add_24"
         app:iconGravity="textStart"
-        app:iconTint="@color/purple"
-        app:layout_constraintWidth_percent=".21"
-        app:shapeAppearanceOverlay="@style/ShapeAppearance.Mshirika.SmallComponent"
+        app:layout_constraintWidth_percent=".31"
         app:strokeWidth="1dp" />
 
     <TextView

@@ -23,8 +23,8 @@ class LoanRepaymentFragment : Fragment(R.layout.fragment_loan_repayment),OnLoanC
         }
     }
 
-    override fun LoanAccount.onLoanClicked() {
-
+    override fun onLoanClicked(loanAccount: LoanAccount) {
+        TODO("Not yet implemented")
     }
 
     override fun onDestroyView() {

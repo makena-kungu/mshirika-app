@@ -39,7 +39,6 @@ object Transitions {
             *sharedElements
         )
         findNavController().navigate(directions = dirs, navigatorExtras = extras)
-        TODO()
     }
 
     /**

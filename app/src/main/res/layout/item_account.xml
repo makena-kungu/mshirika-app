@@ -18,9 +18,7 @@
         android:gravity="center_vertical"
         android:fontFamily="@font/roboto_medium"
         android:textSize="16sp"
-        android:textColor="@color/primary_textColor"
         app:drawableEndCompat="@drawable/ic_round_navigate_next_24"
-        app:drawableTint="@color/primary_textColor"
         tools:drawableStartCompat="@drawable/ic_round_roofing_24"
         tools:text="Savings Account" />
 </layout>
