@@ -1,6 +1,6 @@
 package co.ke.mshirika.mshirika_app.di
 
-import co.ke.mshirika.mshirika_app.remote.services.SearchService
+import co.ke.mshirika.mshirika_app.remote.services.CentersService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -10,10 +10,11 @@ import retrofit2.Retrofit
 
 @Module
 @InstallIn(ViewModelComponent::class)
-object SearchModule {
+object CentersModule {
 
     @Provides
     @ViewModelScoped
-    fun provideSearchService(retrofit: Retrofit): SearchService =
-        retrofit.create(SearchService::class.java)
+    fun provideCentersService(retrofit: Retrofit): CentersService {
+        return retrofit.create(CentersService::class.java)
+    }
 }

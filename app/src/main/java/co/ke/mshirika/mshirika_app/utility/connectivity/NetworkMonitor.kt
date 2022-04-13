@@ -8,6 +8,7 @@ import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import android.net.NetworkRequest
 import android.os.Build
 import androidx.lifecycle.LiveData
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -17,7 +18,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class NetworkMonitor @Inject constructor(
-    context: Context
+    @ApplicationContext context: Context
 ) : LiveData<Boolean>() {
     //implement using the flow api
     private val cm = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager

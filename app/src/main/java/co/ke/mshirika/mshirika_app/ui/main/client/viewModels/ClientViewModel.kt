@@ -1,13 +1,13 @@
 package co.ke.mshirika.mshirika_app.ui.main.client.viewModels
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.ke.mshirika.mshirika_app.data.response.Client
 import co.ke.mshirika.mshirika_app.data.response.Loan
 import co.ke.mshirika.mshirika_app.data.response.SavingsAccount
-import co.ke.mshirika.mshirika_app.pagingSource.Util.headers
-import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Success
+import co.ke.mshirika.mshirika_app.remote.response.TransactionResponse
 import co.ke.mshirika.mshirika_app.repositories.ClientsRepo
+import co.ke.mshirika.mshirika_app.ui.util.MshirikaViewModel
+import co.ke.mshirika.mshirika_app.utility.Util.stateHandler
 import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.amt
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
@@ -20,20 +20,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ClientViewModel @Inject constructor(
-    private val repo: ClientsRepo,
-    private val authKey: String
-) : ViewModel() {
+    private val repo: ClientsRepo
+) : MshirikaViewModel() {
 
     private val _client = MutableStateFlow<Client?>(null)
     private val _totalSavings = MutableStateFlow<String?>(null)
 
     private val _accounts get() = repo.accounts
+    private val _transactions = MutableStateFlow<TransactionResponse?>(null)
     private val _loans
         get() = repo.loans
-
-    private val headers: Map<String, String> by lazy {
-        headers(authKey)
-    }
 
     //they are showing a snackbar
     val accounts
@@ -45,13 +41,13 @@ class ClientViewModel @Inject constructor(
     val totalSavings
         get() = _totalSavings.asStateFlow()
     val transactions
-        get() = repo.transactions
+        get() = _transactions.asStateFlow()
 
 
     fun reload() =
         viewModelScope.launch(IO) {
             client.collectLatest { client ->
-                client?.let { repo.accounts(it.id, headers) }
+                client?.let { repo.accounts(it.id) }
             }
         }
 
@@ -61,8 +57,8 @@ class ClientViewModel @Inject constructor(
             _client.value = client
             repo.apply {
                 client.apply {
-                    accounts(id, headers)
-                    loans(id, headers)
+                    accounts(id)
+                    loans(id)
                 }
             }
         }
@@ -79,8 +75,7 @@ class ClientViewModel @Inject constructor(
         }?.also {
             viewModelScope.launch(IO) {
                 repo.transactions(
-                    accountId = it.id,
-                    headers = headers
+                    accountId = it.id
                 )
             }
         }
@@ -89,21 +84,38 @@ class ClientViewModel @Inject constructor(
     private fun List<Loan>.loans() {
         viewModelScope.launch(IO) {
             forEach {
-                repo.loans(it.id, headers)
+                repo.loans(it.id)
+            }
+        }
+    }
+
+    private suspend fun handleAccounts() {
+        _accounts.collectLatest { outcome ->
+            outcome.stateHandler(this, {
+                data?.run {
+                    //do some calculations
+                    savingsAccounts.savingAccounts()
+                    loans.loans()
+                }
+            }, {
+            })
+        }
+    }
+
+    private suspend fun handleTransactions() {
+        repo.transactions.collectLatest { outcome ->
+            outcome.stateHandler(this) {
+                data?.let {
+                    _transactions.value = it
+                }
             }
         }
     }
 
     init {
         viewModelScope.launch(IO) {
-            _accounts.collectLatest { outcome ->
-                if (outcome is Success)
-                    outcome.data?.apply {
-                        //do some calculations
-                        savingsAccounts.savingAccounts()
-                        loans.loans()
-                    }
-            }
+            handleAccounts()
+            handleTransactions()
         }
     }
 }

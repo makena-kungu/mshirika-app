@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package co.ke.mshirika.mshirika_app.ui.main.group
 
 import androidx.lifecycle.SavedStateHandle
@@ -8,8 +10,8 @@ import androidx.paging.PagingData
 import co.ke.mshirika.mshirika_app.data.response.Group
 import co.ke.mshirika.mshirika_app.repositories.GroupsRepo
 import co.ke.mshirika.mshirika_app.ui.main.utils.State
-import co.ke.mshirika.mshirika_app.ui.main.utils.State.NORMAL
-import co.ke.mshirika.mshirika_app.ui.main.utils.State.SEARCHING
+import co.ke.mshirika.mshirika_app.ui.main.utils.State.Normal
+import co.ke.mshirika.mshirika_app.ui.main.utils.State.Searching
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -31,20 +33,16 @@ class GroupsViewModel @Inject constructor(
             SharingStarted.WhileSubscribed()
         ) as MutableSharedFlow
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    fun data(authKey: String): Flow<PagingData<Group>> = _state.flatMapLatest {
+    fun data(): Flow<PagingData<Group>> = _state.flatMapLatest {
         when (it) {
-            SEARCHING -> repo.searched
-            NORMAL -> repo.groups(authKey)
-            else -> {
-                emptyFlow()
-            }
+            Searching -> repo.searched
+            Normal -> repo.groups
         }
     }
 
-    fun search(query: String, authKey: String) {
+    fun search(query: String) {
         viewModelScope.launch(IO) {
-            repo.search(query, authKey)
+            repo.search(query)
         }
     }
 
@@ -59,6 +57,6 @@ class GroupsViewModel @Inject constructor(
 
     companion object {
         const val STATE = "thecurrentstate"
-        val DEFAULT = NORMAL
+        val DEFAULT: State = Normal
     }
 }

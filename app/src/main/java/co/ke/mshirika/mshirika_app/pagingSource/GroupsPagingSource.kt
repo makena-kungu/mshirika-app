@@ -3,22 +3,26 @@ package co.ke.mshirika.mshirika_app.pagingSource
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import co.ke.mshirika.mshirika_app.data.response.Group
-import co.ke.mshirika.mshirika_app.pagingSource.Util.headers
+import co.ke.mshirika.mshirika_app.pagingSource.Util.STARTING_PAGING_INDEX
 import co.ke.mshirika.mshirika_app.pagingSource.Util.loadResult
+import co.ke.mshirika.mshirika_app.pagingSource.Util.refreshKey
 import co.ke.mshirika.mshirika_app.remote.services.GroupsService
+import co.ke.mshirika.mshirika_app.utility.Util.headers
+import javax.inject.Inject
 
-class GroupsPS(private val authKey: String, private val groupsService: GroupsService) :
+class GroupsPagingSource
+@Inject constructor(
+    private val authKey: String,
+    private val service: GroupsService
+) :
     PagingSource<Int, Group>() {
-    override fun getRefreshKey(state: PagingState<Int, Group>): Int?  =
-        state.anchorPosition?.let {
-            state.closestPageToPosition(it)?.prevKey?.plus(1)
-                ?: state.closestPageToPosition(it)?.nextKey?.minus(1)
-        }
+    override fun getRefreshKey(state: PagingState<Int, Group>): Int? =
+        state.refreshKey
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Group> {
         val position = params.key ?: STARTING_PAGING_INDEX
 
-        return groupsService.groups(
+        return service.groups(
             headers = headers(authKey),
             page = position,
             pageSize = params.loadSize

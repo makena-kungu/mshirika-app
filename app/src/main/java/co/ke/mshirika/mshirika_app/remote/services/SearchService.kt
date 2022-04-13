@@ -1,7 +1,7 @@
 package co.ke.mshirika.mshirika_app.remote.services
 
-import co.ke.mshirika.mshirika_app.remote.utils.EndPoint
 import co.ke.mshirika.mshirika_app.remote.response.SearchResponse
+import co.ke.mshirika.mshirika_app.remote.utils.EndPoint
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.HeaderMap
@@ -16,4 +16,12 @@ interface SearchService {
         @Query("query") query: String,
         @Query("resource") resource: Array<String>
     ): Response<SearchResponse>
+
+    companion object {
+        val CLIENTS = arrayOf("clients")
+        val GROUPS = arrayOf("groups")
+        val CENTERS = arrayOf("centers")
+        val LOANS = arrayOf("LOANS")
+        val ALL = CLIENTS + GROUPS + CENTERS + LOANS
+    }
 }

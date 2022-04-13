@@ -116,7 +116,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnClientItemClickList
         )
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = with(adapter[position] as OnSearchListener) {
-                tag
+                title
             }
         }.attach()
     }

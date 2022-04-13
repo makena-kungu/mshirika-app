@@ -19,7 +19,8 @@ import co.ke.mshirika.mshirika_app.data.response.SavingsAccount
 import co.ke.mshirika.mshirika_app.data.response.Transaction
 import co.ke.mshirika.mshirika_app.databinding.ContentLoansAndTransactionsBinding
 import co.ke.mshirika.mshirika_app.databinding.FragmentClientBinding
-import co.ke.mshirika.mshirika_app.remote.utils.Outcome.*
+import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Error
+import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Loading
 import co.ke.mshirika.mshirika_app.remote.utils.Urls
 import co.ke.mshirika.mshirika_app.ui.main.client.adapters.LoanAccountsAdapter
 import co.ke.mshirika.mshirika_app.ui.main.client.adapters.LoanAccountsAdapter.LoanClickListener
@@ -43,7 +44,6 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 import kotlin.math.abs
 
 @AndroidEntryPoint
@@ -55,10 +55,6 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
 
     private val args by navArgs<ClientFragmentArgs>()
     private val viewModel by viewModels<ClientViewModel>()
-
-
-    @Inject
-    lateinit var authKey: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,8 +69,10 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
             setupAppBar()
             setupToolbar()
             lifecycleScope.launchWhenCreated {
-                setupLoans()
                 accounts()
+                errorState()
+                loadingState()
+                setupLoans()
                 loansAndTransactions.setupTransactions()
                 viewModel.totalSavings.collectLatest { it?.let(balance::setText) }
                 viewModel.client.collectLatest { it?.let(this@ClientFragment::loadImage) }
@@ -115,6 +113,22 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
             .transition(DrawableTransitionOptions.withCrossFade())
             .addListener(LoadImageListener())
             .into(binding.clientImage)
+    }
+
+    private suspend fun errorState() {
+        viewModel.errorState.collectLatest {
+            Snackbar.make(
+                binding.root,
+                it.text(requireContext()),
+                LENGTH_LONG
+            ).show()
+        }
+    }
+
+    private suspend fun loadingState() {
+        viewModel.loadingState.collectLatest {
+            binding.progressHorizontal.isVisible = it
+        }
     }
 
     private suspend fun FragmentClientBinding.accounts() {
@@ -160,14 +174,9 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
         val adapter = TransactionsAdapter(this@ClientFragment)
         transactions.setHasFixedSize(true)
         transactions.adapter = adapter
-        viewModel.transactions.collectLatest { outcome ->
-            when (outcome) {
-                is Success -> {
-                    outcome.data?.let {
-                        adapter.submitList(it.transactions)
-                    }
-                }
-                else -> {}
+        viewModel.transactions.collectLatest { response ->
+            response?.run {
+                adapter.submitList(transactions)
             }
         }
     }
@@ -239,6 +248,7 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
         private suspend fun FragmentClientBinding.loadBackupImage() {
             viewModel.client.collectLatest {
                 if (it == null) return@collectLatest
+
                 clientImage.visibility = INVISIBLE
                 clientImageError.apply {
                     isVisible = true

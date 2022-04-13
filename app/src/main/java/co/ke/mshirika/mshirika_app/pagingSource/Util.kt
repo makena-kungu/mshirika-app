@@ -1,23 +1,19 @@
 package co.ke.mshirika.mshirika_app.pagingSource
 
+import androidx.paging.PagingConfig
 import androidx.paging.PagingSource.LoadResult
-import co.ke.mshirika.mshirika_app.remote.utils.Feedback
+import androidx.paging.PagingState
 import co.ke.mshirika.mshirika_app.remote.services.ClientsService
+import co.ke.mshirika.mshirika_app.remote.utils.Feedback
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
 
-const val STARTING_PAGING_INDEX = 0
 
 object Util {
 
+    const val STARTING_PAGING_INDEX = 0
     private val clientsService: ClientsService? = null
-
-    suspend fun some() {
-        clientsService?.run {
-            clients(headers = mapOf(), page = 1, perPage = 0).loadResult(0)
-        }
-    }
 
     /**
      * An extension method to help convert a [Response] into a [LoadResult]
@@ -45,8 +41,15 @@ object Util {
         }
     }
 
-    fun headers(authKey: String) = mapOf(
-        "Fineract-Platform-TenantId" to "default",
-        "Authorization" to authKey
-    )
+    fun pagingConfig(
+        pageSize: Int = 20,
+        maxSize: Int = 60,
+        enablePlaceholders: Boolean = true
+    ) = PagingConfig(pageSize, maxSize, enablePlaceholders)
+
+    val <Value : Any> PagingState<Int, Value>.refreshKey: Int?
+        get() = anchorPosition?.let {
+            closestPageToPosition(it)?.prevKey?.plus(1)
+                ?: closestPageToPosition(it)?.nextKey?.minus(1)
+        }
 }

@@ -45,7 +45,7 @@ class GroupsFragment : Fragment(R.layout.fragment_groups), SearchView.OnQueryTex
         val adapter = GroupsAdapter(this@GroupsFragment)
         groups.adapter = adapter
         DataStore(requireContext()).authKey.collectLatest { authKey ->
-            viewModel.data(authKey).collectLatest {
+            viewModel.data().collectLatest {
                 adapter.submitData(viewLifecycleOwner.lifecycle, it)
             }
         }
@@ -68,7 +68,7 @@ class GroupsFragment : Fragment(R.layout.fragment_groups), SearchView.OnQueryTex
         return if (!query.isNullOrBlank()) {
             lifecycleScope.launchWhenCreated {
                 DataStore(requireContext()).authKey.collectLatest {
-                    viewModel.search(query, it)
+                    viewModel.search(query)
                 }
             }
             false
@@ -79,7 +79,7 @@ class GroupsFragment : Fragment(R.layout.fragment_groups), SearchView.OnQueryTex
     override fun onQueryTextChange(newText: String?): Boolean {
         newText?.let {
             if (it.isNotBlank()) {
-                viewModel.state(State.SEARCHING)
+                viewModel.state(State.Searching)
             }
         }
         return true

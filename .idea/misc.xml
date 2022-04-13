@@ -7,6 +7,7 @@
         <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/content_loans_and_transactions.xml" value="0.22" />
         <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/fragment_client.xml" value="0.21" />
+        <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/fragment_clients.xml" value="0.17481884057971014" />
         <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/fragment_deposit.xml" value="0.22" />
         <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/fragment_home.xml" value="0.18" />
         <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/fragment_loans.xml" value="0.17481884057971014" />
@@ -111,6 +112,27 @@
         <entry key="..\:/Users/edkun/AppData/Local/Android/Sdk/platforms/android-31/data/res/layout/simple_selectable_list_item.xml" value="0.12894736842105264" />
       </map>
     </option>
+  </component>
+  <component name="EntryPointsManager">
+    <list size="17">
+      <item index="0" class="java.lang.String" itemvalue="dagger.Module" />
+      <item index="1" class="java.lang.String" itemvalue="dagger.Module" />
+      <item index="2" class="java.lang.String" itemvalue="dagger.Module" />
+      <item index="3" class="java.lang.String" itemvalue="dagger.Module" />
+      <item index="4" class="java.lang.String" itemvalue="dagger.Module" />
+      <item index="5" class="java.lang.String" itemvalue="dagger.Module" />
+      <item index="6" class="java.lang.String" itemvalue="dagger.Module" />
+      <item index="7" class="java.lang.String" itemvalue="dagger.Module" />
+      <item index="8" class="java.lang.String" itemvalue="dagger.Provides" />
+      <item index="9" class="java.lang.String" itemvalue="dagger.Provides" />
+      <item index="10" class="java.lang.String" itemvalue="dagger.Provides" />
+      <item index="11" class="java.lang.String" itemvalue="dagger.Provides" />
+      <item index="12" class="java.lang.String" itemvalue="dagger.Provides" />
+      <item index="13" class="java.lang.String" itemvalue="dagger.Provides" />
+      <item index="14" class="java.lang.String" itemvalue="dagger.Provides" />
+      <item index="15" class="java.lang.String" itemvalue="dagger.Provides" />
+      <item index="16" class="java.lang.String" itemvalue="dagger.Provides" />
+    </list>
   </component>
   <component name="FindBugsConfigurable">
     <option name="make" value="true" />

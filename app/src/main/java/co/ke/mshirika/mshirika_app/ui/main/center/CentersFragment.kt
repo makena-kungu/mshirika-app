@@ -3,31 +3,27 @@ package co.ke.mshirika.mshirika_app.ui.main.center
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.data.response.Center
 import co.ke.mshirika.mshirika_app.databinding.FragmentCentersBinding
 import co.ke.mshirika.mshirika_app.ui.main.utils.State
 import co.ke.mshirika.mshirika_app.ui.search.OnSearchListener
+import co.ke.mshirika.mshirika_app.ui.util.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui.util.Transitions.itemToDetailReentry
 import co.ke.mshirika.mshirika_app.ui.util.Transitions.itemToDetailTransition
-import co.ke.mshirika.mshirika_app.utility.DataStore
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
-class CentersFragment : Fragment(R.layout.fragment_centers), SearchView.OnQueryTextListener,
+class CentersFragment : MshirikaFragment<FragmentCentersBinding>(R.layout.fragment_centers), SearchView.OnQueryTextListener,
     OnCenterClickListener,
     OnSearchListener {
 
-    private var _binding: FragmentCentersBinding? = null
-    private val binding: FragmentCentersBinding get() = _binding!!
     private val viewModel by viewModels<CentersViewModel>()
-    private val lifecycleScope get() = viewLifecycleOwner.lifecycleScope
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +33,6 @@ class CentersFragment : Fragment(R.layout.fragment_centers), SearchView.OnQueryT
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         itemToDetailReentry(view)
-        _binding = FragmentCentersBinding.bind(view)
 
         lifecycleScope.launchWhenCreated {
             binding.setupRecyclerView()
@@ -47,10 +42,8 @@ class CentersFragment : Fragment(R.layout.fragment_centers), SearchView.OnQueryT
     private suspend fun FragmentCentersBinding.setupRecyclerView() {
         val adapter = CentersAdapter(this@CentersFragment)
         centers.adapter = adapter
-        DataStore(requireContext()).authKey.collectLatest { authKey ->
-            viewModel.data(authKey).collectLatest {
-                adapter.submitData(viewLifecycleOwner.lifecycle, it)
-            }
+        viewModel.data.collectLatest {
+            adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
     }
 
@@ -62,17 +55,14 @@ class CentersFragment : Fragment(R.layout.fragment_centers), SearchView.OnQueryT
         searchView.setOnQueryTextListener(this)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        return false
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         return if (!query.isNullOrBlank()) {
             lifecycleScope.launchWhenCreated {
-                DataStore(requireContext()).authKey.collectLatest {
-                    viewModel.search(query, it)
-                }
+                viewModel.search(query)
             }
             false
         } else
@@ -82,7 +72,7 @@ class CentersFragment : Fragment(R.layout.fragment_centers), SearchView.OnQueryT
     override fun onQueryTextChange(newText: String?): Boolean {
         newText?.let {
             if (it.isNotBlank()) {
-                viewModel.state(State.SEARCHING)
+                viewModel.state(State.Searching)
             }
         }
         return true

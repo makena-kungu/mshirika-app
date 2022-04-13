@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import co.ke.mshirika.mshirika_app.ui.MainViewModel
+import co.ke.mshirika.mshirika_app.utility.Util.headers
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,8 +18,16 @@ object MainActivityModule {
 
     @Provides
     @ActivityScoped
-    fun provideAuthKey(@ActivityContext context: Context):String {
+    fun provideAuthKey(@ActivityContext context: Context): String {
         val viewModel = ViewModelProvider(context as FragmentActivity)[MainViewModel::class.java]
         return viewModel.key
+    }
+
+    @Provides
+    @ActivityScoped
+    fun provideHeaderMap(
+        authKey: String
+    ): Map<String, String> {
+        return headers(authKey)
     }
 }

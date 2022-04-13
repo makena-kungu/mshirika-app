@@ -1,7 +1,6 @@
 package co.ke.mshirika.mshirika_app.remote.utils
 
 import co.ke.mshirika.mshirika_app.remote.utils.DeveloperMessages.LOGIN
-import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Companion.error
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Success
 import okhttp3.ResponseBody
 import org.json.JSONObject

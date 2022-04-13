@@ -38,7 +38,7 @@ class SearchViewModel @Inject constructor(
         _query.switchMap { query ->
             authKey?.also { authKey ->
                 viewModelScope.launch(IO) {
-                    repo.search(authKey, query)
+                    repo.search(query)
                 }
             }
             mld<Nothing>()

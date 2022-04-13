@@ -3,21 +3,22 @@ package co.ke.mshirika.mshirika_app.pagingSource
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import co.ke.mshirika.mshirika_app.data.response.Center
-import co.ke.mshirika.mshirika_app.pagingSource.Util.headers
+import co.ke.mshirika.mshirika_app.pagingSource.Util.STARTING_PAGING_INDEX
 import co.ke.mshirika.mshirika_app.pagingSource.Util.loadResult
+import co.ke.mshirika.mshirika_app.pagingSource.Util.refreshKey
 import co.ke.mshirika.mshirika_app.remote.services.CentersService
+import co.ke.mshirika.mshirika_app.utility.Util.headers
+import javax.inject.Inject
 
-class CentersPS(
+class CentersPagingSource
+@Inject constructor(
     private val authKey: String,
-    private val centersService: CentersService
+    private val service: CentersService
 ) :
     PagingSource<Int, Center>() {
 
     override fun getRefreshKey(state: PagingState<Int, Center>): Int? =
-        state.anchorPosition?.let {
-            state.closestPageToPosition(it)?.prevKey?.plus(1)
-                ?: state.closestPageToPosition(it)?.nextKey?.minus(1)
-        }
+        state.refreshKey
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Center> {
         val position = params.key ?: STARTING_PAGING_INDEX
@@ -28,13 +29,12 @@ class CentersPS(
         )
     }
 
-
     private suspend fun centers(
         headers: Map<String, String>,
         page: Int,
         pageSize: Int
     ): LoadResult<Int, Center> {
-        return centersService.centers(
+        return service.centers(
             headers = headers,
             page = page,
             pageSize = pageSize

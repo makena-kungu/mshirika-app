@@ -1,19 +1,10 @@
 package co.ke.mshirika.mshirika_app.di
 
-import android.app.Activity
-import android.content.Context
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModelProvider
-import co.ke.mshirika.mshirika_app.utility.DataStore
 import co.ke.mshirika.mshirika_app.remote.utils.Urls.BASE_URL
-import co.ke.mshirika.mshirika_app.ui.MainViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ActivityContext
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.flow.Flow
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -44,8 +35,4 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-
-    @Provides
-    @Singleton
-    fun provideContext(@ApplicationContext context: Context): Context = context
 }

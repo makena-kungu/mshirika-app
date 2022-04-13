@@ -1,27 +1,32 @@
 package co.ke.mshirika.mshirika_app.repositories
 
 import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import co.ke.mshirika.mshirika_app.data.response.Client
 import co.ke.mshirika.mshirika_app.data.response.LoanAccount
 import co.ke.mshirika.mshirika_app.data.response.Search
 import co.ke.mshirika.mshirika_app.data.response.Search.Companion.ENTITY_CLIENT
-import co.ke.mshirika.mshirika_app.pagingSource.ClientsPS
+import co.ke.mshirika.mshirika_app.pagingSource.ClientsPagingSource
+import co.ke.mshirika.mshirika_app.pagingSource.Util.pagingConfig
 import co.ke.mshirika.mshirika_app.remote.response.AccountsResponse
 import co.ke.mshirika.mshirika_app.remote.response.TransactionResponse
 import co.ke.mshirika.mshirika_app.remote.services.ClientsService
+import co.ke.mshirika.mshirika_app.remote.services.LoansService
 import co.ke.mshirika.mshirika_app.remote.services.SearchService
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome.*
 import co.ke.mshirika.mshirika_app.remote.utils.UnpackResponse.respond
+import co.ke.mshirika.mshirika_app.utility.Util.headers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 class ClientsRepo @Inject constructor(
+    private val authKey:String,
     private val service: ClientsService,
-    private val searchService: SearchService
+    private val loansService: LoansService,
+    private val searchService: SearchService,
+    private val pagingSource: ClientsPagingSource
 ) {
     private val searchedClientList = mutableListOf<Client>()
     private val loanAccounts = mutableListOf<LoanAccount>()
@@ -39,24 +44,18 @@ class ClientsRepo @Inject constructor(
         get() = _searchedClients.asStateFlow()
     val transactions
         get() = _transactions.asStateFlow()
+    val headers by lazy {
+        headers(authKey)
+    }
 
 
-    fun clients(authKey: String) =
-        Pager(
-            config = PagingConfig(
-                pageSize = 30,
-                maxSize = 100,
-                enablePlaceholders = true
-            ),
-            pagingSourceFactory = {
-                ClientsPS(
-                    authKey,
-                    service
-                )
-            }
+    val clients
+        get() = Pager(
+            config = pagingConfig(),
+            pagingSourceFactory = { pagingSource }
         ).flow
 
-    suspend fun accounts(clientId: Int, headers: Map<String, String>) {
+    suspend fun accounts(clientId: Int) {
         _accounts.value = Loading()
 
         respond {
@@ -66,16 +65,19 @@ class ClientsRepo @Inject constructor(
         }
     }
 
-    suspend fun loans(loanId: Int, headers: Map<String, String>) {
+    suspend fun loans(loanId: Int) {
         respond {
-            service.loans(headers, loanId)
+            loansService.loan(
+                headers,
+                loanId
+            )
         }.apply {
             if (this is Success) data?.let { loanAccounts += it }
             _loans.value = loanAccounts
         }
     }
 
-    suspend fun search(query: String, headers: Map<String, String>) {
+    suspend fun search(query: String) {
         _searchedClients.value = Loading()
 
         respond {
@@ -83,7 +85,7 @@ class ClientsRepo @Inject constructor(
                 headers,
                 false,
                 query,
-                arrayOf("clients")
+                SearchService.CLIENTS
             )
         }.also { outcome ->
             when (outcome) {
@@ -122,7 +124,7 @@ class ClientsRepo @Inject constructor(
         }
     }
 
-    suspend fun transactions(accountId: Int, headers: Map<String, String>) {
+    suspend fun transactions(accountId: Int) {
         respond {
             service.transactions(
                 headers,

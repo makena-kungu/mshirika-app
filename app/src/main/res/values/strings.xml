@@ -160,7 +160,7 @@
     <string name="search_icon">Search Icon</string>
     <string name="center">Center</string>
     <string name="group">Group</string>
-    <string name="make_repayment">Make Repayment</string>
+    <string name="make_repayment">Repay</string>
     <string name="repayment_date">Repayment Date (dd/MM/yyyy)</string>
     <string name="transactions">Transactions</string>
     <string name="balance">balance</string>

@@ -1,15 +1,17 @@
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package co.ke.mshirika.mshirika_app.ui.main.center
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import co.ke.mshirika.mshirika_app.data.response.Center
 import co.ke.mshirika.mshirika_app.repositories.CentersRepo
 import co.ke.mshirika.mshirika_app.ui.main.utils.State
-import co.ke.mshirika.mshirika_app.ui.main.utils.State.NORMAL
-import co.ke.mshirika.mshirika_app.ui.main.utils.State.SEARCHING
+import co.ke.mshirika.mshirika_app.ui.main.utils.State.Normal
+import co.ke.mshirika.mshirika_app.ui.main.utils.State.Searching
+import co.ke.mshirika.mshirika_app.ui.util.MshirikaViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -21,7 +23,7 @@ import javax.inject.Inject
 class CentersViewModel @Inject constructor(
     private val repo: CentersRepo,
     stateHandle: SavedStateHandle
-) : ViewModel() {
+) : MshirikaViewModel() {
 
     private val _state = stateHandle
         .getLiveData(STATE, DEFAULT)
@@ -30,21 +32,19 @@ class CentersViewModel @Inject constructor(
             viewModelScope,
             SharingStarted.WhileSubscribed()
         ) as MutableSharedFlow
+    private val searched = repo.searched
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    fun data(authKey: String): Flow<PagingData<Center>> = _state.flatMapLatest {
-        when (it) {
-            SEARCHING -> repo.searched
-            NORMAL -> repo.groups(authKey)
-            else -> {
-                emptyFlow()
+    val data: Flow<PagingData<Center>>
+        get() = _state.flatMapLatest {
+            when (it) {
+                is Searching -> searched
+                else -> repo.centers.stateIn(viewModelScope)
             }
         }
-    }
 
-    fun search(query: String, authKey: String) {
+    fun search(query: String) {
         viewModelScope.launch(IO) {
-            repo.search(query, authKey)
+            repo.search(query)
         }
     }
 
@@ -58,7 +58,7 @@ class CentersViewModel @Inject constructor(
     }
 
     companion object {
-        const val STATE = "thecurrentstate"
-        val DEFAULT = NORMAL
+        const val STATE = "the_current_state"
+        val DEFAULT: State = Normal
     }
 }

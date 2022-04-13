@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import co.ke.mshirika.mshirika_app.data.response.Account
 import co.ke.mshirika.mshirika_app.databinding.ItemAccountBinding
 
-class AccountsAdapter() : ListAdapter<Account, AccountsAdapter.AccountsViewHolder>(Account) {
+class AccountsAdapter : ListAdapter<Account, AccountsAdapter.AccountsViewHolder>(Account) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         AccountsViewHolder(
@@ -23,10 +23,6 @@ class AccountsAdapter() : ListAdapter<Account, AccountsAdapter.AccountsViewHolde
     }
 
     inner class AccountsViewHolder(binding: ItemAccountBinding) : ViewHolder(binding.root) {
-
-        init {
-
-        }
 
         fun click() {
 

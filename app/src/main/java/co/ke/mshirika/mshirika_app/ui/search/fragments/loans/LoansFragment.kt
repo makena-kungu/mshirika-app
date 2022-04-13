@@ -7,9 +7,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.databinding.FragmentSearchFragsBinding
+import co.ke.mshirika.mshirika_app.ui.loans.LoansAdapter
 import co.ke.mshirika.mshirika_app.ui.loans.OnLoanClickListener
-import co.ke.mshirika.mshirika_app.ui.main.group.GroupsAdapter
-import co.ke.mshirika.mshirika_app.ui.main.group.OnGroupClickListener
 import co.ke.mshirika.mshirika_app.ui.search.OnSearchListener
 import co.ke.mshirika.mshirika_app.ui.search.SearchViewModel
 import kotlinx.coroutines.flow.collectLatest

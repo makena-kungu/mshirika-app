@@ -2,7 +2,6 @@ package co.ke.mshirika.mshirika_app.repositories
 
 import co.ke.mshirika.mshirika_app.data.request.Login
 import co.ke.mshirika.mshirika_app.data.response.Staff
-import co.ke.mshirika.mshirika_app.remote.utils.UnpackResponse
 import co.ke.mshirika.mshirika_app.remote.services.AuthService
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Empty

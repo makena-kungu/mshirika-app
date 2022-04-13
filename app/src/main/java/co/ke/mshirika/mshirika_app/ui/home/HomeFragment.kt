@@ -60,6 +60,5 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         _binding = null
     }
 
-    companion object {
-    }
+    companion object
 }

@@ -10,11 +10,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import javax.inject.Inject
 
 /**
  *
  */
-abstract class CustomFragment<B>(@LayoutRes contentLayoutId: Int) : Fragment(contentLayoutId),
+abstract class MshirikaFragment<B>(@LayoutRes contentLayoutId: Int) :
+    Fragment(contentLayoutId),
     OnMenuItemClickListener {
 
     private var _binding: B? = null
@@ -22,16 +24,14 @@ abstract class CustomFragment<B>(@LayoutRes contentLayoutId: Int) : Fragment(con
     val binding get() = _binding!!
     val lifecycleScope get() = viewLifecycleOwner.lifecycleScope
 
-    open val toolbar: Toolbar? = null
+    @Inject
+    lateinit var authKey: String
 
+    open val toolbar: Toolbar? = null
     open val toolbarTitle: String? = null
 
     @MenuRes
     open val resId: Int? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,7 +47,7 @@ abstract class CustomFragment<B>(@LayoutRes contentLayoutId: Int) : Fragment(con
         resId?.let {
             setHasOptionsMenu(true)
             inflateMenu(it)
-            setOnMenuItemClickListener(this@CustomFragment)
+            setOnMenuItemClickListener(this@MshirikaFragment)
         }
         toolbarTitle?.let { title = it }
 

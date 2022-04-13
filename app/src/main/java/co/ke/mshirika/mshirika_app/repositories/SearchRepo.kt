@@ -2,28 +2,26 @@ package co.ke.mshirika.mshirika_app.repositories
 
 import androidx.paging.PagingData
 import co.ke.mshirika.mshirika_app.data.response.*
-import co.ke.mshirika.mshirika_app.pagingSource.Util.headers
 import co.ke.mshirika.mshirika_app.remote.response.SearchResponse
-import co.ke.mshirika.mshirika_app.remote.utils.UnpackResponse.respond
 import co.ke.mshirika.mshirika_app.remote.services.ClientsService
 import co.ke.mshirika.mshirika_app.remote.services.GroupsService
 import co.ke.mshirika.mshirika_app.remote.services.SearchService
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Success
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
+import co.ke.mshirika.mshirika_app.remote.utils.UnpackResponse.respond
+import co.ke.mshirika.mshirika_app.utility.Util.headers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SearchRepo @Inject constructor(
+    authKey: String,
     private val searchService: SearchService,
     private val clientsService: ClientsService,
     private val groupsService: GroupsService
 ) {
 
-    private lateinit var headers: Map<String, String>
+    private val headers: Map<String, String> = headers(authKey)
 
     private val clientsList = mutableListOf<Client>()
     private val groupsList = mutableListOf<Group>()
@@ -39,8 +37,7 @@ class SearchRepo @Inject constructor(
     val groups = _groups.asStateFlow()
     val loans = _loans.asStateFlow()
 
-    suspend fun search(authKey: String, query: String) {
-        headers = headers(authKey)
+    suspend fun search(query: String) {
         searchClients(query)
         searchLoans(query)
         searchGroups(query)
@@ -51,7 +48,7 @@ class SearchRepo @Inject constructor(
             searchService.search(
                 map = headers,
                 query = query,
-                resource = arrayOf("clients")
+                resource = SearchService.CLIENTS
             )
         }.also {
             execute(it) { clientRespondent() }
@@ -63,7 +60,7 @@ class SearchRepo @Inject constructor(
             searchService.search(
                 map = headers,
                 query = query,
-                resource = arrayOf("groups")
+                resource = SearchService.GROUPS
             )
         }.also { execute(it) { groupRespondent() } }
     }
@@ -73,7 +70,7 @@ class SearchRepo @Inject constructor(
             searchService.search(
                 map = headers,
                 query = query,
-                resource = arrayOf("loans")
+                resource = SearchService.LOANS
             )
         }.also { execute(it) { loanRespondent() } }
     }
