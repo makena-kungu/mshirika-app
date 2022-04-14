@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.main.client.ClientFragment">
+    tools:context=".ui.main.clients.ClientFragment">
 
     <data>
 
         <variable
             name="fragment"
-            type="co.ke.mshirika.mshirika_app.ui.main.client.ClientFragment" />
+            type="co.ke.mshirika.mshirika_app.ui.main.clients.ClientFragment" />
     </data>
 
     <FrameLayout

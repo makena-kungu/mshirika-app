@@ -1,4 +1,4 @@
-package co.ke.mshirika.mshirika_app.ui.main.client.viewModels
+package co.ke.mshirika.mshirika_app.ui.main.clients.viewModels
 
 import androidx.lifecycle.viewModelScope
 import co.ke.mshirika.mshirika_app.data.response.Client
@@ -7,8 +7,7 @@ import co.ke.mshirika.mshirika_app.data.response.SavingsAccount
 import co.ke.mshirika.mshirika_app.remote.response.TransactionResponse
 import co.ke.mshirika.mshirika_app.repositories.ClientsRepo
 import co.ke.mshirika.mshirika_app.ui.util.MshirikaViewModel
-import co.ke.mshirika.mshirika_app.utility.Util.stateHandler
-import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.amt
+import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.amt
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -91,20 +90,21 @@ class ClientViewModel @Inject constructor(
 
     private suspend fun handleAccounts() {
         _accounts.collectLatest { outcome ->
-            outcome.stateHandler(this, {
+            outcome.stateHandlerWithAction( "Retry", success = {
                 data?.run {
                     //do some calculations
                     savingsAccounts.savingAccounts()
                     loans.loans()
                 }
-            }, {
-            })
+            }) {
+                reload()
+            }
         }
     }
 
     private suspend fun handleTransactions() {
         repo.transactions.collectLatest { outcome ->
-            outcome.stateHandler(this) {
+            outcome.stateHandler {
                 data?.let {
                     _transactions.value = it
                 }

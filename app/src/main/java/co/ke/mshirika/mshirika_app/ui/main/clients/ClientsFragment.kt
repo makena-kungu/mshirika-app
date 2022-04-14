@@ -1,4 +1,4 @@
-package co.ke.mshirika.mshirika_app.ui.main.client
+package co.ke.mshirika.mshirika_app.ui.main.clients
 
 import android.os.Bundle
 import android.view.Menu
@@ -13,8 +13,8 @@ import androidx.paging.LoadState
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.data.response.Client
 import co.ke.mshirika.mshirika_app.databinding.FragmentClientsBinding
-import co.ke.mshirika.mshirika_app.ui.main.client.adapters.ClientsAdapter
-import co.ke.mshirika.mshirika_app.ui.main.client.viewModels.ClientsViewModel
+import co.ke.mshirika.mshirika_app.ui.main.clients.adapters.ClientsAdapter
+import co.ke.mshirika.mshirika_app.ui.main.clients.viewModels.ClientsViewModel
 import co.ke.mshirika.mshirika_app.ui.main.utils.State.Normal
 import co.ke.mshirika.mshirika_app.ui.main.utils.State.Searching
 import co.ke.mshirika.mshirika_app.ui.util.Transitions.itemToDetailTransition

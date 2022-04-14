@@ -10,11 +10,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 /**
  *
  */
+@AndroidEntryPoint
 abstract class MshirikaFragment<B>(@LayoutRes contentLayoutId: Int) :
     Fragment(contentLayoutId),
     OnMenuItemClickListener {

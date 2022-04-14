@@ -30,7 +30,7 @@
                 tools:srcCompat="@drawable/ic_charge" />
 
             <TextView
-                android:id="@+id/loan_product_name_"
+                android:id="@+id/loan_loan_product_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"

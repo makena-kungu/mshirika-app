@@ -56,7 +56,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/loan_client_name"
                 app:shapeAppearanceOverlay="?roundedImage"
-                tools:src="@tools:sample/avatars" />
+                tools:src="@tools:sample/avatars"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/loan_client_name"

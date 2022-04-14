@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalCoroutinesApi::class)
 
-package co.ke.mshirika.mshirika_app.ui.main.client.viewModels
+package co.ke.mshirika.mshirika_app.ui.main.clients.viewModels
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow
@@ -14,7 +14,6 @@ import co.ke.mshirika.mshirika_app.ui.main.utils.State
 import co.ke.mshirika.mshirika_app.ui.main.utils.State.Normal
 import co.ke.mshirika.mshirika_app.ui.main.utils.State.Searching
 import co.ke.mshirika.mshirika_app.ui.util.MshirikaViewModel
-import co.ke.mshirika.mshirika_app.utility.Util.stateHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
@@ -68,7 +67,7 @@ class ClientsViewModel @Inject constructor(
 
     private suspend fun handleSearchedClients() {
         searchedClients.collectLatest { outcome ->
-            outcome.stateHandler(this@ClientsViewModel) {
+            outcome.stateHandler {
                 data?.let {
                     _filteredClients.value = it
                 }

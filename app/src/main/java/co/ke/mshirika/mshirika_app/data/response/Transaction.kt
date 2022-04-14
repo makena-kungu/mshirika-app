@@ -1,11 +1,13 @@
 package co.ke.mshirika.mshirika_app.data.response
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import androidx.recyclerview.widget.DiffUtil
 import co.ke.mshirika.mshirika_app.data.response.common.Currency
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
+@Keep
 data class Transaction(
     val accountId: Int,
     val accountNo: String,
@@ -24,6 +26,7 @@ data class Transaction(
 ) : Parcelable {
 
     @Parcelize
+    @Keep
     data class PaymentDetailData(
         val accountNumber: String,
         val bankNumber: String,
@@ -36,6 +39,7 @@ data class Transaction(
     ) : Parcelable {
 
         @Parcelize
+        @Keep
         data class PaymentType(
             val id: Int,
             val name: String
@@ -43,6 +47,7 @@ data class Transaction(
     }
 
     @Parcelize
+    @Keep
     data class TransactionType(
         val amountHold: Boolean,
         val amountRelease: Boolean,
@@ -66,6 +71,7 @@ data class Transaction(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class Transfer(
         val currency: Currency,
         val id: Int,

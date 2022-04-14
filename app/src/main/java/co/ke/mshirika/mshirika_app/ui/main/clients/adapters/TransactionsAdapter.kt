@@ -1,4 +1,4 @@
-package co.ke.mshirika.mshirika_app.ui.main.client.adapters
+package co.ke.mshirika.mshirika_app.ui.main.clients.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.data.response.Transaction
 import co.ke.mshirika.mshirika_app.databinding.ItemTransactionBinding
-import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.amt
-import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.mediumDate
+import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.amt
+import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.mediumDate
 
 class TransactionsAdapter(private val listener: OnTransactionsItemClickListener) :
     ListAdapter<Transaction, TransactionsAdapter.TransactionsViewHolder>(Transaction) {

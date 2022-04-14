@@ -14,7 +14,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
     private var _key:String? = null
     val netState = _netState.asSharedFlow()
 
-    fun updateKey(key:String) {
+    fun setKey(key:String) {
         _key =  key
     }
 

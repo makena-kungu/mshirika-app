@@ -3,21 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".ui.search.SearchFragment">
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:strokeWidth="0dp"
-        android:background="@color/transparent"
-        android:transitionName="@string/search_fragment_card"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="0dp">
+        style="?backgroundCardView"
+        android:transitionName="@string/search_fragment_card">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".ui.search.SearchFragment">
+            android:layout_height="match_parent">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
@@ -32,10 +27,10 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/search_layout"
-                        android:layout_width="match_parent"
-                        app:boxStrokeWidth="0dp"
                         style="@style/Widget.Material3.TextInputLayout.FilledBox"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:boxStrokeWidth="0dp"
                         app:endIconMode="clear_text"
                         app:hintAnimationEnabled="false"
                         app:hintEnabled="false"
@@ -47,8 +42,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
-                            android:hint="@string/search"
                             android:gravity="center_vertical"
+                            android:hint="@string/search"
                             android:imeOptions="actionSearch"
                             android:inputType="text"
                             android:maxLines="1"

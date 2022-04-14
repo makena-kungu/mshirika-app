@@ -5,6 +5,7 @@ import co.ke.mshirika.mshirika_app.data.response.*
 import co.ke.mshirika.mshirika_app.remote.response.SearchResponse
 import co.ke.mshirika.mshirika_app.remote.services.ClientsService
 import co.ke.mshirika.mshirika_app.remote.services.GroupsService
+import co.ke.mshirika.mshirika_app.remote.services.LoansService
 import co.ke.mshirika.mshirika_app.remote.services.SearchService
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Success
@@ -18,19 +19,20 @@ class SearchRepo @Inject constructor(
     authKey: String,
     private val searchService: SearchService,
     private val clientsService: ClientsService,
-    private val groupsService: GroupsService
+    private val groupsService: GroupsService,
+    private val loansService: LoansService
 ) {
 
     private val headers: Map<String, String> = headers(authKey)
 
     private val clientsList = mutableListOf<Client>()
     private val groupsList = mutableListOf<Group>()
-    private val loansList = mutableListOf<Loan>()
+    private val loansList = mutableListOf<LoanAccount>()
 
     private val _centers = MutableStateFlow<PagingData<Center>>(PagingData.empty())
     private val _clients = MutableStateFlow<PagingData<Client>>(PagingData.empty())
     private val _groups = MutableStateFlow<PagingData<Group>>(PagingData.empty())
-    private val _loans = MutableStateFlow<PagingData<Loan>>(PagingData.empty())
+    private val _loans = MutableStateFlow<PagingData<LoanAccount>>(PagingData.empty())
 
     val centers = _centers.asStateFlow()
     val clients = _clients.asStateFlow()
@@ -103,7 +105,8 @@ class SearchRepo @Inject constructor(
 
     private suspend fun Search.loanRespondent() {
         respond {
-            clientsService.account(headers, entityId)
+            //clientsService.account(headers, entityId)
+            loansService.loan(headers, entityId)
         }.also { result ->
             if (result is Success) {
                 result.data?.let {

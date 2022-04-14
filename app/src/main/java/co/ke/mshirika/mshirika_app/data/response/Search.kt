@@ -2,9 +2,11 @@ package co.ke.mshirika.mshirika_app.data.response
 
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
+@Keep
 data class Search(
     val entityAccountNo: String,
     val entityExternalId: String,
@@ -20,6 +22,7 @@ data class Search(
 ) : Parcelable {
 
     @Parcelize
+    @Keep
     data class EntityStatus(
         val code: String,
         val id: Int,

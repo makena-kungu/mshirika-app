@@ -41,7 +41,7 @@
                 tools:src="@tools:sample/avatars" />
 
             <TextView
-                android:id="@+id/loan_product_name_"
+                android:id="@+id/loan_loan_product_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{loan.productName}"
@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:constraint_referenced_ids="client_name,loan_client_image,loan_product_name_,loan_details2,make_loan_repayment"
+                app:constraint_referenced_ids="client_name,loan_client_image,loan_loan_product_name,loan_details2,make_loan_repayment"
                 app:flow_lastHorizontalBias="1"
                 app:flow_lastHorizontalStyle="spread_inside"
                 app:flow_maxElementsWrap="2"

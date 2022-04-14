@@ -5,9 +5,11 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.data.response.LoanAccount
 import co.ke.mshirika.mshirika_app.databinding.FragmentLoansBinding
+import co.ke.mshirika.mshirika_app.ui.loans.LoansFragmentDirections.Companion.actionGlobalLoanRepaymentFragment
 import co.ke.mshirika.mshirika_app.ui.util.DetailsFragment
 import kotlinx.coroutines.flow.collectLatest
 
@@ -42,6 +44,18 @@ class LoansFragment : DetailsFragment<FragmentLoansBinding>(R.layout.fragment_lo
     }
 
     override fun onLoanClicked(loanAccount: LoanAccount) {
-        TODO("Not yet implemented")
+
+    }
+
+    override fun onLoanRepayClicked(
+        loanAccount: LoanAccount,
+        position: Int,
+        container: View
+    ): Boolean {
+        viewModel.setLoanAccount(loanAccount)
+        actionGlobalLoanRepaymentFragment().also {
+            findNavController().navigate(it)
+        }
+        return true
     }
 }

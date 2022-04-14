@@ -27,11 +27,11 @@ import androidx.transition.TransitionManager.beginDelayedTransition
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.databinding.ActivityMainBinding
 import co.ke.mshirika.mshirika_app.ui.util.OnFragmentsAttach
+import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.findNavigationController
 import co.ke.mshirika.mshirika_app.utility.DataStore
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkMonitor
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkState.Offline
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkState.Online
-import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.findNavigationController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.transition.MaterialSharedAxis
@@ -93,9 +93,9 @@ class MainActivity : AppCompatActivity(),
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launchWhenStarted {
             DataStore(context = this@MainActivity).authKey.collectLatest {
-                viewModel.updateKey(it)
+                viewModel.setKey(it)
             }
         }
 

@@ -1,4 +1,4 @@
-package co.ke.mshirika.mshirika_app.ui.main.client.adapters
+package co.ke.mshirika.mshirika_app.ui.main.clients.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

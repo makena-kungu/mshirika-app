@@ -2,11 +2,13 @@ package co.ke.mshirika.mshirika_app.data.response
 
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import androidx.recyclerview.widget.DiffUtil
 import co.ke.mshirika.mshirika_app.data.response.common.Currency
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
+@Keep
 data class SavingsAccount(
     val accountBalance: Double,
     val accountNo: String,
@@ -24,6 +26,7 @@ data class SavingsAccount(
 ) : Parcelable {
 
     @Parcelize
+    @Keep
     data class AccountType(
         val code: String,
         val id: Int,
@@ -31,6 +34,7 @@ data class SavingsAccount(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class DepositType(
         val code: String,
         val id: Int,
@@ -38,6 +42,7 @@ data class SavingsAccount(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class Status(
         val active: Boolean,
         val approved: Boolean,
@@ -55,6 +60,7 @@ data class SavingsAccount(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class SubStatus(
         val block: Boolean,
         val blockCredit: Boolean,
@@ -69,6 +75,7 @@ data class SavingsAccount(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class Timeline(
         val activatedOnDate: List<Int>,
         val approvedByFirstname: String,

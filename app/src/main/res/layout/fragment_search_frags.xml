@@ -7,10 +7,15 @@
 
     </data>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:viewBindingIgnore="true" />
+    <com.google.android.material.card.MaterialCardView style="?backgroundCardView"
+        android:transitionName="Details Card">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:transitionGroup="true"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:viewBindingIgnore="true" />
+    </com.google.android.material.card.MaterialCardView>
 </layout>

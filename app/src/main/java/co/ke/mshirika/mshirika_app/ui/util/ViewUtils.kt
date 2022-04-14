@@ -1,5 +1,6 @@
-package co.ke.mshirika.mshirika_app.utility.ui
+package co.ke.mshirika.mshirika_app.ui.util
 
+import android.R
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
@@ -7,6 +8,7 @@ import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.util.Size
 import android.view.View
+import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
@@ -21,9 +23,12 @@ import java.text.DateFormat
 import java.text.DateFormat.MEDIUM
 import java.text.DateFormat.SHORT
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 object ViewUtils {
+    val AMOUNT_REGEX = "\\d*\\.\\d{0,2}".toRegex()
+    const val REMOTE_DATE_FORMAT = "dd.MM.yyyy"
 
     private lateinit var res: Resources
     private lateinit var mTheme: Resources.Theme
@@ -55,47 +60,37 @@ object ViewUtils {
             }
         }
     val List<Int>.shortDate: String
-        get() {
-            val year: Int = this[0]
-            val month: Int = this[1]
-            val date: Int = this[2]
-
-            return with(Calendar.getInstance()) {
-                set(year, month, date)
-                DateFormat.getDateInstance(SHORT).format(time)
-            }
-        }
+        get() = DateFormat.getDateInstance(SHORT).format(toDate)
     val List<Int>.mediumDate: String
-        get() {
-            val year: Int = this[0]
-            val month: Int = this[1]
-            val date: Int = this[2]
+        get() = DateFormat.getDateInstance(MEDIUM).format(toDate)
 
-            return with(Calendar.getInstance()) {
-                set(year, month, date)
-                DateFormat.getDateInstance(MEDIUM).format(time)
-            }
+    val List<Int>.toDate: Long
+        get() {
+            val date = asReversed().joinToString(".")
+            val sdf = SimpleDateFormat(REMOTE_DATE_FORMAT, Locale.getDefault())
+            return sdf.parse(date)!!.time
         }
+
     private val Context.colors
         get() = run {
             res = resources
             mTheme = theme
             arrayOf(
                 intArrayOf(
-                    color(android.R.color.holo_orange_dark),
-                    color(android.R.color.holo_orange_light)
+                    color(R.color.holo_orange_dark),
+                    color(R.color.holo_orange_light)
                 ),
                 intArrayOf(
-                    color(android.R.color.holo_blue_dark),
-                    color(android.R.color.holo_blue_light)
+                    color(R.color.holo_blue_dark),
+                    color(R.color.holo_blue_light)
                 ),
                 intArrayOf(
-                    color(android.R.color.holo_green_dark),
-                    color(android.R.color.holo_green_light)
+                    color(R.color.holo_green_dark),
+                    color(R.color.holo_green_light)
                 ),
                 intArrayOf(
-                    color(android.R.color.holo_red_dark),
-                    color(android.R.color.holo_red_light)
+                    color(R.color.holo_red_dark),
+                    color(R.color.holo_red_light)
                 )
             )
         }
@@ -132,6 +127,26 @@ object ViewUtils {
 
     fun TextInputEditText.text(): String =
         text.toString().trim()
+
+    val EditText.canBeEmptyText: String?
+        get() {
+            val t = text.toString().trim()
+            if (t.isEmpty()) return null
+            return t
+        }
+
+    fun EditText.nonEmptyText(field: String, context: Context, action: (Boolean) -> Unit): String? {
+        val t = text.toString().trim()
+
+        val notEmpty = t.isNotEmpty()
+        action(notEmpty)// if it's not empty you can proceed
+        if (notEmpty)
+            return t
+
+        if (this is TextInputEditText) error =
+            context.getString(co.ke.mshirika.mshirika_app.R.string.field_cannot_be_empty, field)
+        return null
+    }
 
     fun View.snackS(message: String) =
         make(this, message, LENGTH_SHORT)

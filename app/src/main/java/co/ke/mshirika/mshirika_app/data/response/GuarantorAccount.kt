@@ -2,9 +2,11 @@ package co.ke.mshirika.mshirika_app.data.response
 
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
+@Keep
 data class GuarantorAccount(
     val accountNo: String,
     val amountPaid: Double,
@@ -21,6 +23,7 @@ data class GuarantorAccount(
 ) : Parcelable {
 
     @Parcelize
+    @Keep
     data class LoanType(
         val code: String,
         val id: Int,
@@ -28,6 +31,7 @@ data class GuarantorAccount(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class Status(
         val active: Boolean,
         val closed: Boolean,

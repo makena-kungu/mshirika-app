@@ -2,11 +2,13 @@ package co.ke.mshirika.mshirika_app.data.response
 
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import androidx.recyclerview.widget.DiffUtil
 import co.ke.mshirika.mshirika_app.remote.utils.Respondent
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
+@Keep
 data class Loan(
     val accountNo: String,
     val amountPaid: Double,
@@ -23,6 +25,7 @@ data class Loan(
 ) : Parcelable, Respondent {
 
     @Parcelize
+    @Keep
     data class LoanType(
         val code: String,
         val id: Int,
@@ -30,6 +33,7 @@ data class Loan(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class Status(
         val active: Boolean,
         val closed: Boolean,
@@ -45,6 +49,7 @@ data class Loan(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class Timeline(
         val actualDisbursementDate: List<Int>,
         val approvedByFirstname: String,

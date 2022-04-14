@@ -1,4 +1,4 @@
-package co.ke.mshirika.mshirika_app.ui.main.client
+package co.ke.mshirika.mshirika_app.ui.main.clients
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -22,14 +22,14 @@ import co.ke.mshirika.mshirika_app.databinding.FragmentClientBinding
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Error
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Loading
 import co.ke.mshirika.mshirika_app.remote.utils.Urls
-import co.ke.mshirika.mshirika_app.ui.main.client.adapters.LoanAccountsAdapter
-import co.ke.mshirika.mshirika_app.ui.main.client.adapters.LoanAccountsAdapter.LoanClickListener
-import co.ke.mshirika.mshirika_app.ui.main.client.adapters.SavingsAccountsAdapter.SavingsClickListener
-import co.ke.mshirika.mshirika_app.ui.main.client.adapters.TransactionsAdapter
-import co.ke.mshirika.mshirika_app.ui.main.client.adapters.TransactionsAdapter.OnTransactionsItemClickListener
-import co.ke.mshirika.mshirika_app.ui.main.client.viewModels.ClientViewModel
+import co.ke.mshirika.mshirika_app.ui.main.clients.adapters.LoanAccountsAdapter
+import co.ke.mshirika.mshirika_app.ui.main.clients.adapters.SavingsAccountsAdapter.SavingsClickListener
+import co.ke.mshirika.mshirika_app.ui.main.clients.adapters.TransactionsAdapter
+import co.ke.mshirika.mshirika_app.ui.main.clients.adapters.TransactionsAdapter.OnTransactionsItemClickListener
+import co.ke.mshirika.mshirika_app.ui.main.clients.viewModels.ClientViewModel
 import co.ke.mshirika.mshirika_app.ui.util.DetailsFragment
-import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.drawable
+import co.ke.mshirika.mshirika_app.ui.util.UIText
+import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.drawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -49,7 +49,7 @@ import kotlin.math.abs
 @AndroidEntryPoint
 class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_client),
     SavingsClickListener,
-    LoanClickListener,
+    co.ke.mshirika.mshirika_app.ui.loans.OnLoanClickListener,
     OnMenuItemClickListener,
     OnTransactionsItemClickListener {
 
@@ -116,12 +116,31 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
     }
 
     private suspend fun errorState() {
-        viewModel.errorState.collectLatest {
+        viewModel.errorState.collectLatest { uiText ->
+            var title:String? = null
+            val text = when (uiText) {
+                is UIText.DynamicText -> {
+                    title = uiText.title
+                    uiText.text
+                }
+                is UIText.ResourceText -> {
+                    uiText.text(requireContext())
+                }
+            }
+
             Snackbar.make(
                 binding.root,
-                it.text(requireContext()),
+                text,
                 LENGTH_LONG
-            ).show()
+            ).apply {
+                title?.let { title ->
+                    //if the title is not null then there's an action present
+                    setAction(title) {
+                        uiText.action()
+                    }
+                }
+                show()
+            }
         }
     }
 
@@ -200,8 +219,12 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
         //view account
     }
 
-    override fun onClickLoan(acc: LoanAccount) {
+    override fun onLoanClicked(loanAccount: LoanAccount) {
         TODO("Not yet implemented")
+    }
+
+    override fun onLoanRepayClicked(loanAccount: LoanAccount, position: Int, container: View):Boolean {
+        return false
     }
 
     override fun onClickTransaction(transaction: Transaction) {

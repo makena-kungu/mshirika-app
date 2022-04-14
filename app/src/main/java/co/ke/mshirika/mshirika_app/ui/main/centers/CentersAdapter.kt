@@ -1,4 +1,4 @@
-package co.ke.mshirika.mshirika_app.ui.main.center
+package co.ke.mshirika.mshirika_app.ui.main.centers
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import co.ke.mshirika.mshirika_app.data.response.Center
 import co.ke.mshirika.mshirika_app.databinding.ItemCenterBinding
 import co.ke.mshirika.mshirika_app.ui.main.utils.MyPagingDataAdapter
-import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.drawable
-import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.random
+import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.drawable
+import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.random
 
 class CentersAdapter(
     private val listener: OnCenterClickListener

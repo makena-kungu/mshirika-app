@@ -1,4 +1,4 @@
-package co.ke.mshirika.mshirika_app.ui.main.group
+package co.ke.mshirika.mshirika_app.ui.main.groups
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import co.ke.mshirika.mshirika_app.data.response.Group
 import co.ke.mshirika.mshirika_app.databinding.ItemGroupBinding
 import co.ke.mshirika.mshirika_app.ui.main.utils.MyPagingDataAdapter
-import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.drawable
-import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.random
+import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.drawable
+import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.random
 
 class GroupsAdapter(
     private val listener: OnGroupClickListener

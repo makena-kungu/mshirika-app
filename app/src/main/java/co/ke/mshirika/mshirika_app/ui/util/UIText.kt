@@ -2,13 +2,18 @@ package co.ke.mshirika.mshirika_app.ui.util
 
 import android.content.Context
 
-sealed class UIText(open val action: (String) -> Unit) {
+sealed class UIText(open val action: () -> Unit) {
 
-    data class DynamicText(val text: String, override val action: (String) -> Unit) : UIText(action)
+    data class DynamicText(
+        val text: String,
+        val title: String? = null,
+        override val action: () -> Unit
+    ) : UIText(action)
+
     class ResourceText(
         val id: Int,
         vararg val args: Any,
-        override val action: (String) -> Unit
+        override val action: () -> Unit
     ) : UIText(action)
 
     fun text(context: Context): String {
@@ -19,9 +24,6 @@ sealed class UIText(open val action: (String) -> Unit) {
     }
 }
 
-fun dynamicText(text: String, action: (String) -> String): UIText.DynamicText {
-    return UIText.DynamicText(text) {
-        //the string returned by the
-        action(it)
-    }
+fun dynamicText(text: String, title: String? = null, action: () -> Unit): UIText.DynamicText {
+    return UIText.DynamicText(text, title, action)
 }

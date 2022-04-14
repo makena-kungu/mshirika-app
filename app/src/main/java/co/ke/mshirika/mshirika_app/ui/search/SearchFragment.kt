@@ -22,8 +22,8 @@ import co.ke.mshirika.mshirika_app.data.response.Group
 import co.ke.mshirika.mshirika_app.data.response.LoanAccount
 import co.ke.mshirika.mshirika_app.databinding.FragmentSearchBinding
 import co.ke.mshirika.mshirika_app.ui.loans.OnLoanClickListener
-import co.ke.mshirika.mshirika_app.ui.main.client.OnClientItemClickListener
-import co.ke.mshirika.mshirika_app.ui.main.group.OnGroupClickListener
+import co.ke.mshirika.mshirika_app.ui.main.clients.OnClientItemClickListener
+import co.ke.mshirika.mshirika_app.ui.main.groups.OnGroupClickListener
 import co.ke.mshirika.mshirika_app.ui.search.fragments.clients.ClientsFragment
 import co.ke.mshirika.mshirika_app.ui.search.fragments.groups.GroupsFragment
 import co.ke.mshirika.mshirika_app.ui.search.fragments.loans.LoansFragment
@@ -43,13 +43,13 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnClientItemClickList
     private val binding: FragmentSearchBinding get() = _binding!!
     private val lifecycleScope get() = viewLifecycleOwner.lifecycleScope
     private val clientsFragment by lazy {
-        ClientsFragment.getInstance(this)
+        ClientsFragment.getInstance()
     }
     private val groupsFragment by lazy {
-        GroupsFragment.getInstance(this)
+        GroupsFragment.getInstance()
     }
     private val loansFragment by lazy {
-        LoansFragment.getInstance(this)
+        LoansFragment.getInstance()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -148,6 +148,14 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnClientItemClickList
         SearchFragmentDirections.actionGlobalLoanRepaymentFragment().also {
             itemToDetailTransition(it)
         }
+        TODO("Not yet implemented")
+    }
+
+    override fun onLoanRepayClicked(
+        loanAccount: LoanAccount,
+        position: Int,
+        container: View
+    ): Boolean {
         TODO("Not yet implemented")
     }
 

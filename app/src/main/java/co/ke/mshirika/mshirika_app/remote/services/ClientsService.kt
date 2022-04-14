@@ -1,35 +1,25 @@
 package co.ke.mshirika.mshirika_app.remote.services
 
 import co.ke.mshirika.mshirika_app.data.response.Client
-import co.ke.mshirika.mshirika_app.data.response.Loan
 import co.ke.mshirika.mshirika_app.remote.response.AccountsResponse
 import co.ke.mshirika.mshirika_app.remote.response.ClientResponse
 import co.ke.mshirika.mshirika_app.remote.response.TransactionResponse
 import co.ke.mshirika.mshirika_app.remote.utils.EndPoint
+import co.ke.mshirika.mshirika_app.remote.utils.EndPoint.Paths.CLIENT_ID
 import retrofit2.Response
-import retrofit2.http.*
+import retrofit2.http.GET
+import retrofit2.http.HeaderMap
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 
 interface ClientsService {
 
-    suspend fun account(
-        @HeaderMap headers: Map<String, String>,
-        @Path("accountId") accountId: Int
-    ): Response<Loan>
-
-    @GET("${EndPoint.CLIENTS}/{clientId}/accounts")
+    @GET(EndPoint.CLIENT_ACCOUNTS)
     suspend fun accounts(
         @HeaderMap headers: Map<String, String>,
-        @Path("clientId") clientId: Int
+        @Path(CLIENT_ID) clientId: Int
     ): Response<AccountsResponse>
-
-    @Headers("Fineract-Platform-TenantId: default")
-    @GET(EndPoint.CLIENTS)
-    suspend fun clients(
-        @Header("Authorization") authKey: String,
-        @Query("offset") page: Int,
-        @Query("limit") perPage: Int
-    ): Response<ClientResponse>
 
     @GET(EndPoint.CLIENTS)
     suspend fun clients(
@@ -39,13 +29,13 @@ interface ClientsService {
         @Query("limit") perPage: Int
     ): Response<ClientResponse>
 
-    @GET("${EndPoint.CLIENTS}/{clientId}")
+    @GET(EndPoint.CLIENT)
     suspend fun client(
         @HeaderMap headers: Map<String, String>,
-        @Path("clientId") clientId: Int
+        @Path(CLIENT_ID) clientId: Int
     ): Response<Client>
 
-    @GET("${EndPoint.SAVINGS_ACCOUNTS}/{associations}")
+    @GET("${EndPoint.SAVINGS_ACCOUNTS}/{accountId}")
     suspend fun transactions(
         @HeaderMap headers: Map<String, String>,
         @Path("accountId") accountId: Int,

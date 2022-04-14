@@ -1,4 +1,4 @@
-package co.ke.mshirika.mshirika_app.ui.main.client.adapters
+package co.ke.mshirika.mshirika_app.ui.main.clients.adapters
 
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import co.ke.mshirika.mshirika_app.data.response.Client
 import co.ke.mshirika.mshirika_app.databinding.ItemClientBinding
 import co.ke.mshirika.mshirika_app.remote.utils.Urls
-import co.ke.mshirika.mshirika_app.ui.main.client.OnClientItemClickListener
+import co.ke.mshirika.mshirika_app.ui.main.clients.OnClientItemClickListener
 import co.ke.mshirika.mshirika_app.ui.main.utils.MyPagingDataAdapter
-import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.drawable
-import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.random
+import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.drawable
+import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.random
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException

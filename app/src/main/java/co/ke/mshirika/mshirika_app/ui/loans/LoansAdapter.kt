@@ -5,9 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import co.ke.mshirika.mshirika_app.data.response.LoanAccount
 import co.ke.mshirika.mshirika_app.databinding.ItemLoan3Binding
-import co.ke.mshirika.mshirika_app.utility.ui.ViewUtils.amt
+import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.amt
 
 class LoansAdapter(
     private val listener: OnLoanClickListener
@@ -30,14 +31,29 @@ class LoansAdapter(
         View.OnClickListener {
 
         init {
-            binding.root.setOnClickListener(this)
+            binding.apply {
+                root.setOnClickListener(this@LoansViewHolder)
+                clientMakeRepayment.setOnClickListener {
+                    val position = absoluteAdapterPosition
+                    if (position == NO_POSITION)
+                        return@setOnClickListener
+
+                    getItem(position)?.let { account ->
+                        listener.onLoanRepayClicked(
+                            account,
+                            position,
+                            root
+                        )
+                    }
+                }
+            }
         }
 
         override fun onClick(v: View?) {
             listener
         }
 
-        fun binder(acc:LoanAccount) {
+        fun binder(acc: LoanAccount) {
             acc.bind()
         }
 

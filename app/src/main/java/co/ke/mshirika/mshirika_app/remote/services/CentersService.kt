@@ -1,8 +1,9 @@
 package co.ke.mshirika.mshirika_app.remote.services
 
 import co.ke.mshirika.mshirika_app.data.response.Center
-import co.ke.mshirika.mshirika_app.remote.utils.EndPoint
 import co.ke.mshirika.mshirika_app.remote.response.CenterResponse
+import co.ke.mshirika.mshirika_app.remote.utils.EndPoint
+import co.ke.mshirika.mshirika_app.remote.utils.EndPoint.Paths.CENTER_ID
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.HeaderMap
@@ -19,9 +20,9 @@ interface CentersService {
         @Query("limit") pageSize: Int
     ): Response<CenterResponse>
 
-    @GET("${EndPoint.CENTERS}/{id}")
+    @GET(EndPoint.CENTER)
     suspend fun center(
         @HeaderMap headers: Map<String, String>,
-        @Path("id") accountID: Int
+        @Path(CENTER_ID) accountID: Int
     ): Response<Center>
 }

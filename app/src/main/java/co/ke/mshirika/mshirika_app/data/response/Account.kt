@@ -1,7 +1,9 @@
 package co.ke.mshirika.mshirika_app.data.response
 
+import androidx.annotation.Keep
 import androidx.recyclerview.widget.DiffUtil
 
+@Keep
 data class Account(
     val id: Int
 ) {

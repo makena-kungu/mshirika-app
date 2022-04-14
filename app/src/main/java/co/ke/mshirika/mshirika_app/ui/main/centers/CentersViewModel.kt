@@ -1,17 +1,17 @@
 @file:OptIn(ExperimentalCoroutinesApi::class)
 
-package co.ke.mshirika.mshirika_app.ui.main.group
+package co.ke.mshirika.mshirika_app.ui.main.centers
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import co.ke.mshirika.mshirika_app.data.response.Group
-import co.ke.mshirika.mshirika_app.repositories.GroupsRepo
+import co.ke.mshirika.mshirika_app.data.response.Center
+import co.ke.mshirika.mshirika_app.repositories.CentersRepo
 import co.ke.mshirika.mshirika_app.ui.main.utils.State
 import co.ke.mshirika.mshirika_app.ui.main.utils.State.Normal
 import co.ke.mshirika.mshirika_app.ui.main.utils.State.Searching
+import co.ke.mshirika.mshirika_app.ui.util.MshirikaViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -20,10 +20,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class GroupsViewModel @Inject constructor(
-    private val repo: GroupsRepo,
+class CentersViewModel @Inject constructor(
+    private val repo: CentersRepo,
     stateHandle: SavedStateHandle
-) : ViewModel() {
+) : MshirikaViewModel() {
 
     private val _state = stateHandle
         .getLiveData(STATE, DEFAULT)
@@ -32,13 +32,15 @@ class GroupsViewModel @Inject constructor(
             viewModelScope,
             SharingStarted.WhileSubscribed()
         ) as MutableSharedFlow
+    private val searched = repo.searched
 
-    fun data(): Flow<PagingData<Group>> = _state.flatMapLatest {
-        when (it) {
-            Searching -> repo.searched
-            Normal -> repo.groups
+    val data: Flow<PagingData<Center>>
+        get() = _state.flatMapLatest {
+            when (it) {
+                is Searching -> searched
+                else -> repo.centers.stateIn(viewModelScope)
+            }
         }
-    }
 
     fun search(query: String) {
         viewModelScope.launch(IO) {
@@ -56,7 +58,7 @@ class GroupsViewModel @Inject constructor(
     }
 
     companion object {
-        const val STATE = "thecurrentstate"
+        const val STATE = "the_current_state"
         val DEFAULT: State = Normal
     }
 }

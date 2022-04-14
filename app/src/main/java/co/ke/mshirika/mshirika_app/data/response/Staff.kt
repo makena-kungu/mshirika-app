@@ -2,10 +2,12 @@ package co.ke.mshirika.mshirika_app.data.response
 
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import co.ke.mshirika.mshirika_app.remote.utils.Respondent
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
+@Keep
 data class Staff(
     val authenticated: Boolean,
     val base64EncodedAuthenticationKey: String,
@@ -19,9 +21,10 @@ data class Staff(
     val staffId: Int,
     val userId: Int,
     val username: String
-) : Parcelable,Respondent {
+) : Parcelable, Respondent {
 
     @Parcelize
+    @Keep
     data class Role(
         val description: String,
         val disabled: Boolean,

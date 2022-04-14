@@ -34,7 +34,7 @@
         tools:layout="@layout/fragment_admin" />
     <fragment
         android:id="@+id/clientFragment"
-        android:name="co.ke.mshirika.mshirika_app.ui.main.client.ClientFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui.main.clients.ClientFragment"
         android:label="Client"
         tools:layout="@layout/fragment_client">
         <action
@@ -70,22 +70,22 @@
         tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/clientsFragment"
-        android:name="co.ke.mshirika.mshirika_app.ui.main.client.ClientsFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui.main.clients.ClientsFragment"
         android:label="@string/clients"
         tools:layout="@layout/fragment_clients"/>
     <fragment
         android:id="@+id/centersFragment"
-        android:name="co.ke.mshirika.mshirika_app.ui.main.center.CentersFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui.main.centers.CentersFragment"
         android:label="fragment_centers"
         tools:layout="@layout/fragment_centers" />
     <fragment
         android:id="@+id/groupsFragment"
-        android:name="co.ke.mshirika.mshirika_app.ui.main.group.GroupsFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui.main.groups.GroupsFragment"
         android:label="fragment_groups"
         tools:layout="@layout/fragment_groups" />
     <fragment
         android:id="@+id/centerFragment"
-        android:name="co.ke.mshirika.mshirika_app.ui.main.center.CenterFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui.main.centers.CenterFragment"
         android:label="fragment_center"
         tools:layout="@layout/fragment_center" />
     <fragment

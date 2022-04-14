@@ -2,12 +2,14 @@ package co.ke.mshirika.mshirika_app.data.response
 
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import androidx.recyclerview.widget.DiffUtil
 import co.ke.mshirika.mshirika_app.data.response.common.Currency
 import co.ke.mshirika.mshirika_app.remote.utils.Respondent
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
+@Keep
 data class LoanRepaymentSchedule(
     val accountNo: String,
     val allowPartialPeriodInterestCalcualtion: Boolean,
@@ -75,6 +77,7 @@ data class LoanRepaymentSchedule(
 ) : Parcelable, Respondent {
 
     @Parcelize
+    @Keep
     data class AmortizationType(
         val code: String,
         val id: Int,
@@ -82,6 +85,7 @@ data class LoanRepaymentSchedule(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class CalendarData(
         val calendarInstanceId: Int,
         val createdByUserId: Int,
@@ -109,6 +113,7 @@ data class LoanRepaymentSchedule(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class DaysInMonthType(
         val code: String,
         val id: Int,
@@ -116,6 +121,7 @@ data class LoanRepaymentSchedule(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class DaysInYearType(
         val code: String,
         val id: Int,
@@ -123,6 +129,7 @@ data class LoanRepaymentSchedule(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class EntityType(
         val code: String,
         val id: Int,
@@ -130,6 +137,7 @@ data class LoanRepaymentSchedule(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class Frequency(
         val code: String,
         val id: Int,
@@ -137,6 +145,7 @@ data class LoanRepaymentSchedule(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class InterestCalculationPeriodType(
         val code: String,
         val id: Int,
@@ -144,6 +153,7 @@ data class LoanRepaymentSchedule(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class InterestRateFrequencyType(
         val code: String,
         val id: Int,
@@ -151,6 +161,7 @@ data class LoanRepaymentSchedule(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class InterestRecalculationCompoundingType(
         val code: String,
         val id: Int,
@@ -158,6 +169,7 @@ data class LoanRepaymentSchedule(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class InterestRecalculationData(
         val allowCompoundingOnEod: Boolean,
         val calendarData: CalendarData,
@@ -172,6 +184,7 @@ data class LoanRepaymentSchedule(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class InterestType(
         val code: String,
         val id: Int,
@@ -179,6 +192,7 @@ data class LoanRepaymentSchedule(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class LoanType(
         val code: String,
         val id: Int,
@@ -186,11 +200,13 @@ data class LoanRepaymentSchedule(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class PaidInAdvance(
         val paidInAdvance: Int
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class Period(
         val complete: Boolean,
         val daysInPeriod: Int,
@@ -234,6 +250,7 @@ data class LoanRepaymentSchedule(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class RecalculationCompoundingFrequencyType(
         val code: String,
         val id: Int,
@@ -241,6 +258,7 @@ data class LoanRepaymentSchedule(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class RecalculationRestFrequencyType(
         val code: String,
         val id: Int,
@@ -248,6 +266,7 @@ data class LoanRepaymentSchedule(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class RepaymentFrequencyType(
         val code: String,
         val id: Int,
@@ -255,6 +274,7 @@ data class LoanRepaymentSchedule(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class RepaymentSchedule(
         val currency: Currency,
         val loanTermInDays: Int,
@@ -275,6 +295,7 @@ data class LoanRepaymentSchedule(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class RepeatsOnNthDayOfMonth(
         val code: String,
         val id: Int,
@@ -282,6 +303,7 @@ data class LoanRepaymentSchedule(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class RescheduleStrategyType(
         val code: String,
         val id: Int,
@@ -289,6 +311,7 @@ data class LoanRepaymentSchedule(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class Status(
         val active: Boolean,
         val closed: Boolean,
@@ -304,6 +327,7 @@ data class LoanRepaymentSchedule(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class Summary(
         val currency: Currency,
         val feeChargesCharged: Double,
@@ -342,6 +366,7 @@ data class LoanRepaymentSchedule(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class TermPeriodFrequencyType(
         val code: String,
         val id: Int,
@@ -349,6 +374,7 @@ data class LoanRepaymentSchedule(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class Timeline(
         val actualDisbursementDate: List<Int>,
         val approvedByFirstname: String,
@@ -367,6 +393,7 @@ data class LoanRepaymentSchedule(
     ) : Parcelable
 
     @Parcelize
+    @Keep
     data class Type(
         val code: String,
         val id: Int,

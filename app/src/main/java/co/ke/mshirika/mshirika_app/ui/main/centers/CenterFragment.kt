@@ -1,4 +1,4 @@
-package co.ke.mshirika.mshirika_app.ui.main.center
+package co.ke.mshirika.mshirika_app.ui.main.centers
 
 import android.os.Bundle
 import android.view.View
