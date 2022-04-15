@@ -16,7 +16,7 @@ import co.ke.mshirika.mshirika_app.remote.utils.Outcome.*
 import co.ke.mshirika.mshirika_app.ui.MainActivity
 import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.snackS
 import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.text
-import co.ke.mshirika.mshirika_app.utility.DataStore
+import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkMonitor
 import com.google.android.gms.common.util.Base64Utils.encode
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -32,7 +32,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private var _binding: FragmentLoginBinding? = null
 
     private val binding get() = _binding!!
-    private val dataStore by lazy { DataStore(requireContext()) }
+    private val dataStore by lazy { PreferencesStoreRepository(requireContext()) }
     private val lifecycleScope = viewLifecycleOwner.lifecycleScope
     private val loadingDialog by lazy {
         MaterialAlertDialogBuilder(requireContext()).run {

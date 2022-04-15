@@ -6,24 +6,28 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.databinding.FragmentSearchFragsBinding
+import co.ke.mshirika.mshirika_app.ui.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui.main.clients.OnClientItemClickListener
 import co.ke.mshirika.mshirika_app.ui.main.clients.adapters.ClientsAdapter
 import co.ke.mshirika.mshirika_app.ui.search.OnSearchListener
 import co.ke.mshirika.mshirika_app.ui.search.SearchViewModel
-import co.ke.mshirika.mshirika_app.ui.util.MshirikaFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
-class ClientsFragment : MshirikaFragment<FragmentSearchFragsBinding>(R.layout.fragment_search_frags), OnSearchListener {
+class ClientsFragment :
+    MshirikaFragment<FragmentSearchFragsBinding>(R.layout.fragment_search_frags), OnSearchListener {
     private val viewModel by viewModels<SearchViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = ClientsAdapter(authKey, parentFragment as OnClientItemClickListener)
-        binding.list.adapter = adapter
         lifecycleScope.launchWhenCreated {
+            val adapter = ClientsAdapter(
+                viewModel.authKey(),
+                parentFragment as OnClientItemClickListener
+            )
+            binding.list.adapter = adapter
             viewModel.clients.collectLatest {
                 adapter.submitData(lifecycle, it)
             }

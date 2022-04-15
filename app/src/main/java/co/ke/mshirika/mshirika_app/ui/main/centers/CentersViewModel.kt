@@ -8,10 +8,12 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import co.ke.mshirika.mshirika_app.data.response.Center
 import co.ke.mshirika.mshirika_app.repositories.CentersRepo
+import co.ke.mshirika.mshirika_app.ui.MshirikaViewModel
 import co.ke.mshirika.mshirika_app.ui.main.utils.State
 import co.ke.mshirika.mshirika_app.ui.main.utils.State.Normal
 import co.ke.mshirika.mshirika_app.ui.main.utils.State.Searching
-import co.ke.mshirika.mshirika_app.ui.util.MshirikaViewModel
+import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
+import co.ke.mshirika.mshirika_app.utility.Util.headers
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,6 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CentersViewModel @Inject constructor(
     private val repo: CentersRepo,
+    private val prefRepo: PreferencesStoreRepository,
     stateHandle: SavedStateHandle
 ) : MshirikaViewModel() {
 
@@ -37,14 +40,15 @@ class CentersViewModel @Inject constructor(
     val data: Flow<PagingData<Center>>
         get() = _state.flatMapLatest {
             when (it) {
-                is Searching -> searched
-                else -> repo.centers.stateIn(viewModelScope)
+                Searching -> searched
+                Normal ->  repo.centers.stateIn(viewModelScope)
             }
         }
 
     fun search(query: String) {
         viewModelScope.launch(IO) {
-            repo.search(query)
+            val headers = prefRepo.authKey().headers
+            repo.search(headers, query)
         }
     }
 

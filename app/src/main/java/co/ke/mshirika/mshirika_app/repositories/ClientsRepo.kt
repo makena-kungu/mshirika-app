@@ -16,17 +16,19 @@ import co.ke.mshirika.mshirika_app.remote.services.SearchService
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome.*
 import co.ke.mshirika.mshirika_app.remote.utils.UnpackResponse.respond
+import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
 import co.ke.mshirika.mshirika_app.utility.Util.headers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class ClientsRepo @Inject constructor(
-    private val authKey:String,
     private val service: ClientsService,
     private val loansService: LoansService,
     private val searchService: SearchService,
-    private val pagingSource: ClientsPagingSource
+    private val prefRepo: PreferencesStoreRepository
 ) {
     private val searchedClientList = mutableListOf<Client>()
     private val loanAccounts = mutableListOf<LoanAccount>()
@@ -44,22 +46,26 @@ class ClientsRepo @Inject constructor(
         get() = _searchedClients.asStateFlow()
     val transactions
         get() = _transactions.asStateFlow()
-    val headers by lazy {
-        headers(authKey)
-    }
 
 
-    val clients
-        get() = Pager(
-            config = pagingConfig(),
-            pagingSourceFactory = { pagingSource }
-        ).flow
+    val clients: Flow<PagingData<Client>>
+        get() = flow {
+            val key = prefRepo.authKey()
+            Pager(
+                config = pagingConfig(),
+                pagingSourceFactory = {
+                    ClientsPagingSource(
+                        authKey = key,
+                        service = service
+                    )
+                }
+            ).flow
+        }
 
     suspend fun accounts(clientId: Int) {
         _accounts.value = Loading()
-
         respond {
-            service.accounts(headers, clientId)
+            service.accounts(headers(), clientId)
         }.also {
             _accounts.value = it
         }
@@ -68,7 +74,7 @@ class ClientsRepo @Inject constructor(
     suspend fun loans(loanId: Int) {
         respond {
             loansService.loan(
-                headers,
+                headers(),
                 loanId
             )
         }.apply {
@@ -79,7 +85,7 @@ class ClientsRepo @Inject constructor(
 
     suspend fun search(query: String) {
         _searchedClients.value = Loading()
-
+        val headers = headers()
         respond {
             searchService.search(
                 headers,
@@ -127,11 +133,13 @@ class ClientsRepo @Inject constructor(
     suspend fun transactions(accountId: Int) {
         respond {
             service.transactions(
-                headers,
+                headers(),
                 accountId
             )
         }.also {
             _transactions.value = it
         }
     }
+
+    private suspend fun headers() = prefRepo.authKey().headers
 }

@@ -1,16 +1,15 @@
 package co.ke.mshirika.mshirika_app.ui.loans
 
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.data.response.LoanAccount
 import co.ke.mshirika.mshirika_app.databinding.FragmentLoansBinding
+import co.ke.mshirika.mshirika_app.ui.DetailsFragment
 import co.ke.mshirika.mshirika_app.ui.loans.LoansFragmentDirections.Companion.actionGlobalLoanRepaymentFragment
-import co.ke.mshirika.mshirika_app.ui.util.DetailsFragment
+import com.google.android.material.appbar.MaterialToolbar
 import kotlinx.coroutines.flow.collectLatest
 
 class LoansFragment : DetailsFragment<FragmentLoansBinding>(R.layout.fragment_loans),
@@ -33,15 +32,17 @@ class LoansFragment : DetailsFragment<FragmentLoansBinding>(R.layout.fragment_lo
         }
     }
 
-    override val toolbar: Toolbar
+    override val hasToolbar: Boolean
+        get() = true
+
+    override val isTopFragment: Boolean
+        get() = true
+
+    override val toolbar: MaterialToolbar
         get() = binding.appBar.toolbarLarge
 
     override val toolbarTitle: String
         get() = getString(R.string.loans)
-
-    override fun onMenuItemClick(item: MenuItem?): Boolean {
-        TODO("Not yet implemented")
-    }
 
     override fun onLoanClicked(loanAccount: LoanAccount) {
 

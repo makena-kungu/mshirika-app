@@ -11,14 +11,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor() : ViewModel() {
 
     private val _netState = MutableStateFlow<NetworkState>(Empty)
-    private var _key:String? = null
     val netState = _netState.asSharedFlow()
-
-    fun setKey(key:String) {
-        _key =  key
-    }
-
-    val key get() = _key!!
 
     fun changeNetworkState(online: Boolean) {
         when (online) {

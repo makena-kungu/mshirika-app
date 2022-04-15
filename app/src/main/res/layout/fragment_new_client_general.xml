@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     tools:ignore="Deprecated">
 
-    <include layout="@layout/layout_app_bar" />
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -43,6 +41,13 @@
                     android:editable="false"
                     android:hint="@string/legal_form" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/head_office_options"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="office_lo,legal_form_lo"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/first_name_lo"
@@ -88,7 +93,8 @@
                     android:id="@+id/dob"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/date_of_birth" />
+                    android:hint="@string/date_of_birth"
+                    android:inputType="date" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -116,16 +122,23 @@
                     android:inputType="phone" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/gender_lo"
-                style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+            <RadioGroup
+                android:id="@+id/gender_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/gender"
-                    android:layout_width="match_parent"
+                <RadioButton
+                    android:id="@+id/male"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/gender" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:text="@string/male" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/female" />
+            </RadioGroup>
 
             <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/is_staff"
@@ -166,7 +179,8 @@
                     android:id="@+id/submit_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/submit_date" />
+                    android:hint="@string/submit_date"
+                    android:inputType="date" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -230,19 +244,13 @@
                     android:hint="@string/savings_product" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/submit"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:onClick="@{frag.submit()}"
-                android:text="@string/submit" />
-
             <androidx.constraintlayout.helper.widget.Flow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="office_lo,legal_form_lo,first_name_lo,middle_name_lo,last_name_lo,dob_lo,mem_no_lo,mobile_no_lo,gender_lo,is_staff,client_type_lo,client_classification_lo,submit_date_lo,national_id_lo,email_lo,is_active,activation_date_lo,open_savings_account,savings_product_lo,submit"
+                app:constraint_referenced_ids="office_lo,legal_form_lo,first_name_lo,middle_name_lo,last_name_lo,dob_lo,mem_no_lo,mobile_no_lo,gender_group,is_staff,client_type_lo,client_classification_lo,submit_date_lo,national_id_lo,email_lo,is_active,activation_date_lo,open_savings_account,savings_product_lo"
                 app:flow_verticalGap="5dp"
-                app:flow_wrapMode="aligned"
+                app:flow_wrapMode="chain"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

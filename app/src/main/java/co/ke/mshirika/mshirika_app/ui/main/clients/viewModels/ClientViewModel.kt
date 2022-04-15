@@ -6,8 +6,9 @@ import co.ke.mshirika.mshirika_app.data.response.Loan
 import co.ke.mshirika.mshirika_app.data.response.SavingsAccount
 import co.ke.mshirika.mshirika_app.remote.response.TransactionResponse
 import co.ke.mshirika.mshirika_app.repositories.ClientsRepo
-import co.ke.mshirika.mshirika_app.ui.util.MshirikaViewModel
+import co.ke.mshirika.mshirika_app.ui.MshirikaViewModel
 import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.amt
+import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ClientViewModel @Inject constructor(
-    private val repo: ClientsRepo
+    private val repo: ClientsRepo,
+    private val prefRepo: PreferencesStoreRepository
 ) : MshirikaViewModel() {
 
     private val _client = MutableStateFlow<Client?>(null)
@@ -42,6 +44,7 @@ class ClientViewModel @Inject constructor(
     val transactions
         get() = _transactions.asStateFlow()
 
+    suspend fun authKey()  = prefRepo.authKey()
 
     fun reload() =
         viewModelScope.launch(IO) {
@@ -90,7 +93,7 @@ class ClientViewModel @Inject constructor(
 
     private suspend fun handleAccounts() {
         _accounts.collectLatest { outcome ->
-            outcome.stateHandlerWithAction( "Retry", success = {
+            outcome.stateHandlerWithAction("Retry", success = {
                 data?.run {
                     //do some calculations
                     savingsAccounts.savingAccounts()

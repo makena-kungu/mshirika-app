@@ -171,4 +171,14 @@
     <string name="payment_type">Payment Type</string>
     <string name="field_cannot_be_empty">%s cannot be  empty</string>
     <string name="loan_repayment">Loan Repayment</string>
+    <string name="add_client">New Client</string>
+    <string name="add_group">New Group</string>
+    <string name="add_center">New Center</string>
+
+    <string name="create_client_transition">Create_Client_Background_Card</string>
+    <string name="create_group_transition">Create_Group_Background_Card</string>
+    <string name="create_center_transition">Create_Center_Background_Card</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="prev">Prev</string>
 </resources>

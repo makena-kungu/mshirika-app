@@ -6,7 +6,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.View.INVISIBLE
 import androidx.annotation.FloatRange
-import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.widget.Toolbar.OnMenuItemClickListener
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.view.isVisible
@@ -22,12 +21,12 @@ import co.ke.mshirika.mshirika_app.databinding.FragmentClientBinding
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Error
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Loading
 import co.ke.mshirika.mshirika_app.remote.utils.Urls
+import co.ke.mshirika.mshirika_app.ui.DetailsFragment
 import co.ke.mshirika.mshirika_app.ui.main.clients.adapters.LoanAccountsAdapter
 import co.ke.mshirika.mshirika_app.ui.main.clients.adapters.SavingsAccountsAdapter.SavingsClickListener
 import co.ke.mshirika.mshirika_app.ui.main.clients.adapters.TransactionsAdapter
 import co.ke.mshirika.mshirika_app.ui.main.clients.adapters.TransactionsAdapter.OnTransactionsItemClickListener
 import co.ke.mshirika.mshirika_app.ui.main.clients.viewModels.ClientViewModel
-import co.ke.mshirika.mshirika_app.ui.util.DetailsFragment
 import co.ke.mshirika.mshirika_app.ui.util.UIText
 import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.drawable
 import com.bumptech.glide.Glide
@@ -39,6 +38,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -75,7 +75,7 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
                 setupLoans()
                 loansAndTransactions.setupTransactions()
                 viewModel.totalSavings.collectLatest { it?.let(balance::setText) }
-                viewModel.client.collectLatest { it?.let(this@ClientFragment::loadImage) }
+                viewModel.client.collectLatest { client -> client?.let { loadImage(it) } }
             }
         }
     }
@@ -83,8 +83,11 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
     override val resId: Int
         get() = R.id.client
 
-    override val toolbar: Toolbar
+    override val toolbar: MaterialToolbar
         get() = binding.clientToolbar
+
+    override val toolbarTitle: String
+        get() = getString(R.string.client)
 
     override fun onMenuItemClick(item: MenuItem?): Boolean = item?.run {
         when (itemId) {
@@ -97,7 +100,8 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
         }
     } ?: false
 
-    private fun loadImage(client: Client) {
+    private suspend fun loadImage(client: Client) {
+        val authKey = viewModel.authKey()
         val headers = LazyHeaders
             .Builder()
             .addHeader("Authorization", authKey)
@@ -117,7 +121,7 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
 
     private suspend fun errorState() {
         viewModel.errorState.collectLatest { uiText ->
-            var title:String? = null
+            var title: String? = null
             val text = when (uiText) {
                 is UIText.DynamicText -> {
                     title = uiText.title
@@ -223,7 +227,11 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
         TODO("Not yet implemented")
     }
 
-    override fun onLoanRepayClicked(loanAccount: LoanAccount, position: Int, container: View):Boolean {
+    override fun onLoanRepayClicked(
+        loanAccount: LoanAccount,
+        position: Int,
+        container: View
+    ): Boolean {
         return false
     }
 

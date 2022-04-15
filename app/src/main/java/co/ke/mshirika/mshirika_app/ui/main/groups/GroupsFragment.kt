@@ -12,8 +12,7 @@ import co.ke.mshirika.mshirika_app.data.response.Group
 import co.ke.mshirika.mshirika_app.databinding.FragmentGroupsBinding
 import co.ke.mshirika.mshirika_app.ui.main.utils.State
 import co.ke.mshirika.mshirika_app.ui.search.OnSearchListener
-import co.ke.mshirika.mshirika_app.ui.util.MshirikaFragment
-import co.ke.mshirika.mshirika_app.utility.DataStore
+import co.ke.mshirika.mshirika_app.ui.MshirikaFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -60,9 +59,7 @@ class GroupsFragment : MshirikaFragment<FragmentGroupsBinding>(R.layout.fragment
     override fun onQueryTextSubmit(query: String?): Boolean {
         return if (!query.isNullOrBlank()) {
             lifecycleScope.launchWhenCreated {
-                DataStore(requireContext()).authKey.collectLatest {
                     viewModel.search(query)
-                }
             }
             false
         } else

@@ -7,12 +7,9 @@ import co.ke.mshirika.mshirika_app.pagingSource.Util.STARTING_PAGING_INDEX
 import co.ke.mshirika.mshirika_app.pagingSource.Util.loadResult
 import co.ke.mshirika.mshirika_app.pagingSource.Util.refreshKey
 import co.ke.mshirika.mshirika_app.remote.services.CentersService
-import co.ke.mshirika.mshirika_app.utility.Util.headers
-import javax.inject.Inject
 
-class CentersPagingSource
-@Inject constructor(
-    private val authKey: String,
+class CentersPagingSource(
+    private val headers: Map<String, String>,
     private val service: CentersService
 ) :
     PagingSource<Int, Center>() {
@@ -23,10 +20,11 @@ class CentersPagingSource
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Center> {
         val position = params.key ?: STARTING_PAGING_INDEX
         return centers(
-            headers = headers(authKey),
+            headers = headers,
             page = position,
             pageSize = params.loadSize
         )
+
     }
 
     private suspend fun centers(

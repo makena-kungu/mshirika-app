@@ -3,14 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:elevation="1dp">
+    android:layout_height="wrap_content">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:titleCentered="true"
-        app:titleTextAppearance="@style/TextAppearance.Toolbar.Title"
         tools:title="Title" />
 </com.google.android.material.appbar.AppBarLayout>

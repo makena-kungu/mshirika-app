@@ -107,4 +107,9 @@
     <action
         android:id="@+id/action_global_loanRepaymentFragment"
         app:destination="@id/loanRepaymentFragment" />
+    <fragment
+        android:id="@+id/createNewClientFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui.creation.clients.CreateNewClientFragment"
+        android:label="fragment_create_new_client"
+        tools:layout="@layout/fragment_create_new_client" /><action android:id="@+id/action_global_createNewClientFragment" app:destination="@id/createNewClientFragment"/>
 </navigation>

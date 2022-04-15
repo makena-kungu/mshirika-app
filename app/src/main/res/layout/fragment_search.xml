@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.search.SearchFragment">
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="co.ke.mshirika.mshirika_app.ui.search.SearchFragment" />
+    </data>
 
     <com.google.android.material.card.MaterialCardView
         style="?backgroundCardView"
-        android:transitionName="@string/search_fragment_card">
+        android:transitionName="@string/search_fragment_card"
+        tools:context=".ui.search.SearchFragment">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
@@ -81,12 +86,37 @@
                 </com.google.android.material.tabs.TabLayout>
             </com.google.android.material.appbar.AppBarLayout>
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/view_pager"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/view_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <FrameLayout
+                    android:id="@+id/suggestion_scrim"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    android:onClick="@{() -> fragment.hideSuggestions()}"
+                    android:background="#34000000">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginVertical="5dp">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:listitem="@layout/support_simple_spinner_dropdown_item" />
+                    </com.google.android.material.card.MaterialCardView>
+                </FrameLayout>
+            </FrameLayout>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </com.google.android.material.card.MaterialCardView>
-</FrameLayout>
+</layout>

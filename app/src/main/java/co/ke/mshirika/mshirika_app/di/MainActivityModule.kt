@@ -1,15 +1,12 @@
 package co.ke.mshirika.mshirika_app.di
 
 import android.content.Context
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModelProvider
-import co.ke.mshirika.mshirika_app.ui.MainViewModel
-import co.ke.mshirika.mshirika_app.utility.Util.headers
+import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ActivityScoped
 
 @Module
@@ -18,16 +15,9 @@ object MainActivityModule {
 
     @Provides
     @ActivityScoped
-    fun provideAuthKey(@ActivityContext context: Context): String {
-        val viewModel = ViewModelProvider(context as FragmentActivity)[MainViewModel::class.java]
-        return viewModel.key
-    }
-
-    @Provides
-    @ActivityScoped
-    fun provideHeaderMap(
-        authKey: String
-    ): Map<String, String> {
-        return headers(authKey)
+    fun providePrefRepository(
+        @ApplicationContext context: Context
+    ): PreferencesStoreRepository {
+        return PreferencesStoreRepository(context)
     }
 }

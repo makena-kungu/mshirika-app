@@ -1,6 +1,5 @@
 package co.ke.mshirika.mshirika_app.ui.loans
 
-import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -8,10 +7,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.databinding.FragmentLoanRepaymentBinding
+import co.ke.mshirika.mshirika_app.ui.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui.util.DateUtil.fromLongDate
 import co.ke.mshirika.mshirika_app.ui.util.DateUtil.longDate
-import co.ke.mshirika.mshirika_app.ui.util.MshirikaFragment
-import co.ke.mshirika.mshirika_app.ui.util.OnFragmentsAttach
 import co.ke.mshirika.mshirika_app.ui.util.UIText
 import co.ke.mshirika.mshirika_app.ui.util.Utils.openDatePicker
 import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.nonEmptyText
@@ -121,13 +119,5 @@ class LoanRepaymentFragment :
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         TODO("Not yet implemented")
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        with(context as OnFragmentsAttach) {
-            hideAppBar()
-        }
-        TODO("Push This Logic to the MshirikaFragment")
     }
 }

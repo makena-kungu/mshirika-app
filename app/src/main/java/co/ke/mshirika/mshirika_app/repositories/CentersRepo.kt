@@ -10,31 +10,37 @@ import co.ke.mshirika.mshirika_app.remote.services.CentersService
 import co.ke.mshirika.mshirika_app.remote.services.SearchService
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Success
 import co.ke.mshirika.mshirika_app.remote.utils.UnpackResponse.respond
+import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
 import co.ke.mshirika.mshirika_app.utility.Util.headers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class CentersRepo @Inject constructor(
-    private val authKey: String,
     private val service: CentersService,
-    private val pagingSource: CentersPagingSource,
-    private val searchService: SearchService
+    private val searchService: SearchService,
+    private val pref: PreferencesStoreRepository
 ) {
 
     private val _list = mutableListOf<Center>()
     private val _searched = MutableStateFlow<PagingData<Center>>(PagingData.empty())
-    private val headers by lazy { headers(authKey) }
 
     val searched get() = _searched.asStateFlow()
 
-    val centers
-        get() = Pager(
-            config = pagingConfig(),
-            pagingSourceFactory = { pagingSource }
-        ).flow
+    val centers: Flow<PagingData<Center>>
+        get() {
+            return flow {
+                val headers = pref.authKey().headers
+                Pager(
+                    config = pagingConfig(),
+                    pagingSourceFactory = { CentersPagingSource(headers, service) }
+                ).flow
+            }
+        }
 
-    suspend fun search(query: String) {
+    suspend fun search(headers: Map<String, String>, query: String) {
         respond {
             searchService.search(
                 map = headers,
@@ -44,14 +50,14 @@ class CentersRepo @Inject constructor(
         }.also {
             if (it is Success) {
                 it.data?.forEach { search ->
-                    search(search)
+                    search(headers, search)
                 }
                 _searched.value = PagingData.from(_list)
             }
         }
     }
 
-    suspend fun search(search: Search) {
+    suspend fun search(headers: Map<String, String>, search: Search) {
         respond {
             service.center(
                 headers = headers,

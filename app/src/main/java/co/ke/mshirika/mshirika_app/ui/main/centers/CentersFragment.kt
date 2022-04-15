@@ -10,16 +10,18 @@ import androidx.fragment.app.viewModels
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.data.response.Center
 import co.ke.mshirika.mshirika_app.databinding.FragmentCentersBinding
+import co.ke.mshirika.mshirika_app.ui.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui.main.utils.State
 import co.ke.mshirika.mshirika_app.ui.search.OnSearchListener
-import co.ke.mshirika.mshirika_app.ui.util.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui.util.Transitions.itemToDetailReentry
 import co.ke.mshirika.mshirika_app.ui.util.Transitions.itemToDetailTransition
+import com.google.android.material.appbar.MaterialToolbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
-class CentersFragment : MshirikaFragment<FragmentCentersBinding>(R.layout.fragment_centers), SearchView.OnQueryTextListener,
+class CentersFragment : MshirikaFragment<FragmentCentersBinding>(R.layout.fragment_centers),
+    SearchView.OnQueryTextListener,
     OnCenterClickListener,
     OnSearchListener {
 
@@ -38,6 +40,18 @@ class CentersFragment : MshirikaFragment<FragmentCentersBinding>(R.layout.fragme
             binding.setupRecyclerView()
         }
     }
+
+    override val toolbar: MaterialToolbar
+        get() = binding.appBar.toolbarLarge
+
+    override val hasToolbar: Boolean
+        get() = true
+
+    override val isTopFragment: Boolean
+        get() = true
+
+    override val toolbarTitle: String
+        get() = getString(R.string.centers)
 
     private suspend fun FragmentCentersBinding.setupRecyclerView() {
         val adapter = CentersAdapter(this@CentersFragment)

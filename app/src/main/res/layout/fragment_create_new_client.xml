@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.creation.clients.CreateNewClientFragment">
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="co.ke.mshirika.mshirika_app.ui.creation.clients.CreateNewClientFragment" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        style="?backgroundCardView"
+        android:transitionName="@string/create_client_transition">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="Deprecated">
+
+            <include layout="@layout/layout_app_bar_large" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/view_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toTopOf="@id/navigating_pages_flow"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/go_to_next"
+                    style="@style/Widget.Material3.Button.TextButton.Icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:contentDescription="@string/go_to_next_page"
+                    android:onClick="@{() -> fragment.navigateToNext()}"
+                    android:text="@string/next"
+                    app:icon="@drawable/ic_round_navigate_next_24"
+                    app:iconGravity="end" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/go_to_previous"
+                    style="@style/Widget.Material3.Button.TextButton.Icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|bottom"
+                    android:layout_margin="16dp"
+                    android:contentDescription="@string/go_to_previous_page"
+                    android:enabled="false"
+                    android:onClick="@{() -> fragment.navigateToPrevious()}"
+                    android:text="@string/prev"
+                    app:elevation="6dp"
+                    app:icon="@drawable/ic_round_navigate_before_24"
+                    app:iconGravity="start" />
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/create_client_progress"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:tabIndicator="@drawable/dr_tab_indicator"
+                    app:tabIndicatorAnimationMode="elastic"
+                    app:tabIndicatorFullWidth="false"
+                    app:tabIndicatorGravity="center"
+                    app:tabIndicatorHeight="5dp"
+                    app:tabMaxWidth="3dp"
+                    app:tabMode="fixed" />
+
+                <androidx.constraintlayout.helper.widget.Flow
+                    android:id="@+id/navigating_pages_flow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="go_to_previous,create_client_progress,go_to_next"
+                    app:flow_horizontalGap="10dp"
+                    app:flow_horizontalStyle="spread_inside"
+                    app:flow_wrapMode="chain"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

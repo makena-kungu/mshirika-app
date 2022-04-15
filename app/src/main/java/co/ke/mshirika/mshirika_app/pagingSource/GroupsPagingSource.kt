@@ -7,12 +7,9 @@ import co.ke.mshirika.mshirika_app.pagingSource.Util.STARTING_PAGING_INDEX
 import co.ke.mshirika.mshirika_app.pagingSource.Util.loadResult
 import co.ke.mshirika.mshirika_app.pagingSource.Util.refreshKey
 import co.ke.mshirika.mshirika_app.remote.services.GroupsService
-import co.ke.mshirika.mshirika_app.utility.Util.headers
-import javax.inject.Inject
 
-class GroupsPagingSource
-@Inject constructor(
-    private val authKey: String,
+class GroupsPagingSource(
+    private val headers: Map<String, String>,
     private val service: GroupsService
 ) :
     PagingSource<Int, Group>() {
@@ -23,7 +20,7 @@ class GroupsPagingSource
         val position = params.key ?: STARTING_PAGING_INDEX
 
         return service.groups(
-            headers = headers(authKey),
+            headers = headers,
             page = position,
             pageSize = params.loadSize
         ).loadResult(position)

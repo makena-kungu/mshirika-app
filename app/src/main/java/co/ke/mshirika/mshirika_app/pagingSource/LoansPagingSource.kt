@@ -8,10 +8,8 @@ import co.ke.mshirika.mshirika_app.pagingSource.Util.loadResult
 import co.ke.mshirika.mshirika_app.pagingSource.Util.refreshKey
 import co.ke.mshirika.mshirika_app.remote.services.LoansService
 import co.ke.mshirika.mshirika_app.utility.Util.headers
-import javax.inject.Inject
 
-class LoansPagingSource
-    @Inject constructor(
+class LoansPagingSource(
     private val authKey: String,
     private val service: LoansService
 ) :

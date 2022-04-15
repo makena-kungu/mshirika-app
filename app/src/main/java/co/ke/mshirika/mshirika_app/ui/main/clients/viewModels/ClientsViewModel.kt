@@ -10,10 +10,11 @@ import androidx.paging.PagingData.Companion.empty
 import androidx.paging.cachedIn
 import co.ke.mshirika.mshirika_app.data.response.Client
 import co.ke.mshirika.mshirika_app.repositories.ClientsRepo
+import co.ke.mshirika.mshirika_app.ui.MshirikaViewModel
 import co.ke.mshirika.mshirika_app.ui.main.utils.State
 import co.ke.mshirika.mshirika_app.ui.main.utils.State.Normal
 import co.ke.mshirika.mshirika_app.ui.main.utils.State.Searching
-import co.ke.mshirika.mshirika_app.ui.util.MshirikaViewModel
+import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
@@ -24,6 +25,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ClientsViewModel @Inject constructor(
     private val repo: ClientsRepo,
+    private val prefRepo: PreferencesStoreRepository,
     state: SavedStateHandle
 ) : MshirikaViewModel() {
     private val _clients = repo.clients.cachedIn(viewModelScope)
@@ -73,6 +75,10 @@ class ClientsViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    suspend fun authKey(): String {
+        return prefRepo.authKey()
     }
 
     companion object {

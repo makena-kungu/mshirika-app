@@ -26,9 +26,8 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.transition.TransitionManager.beginDelayedTransition
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.databinding.ActivityMainBinding
-import co.ke.mshirika.mshirika_app.ui.util.OnFragmentsAttach
+import co.ke.mshirika.mshirika_app.ui.util.OnMshirikaFragmentAttach
 import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.findNavigationController
-import co.ke.mshirika.mshirika_app.utility.DataStore
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkMonitor
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkState.Offline
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkState.Online
@@ -38,7 +37,6 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.google.android.material.transition.MaterialSharedAxis.Y
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import java.time.Duration
 import javax.inject.Inject
 
@@ -46,7 +44,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(),
     Toolbar.OnMenuItemClickListener,
     NavigationView.OnNavigationItemSelectedListener,
-    OnFragmentsAttach {
+    OnMshirikaFragmentAttach {
     private val viewModel: MainViewModel by viewModels()
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -75,29 +73,10 @@ class MainActivity : AppCompatActivity(),
             }
         }
 
-    private val fabListener =
-        NavController.OnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.clientsFragment ->
-                    binding.addFab.fab(R.string.desc_create_client, this::openCreateClient)
-                R.id.groupsFragment ->
-                    binding.addFab.fab(R.string.desc_create_group, this::openCreateGroup)
-                R.id.centersFragment ->
-                    binding.addFab.fab(R.string.desc_create_center, this::openCreateCenter)
-                else -> binding.addFab.fab(null) {}
-            }
-        }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        lifecycleScope.launchWhenStarted {
-            DataStore(context = this@MainActivity).authKey.collectLatest {
-                viewModel.setKey(it)
-            }
-        }
 
         binding.apply {
             setSupportActionBar(toolbar)
@@ -105,7 +84,6 @@ class MainActivity : AppCompatActivity(),
             appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
             drawerLayout()
             navController.addOnDestinationChangedListener(appBarListener)
-            navController.addOnDestinationChangedListener(fabListener)
 
             internetStatus.internetStatus()
         }
@@ -135,25 +113,6 @@ class MainActivity : AppCompatActivity(),
     override fun onSupportNavigateUp(): Boolean =
         findNavController(R.id.nav_host_fragment_main)
             .navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-
-    private fun openCreateClient() {
-        transition()
-        TODO()
-    }
-
-    private fun openCreateCenter() {
-        transition()
-        TODO()
-    }
-
-    private fun openCreateGroup() {
-        transition()
-        TODO()
-    }
-
-    private fun transition() {
-        TODO()
-    }
 
     private fun ActivityMainBinding.drawerLayout() {
         toggle = ActionBarDrawerToggle(
@@ -274,7 +233,6 @@ class MainActivity : AppCompatActivity(),
         super.onResume()
         navController.apply {
             addOnDestinationChangedListener(appBarListener)
-            addOnDestinationChangedListener(fabListener)
         }
     }
 
@@ -282,7 +240,6 @@ class MainActivity : AppCompatActivity(),
         super.onPause()
         navController.apply {
             removeOnDestinationChangedListener(appBarListener)
-            removeOnDestinationChangedListener(fabListener)
         }
     }
 

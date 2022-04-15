@@ -12,6 +12,8 @@ import co.ke.mshirika.mshirika_app.repositories.GroupsRepo
 import co.ke.mshirika.mshirika_app.ui.main.utils.State
 import co.ke.mshirika.mshirika_app.ui.main.utils.State.Normal
 import co.ke.mshirika.mshirika_app.ui.main.utils.State.Searching
+import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
+import co.ke.mshirika.mshirika_app.utility.Util.headers
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,6 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class GroupsViewModel @Inject constructor(
     private val repo: GroupsRepo,
+    private val prefRepo: PreferencesStoreRepository,
     stateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -42,7 +45,8 @@ class GroupsViewModel @Inject constructor(
 
     fun search(query: String) {
         viewModelScope.launch(IO) {
-            repo.search(query)
+            val headers = prefRepo.authKey().headers
+            repo.search(headers, query)
         }
     }
 

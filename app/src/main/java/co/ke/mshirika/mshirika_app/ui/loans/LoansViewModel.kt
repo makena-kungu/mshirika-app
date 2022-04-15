@@ -8,7 +8,7 @@ import co.ke.mshirika.mshirika_app.data.response.LoanAccount
 import co.ke.mshirika.mshirika_app.data.response.RepaymentType
 import co.ke.mshirika.mshirika_app.repositories.LoansRepo
 import co.ke.mshirika.mshirika_app.ui.util.DateUtil.mshirikaDate
-import co.ke.mshirika.mshirika_app.ui.util.MshirikaViewModel
+import co.ke.mshirika.mshirika_app.ui.MshirikaViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.*

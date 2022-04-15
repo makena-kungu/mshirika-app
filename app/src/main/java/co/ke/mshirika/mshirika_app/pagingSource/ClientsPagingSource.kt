@@ -8,10 +8,9 @@ import co.ke.mshirika.mshirika_app.pagingSource.Util.loadResult
 import co.ke.mshirika.mshirika_app.pagingSource.Util.refreshKey
 import co.ke.mshirika.mshirika_app.remote.services.ClientsService
 import co.ke.mshirika.mshirika_app.utility.Util.headers
-import javax.inject.Inject
 
-class ClientsPagingSource @Inject constructor(
-    private val authKey: String,
+class ClientsPagingSource(
+    private val authKey:String,
     private val service: ClientsService
 ) : PagingSource<Int, Client>() {
 
@@ -22,9 +21,9 @@ class ClientsPagingSource @Inject constructor(
         val position = params.key ?: STARTING_PAGING_INDEX
 
         return service.clients(
-            headers = headers(authKey),
-            page = position,
-            perPage = 10
-        ).loadResult(position)
+                headers = headers(authKey),
+                page = position,
+                perPage = 10
+            ).loadResult(position)
     }
 }

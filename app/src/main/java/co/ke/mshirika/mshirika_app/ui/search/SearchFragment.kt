@@ -12,15 +12,15 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.core.content.getSystemService
 import androidx.core.content.res.use
-import androidx.fragment.app.Fragment
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.data.response.Client
 import co.ke.mshirika.mshirika_app.data.response.Group
 import co.ke.mshirika.mshirika_app.data.response.LoanAccount
 import co.ke.mshirika.mshirika_app.databinding.FragmentSearchBinding
+import co.ke.mshirika.mshirika_app.ui.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui.loans.OnLoanClickListener
 import co.ke.mshirika.mshirika_app.ui.main.clients.OnClientItemClickListener
 import co.ke.mshirika.mshirika_app.ui.main.groups.OnGroupClickListener
@@ -28,20 +28,14 @@ import co.ke.mshirika.mshirika_app.ui.search.fragments.clients.ClientsFragment
 import co.ke.mshirika.mshirika_app.ui.search.fragments.groups.GroupsFragment
 import co.ke.mshirika.mshirika_app.ui.search.fragments.loans.LoansFragment
 import co.ke.mshirika.mshirika_app.ui.util.Transitions.itemToDetailTransition
-import co.ke.mshirika.mshirika_app.utility.DataStore
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
-class SearchFragment : Fragment(R.layout.fragment_search), OnClientItemClickListener,
+class SearchFragment : MshirikaFragment<FragmentSearchBinding>(R.layout.fragment_search), OnClientItemClickListener,
     OnGroupClickListener, OnLoanClickListener {
     val viewModel by viewModels<SearchViewModel>()
-
-    private var _binding: FragmentSearchBinding? = null
-    private val binding: FragmentSearchBinding get() = _binding!!
-    private val lifecycleScope get() = viewLifecycleOwner.lifecycleScope
     private val clientsFragment by lazy {
         ClientsFragment.getInstance()
     }
@@ -61,18 +55,10 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnClientItemClickList
             setAllContainerColors(requireContext().themeColor(R.attr.colorSurface))
         }
 
-        with(DataStore(requireContext())) {
-            lifecycleScope.launchWhenStarted {
-                authKey.collectLatest {
-                    viewModel.authKey = it
-                }
-            }
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentSearchBinding.bind(view)
 
         binding.apply {
             setupSearchView()
@@ -159,9 +145,8 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnClientItemClickList
         TODO("Not yet implemented")
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    fun hideSuggestions() {
+        binding.suggestionScrim.isVisible = false
     }
 
     @ColorInt

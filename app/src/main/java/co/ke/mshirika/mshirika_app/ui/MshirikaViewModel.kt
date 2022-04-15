@@ -1,7 +1,9 @@
-package co.ke.mshirika.mshirika_app.ui.util
+package co.ke.mshirika.mshirika_app.ui
 
 import androidx.lifecycle.ViewModel
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome
+import co.ke.mshirika.mshirika_app.ui.util.UIText
+import co.ke.mshirika.mshirika_app.ui.util.dynamicText
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 

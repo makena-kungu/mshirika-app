@@ -10,20 +10,16 @@ import co.ke.mshirika.mshirika_app.remote.services.SearchService
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Success
 import co.ke.mshirika.mshirika_app.remote.utils.UnpackResponse.respond
-import co.ke.mshirika.mshirika_app.utility.Util.headers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 class SearchRepo @Inject constructor(
-    authKey: String,
     private val searchService: SearchService,
     private val clientsService: ClientsService,
     private val groupsService: GroupsService,
     private val loansService: LoansService
 ) {
-
-    private val headers: Map<String, String> = headers(authKey)
 
     private val clientsList = mutableListOf<Client>()
     private val groupsList = mutableListOf<Group>()
@@ -39,7 +35,10 @@ class SearchRepo @Inject constructor(
     val groups = _groups.asStateFlow()
     val loans = _loans.asStateFlow()
 
-    suspend fun search(query: String) {
+    lateinit var headers: Map<String, String>
+
+    suspend fun search(headers: Map<String, String>, query: String) {
+        this.headers = headers
         searchClients(query)
         searchLoans(query)
         searchGroups(query)

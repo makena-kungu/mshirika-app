@@ -7,7 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
-import co.ke.mshirika.mshirika_app.utility.DataStore
+import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
 import co.ke.mshirika.mshirika_app.ui.MainActivity
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.databinding.ActivityLauncherBinding
@@ -23,7 +23,7 @@ class LauncherActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleScope.launchWhenCreated {
-            DataStore(this@LauncherActivity)
+            PreferencesStoreRepository(this@LauncherActivity)
                 .isLoggedIn
                 .collectLatest {
                     if (it) startMainActivity()

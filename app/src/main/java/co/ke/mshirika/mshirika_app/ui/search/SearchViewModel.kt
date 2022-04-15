@@ -5,15 +5,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import co.ke.mshirika.mshirika_app.repositories.SearchRepo
+import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
+import co.ke.mshirika.mshirika_app.utility.Util.headers
 import co.ke.mshirika.mshirika_app.utility.mld
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val repo: SearchRepo,
+    private val prefRepo: PreferencesStoreRepository,
     stateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -28,18 +31,18 @@ class SearchViewModel @Inject constructor(
 
     private val _query = stateHandle.getLiveData<String>(KEY_QUERY)
 
-    var authKey: String? = null
-
     fun setQuery(query: String) {
         _query.value = query
     }
 
+    suspend fun authKey(): String {
+        return prefRepo.authKey()
+    }
+
     init {
         _query.switchMap { query ->
-            authKey?.also { authKey ->
-                viewModelScope.launch(IO) {
-                    repo.search(query)
-                }
+            viewModelScope.launch(Dispatchers.IO) {
+                repo.search(prefRepo.authKey().headers, query)
             }
             mld<Nothing>()
         }

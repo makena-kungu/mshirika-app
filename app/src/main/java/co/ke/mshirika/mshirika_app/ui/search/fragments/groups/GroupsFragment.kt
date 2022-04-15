@@ -10,7 +10,7 @@ import co.ke.mshirika.mshirika_app.ui.main.groups.GroupsAdapter
 import co.ke.mshirika.mshirika_app.ui.main.groups.OnGroupClickListener
 import co.ke.mshirika.mshirika_app.ui.search.OnSearchListener
 import co.ke.mshirika.mshirika_app.ui.search.SearchViewModel
-import co.ke.mshirika.mshirika_app.ui.util.MshirikaFragment
+import co.ke.mshirika.mshirika_app.ui.MshirikaFragment
 import kotlinx.coroutines.flow.collectLatest
 
 class GroupsFragment : MshirikaFragment<FragmentSearchFragsBinding>(R.layout.fragment_search_frags), OnSearchListener {

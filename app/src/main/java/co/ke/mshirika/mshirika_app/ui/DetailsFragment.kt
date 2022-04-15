@@ -1,4 +1,4 @@
-package co.ke.mshirika.mshirika_app.ui.util
+package co.ke.mshirika.mshirika_app.ui
 
 import androidx.annotation.LayoutRes
 
