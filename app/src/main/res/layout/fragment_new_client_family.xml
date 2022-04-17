@@ -78,14 +78,6 @@
             android:hint="@string/marital_status_" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/submit"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:enabled="false"
-        android:onClick="@{frag.submit}"
-        android:text="@string/submit" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/family_members"
         android:layout_width="match_parent"
@@ -97,7 +89,7 @@
     <androidx.constraintlayout.helper.widget.Flow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="full_name_lo,dob_lo,relationship_lo,gender_lo,marital_status_lo,submit,family_members"
+        app:constraint_referenced_ids="full_name_lo,dob_lo,relationship_lo,gender_lo,marital_status_lo,family_members"
         app:flow_horizontalStyle="spread_inside"
         app:flow_verticalGap="5dp"
         app:flow_horizontalGap="5dp"
