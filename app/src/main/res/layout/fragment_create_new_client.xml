@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.creation.clients.CreateNewClientFragment">
+    tools:context=".ui.create.new_client.MainFragment">
 
     <data>
 
         <variable
             name="fragment"
-            type="co.ke.mshirika.mshirika_app.ui.creation.clients.CreateNewClientFragment" />
+            type="co.ke.mshirika.mshirika_app.ui.create.new_client.MainFragment" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -61,26 +61,25 @@
                     app:icon="@drawable/ic_round_navigate_before_24"
                     app:iconGravity="start" />
 
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/create_client_progress"
-                    android:layout_width="0dp"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/indicators"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:tabIndicator="@drawable/dr_tab_indicator"
-                    app:tabIndicatorAnimationMode="elastic"
-                    app:tabIndicatorFullWidth="false"
-                    app:tabIndicatorGravity="center"
-                    app:tabIndicatorHeight="5dp"
-                    app:tabMaxWidth="3dp"
-                    app:tabMode="fixed" />
+                    android:maxHeight="60dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:stackFromEnd="true"
+                    tools:itemCount="4"
+                    tools:listitem="@layout/item_page_indicator" />
 
                 <androidx.constraintlayout.helper.widget.Flow
                     android:id="@+id/navigating_pages_flow"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:constraint_referenced_ids="go_to_previous,create_client_progress,go_to_next"
+                    app:constraint_referenced_ids="go_to_previous,indicators,go_to_next"
                     app:flow_horizontalGap="10dp"
                     app:flow_horizontalStyle="spread_inside"
-                    app:flow_wrapMode="chain"
+                    app:flow_wrapMode="chain2"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

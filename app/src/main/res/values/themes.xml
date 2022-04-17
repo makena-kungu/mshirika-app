@@ -36,6 +36,10 @@
 
         <item name="colorCustomPrimaryContainer">@color/md_theme_light_primaryContainer</item>
 
+        <item name="textInputOutlinedDenseStyle">@style/Widget.Mshirika.TextInputLayout.OutlinedBox.Dense</item>
+        <item name="textInputOutlinedExposedDropdownMenuStyle">@style/Widget.Mshirika.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu</item>
+
+        <!-- belongs to Mshirika -->
         <item name="backgroundCardView">@style/Widget.Mshirika.Transition.CardView</item>
         <item name="clientOutlinedButton">@style/Widget.Mshirika.Client.OutlinedButton</item>
         <item name="roundImage">@style/Widget.Mshirika.ImageView.Round</item>

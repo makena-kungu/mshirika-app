@@ -88,24 +88,28 @@
     </style>
 
     <style name="Widget.Mshirika.TextInputLayout.OutlinedBox.Dense" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-        <!--<item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.MediumComponent</item>-->
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.MediumComponent</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="Widget.Mshirika.TextInputLayout.OutlinedBox.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-        <!--<item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.MediumComponent</item>-->
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.MediumComponent</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="Widget.Mshirika.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
-        <!--<item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.MediumComponent</item>-->
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.MediumComponent</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="Widget.Mshirika.Shape" parent="">
         <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style name="ShapeAppearance.Mshirika.MediumComponent" parent="ShapeAppearance.Material3.MediumComponent">
+
     </style>
 </resources>
