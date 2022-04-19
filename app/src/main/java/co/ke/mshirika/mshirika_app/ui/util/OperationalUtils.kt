@@ -1,12 +1,12 @@
 package co.ke.mshirika.mshirika_app.ui.util
 
-import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.Fragment
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.datepicker.MaterialDatePicker.Builder.datePicker
 
-object Utils {
-    fun openDatePicker(title: String, fragmentMan: FragmentManager, action: (Long) -> Unit) {
+object OperationalUtils {
+    fun Fragment.openDatePicker(title: String, action: (Long) -> Unit) {
         val constraints = CalendarConstraints.Builder()
             .setEnd(System.currentTimeMillis())
             .build()
@@ -17,6 +17,7 @@ object Utils {
             setTitleText(title)
             build()
         }
+
         datePicker.run {
             addOnNegativeButtonClickListener {
                 dismiss()
@@ -26,8 +27,8 @@ object Utils {
                 dismiss()
             }
 
-            show(fragmentMan, "{$title}_date_picker")
         }
+        datePicker.show(parentFragmentManager, "{$title}_date_picker")
 
     }
 }

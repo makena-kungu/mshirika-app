@@ -9,7 +9,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.activity.viewModels
-import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
@@ -27,11 +26,10 @@ import androidx.transition.TransitionManager.beginDelayedTransition
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.databinding.ActivityMainBinding
 import co.ke.mshirika.mshirika_app.ui.util.OnMshirikaFragmentAttach
-import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.findNavigationController
+import co.ke.mshirika.mshirika_app.ui.util.findNavigationController
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkMonitor
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkState.Offline
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkState.Online
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.android.material.transition.MaterialSharedAxis.Y
@@ -215,15 +213,6 @@ class MainActivity : AppCompatActivity(),
 
     private fun ActivityMainBinding.showNetStatus() {
         motionLayout.transitionToEnd()
-    }
-
-    private fun FloatingActionButton.fab(@StringRes desc: Int?, onClickListener: () -> Unit) {
-        desc?.let { resId ->
-            contentDescription = getString(resId)
-        }
-        setOnClickListener {
-            onClickListener()
-        }
     }
 
     private val Int.color: ColorStateList

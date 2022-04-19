@@ -3,6 +3,7 @@ package co.ke.mshirika.mshirika_app.repositories
 import androidx.paging.Pager
 import androidx.paging.PagingData
 import co.ke.mshirika.mshirika_app.data.response.Client
+import co.ke.mshirika.mshirika_app.data.response.CreateClientTemplate
 import co.ke.mshirika.mshirika_app.data.response.LoanAccount
 import co.ke.mshirika.mshirika_app.data.response.Search
 import co.ke.mshirika.mshirika_app.data.response.Search.Companion.ENTITY_CLIENT
@@ -14,8 +15,10 @@ import co.ke.mshirika.mshirika_app.remote.services.ClientsService
 import co.ke.mshirika.mshirika_app.remote.services.LoansService
 import co.ke.mshirika.mshirika_app.remote.services.SearchService
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome
-import co.ke.mshirika.mshirika_app.remote.utils.Outcome.*
+import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Loading
+import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Success
 import co.ke.mshirika.mshirika_app.remote.utils.UnpackResponse.respond
+import co.ke.mshirika.mshirika_app.remote.utils.empty
 import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
 import co.ke.mshirika.mshirika_app.utility.Util.headers
 import kotlinx.coroutines.flow.Flow
@@ -33,10 +36,11 @@ class ClientsRepo @Inject constructor(
     private val searchedClientList = mutableListOf<Client>()
     private val loanAccounts = mutableListOf<LoanAccount>()
 
-    private val _accounts = MutableStateFlow<Outcome<AccountsResponse>>(Empty())
+    private val _accounts = MutableStateFlow<Outcome<AccountsResponse>>(empty())
     private val _loans = MutableStateFlow<List<LoanAccount>>(emptyList())
-    private val _searchedClients = MutableStateFlow<Outcome<PagingData<Client>>>(Empty())
-    private val _transactions = MutableStateFlow<Outcome<TransactionResponse>>(Empty())
+    private val _searchedClients = MutableStateFlow<Outcome<PagingData<Client>>>(empty())
+    private val _transactions = MutableStateFlow<Outcome<TransactionResponse>>(empty())
+    private val _template = MutableStateFlow<Outcome<CreateClientTemplate>>(empty())
 
     val accounts
         get() = _accounts
@@ -46,7 +50,8 @@ class ClientsRepo @Inject constructor(
         get() = _searchedClients.asStateFlow()
     val transactions
         get() = _transactions.asStateFlow()
-
+    val template
+        get() = _template.asStateFlow()
 
     val clients: Flow<PagingData<Client>>
         get() = flow {
@@ -140,6 +145,13 @@ class ClientsRepo @Inject constructor(
             _transactions.value = it
         }
     }
+
+    suspend fun template() =
+        respond {
+            service.template(headers())
+        }.let {
+            _template.value = it
+        }
 
     private suspend fun headers() = prefRepo.authKey().headers
 }

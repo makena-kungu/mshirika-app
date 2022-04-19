@@ -54,7 +54,7 @@
                 style="?textInputOutlinedDenseStyle">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/first_name_"
+                    android:id="@+id/first_name_required"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/first_name_" />
@@ -132,9 +132,11 @@
                     android:id="@+id/male"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="true"
                     android:text="@string/male" />
 
                 <RadioButton
+                    android:id="@+id/female"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/female" />
@@ -197,6 +199,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/email_lo"
+                app:errorEnabled="true"
                 style="?textInputOutlinedDenseStyle">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -216,12 +219,14 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/activation_date_lo"
                 style="?textInputOutlinedDenseStyle"
+                app:endIconMode="custom"
                 app:endIconContentDescription="@string/pick_date_desc"
                 app:endIconDrawable="@drawable/ic_baseline_calendar_month_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/activation_date"
                     android:layout_width="match_parent"
+                    android:inputType="date"
                     android:layout_height="wrap_content"
                     android:hint="@string/activation_date_" />
             </com.google.android.material.textfield.TextInputLayout>

@@ -1,6 +1,7 @@
 package co.ke.mshirika.mshirika_app.remote.services
 
 import co.ke.mshirika.mshirika_app.data.response.Client
+import co.ke.mshirika.mshirika_app.data.response.CreateClientTemplate
 import co.ke.mshirika.mshirika_app.remote.response.AccountsResponse
 import co.ke.mshirika.mshirika_app.remote.response.ClientResponse
 import co.ke.mshirika.mshirika_app.remote.response.TransactionResponse
@@ -34,6 +35,11 @@ interface ClientsService {
         @HeaderMap headers: Map<String, String>,
         @Path(CLIENT_ID) clientId: Int
     ): Response<Client>
+
+    @GET(EndPoint.CLIENTS_TEMPLATE)
+    suspend fun template(
+        @HeaderMap headers: Map<String, String>
+    ):Response<CreateClientTemplate>
 
     @GET("${EndPoint.SAVINGS_ACCOUNTS}/{accountId}")
     suspend fun transactions(

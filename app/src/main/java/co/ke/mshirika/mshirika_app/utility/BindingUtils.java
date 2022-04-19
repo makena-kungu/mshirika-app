@@ -5,13 +5,14 @@ import androidx.annotation.NonNull;
 import java.math.BigDecimal;
 import java.util.List;
 
+import co.ke.mshirika.mshirika_app.ui.util.DateUtil;
 import co.ke.mshirika.mshirika_app.ui.util.ViewUtils;
 
 public class BindingUtils {
 
     @NonNull
     public static String mediumDate(List<Integer> date) {
-        return ViewUtils.INSTANCE.mediumDate(date);
+        return DateUtil.INSTANCE.mediumDate(date);
     }
 
     @NonNull

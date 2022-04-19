@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.data.response.Transaction
 import co.ke.mshirika.mshirika_app.databinding.ItemTransactionBinding
+import co.ke.mshirika.mshirika_app.ui.util.DateUtil.mediumDate
 import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.amt
-import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.mediumDate
 
 class TransactionsAdapter(private val listener: OnTransactionsItemClickListener) :
     ListAdapter<Transaction, TransactionsAdapter.TransactionsViewHolder>(Transaction) {

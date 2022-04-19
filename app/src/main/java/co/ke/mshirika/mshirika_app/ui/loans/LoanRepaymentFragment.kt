@@ -9,10 +9,11 @@ import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.databinding.FragmentLoanRepaymentBinding
 import co.ke.mshirika.mshirika_app.ui.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui.util.DateUtil.fromLongDate
-import co.ke.mshirika.mshirika_app.ui.util.DateUtil.longDate
+import co.ke.mshirika.mshirika_app.ui.util.DateUtil.shortDate
+import co.ke.mshirika.mshirika_app.ui.util.EditableUtils.attachNonVoidFields
+import co.ke.mshirika.mshirika_app.ui.util.EditableUtils.s
+import co.ke.mshirika.mshirika_app.ui.util.OperationalUtils.openDatePicker
 import co.ke.mshirika.mshirika_app.ui.util.UIText
-import co.ke.mshirika.mshirika_app.ui.util.Utils.openDatePicker
-import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.nonEmptyText
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
@@ -51,7 +52,11 @@ class LoanRepaymentFragment :
                         }
                         show()
                     }
-                is UIText.ResourceText -> uiText.text(requireContext())
+                else -> {
+                    uiText.text(requireContext()).also {
+                        Snackbar.make(binding.root, it, LENGTH_LONG).show()
+                    }
+                }
             }
         }
     }
@@ -70,39 +75,51 @@ class LoanRepaymentFragment :
 
     private fun FragmentLoanRepaymentBinding.openRepaymentCalendar() {
         repaymentDateL.setEndIconOnClickListener {
-            openDatePicker("Repayment Date", parentFragmentManager) {
-                repaymentDate.setText(it.longDate)
+            openDatePicker("Repayment Date") {
+                repaymentDate.setText(it.shortDate)
             }
         }
     }
 
     private fun FragmentLoanRepaymentBinding.openBankCalendar() {
         repaymentBankDateL.setEndIconOnClickListener {
-            openDatePicker("Bank Date", parentFragmentManager) {
-                repaymentBankDate.setText(it.longDate)
+            openDatePicker("Bank Date") {
+                repaymentBankDate.setText(it.shortDate)
             }
         }
     }
 
     private fun FragmentLoanRepaymentBinding.setupOnRepayment() {
-        makeRepayment.setOnClickListener {
-            val c = requireContext()
-            var canProceed = false
-            val amount = repaymentAmount.nonEmptyText("Amount", c) { canProceed = it == true }
-            val type = paymentType.nonEmptyText("Payment type", c) { canProceed = it == true }
-            val code = receipt.nonEmptyText("Receipt Code", c) { canProceed = it == true }
-            val repaymentDate = repaymentDate.nonEmptyText("", c) { canProceed = it == true }
-            val bankDate = repaymentBankDate.nonEmptyText("", c) { canProceed = it == true }
+        makeRepayment.attachNonVoidFields(
+            repaymentAmount,
+            paymentType,
+            receipt,
+            repaymentDate,
+            repaymentBankDate
+        )
 
-            if (canProceed) {
-                viewModel.repay(
-                    amount!!,
-                    type!!,
-                    code!!,
-                    repaymentDate!!.fromLongDate,
-                    bankDate!!.fromLongDate
-                )
-            }
+        makeRepayment.setOnClickListener {
+            /*val c = requireContext()
+            var canProceed = false
+
+            if (amount == null || type == null || code == null || repaymentDate == null || bankDate == null)
+                return@setOnClickListener
+
+            if (canProceed) {*/
+
+            val amount = repaymentAmount.s
+            val type = paymentType.s
+            val code = receipt.s
+            val repaymentDate = repaymentDate.s
+            val bankDate = repaymentBankDate.s
+
+            viewModel.repay(
+                amount,
+                type,
+                code,
+                repaymentDate.fromLongDate,
+                bankDate.fromLongDate
+            )
         }
     }
 

@@ -122,14 +122,19 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
     private suspend fun errorState() {
         viewModel.errorState.collectLatest { uiText ->
             var title: String? = null
+            var action: (() -> Unit)? = null
+
             val text = when (uiText) {
                 is UIText.DynamicText -> {
                     title = uiText.title
+                    action = uiText.action
                     uiText.text
                 }
                 is UIText.ResourceText -> {
+                    action = uiText.action
                     uiText.text(requireContext())
                 }
+                is UIText.PlainText -> uiText.s
             }
 
             Snackbar.make(
@@ -140,7 +145,7 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
                 title?.let { title ->
                     //if the title is not null then there's an action present
                     setAction(title) {
-                        uiText.action()
+                        action?.let { function -> function() }
                     }
                 }
                 show()

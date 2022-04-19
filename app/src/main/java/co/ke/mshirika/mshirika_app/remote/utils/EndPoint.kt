@@ -12,6 +12,7 @@ object EndPoint {
     const val CENTERS = "centers"
     const val CENTER = "$CENTERS/{$CENTER_ID}"
     const val CLIENTS = "clients"
+    const val CLIENTS_TEMPLATE = "$CLIENTS/template"
     const val CLIENT = "$CLIENTS/{$CLIENT_ID}"
     const val CLIENT_ACCOUNTS = "$CLIENTS/{$CLIENT_ID}/accounts"
     const val COLLECTION_SHEET = "collectionsheet"

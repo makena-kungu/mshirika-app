@@ -181,4 +181,7 @@
     <string name="female">Female</string>
     <string name="male">Male</string>
     <string name="prev">Prev</string>
+    <string name="email_pattern_error">Please enter a valid email address!</string>
+    <string name="create_client">Create New Client</string>
+    <string name="add_family_member">Add family member</string>
 </resources>

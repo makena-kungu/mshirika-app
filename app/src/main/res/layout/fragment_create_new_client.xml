@@ -20,7 +20,9 @@
             android:layout_height="match_parent"
             tools:ignore="Deprecated">
 
-            <include layout="@layout/layout_app_bar_large" />
+            <include
+                android:id="@+id/app_bar_large"
+                layout="@layout/layout_app_bar_large" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
