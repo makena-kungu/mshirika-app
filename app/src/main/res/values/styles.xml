@@ -49,6 +49,16 @@
         <item name="android:paddingEnd">6dp</item>
     </style>
 
+    <style name="Widget.Mshirika.TextInputLayout.Date" parent="Widget.Mshirika.TextInputLayout.OutlinedBox">
+        <item name="endIconMode">custom</item>
+        <item name="endIconDrawable">@drawable/ic_baseline_calendar_month_24</item>
+    </style>
+
+    <style name="Widget.Mshirika.TextInputLayout.Dense.Date" parent="Widget.Mshirika.TextInputLayout.OutlinedBox.Dense">
+        <item name="endIconMode">custom</item>
+        <item name="endIconDrawable">@drawable/ic_baseline_calendar_month_24</item>
+    </style>
+
     <style name="Widget.Mshirika.TextInputEditText.Date">
         <!--<item name="android:editable">false</item>-->
         <item name="android:inputType">date</item>
@@ -56,6 +66,10 @@
 
     <style name="Widget.Mshirika.TextInputEditText.SingleLine">
         <item name="maxLines">1</item>
+    </style>
+
+    <style name="Widget.Mshirika.BottomSheetStyle" parent="Widget.Material3.BottomSheet">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.BottomSheet</item>
     </style>
 
     <style name="Widget.Mshirika.TextAutoComplete" parent="">
@@ -81,8 +95,8 @@
         <item name="boxCornerRadiusTopStart">8dp</item>
     </style>
 
-    <style name="Widget.Mshirika.TextInputLayout.OutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <!--<item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.MediumComponent</item>-->
+    <style name="Widget.Mshirika.TextInputLayout.OutlinedBox" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.MediumComponent</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
@@ -107,6 +121,13 @@
 
     <style name="Widget.Mshirika.Shape" parent="">
         <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style name="ShapeAppearance.Mshirika.BottomSheet" parent="Widget.Mshirika.Shape">
+        <item name="cornerSizeTopLeft">16dp</item>
+        <item name="cornerSizeTopRight">16dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
     </style>
 
     <style name="ShapeAppearance.Mshirika.MediumComponent" parent="ShapeAppearance.Material3.MediumComponent">

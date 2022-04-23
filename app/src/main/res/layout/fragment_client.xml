@@ -203,7 +203,7 @@
                             android:id="@+id/loan_account"
                             style="?clientOutlinedButton"
                             android:onClick="@{(view)->fragment.newLoanAccount()}"
-                            android:text="@string/loan"
+                            android:text="@string/new_loan"
                             app:icon="@drawable/ic_round_account_balance_24" />
 
                         <com.google.android.material.button.MaterialButton

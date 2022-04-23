@@ -12,7 +12,7 @@
     <string name="no_internet">No Internet Connection!</string>
     <string name="office">Office</string>
     <string name="online">Online</string>
-    <string name="search">Search…</string>
+    <string name="search_ellipsize">Search…</string>
 
     <!--Client-->
     <string name="available_balance">Available Balance</string>
@@ -21,7 +21,8 @@
     <string name="deposit">Deposit</string>
     <string name="edit">Edit</string>
     <string name="loan_balance">Loan Balance</string>
-    <string name="loan">New Loan</string>
+    <string name="new_loan">New Loan</string>
+    <string name="loan">Loan</string>
     <string name="new_savings">New Savings</string>
     <string name="payment">Payment</string>
     <string name="transfer">Transfer</string>
@@ -94,16 +95,19 @@
     <string name="middle_name">Middle Name</string>
     <string name="date_of_birth">Date of Birth</string>
     <string name="pick_date_desc">Pick date of birth from the calendar</string>
+    <string name="pick_client_image_desc">Pick client image</string>
     <string name="member_no">Member Number</string>
     <string name="member_no_">Member Number: %1$s</string>
     <string name="mobile_no">Mobile Number</string>
     <string name="gender">Gender</string>
-    <string name="is_staff">Is Staff?</string>
+    <string name="is_staff_">Is Staff?</string>
+    <string name="is_staff">Is Staff</string>
     <string name="client_type">Client Type</string>
     <string name="client_classification">Client Classification</string>
     <string name="submit_date">Submitted On</string>
     <string name="email_address">Email Address</string>
     <string name="active">Active?</string>
+    <string name="activation_date">Activation Date</string>
     <string name="activation_date_">Activation Date*</string>
     <string name="open_savings_account">Open Savings Account</string>
     <string name="savings_product">Savings Product*</string>
@@ -137,6 +141,7 @@
     <string name="make_payment">Make Payment</string>
 
     <string name="external_id">External ID: %1$s</string>
+    <string name="external_identification">External ID</string>
     <string name="account_no">"Account No: %1$s"</string>
 
     <!--Transition-->
@@ -182,6 +187,26 @@
     <string name="male">Male</string>
     <string name="prev">Prev</string>
     <string name="email_pattern_error">Please enter a valid email address!</string>
-    <string name="create_client">Create New Client</string>
+    <string name="create_client">Create Client</string>
     <string name="add_family_member">Add family member</string>
+    <string name="family_members">Family Members</string>
+    <string name="general_data">General Data</string>
+    <string name="pick_image">Pick Image</string>
+    <string name="capture_image">Capture Image</string>
+    <string name="choose_image">Choose Image</string>
+    <string name="create_group">Create Group</string>
+    <string name="create_center">Create Center</string>
+    <string name="group_name_">Group Name*</string>
+    <string name="center_name_">Center Name*</string>
+    <string name="is_active">Active</string>
+    <string name="repayment_successful">Repayment Successful</string>
+    <string name="group_created">Group Created Successfully!</string>
+    <string name="center_created">Center Created Successfully!</string>
+    <string name="okay">OK</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="error_creating_center">Error Creating Center!</string>
+    <string name="error_creating_group">Error Creating Group!</string>
+    <string name="refresh">Refresh</string>
+    <string name="cannot_find_office">Cannot find a valid office</string>
 </resources>

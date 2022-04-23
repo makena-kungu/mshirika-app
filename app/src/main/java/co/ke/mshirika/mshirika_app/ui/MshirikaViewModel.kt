@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 
 abstract class MshirikaViewModel : ViewModel() {
     val errorChannel = Channel<UIText>()
-    val successChannel = Channel<String>()
+    val successChannel = Channel<UIText>()
     val loadingChannel = Channel<Boolean>()
 
     val loadingState get() = loadingChannel.receiveAsFlow()

@@ -3,12 +3,14 @@ package co.ke.mshirika.mshirika_app.ui.loans
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.data.request.Repayment
 import co.ke.mshirika.mshirika_app.data.response.LoanAccount
 import co.ke.mshirika.mshirika_app.data.response.RepaymentType
 import co.ke.mshirika.mshirika_app.repositories.LoansRepo
-import co.ke.mshirika.mshirika_app.ui.util.DateUtil.mshirikaDate
 import co.ke.mshirika.mshirika_app.ui.MshirikaViewModel
+import co.ke.mshirika.mshirika_app.ui.util.DateUtil.mshirikaDate
+import co.ke.mshirika.mshirika_app.ui.util.resourceText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.*
@@ -45,7 +47,7 @@ class LoansViewModel
                 }
                 repo.repaymentStatus.collectLatest {
                     it.stateHandler {
-                        data?.let { successChannel.send("Repayment Successful") }
+                        data?.let { successChannel.send(resourceText(R.string.repayment_successful)) }
                     }
                 }
             }

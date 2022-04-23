@@ -2,6 +2,7 @@ package co.ke.mshirika.mshirika_app.remote.utils
 
 import co.ke.mshirika.mshirika_app.remote.utils.EndPoint.Paths.CENTER_ID
 import co.ke.mshirika.mshirika_app.remote.utils.EndPoint.Paths.CLIENT_ID
+import co.ke.mshirika.mshirika_app.remote.utils.EndPoint.Paths.GROUP_ID
 import co.ke.mshirika.mshirika_app.remote.utils.EndPoint.Paths.LOAN_ID
 
 object EndPoint {
@@ -25,6 +26,7 @@ object EndPoint {
     const val DISBURSE = "disburse"
     const val DOCUMENTS = "documents"
     const val GROUPS = "groups"
+    const val GROUP = "${GROUPS}/$GROUP_ID"
     const val IDENTIFIERS = "identifiers"
     const val LOANS = "loans"
     const val LOANS_PATH = "${LOANS}/{$LOAN_ID}"
@@ -47,6 +49,7 @@ object EndPoint {
     object Paths {
         const val LOAN_ID = "{loanId}"
         const val CENTER_ID = "{centerId}"
+        const val GROUP_ID = "{groupId}"
         const val CLIENT_ID = "{clientId}"
     }
 

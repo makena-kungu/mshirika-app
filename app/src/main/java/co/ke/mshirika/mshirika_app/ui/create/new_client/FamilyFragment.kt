@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DiffUtil
@@ -16,6 +17,7 @@ import co.ke.mshirika.mshirika_app.ui.create.ViewerFragment
 import co.ke.mshirika.mshirika_app.ui.create.new_client.FamilyMembersAdapter.FamViewHolder
 import co.ke.mshirika.mshirika_app.ui.util.DateUtil.fromShortDate
 import co.ke.mshirika.mshirika_app.ui.util.EditableUtils.text
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import kotlinx.coroutines.flow.collectLatest
 
 class FamilyFragment :
@@ -32,10 +34,36 @@ class FamilyFragment :
             viewModel.familyMembers.collectLatest {
                 adapter.submitList(it)
             }
-            viewModel.template.collectLatest {
-                // todo setup all the adapters
+            binding.setupAdapters()
+        }
+    }
+
+    private suspend fun FragmentNewClientFamilyBinding.setupAdapters() {
+        viewModel.template.collectLatest { template ->
+            template.familyMemberOptions.maritalStatusIdOptions.map { it.name }.also { list ->
+                maritalStatus.setAdapter(list)
+            }
+            template.familyMemberOptions.relationshipIdOptions.filter {
+                it.name != "father-in-law"
+            }.map { it.name }.also { list ->
+                relationship.setAdapter(list)
+            }
+            template.genderOptions.map {
+                it.name
+            }.also {
+                gender.setAdapter(it)
             }
         }
+    }
+
+    private fun MaterialAutoCompleteTextView.setAdapter(list: List<String>) {
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_dropdown_item_1line,
+            android.R.id.text1,
+            list
+        )
+        setAdapter(adapter)
     }
 
     fun addFamilyMember() {
@@ -44,9 +72,8 @@ class FamilyFragment :
                 FamilyMember(
                     fullName.text(),
                     dob.text().fromShortDate,
-                    // TODO: Setup an adapter for this field
                     relationship.text(),
-                    gender.text().equals("male", true),
+                    gender.text(),
                     maritalStatus.text()
                 )
             )
@@ -54,7 +81,7 @@ class FamilyFragment :
     }
 
     override fun onNextPressed() {
-        TODO("Not yet implemented")
+
     }
 }
 
@@ -83,7 +110,7 @@ data class FamilyMember(
     val name: String,
     val dob: Long,
     val relationship: String,
-    val gender: Boolean,
+    val gender: String,
     val maritalStatus: String
 ) {
     companion object : DiffUtil.ItemCallback<FamilyMember>() {

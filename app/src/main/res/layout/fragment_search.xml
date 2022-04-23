@@ -48,7 +48,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
                             android:gravity="center_vertical"
-                            android:hint="@string/search"
+                            android:hint="@string/search_ellipsize"
                             android:imeOptions="actionSearch"
                             android:inputType="text"
                             android:maxLines="1"

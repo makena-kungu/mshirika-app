@@ -10,7 +10,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Keep
 data class SavingsAccount(
-    val accountBalance: Double,
+    var accountBalance: Double,
     val accountNo: String,
     val accountType: AccountType,
     val currency: Currency,

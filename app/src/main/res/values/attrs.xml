@@ -5,8 +5,11 @@
     <attr name="roundImage" format="reference" />
     <!--This is a square image with it's corners rounded-->
     <attr name="roundedImage" format="reference" />
+
     <attr name="textInputEditText" format="reference" />
     <attr name="textInputEditTextDate" format="reference" />
+    <attr name="textInputOutlinedDateStyle" format="reference" />
+    <attr name="textInputOutlinedDenseDateStyle" format="reference" />
     <attr name="transactionTextView" format="reference" />
     <attr name="transactionCardView" format="reference" />
 

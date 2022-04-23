@@ -16,8 +16,7 @@ sealed class UIText() {
 
     class ResourceText(
         val id: Int,
-        vararg val args: Any,
-        val action: () -> Unit
+        vararg val args: Any
     ) : UIText()
 
     fun text(context: Context): String {
@@ -29,6 +28,10 @@ sealed class UIText() {
     }
 }
 
+fun plainText(text: String) = UIText.PlainText(text)
+
 fun dynamicText(text: String, title: String? = null, action: () -> Unit): UIText.DynamicText {
     return UIText.DynamicText(text, title, action)
 }
+
+fun resourceText(resId: Int, vararg args: Any) = UIText.ResourceText(resId, args)

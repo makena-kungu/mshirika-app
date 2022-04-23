@@ -2,14 +2,18 @@ package co.ke.mshirika.mshirika_app.repositories
 
 import androidx.paging.Pager
 import androidx.paging.PagingData
+import co.ke.mshirika.mshirika_app.data.request.CreateCenter
 import co.ke.mshirika.mshirika_app.data.response.Center
 import co.ke.mshirika.mshirika_app.data.response.Search
 import co.ke.mshirika.mshirika_app.pagingSource.CentersPagingSource
 import co.ke.mshirika.mshirika_app.pagingSource.Util.pagingConfig
+import co.ke.mshirika.mshirika_app.remote.response.CenterCreatedResponse
 import co.ke.mshirika.mshirika_app.remote.services.CentersService
 import co.ke.mshirika.mshirika_app.remote.services.SearchService
+import co.ke.mshirika.mshirika_app.remote.utils.Outcome
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Success
 import co.ke.mshirika.mshirika_app.remote.utils.UnpackResponse.respond
+import co.ke.mshirika.mshirika_app.remote.utils.empty
 import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
 import co.ke.mshirika.mshirika_app.utility.Util.headers
 import kotlinx.coroutines.flow.Flow
@@ -27,18 +31,28 @@ class CentersRepo @Inject constructor(
     private val _list = mutableListOf<Center>()
     private val _searched = MutableStateFlow<PagingData<Center>>(PagingData.empty())
 
+    val created = MutableStateFlow<Outcome<CenterCreatedResponse>>(empty())
+    val offices = flow {
+        respond { service.offices(headers()) }.also {
+            emit(it)
+        }
+    }
     val searched get() = _searched.asStateFlow()
 
-    val centers: Flow<PagingData<Center>>
-        get() {
-            return flow {
-                val headers = pref.authKey().headers
-                Pager(
-                    config = pagingConfig(),
-                    pagingSourceFactory = { CentersPagingSource(headers, service) }
-                ).flow
-            }
+    val centers: Flow<PagingData<Center>> = flow {
+        val headers = headers()
+        Pager(
+            config = pagingConfig(),
+            pagingSourceFactory = { CentersPagingSource(headers, service) }
+        ).flow
+    }
+
+
+    suspend fun create(center: CreateCenter) {
+        created.value = respond {
+            service.create(headers(), center)
         }
+    }
 
     suspend fun search(headers: Map<String, String>, query: String) {
         respond {
@@ -70,5 +84,7 @@ class CentersRepo @Inject constructor(
                 }
         }
     }
+
+    private suspend fun headers() = pref.authKey().headers
 
 }

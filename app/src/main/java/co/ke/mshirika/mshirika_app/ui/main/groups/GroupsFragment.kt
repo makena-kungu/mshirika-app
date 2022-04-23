@@ -10,9 +10,10 @@ import androidx.fragment.app.viewModels
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.data.response.Group
 import co.ke.mshirika.mshirika_app.databinding.FragmentGroupsBinding
+import co.ke.mshirika.mshirika_app.ui.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui.main.utils.State
 import co.ke.mshirika.mshirika_app.ui.search.OnSearchListener
-import co.ke.mshirika.mshirika_app.ui.MshirikaFragment
+import com.google.android.material.appbar.MaterialToolbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -59,7 +60,7 @@ class GroupsFragment : MshirikaFragment<FragmentGroupsBinding>(R.layout.fragment
     override fun onQueryTextSubmit(query: String?): Boolean {
         return if (!query.isNullOrBlank()) {
             lifecycleScope.launchWhenCreated {
-                    viewModel.search(query)
+                viewModel.search(query)
             }
             false
         } else
@@ -81,4 +82,12 @@ class GroupsFragment : MshirikaFragment<FragmentGroupsBinding>(R.layout.fragment
 
     override val title: String
         get() = getString(R.string.groups)
+    override val toolbarTitle: String
+        get() = title
+    override val toolbar: MaterialToolbar
+        get() = binding.appBar.toolbarLarge
+    override val isTopFragment: Boolean
+        get() = true
+    override val menuResId: Int?
+        get() = null //R.menu.group
 }

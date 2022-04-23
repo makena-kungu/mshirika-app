@@ -69,7 +69,7 @@ class LoanRepaymentFragment :
 
     private suspend fun handleSuccess() {
         viewModel.successState.collectLatest {
-            Snackbar.make(binding.root, it, LENGTH_LONG).show()
+            Snackbar.make(binding.root, it.text(requireContext()), LENGTH_LONG).show()
         }
     }
 

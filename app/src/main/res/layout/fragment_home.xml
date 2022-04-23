@@ -55,7 +55,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center_vertical"
                         android:onClick="@{() -> fragment.openSearchFragment()}"
-                        android:text="@string/search"
+                        android:text="@string/search_ellipsize"
                         android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
                         android:textColor="?android:textColorSecondary"
                         android:textSize="18sp"

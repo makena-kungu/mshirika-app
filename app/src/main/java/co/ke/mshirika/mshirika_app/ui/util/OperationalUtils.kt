@@ -1,11 +1,15 @@
 package co.ke.mshirika.mshirika_app.ui.util
 
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.datepicker.MaterialDatePicker.Builder.datePicker
 
 object OperationalUtils {
+    fun Fragment.openDatePicker(@StringRes idRes: Int, action: (Long) -> Unit) =
+        openDatePicker(getString(idRes), action)
+
     fun Fragment.openDatePicker(title: String, action: (Long) -> Unit) {
         val constraints = CalendarConstraints.Builder()
             .setEnd(System.currentTimeMillis())

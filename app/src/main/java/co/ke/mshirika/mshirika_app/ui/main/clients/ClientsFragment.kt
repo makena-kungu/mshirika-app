@@ -43,7 +43,7 @@ class ClientsFragment : MshirikaFragment<FragmentClientsBinding>(R.layout.fragme
         get() = binding.appBarLayout.toolbarLarge
     override val toolbarTitle: String
         get() = getString(R.string.clients)
-    override val resId: Int
+    override val menuResId: Int
         get() = TODO("Study whether this fragment requires a menu")
 
     override fun onCreate(savedInstanceState: Bundle?) {

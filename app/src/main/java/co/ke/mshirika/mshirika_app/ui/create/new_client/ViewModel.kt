@@ -18,12 +18,12 @@ import javax.inject.Inject
 class ViewModel @Inject constructor(
     repo: ClientsRepo
 ) : MshirikaViewModel() {
+    private val _data = MutableStateFlow(mutableMapOf<String, Any>())
     private val _list = mutableListOf<PageIndicator>()
     private val _indicators = MutableStateFlow(_list)
     private val _familyMembers = MutableStateFlow(mutableListOf<FamilyMember>())
 
-    private val generaData = mutableMapOf<String, Any>()
-
+    val data get() = _data.asStateFlow()
     val familyMembers: StateFlow<List<FamilyMember>> get() = _familyMembers.asStateFlow()
     val indicators get() = _indicators.asStateFlow()
     val template = flow {
@@ -72,8 +72,16 @@ class ViewModel @Inject constructor(
 
     }
 
-    fun saveGeneralDate(vararg pairs: Pair<String, Any>) {
-        generaData.putAll(pairs)
+    fun saveGeneralData(data: GeneralData) {
+        val value = _data.value
+        value[KEY_GENERAL_DATA] = data
+        _data.value = value
+    }
+
+    fun saveAddress(address: Address) {
+        val value = _data.value
+        value[KEY_ADDRESS] = address
+        _data.value = value
     }
 
     init {
@@ -81,19 +89,7 @@ class ViewModel @Inject constructor(
     }
 
     companion object {
-        const val KEY_FIRST_NAME = "firstName"
-        const val KEY_MIDDLE_NAME = "middleName"
-        const val KEY_LAST_NAME = "lastName"
-        const val KEY_DOB = "dob"
-        const val KEY_MEM_NO = "memNo"
-        const val KEY_MOBILE_NO = "mobileNo"
-        const val KEY_GENDER_GROUP = "genderGroup"
-        const val KEY_IS_STAFF = "isStaff"
-        const val KEY_CLIENT_TYPE = "clientType"
-        const val KEY_CLIENT_CLASSIFICATION = "clientClassification"
-        const val KEY_SUBMIT_DATE = "submitDate"
-        const val KEY_NATIONAL_ID = "nationalId"
-        const val KEY_EMAIL = "email"
-        const val KEY_ACTIVATION_DATE = "activationDate"
+        const val KEY_GENERAL_DATA = "GENERAL_DATA"
+        const val KEY_ADDRESS = "ADDRESS"
     }
 }

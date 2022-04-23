@@ -80,7 +80,7 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
         }
     }
 
-    override val resId: Int
+    override val menuResId: Int
         get() = R.id.client
 
     override val toolbar: MaterialToolbar
@@ -131,7 +131,6 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
                     uiText.text
                 }
                 is UIText.ResourceText -> {
-                    action = uiText.action
                     uiText.text(requireContext())
                 }
                 is UIText.PlainText -> uiText.s

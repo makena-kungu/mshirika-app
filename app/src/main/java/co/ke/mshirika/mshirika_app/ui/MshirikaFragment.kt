@@ -22,12 +22,10 @@ import co.ke.mshirika.mshirika_app.ui.util.OnMshirikaFragmentAttach
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
-import dagger.hilt.android.AndroidEntryPoint
 
 /**
  *
  */
-@AndroidEntryPoint
 abstract class MshirikaFragment<B>(@LayoutRes contentLayoutId: Int) :
     Fragment(contentLayoutId),
     OnMenuItemClickListener {
@@ -43,7 +41,7 @@ abstract class MshirikaFragment<B>(@LayoutRes contentLayoutId: Int) :
     open val toolbarTitle: String? = null
 
     @MenuRes
-    open val resId: Int? = null
+    open val menuResId: Int? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,7 +54,7 @@ abstract class MshirikaFragment<B>(@LayoutRes contentLayoutId: Int) :
         setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-        resId?.let {
+        menuResId?.let {
             setHasOptionsMenu(true)
             inflateMenu(it)
             setOnMenuItemClickListener(this@MshirikaFragment)

@@ -1,4 +1,4 @@
-package co.ke.mshirika.mshirika_app.data.response.generate
+package co.ke.mshirika.mshirika_app.data.response
 
 
 import android.os.Parcelable

@@ -6,31 +6,20 @@ import androidx.fragment.app.viewModels
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.databinding.FragmentNewClientGeneralBinding
 import co.ke.mshirika.mshirika_app.ui.MshirikaFragment
+import co.ke.mshirika.mshirika_app.ui.OnImageSelectedListener
+import co.ke.mshirika.mshirika_app.ui.PickImageDialog
 import co.ke.mshirika.mshirika_app.ui.create.ViewerFragment
-import co.ke.mshirika.mshirika_app.ui.create.new_client.ViewModel.Companion.KEY_ACTIVATION_DATE
-import co.ke.mshirika.mshirika_app.ui.create.new_client.ViewModel.Companion.KEY_CLIENT_CLASSIFICATION
-import co.ke.mshirika.mshirika_app.ui.create.new_client.ViewModel.Companion.KEY_CLIENT_TYPE
-import co.ke.mshirika.mshirika_app.ui.create.new_client.ViewModel.Companion.KEY_DOB
-import co.ke.mshirika.mshirika_app.ui.create.new_client.ViewModel.Companion.KEY_EMAIL
-import co.ke.mshirika.mshirika_app.ui.create.new_client.ViewModel.Companion.KEY_FIRST_NAME
-import co.ke.mshirika.mshirika_app.ui.create.new_client.ViewModel.Companion.KEY_GENDER_GROUP
-import co.ke.mshirika.mshirika_app.ui.create.new_client.ViewModel.Companion.KEY_IS_STAFF
-import co.ke.mshirika.mshirika_app.ui.create.new_client.ViewModel.Companion.KEY_LAST_NAME
-import co.ke.mshirika.mshirika_app.ui.create.new_client.ViewModel.Companion.KEY_MEM_NO
-import co.ke.mshirika.mshirika_app.ui.create.new_client.ViewModel.Companion.KEY_MIDDLE_NAME
-import co.ke.mshirika.mshirika_app.ui.create.new_client.ViewModel.Companion.KEY_MOBILE_NO
-import co.ke.mshirika.mshirika_app.ui.create.new_client.ViewModel.Companion.KEY_NATIONAL_ID
-import co.ke.mshirika.mshirika_app.ui.create.new_client.ViewModel.Companion.KEY_SUBMIT_DATE
 import co.ke.mshirika.mshirika_app.ui.util.DateUtil.fromShortDate
 import co.ke.mshirika.mshirika_app.ui.util.EditableUtils.andd
 import co.ke.mshirika.mshirika_app.ui.util.EditableUtils.attachNonVoidFields
 import co.ke.mshirika.mshirika_app.ui.util.EditableUtils.emailAddressValidator
 import co.ke.mshirika.mshirika_app.ui.util.EditableUtils.s
 import co.ke.mshirika.mshirika_app.ui.util.EditableUtils.viewsOpeningTheDatePicker
+import com.bumptech.glide.Glide
 
 class GeneralFragment :
     MshirikaFragment<FragmentNewClientGeneralBinding>(R.layout.fragment_new_client_general),
-    ViewerFragment {
+    ViewerFragment, OnImageSelectedListener {
 
     private val viewModel: ViewModel by viewModels()
 
@@ -40,29 +29,20 @@ class GeneralFragment :
             setupRequiredFields()
             setupViewsWithCalendars()
         }
-        lifecycleScope.launchWhenCreated {
-        }
+    }
+
+    fun pickImage() {
+        PickImageDialog(requireContext(), this).show()
+    }
+
+    override fun onImageSelected(path: String) {
+        Glide.with(requireContext())
+            .load(path)
+            .into(binding.createClientImage)
     }
 
     override fun onNextPressed() {
-        binding.apply {
-            viewModel.saveGeneralDate(
-                KEY_FIRST_NAME to firstNameRequired.s,
-                KEY_MIDDLE_NAME to middleName.s,
-                KEY_LAST_NAME to lastName.s,
-                KEY_DOB to dob.s.fromShortDate,
-                KEY_MEM_NO to memNo.s,
-                KEY_MOBILE_NO to mobileNo.s,
-                KEY_GENDER_GROUP to (genderGroup.checkedRadioButtonId == male.id),
-                KEY_IS_STAFF to isStaff.isChecked,
-                KEY_CLIENT_TYPE to clientType.s,
-                KEY_CLIENT_CLASSIFICATION to clientClassification.s,
-                KEY_SUBMIT_DATE to submitDate.s.fromShortDate,
-                KEY_NATIONAL_ID to nationalId.s,
-                KEY_EMAIL to email.s,
-                KEY_ACTIVATION_DATE to activationDate.s.fromShortDate
-            )
-        }
+        binding.submit()
     }
 
     private fun FragmentNewClientGeneralBinding.setupRequiredFields() {
@@ -84,8 +64,46 @@ class GeneralFragment :
         )
     }
 
-    private suspend fun FragmentNewClientGeneralBinding.onSubmit() {
-        //get all the text and push it to the view_model
-        //create client object
+    private fun FragmentNewClientGeneralBinding.submit() {
+        viewModel.saveGeneralData(
+            GeneralData(
+                firstNameRequired.s,
+                middleName.s,
+                lastName.s,
+                dob.s.fromShortDate,
+                memNo.s,
+                mobileNo.s,
+                (genderGroup.checkedRadioButtonId == male.id),
+                isStaff.isChecked,
+                clientType.s,
+                clientClassification.s,
+                submitDate.s.fromShortDate,
+                nationalId.s,
+                email.s,
+                activationDate.s.fromShortDate
+            )
+        )
+    }
+}
+
+
+data class GeneralData(
+    val firstName: String,
+    val middleName: String,
+    val lastName: String,
+    val dob: Long,
+    val memNo: String,
+    val mobileNo: String,
+    val gender: Boolean,
+    val isStaff: Boolean,
+    val clientType: String,
+    val clientClassification: String,
+    val submitDate: Long,
+    val nationalId: String,
+    val email: String,
+    val activationDate: Long
+) {
+    fun name(): String {
+        return firstName + middleName + lastName
     }
 }

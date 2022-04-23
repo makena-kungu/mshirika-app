@@ -1,266 +1,303 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:ignore="Deprecated">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.core.widget.NestedScrollView
+    <data>
+
+        <variable
+            name="fragment"
+            type="co.ke.mshirika.mshirika_app.ui.create.new_client.GeneralFragment" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        tools:ignore="Deprecated">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="16dp">
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/office_lo"
-                style="?textInputOutlinedExposedDropdownMenuStyle">
-
-                <!--todo to be shown when one is in head office-->
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/office"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/office_required" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/legal_form_lo"
-                style="?textInputOutlinedExposedDropdownMenuStyle">
-
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/legal_form"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:editable="false"
-                    android:hint="@string/legal_form" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <androidx.constraintlayout.widget.Group
-                android:id="@+id/head_office_options"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:constraint_referenced_ids="office_lo,legal_form_lo"/>
+                android:orientation="vertical"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="16dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/first_name_lo"
-                style="?textInputOutlinedDenseStyle">
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/create_client_image"
+                    android:layout_width="@dimen/client_image_large"
+                    android:layout_height="@dimen/client_image_large"
+                    app:shapeAppearanceOverlay="?roundedImage"
+                    tools:layout_editor_absoluteX="87dp"
+                    tools:layout_editor_absoluteY="16dp"
+                    tools:srcCompat="@tools:sample/avatars" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/first_name_required"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/first_name_" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/middle_name_lo"
-                style="?textInputOutlinedDenseStyle">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/middle_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/middle_name" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/last_name_lo"
-                style="?textInputOutlinedDenseStyle">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/last_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/last_name_" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/dob_lo"
-                style="?textInputOutlinedDenseStyle"
-                app:endIconContentDescription="@string/pick_date_desc"
-                app:endIconDrawable="@drawable/ic_baseline_calendar_month_24"
-                app:endIconMode="custom">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/dob"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/date_of_birth"
-                    android:inputType="date" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/mem_no_lo"
-                style="?textInputOutlinedDenseStyle">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/mem_no"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/member_no"
-                    android:inputType="phone|number" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/mobile_no_lo"
-                style="?textInputOutlinedDenseStyle"
-                app:prefixText="+254">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/mobile_no"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/mobile_no"
-                    android:inputType="phone" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <RadioGroup
-                android:id="@+id/gender_group"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/male"
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    style="?floatingActionButtonPrimaryStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="@string/male" />
+                    android:contentDescription="@string/pick_client_image_desc"
+                    android:onClick="@{()->fragment.pickImage()}"
+                    app:fabSize="mini"
+                    app:layout_constraintBottom_toBottomOf="@id/create_client_image"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintHorizontal_bias=".9"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/create_client_image"
+                    app:srcCompat="@drawable/ic_round_insert_photo_24" />
 
-                <RadioButton
-                    android:id="@+id/female"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/office_lo"
+                    style="?textInputOutlinedExposedDropdownMenuStyle">
+
+                    <!--todo to be shown when one is in head office-->
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/office"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/office_required" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/legal_form_lo"
+                    style="?textInputOutlinedExposedDropdownMenuStyle">
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/legal_form"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:editable="false"
+                        android:hint="@string/legal_form" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/head_office_options"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/female" />
-            </RadioGroup>
+                    android:visibility="gone"
+                    app:constraint_referenced_ids="office_lo,legal_form_lo" />
 
-            <com.google.android.material.checkbox.MaterialCheckBox
-                android:id="@+id/is_staff"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/is_staff" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/first_name_lo"
+                    style="?textInputOutlinedDenseStyle">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/client_type_lo"
-                style="?textInputOutlinedExposedDropdownMenuStyle">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/first_name_required"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/first_name_" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/client_type"
-                    android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/middle_name_lo"
+                    style="?textInputOutlinedDenseStyle">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/middle_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/middle_name" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/last_name_lo"
+                    style="?textInputOutlinedDenseStyle">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/last_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/last_name_" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dob_lo"
+                    style="?textInputOutlinedDenseStyle"
+                    app:endIconContentDescription="@string/pick_date_desc"
+                    app:endIconDrawable="@drawable/ic_baseline_calendar_month_24"
+                    app:endIconMode="custom">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/dob"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/date_of_birth"
+                        android:inputType="date" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/mem_no_lo"
+                    style="?textInputOutlinedDenseStyle">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/mem_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/member_no"
+                        android:inputType="phone|number" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/mobile_no_lo"
+                    style="?textInputOutlinedDenseStyle"
+                    app:prefixText="+254">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/mobile_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/mobile_no"
+                        android:inputType="phone" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <RadioGroup
+                    android:id="@+id/gender_group"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/client_type" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/client_classification_lo"
-                style="?textInputOutlinedExposedDropdownMenuStyle">
+                    <RadioButton
+                        android:id="@+id/male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/male" />
 
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/client_classification"
-                    android:layout_width="match_parent"
+                    <RadioButton
+                        android:id="@+id/female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/female" />
+                </RadioGroup>
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/is_staff"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/client_classification" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:text="@string/is_staff_" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/submit_date_lo"
-                style="?textInputOutlinedDenseStyle"
-                app:endIconContentDescription="@string/pick_date_desc"
-                app:endIconDrawable="@drawable/ic_baseline_calendar_month_24"
-                app:endIconMode="custom">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/client_type_lo"
+                    style="?textInputOutlinedExposedDropdownMenuStyle">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/submit_date"
-                    android:layout_width="match_parent"
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/client_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/client_type" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/client_classification_lo"
+                    style="?textInputOutlinedExposedDropdownMenuStyle">
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/client_classification"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/client_classification" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/submit_date_lo"
+                    style="?textInputOutlinedDenseStyle"
+                    app:endIconContentDescription="@string/pick_date_desc"
+                    app:endIconDrawable="@drawable/ic_baseline_calendar_month_24"
+                    app:endIconMode="custom">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/submit_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/submit_date"
+                        android:inputType="date" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/national_id_lo"
+                    style="?textInputOutlinedDenseStyle">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/national_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/national_id_no"
+                        android:inputType="phone|number" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/email_lo"
+                    style="?textInputOutlinedDenseStyle"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/email_address" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--<com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/is_active"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/submit_date"
-                    android:inputType="date" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:text="@string/active" />-->
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/national_id_lo"
-                style="?textInputOutlinedDenseStyle">
+                <!--todo to be shown when is_active is checked-->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/activation_date_lo"
+                    style="?textInputOutlinedDenseStyle"
+                    app:endIconContentDescription="@string/pick_date_desc"
+                    app:endIconDrawable="@drawable/ic_baseline_calendar_month_24"
+                    app:endIconMode="custom">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/national_id"
-                    android:layout_width="match_parent"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/activation_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/activation_date_"
+                        android:inputType="date" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--<com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/open_savings_account"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/national_id_no"
-                    android:inputType="phone|number" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:text="@string/open_savings_account" />-->
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/email_lo"
-                app:errorEnabled="true"
-                style="?textInputOutlinedDenseStyle">
+                <!--todo to be shown when open savings account is checked-->
+                <!--<com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/savings_product_lo"
+                    style="?textInputOutlinedExposedDropdownMenuStyle">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/email"
-                    android:layout_width="match_parent"
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/savings_product"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/savings_product" />
+                </com.google.android.material.textfield.TextInputLayout>-->
+
+                <androidx.constraintlayout.helper.widget.Flow
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="@string/email_address" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!--<com.google.android.material.checkbox.MaterialCheckBox
-                android:id="@+id/is_active"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/active" />-->
-
-            <!--todo to be shown when is_active is checked-->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/activation_date_lo"
-                style="?textInputOutlinedDenseStyle"
-                app:endIconMode="custom"
-                app:endIconContentDescription="@string/pick_date_desc"
-                app:endIconDrawable="@drawable/ic_baseline_calendar_month_24">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/activation_date"
-                    android:layout_width="match_parent"
-                    android:inputType="date"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/activation_date_" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!--<com.google.android.material.checkbox.MaterialCheckBox
-                android:id="@+id/open_savings_account"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/open_savings_account" />-->
-
-            <!--todo to be shown when open savings account is checked-->
-            <!--<com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/savings_product_lo"
-                style="?textInputOutlinedExposedDropdownMenuStyle">
-
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/savings_product"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/savings_product" />
-            </com.google.android.material.textfield.TextInputLayout>-->
-
-            <androidx.constraintlayout.helper.widget.Flow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:constraint_referenced_ids="office_lo,legal_form_lo,first_name_lo,middle_name_lo,last_name_lo,dob_lo,mem_no_lo,mobile_no_lo,gender_group,is_staff,client_type_lo,client_classification_lo,submit_date_lo,national_id_lo,email_lo,activation_date_lo"
-                app:flow_verticalGap="5dp"
-                app:flow_wrapMode="chain2"
-                app:flow_horizontalAlign="start"
-                app:flow_horizontalStyle="spread_inside"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+                    app:constraint_referenced_ids="create_client_image,office_lo,legal_form_lo,first_name_lo,middle_name_lo,last_name_lo,dob_lo,mem_no_lo,mobile_no_lo,gender_group,is_staff,client_type_lo,client_classification_lo,submit_date_lo,national_id_lo,email_lo,activation_date_lo"
+                    app:flow_firstHorizontalBias="0.5"
+                    app:flow_firstHorizontalStyle="packed"
+                    app:flow_horizontalAlign="start"
+                    app:flow_horizontalGap="8dp"
+                    app:flow_horizontalStyle="spread_inside"
+                    app:flow_verticalGap="5dp"
+                    app:flow_wrapMode="chain2"
+                    android:layout_marginVertical="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

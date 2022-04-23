@@ -71,11 +71,17 @@ class HomeFragment : MshirikaFragment<FragmentHomeBinding>(R.layout.fragment_hom
     }
 
     fun openCreateCenter() {
-        transition()
+        transition(
+            R.string.create_center_transition,
+            HomeFragmentDirections.actionGlobalCreateCenterFragment()
+        )
     }
 
     fun openCreateGroup() {
-        transition()
+        transition(
+            R.string.create_group_transition,
+            HomeFragmentDirections.actionGlobalCreateGroupFragment()
+        )
     }
 
     private fun transition(@StringRes transitionName: Int, navDirections: NavDirections) {

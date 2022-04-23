@@ -1,8 +1,7 @@
 package co.ke.mshirika.mshirika_app.ui.util
 
 import java.text.DateFormat
-import java.text.DateFormat.LONG
-import java.text.DateFormat.SHORT
+import java.text.DateFormat.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -27,14 +26,22 @@ object DateUtil {
     val Long.shortDate: String
         get() = shortDateFormat.format(Date(this))
 
+    val Long.mediumDate: String
+        get() = mediumDateFormat.format(Date(this))
+
     private val longDateFormat: DateFormat
         get() {
-            return DateFormat.getDateInstance(LONG)
+            return getDateInstance(LONG)
         }
 
     private val shortDateFormat: DateFormat
         get() {
-            return DateFormat.getDateInstance(SHORT)
+            return getDateInstance(SHORT)
+        }
+
+    private val mediumDateFormat: DateFormat
+        get() {
+            return getDateInstance(MEDIUM)
         }
 
     val Long.mshirikaDate: String
@@ -46,7 +53,7 @@ object DateUtil {
     val List<Int>.shortDate: String
         get() = shortDateFormat.format(date)
     val List<Int>.mediumDate: String
-        get() = DateFormat.getDateInstance(DateFormat.MEDIUM).format(date)
+        get() = getDateInstance(MEDIUM).format(date)
 
     private val List<Int>.date: Long
         get() {
