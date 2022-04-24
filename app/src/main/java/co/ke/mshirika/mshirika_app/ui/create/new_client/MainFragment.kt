@@ -10,7 +10,10 @@ import co.ke.mshirika.mshirika_app.ui.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui.create.FormPagingAdapter
 import co.ke.mshirika.mshirika_app.ui.create.PageIndicatorAdapter
 import co.ke.mshirika.mshirika_app.ui.create.ViewerFragment
+import co.ke.mshirika.mshirika_app.ui.util.LoadingDialog
+import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.snackL
 import com.google.android.material.appbar.MaterialToolbar
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 
 class MainFragment :
@@ -18,15 +21,6 @@ class MainFragment :
 
     private val viewModel: ViewModel by viewModels()
     private lateinit var viewPager: ViewPager2
-
-    override val hasToolbar: Boolean
-        get() = true
-    override val isTopFragment: Boolean
-        get() = true
-    override val toolbar: MaterialToolbar
-        get() = binding.appBarLarge.toolbarLarge
-    override val toolbarTitle: String
-        get() = getString(R.string.create_client)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,9 +35,29 @@ class MainFragment :
                 viewModel.indicators.collectLatest {
                     indicatorAdapter.submitList(it)
                 }
-
+                binding.error()
+                loading()
             }
             binding.indicators.adapter = indicatorAdapter
+        }
+
+    }
+
+    private suspend fun FragmentCreateNewClientBinding.error() {
+        viewModel.errorState.collect {
+            root.snackL(it.text(requireContext())) {
+                dismiss()
+            }
+        }
+    }
+
+    private suspend fun loading() {
+        val loading = LoadingDialog(requireContext()) {
+            viewModel.cancel()
+        }
+        viewModel.loadingState.collect {
+            if (it) loading.show()
+            else loading.dismiss()
         }
     }
 
@@ -70,7 +84,7 @@ class MainFragment :
     }
 
     private fun getAddressAndSubmit() {
-        viewModel.submit()
+        viewModel.post()
     }
 
     fun navigateToPrevious() {
@@ -81,6 +95,15 @@ class MainFragment :
     fun onChildAttached() {
         // set up what the next and previous button does
     }
+
+    override val hasToolbar: Boolean
+        get() = true
+    override val isTopFragment: Boolean
+        get() = true
+    override val toolbar: MaterialToolbar
+        get() = binding.appBarLarge.toolbarLarge
+    override val toolbarTitle: String
+        get() = getString(R.string.create_client)
 
     inner class PageChangeCallback : ViewPager2.OnPageChangeCallback() {
 

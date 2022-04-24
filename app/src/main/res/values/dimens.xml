@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="appbar_elevation">4dp</dimen>
-    <dimen name="button_height">55dp</dimen>
-    <dimen name="client_image">50dp</dimen>
-    <dimen name="client_image_large">90dp</dimen>
-    <dimen name="client_small_logo">48dp</dimen>
-    <dimen name="client_logo">110dp</dimen>
-    <dimen name="client_app_bar_height">390dp</dimen>
-    <dimen name="edit_corner_radius">8dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="logo_size">180dp</dimen>
     <dimen name="elevation_addition_card">6dp</dimen>
+    <dimen name="elevation_appbar">4dp</dimen>
+
+    <dimen name="height_button">55dp</dimen>
+    <dimen name="height_client_app_bar">390dp</dimen>
+
+    <dimen name="margin_fab">16dp</dimen>
+    <dimen name="padding_dialog">10dp</dimen>
+    <dimen name="radius_edit_corner">8dp</dimen>
+
+    <dimen name="size_client_image">50dp</dimen>
+    <dimen name="size_client_image_large">90dp</dimen>
+    <dimen name="size_client_small_logo">48dp</dimen>
+    <dimen name="size_client_logo">110dp</dimen>
+    <dimen name="size_logo">180dp</dimen>
 </resources>

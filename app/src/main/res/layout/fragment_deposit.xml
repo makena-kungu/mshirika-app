@@ -22,7 +22,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/amount_lo"
-            style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox"
+            style="?textInputOutlinedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:prefixText="Ksh">
@@ -37,7 +37,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/product_name_lo"
-            style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            style="?textInputOutlinedExposedDropdownMenuStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -51,7 +51,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/receipt_no_lo"
-            style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox"
+            style="?textInputOutlinedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -59,11 +59,7 @@
                 android:id="@+id/receipt_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:hint="Receipt No*" />
-            <!--
-                todo add this fields hint dynamically in sync with the
-                     mode of payment selected
-             -->
+                android:hint="@string/receipt_no" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton

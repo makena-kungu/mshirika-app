@@ -11,7 +11,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.core.view.postDelayed
 import androidx.lifecycle.lifecycleScope
@@ -39,7 +38,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(),
-    Toolbar.OnMenuItemClickListener,
     NavigationView.OnNavigationItemSelectedListener,
     OnMshirikaFragmentAttach {
     private val viewModel: MainViewModel by viewModels()
@@ -58,7 +56,7 @@ class MainActivity : AppCompatActivity(),
                 elevation =
                     when (destination.id) {
                         R.id.homeFragment -> 0F
-                        else -> resources.getDimension(R.dimen.appbar_elevation)
+                        else -> resources.getDimension(R.dimen.elevation_appbar)
                     }
 
                 isVisible =
@@ -90,13 +88,12 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    override fun onMenuItemClick(item: MenuItem?): Boolean {
-        binding.root
-        TODO("Not yet implemented")
-    }
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        TODO("Not yet implemented")
+        return when (item.itemId) {
+            R.id.clients -> {
+            }
+            else -> false
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean =

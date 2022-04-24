@@ -93,7 +93,7 @@ object ViewUtils {
         make(this, message, LENGTH_LONG)
             .apply { show() }
 
-    fun View.snackL(message: String, action: Snackbar.() -> Snackbar) {
+    fun View.snackL(message: String, action: Snackbar.() -> Unit) {
         make(this, message, LENGTH_LONG).run {
             action()
             show()

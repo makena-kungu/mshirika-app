@@ -3,6 +3,8 @@ package co.ke.mshirika.mshirika_app.ui.util
 import java.text.DateFormat
 import java.text.DateFormat.*
 import java.text.SimpleDateFormat
+import java.time.MonthDay
+import java.time.Year
 import java.util.*
 
 object DateUtil {
@@ -49,6 +51,7 @@ object DateUtil {
             return SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(Date(this))
         }
 
+    val mshirikaDate: String = System.currentTimeMillis().mshirikaDate
 
     val List<Int>.shortDate: String
         get() = shortDateFormat.format(date)
@@ -63,4 +66,24 @@ object DateUtil {
         }
 
     fun mediumDate(date: List<Int>) = date.mediumDate
+
+    val Long.age: Int
+        get() {
+            Year.now()
+            val then = Calendar.getInstance()
+            then.timeInMillis = this
+            var age = Year.now() - Year.of(then[Calendar.YEAR])
+            return with(MonthDay.now()) {
+                val month = then[Calendar.MONTH]
+                when {
+                    month > monthValue -> age--
+                    month == monthValue && then[Calendar.DAY_OF_MONTH] > dayOfMonth -> age--
+                }
+                age
+            }
+        }
+
+    private operator fun Year.minus(then: Year): Int {
+        return value - then.value
+    }
 }

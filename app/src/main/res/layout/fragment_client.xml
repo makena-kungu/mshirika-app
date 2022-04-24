@@ -32,7 +32,7 @@
 
                     <com.google.android.material.appbar.CollapsingToolbarLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/client_app_bar_height"
+                        android:layout_height="@dimen/height_client_app_bar"
                         app:collapsedTitleTextColor="#00000000"
                         app:expandedTitleGravity="center_horizontal|bottom"
                         app:expandedTitleTextAppearance="@style/Widget.Material3.CollapsingToolbar.Large"
@@ -73,8 +73,8 @@
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/client_image"
-                        android:layout_width="@dimen/client_logo"
-                        android:layout_height="@dimen/client_logo"
+                        android:layout_width="@dimen/size_client_logo"
+                        android:layout_height="@dimen/size_client_logo"
                         android:layout_gravity="center_horizontal"
                         android:scaleType="centerCrop"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -87,8 +87,8 @@
 
                     <TextView
                         android:id="@+id/client_image_error"
-                        android:layout_width="@dimen/client_logo"
-                        android:layout_height="@dimen/client_logo"
+                        android:layout_width="@dimen/size_client_logo"
+                        android:layout_height="@dimen/size_client_logo"
                         android:gravity="center"
                         android:scaleX=".7"
                         android:scaleY=".7"

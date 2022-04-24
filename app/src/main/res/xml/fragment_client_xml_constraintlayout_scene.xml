@@ -45,8 +45,8 @@
     <ConstraintSet android:id="@+id/collapsed">
         <Constraint
             android:id="@+id/loan_client_image"
-            android:layout_width="@dimen/client_small_logo"
-            android:layout_height="@dimen/client_small_logo"
+            android:layout_width="@dimen/size_client_small_logo"
+            android:layout_height="@dimen/size_client_small_logo"
             android:layout_marginStart="64dp"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"
@@ -56,8 +56,8 @@
             motion:layout_constraintVertical_bias="0.5" />
         <Constraint
             android:id="@+id/client_image_error"
-            android:layout_width="@dimen/client_small_logo"
-            android:layout_height="@dimen/client_small_logo"
+            android:layout_width="@dimen/size_client_small_logo"
+            android:layout_height="@dimen/size_client_small_logo"
             android:scaleX=".7"
             android:scaleY=".7"
             android:visibility="invisible"

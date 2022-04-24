@@ -2,6 +2,7 @@ package co.ke.mshirika.mshirika_app.repositories
 
 import androidx.paging.Pager
 import androidx.paging.PagingData
+import co.ke.mshirika.mshirika_app.data.request.CreateClient
 import co.ke.mshirika.mshirika_app.data.response.Client
 import co.ke.mshirika.mshirika_app.data.response.CreateClientTemplate
 import co.ke.mshirika.mshirika_app.data.response.LoanAccount
@@ -10,6 +11,7 @@ import co.ke.mshirika.mshirika_app.data.response.Search.Companion.ENTITY_CLIENT
 import co.ke.mshirika.mshirika_app.pagingSource.ClientsPagingSource
 import co.ke.mshirika.mshirika_app.pagingSource.Util.pagingConfig
 import co.ke.mshirika.mshirika_app.remote.response.AccountsResponse
+import co.ke.mshirika.mshirika_app.remote.response.ClientCreationResponse
 import co.ke.mshirika.mshirika_app.remote.response.TransactionResponse
 import co.ke.mshirika.mshirika_app.remote.services.ClientsService
 import co.ke.mshirika.mshirika_app.remote.services.LoansService
@@ -18,13 +20,17 @@ import co.ke.mshirika.mshirika_app.remote.utils.Outcome
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Loading
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Success
 import co.ke.mshirika.mshirika_app.remote.utils.UnpackResponse.respond
+import co.ke.mshirika.mshirika_app.remote.utils.UnpackResponse.respondWithCallback
 import co.ke.mshirika.mshirika_app.remote.utils.empty
 import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
 import co.ke.mshirika.mshirika_app.utility.Util.headers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
+import retrofit2.Call
 import javax.inject.Inject
 
 class ClientsRepo @Inject constructor(
@@ -35,8 +41,10 @@ class ClientsRepo @Inject constructor(
 ) {
     private val searchedClientList = mutableListOf<Client>()
     private val loanAccounts = mutableListOf<LoanAccount>()
+    private var call: Call<ClientCreationResponse>? = null
 
     private val _accounts = MutableStateFlow<Outcome<AccountsResponse>>(empty())
+    private val _created = MutableStateFlow<Outcome<ClientCreationResponse>>(empty())
     private val _loans = MutableStateFlow<List<LoanAccount>>(emptyList())
     private val _searchedClients = MutableStateFlow<Outcome<PagingData<Client>>>(empty())
     private val _transactions = MutableStateFlow<Outcome<TransactionResponse>>(empty())
@@ -44,6 +52,8 @@ class ClientsRepo @Inject constructor(
 
     val accounts
         get() = _accounts
+    val created
+        get() = _created.asStateFlow()
     val loans
         get() = _loans
     val searchedClients
@@ -52,6 +62,12 @@ class ClientsRepo @Inject constructor(
         get() = _transactions.asStateFlow()
     val template
         get() = _template.asStateFlow()
+
+    val template1 = flow {
+        withContext(IO) {
+            respond { service.template(headers()) }.also { emit(it) }
+        }
+    }
 
     val clients: Flow<PagingData<Client>>
         get() = flow {
@@ -133,6 +149,16 @@ class ClientsRepo @Inject constructor(
             }
             else -> {}
         }
+    }
+
+    suspend fun createClient(client: CreateClient) {
+        _created.value = respondWithCallback {
+            service.createWithCall(headers(), client).also { call = it }
+        }
+    }
+
+    fun cancel() {
+        call?.cancel()
     }
 
     suspend fun transactions(accountId: Int) {

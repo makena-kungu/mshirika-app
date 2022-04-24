@@ -14,7 +14,8 @@ val Context.datastore by preferencesDataStore(name = PREF_STORE)
 
 class PreferencesStoreRepository(private val context: Context) {
 
-    suspend fun saveAuthKey(authKey: String): Boolean {
+    suspend fun saveAuthKey(key: String): Boolean {
+        val authKey = Base64Utils.encode(key.toByteArray())
         return context.datastore.edit {
             it[AUTH_KEY] = authKey
         }.let {
@@ -29,11 +30,10 @@ class PreferencesStoreRepository(private val context: Context) {
     suspend fun authKey(): String {
         return context.datastore.data
             .map {
-                it[AUTH_KEY]!!
-            }.run {
-                val key = last()
-                "Basic ${Base64Utils.decode(key).decodeToString()}"
-            }
+                it[AUTH_KEY]!!.let { key ->
+                    "Basic ${Base64Utils.decode(key).decodeToString()}"
+                }
+            }.last()
     }
 
     suspend fun logout() =

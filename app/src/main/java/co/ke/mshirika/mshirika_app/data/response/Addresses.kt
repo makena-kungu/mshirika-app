@@ -5,10 +5,10 @@ import android.os.Parcelable
 import androidx.annotation.Keep
 import kotlinx.parcelize.Parcelize
 
-class Address : ArrayList<Address.AddressItem>(){
+class Addresses : ArrayList<Addresses.Address>(){
     @Keep
     @Parcelize
-    data class AddressItem(
+    data class Address(
         val fieldConfigurationId: Int,
         val entity: String,
         val subentity: String,

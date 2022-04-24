@@ -4,7 +4,7 @@
         android:id="@+id/main_fragments"
         android:checkableBehavior="none">
         <item
-            android:id="@+id/action_homeFragment_to_clientFragment"
+            android:id="@+id/clients"
             android:icon="@drawable/ic_round_person_outline_24"
             android:onClick=""
             android:title="@string/clients" />
@@ -24,9 +24,19 @@
         <item
             android:id="@+id/loans"
             android:title="@string/loans" />
+
+        <item
+            android:id="@+id/reports"
+            android:title="@string/reports" />
+
+        <item
+            android:id="@+id/events"
+            android:title="@string/events"
+            android:visible="false" />
+        <!-- todo recall to remove visibility attribute-->
     </group>
 
-    <group android:id="@+id/group2">
+    <!--<group android:id="@+id/group2">
         <item
             android:id="@+id/subtitle"
             android:title="Subtitle">
@@ -36,14 +46,13 @@
                     android:title="Item 1" />
             </menu>
         </item>
-    </group>
-
+    </group>-->
 
     <item
         android:id="@+id/settings"
-        android:title="Settings" />
+        android:title="@string/settings" />
 
     <item
         android:id="@+id/about"
-        android:title="About" />
+        android:title="@string/about" />
 </menu>

@@ -8,7 +8,8 @@ import co.ke.mshirika.mshirika_app.data.response.LoanAccount.LoanTransaction
 import co.ke.mshirika.mshirika_app.databinding.ItemTransactionLoanBinding
 import co.ke.mshirika.mshirika_app.ui.loans.LoanTransactionsAdapter.LoanTransactionsViewHolder
 
-class LoanTransactionsAdapter : ListAdapter<LoanTransaction, LoanTransactionsViewHolder>(LoanTransaction) {
+class LoanTransactionsAdapter :
+    ListAdapter<LoanTransaction, LoanTransactionsViewHolder>(LoanTransaction) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LoanTransactionsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -17,7 +18,9 @@ class LoanTransactionsAdapter : ListAdapter<LoanTransaction, LoanTransactionsVie
     }
 
     override fun onBindViewHolder(holder: LoanTransactionsViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        getItem(position)?.let {
+            holder.bind(it)
+        }
     }
 
     inner class LoanTransactionsViewHolder(private val binding: ItemTransactionLoanBinding) :

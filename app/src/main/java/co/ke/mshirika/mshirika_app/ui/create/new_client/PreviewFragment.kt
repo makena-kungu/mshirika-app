@@ -99,7 +99,7 @@ class PreviewFragment :
     }
 
     override fun onNextPressed() {
-        TODO("Not yet implemented")
+        viewModel.post()
     }
 
     companion object {

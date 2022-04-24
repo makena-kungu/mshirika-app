@@ -1,6 +1,5 @@
 package co.ke.mshirika.mshirika_app.ui.util
 
-import android.content.Context
 import android.util.Patterns
 import android.widget.EditText
 import androidx.core.widget.addTextChangedListener
@@ -24,26 +23,6 @@ object EditableUtils {
 
     val EditText.s: String
         get() = text.trim().toString()
-
-    val EditText.canBeEmptyText: String?
-        get() {
-            val t = text.toString().trim()
-            if (t.isEmpty()) return null
-            return t
-        }
-
-    fun EditText.nonEmptyText(field: String, context: Context, action: (Boolean) -> Unit): String? {
-        val t = text.toString().trim()
-
-        val notEmpty = t.isNotEmpty()
-        action(notEmpty)// if it's not empty you can proceed
-        if (notEmpty)
-            return t
-
-        if (this is TextInputEditText) error =
-            context.getString(co.ke.mshirika.mshirika_app.R.string.field_cannot_be_empty, field)
-        return null
-    }
 
     /**
      * The views pushed as parameters will be equiped with a text watcher that ensures that they're
@@ -81,6 +60,17 @@ object EditableUtils {
                 if (!it) error = context.getString(R.string.email_pattern_error)
             }
         }
+    }
+
+    fun clear(vararg editTexts: EditText) {
+        editTexts.forEach {
+            it.clear()
+        }
+    }
+
+    fun EditText.clear() {
+        text.clear()
+        // TODO: if the above does not work, use setText("")
     }
 
     infix fun <A, B, C> A.andd(pair: Pair<B, C>): Triple<A, B, C> =

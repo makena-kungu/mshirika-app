@@ -4,6 +4,8 @@ import co.ke.mshirika.mshirika_app.remote.utils.DeveloperMessages.LOGIN
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Success
 import okhttp3.ResponseBody
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
@@ -23,6 +25,39 @@ object UnpackResponse {
             e.printStackTrace()
         }
         return outcome ?: error()
+    }
+
+    inline fun <T : Respondent> respondWithCallback(
+        request: () -> Call<T>
+    ): Outcome<T> {
+        var outcome: Outcome<T>? = null
+        val callback = object : Callback<T> {
+            override fun onResponse(call: Call<T>, response: Response<T>) {
+                outcome = response.handle()
+            }
+
+            override fun onFailure(call: Call<T>, t: Throwable) {
+                val msg = when {
+                    call.isCanceled -> {
+                        CANCELLATION_ERROR
+                    }
+                    else -> {
+                        NETWORK_ERROR
+                    }
+                }
+                outcome = error(msg)
+            }
+        }
+        respondWithCall(request, callback)
+        return outcome ?: error(UNKNOWN_ERROR)
+    }
+
+    inline fun <T : Respondent> respondWithCall(
+        request: () -> Call<T>,
+        callback: Callback<T>
+    ) {
+        val response = request()
+        response.enqueue(callback)
     }
 
     fun <T> Response<T>.handle(): Outcome<T> {

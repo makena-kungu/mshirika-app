@@ -16,6 +16,7 @@ import co.ke.mshirika.mshirika_app.ui.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui.create.ViewerFragment
 import co.ke.mshirika.mshirika_app.ui.create.new_client.FamilyMembersAdapter.FamViewHolder
 import co.ke.mshirika.mshirika_app.ui.util.DateUtil.fromShortDate
+import co.ke.mshirika.mshirika_app.ui.util.EditableUtils.clear
 import co.ke.mshirika.mshirika_app.ui.util.EditableUtils.text
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import kotlinx.coroutines.flow.collectLatest
@@ -35,6 +36,13 @@ class FamilyFragment :
                 adapter.submitList(it)
             }
             binding.setupAdapters()
+            binding.setupClearing()
+        }
+    }
+
+    private suspend fun FragmentNewClientFamilyBinding.setupClearing() {
+        viewModel.clientCreated.collectLatest {
+            if (it) clear(fullName, dob, relationship, gender, maritalStatus)
         }
     }
 
@@ -68,13 +76,14 @@ class FamilyFragment :
 
     fun addFamilyMember() {
         binding.apply {
+            val dOB = dob.text().fromShortDate
             viewModel.addFamilyMember(
                 FamilyMember(
-                    fullName.text(),
-                    dob.text().fromShortDate,
-                    relationship.text(),
-                    gender.text(),
-                    maritalStatus.text()
+                    name = fullName.text(),
+                    dob = dOB,
+                    relationship = relationship.text(),
+                    gender = gender.text(),
+                    maritalStatus = maritalStatus.text()
                 )
             )
         }

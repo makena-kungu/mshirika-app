@@ -29,11 +29,9 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/create_client_image"
-                    android:layout_width="@dimen/client_image_large"
-                    android:layout_height="@dimen/client_image_large"
+                    android:layout_width="@dimen/size_client_image_large"
+                    android:layout_height="@dimen/size_client_image_large"
                     app:shapeAppearanceOverlay="?roundedImage"
-                    tools:layout_editor_absoluteX="87dp"
-                    tools:layout_editor_absoluteY="16dp"
                     tools:srcCompat="@tools:sample/avatars" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -291,6 +289,7 @@
                     app:flow_horizontalGap="8dp"
                     app:flow_horizontalStyle="spread_inside"
                     app:flow_verticalGap="5dp"
+                    app:flow_firstVerticalStyle="spread"
                     app:flow_wrapMode="chain2"
                     android:layout_marginVertical="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
