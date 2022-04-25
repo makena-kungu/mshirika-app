@@ -1,105 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    tools:context=".ui.transactions.TransactionFragment">
 
+    <data>
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:elevation="10dp">
+        <import type="co.ke.mshirika.mshirika_app.ui.util.DateUtil" />
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="Transaction Details"
-            app:titleCentered="true"
-            app:titleTextAppearance="@style/TextAppearance.Toolbar.Title" />
-    </com.google.android.material.appbar.AppBarLayout>
+        <import type="co.ke.mshirika.mshirika_app.ui.util.ViewUtils" />
 
-    <!--TODO  add elevation dynamically-->
-
+        <variable
+            name="transaction"
+            type="co.ke.mshirika.mshirika_app.data.response.Transaction" />
+    </data>
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        app:cardElevation="10dp"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        style="?backgroundCardView"
+        android:transitionName="@string/transition_card_transition_name">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="24dp"
-            android:paddingVertical="10dp">
+            android:layout_height="match_parent">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/transaction_image"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="?roundImage"
-                tools:srcCompat="@tools:sample/avatars" />
-
-            <Space
-                android:id="@+id/space"
-                android:layout_width="16dp"
-                android:layout_height="5dp"
-                app:layout_constraintBottom_toBottomOf="@id/transaction_image"
-                app:layout_constraintStart_toEndOf="@id/transaction_image"
-                app:layout_constraintTop_toTopOf="@id/transaction_image" />
-
-            <TextView
-                android:id="@id/transaction_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Item.Primary"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@id/space"
-                app:layout_constraintEnd_toStartOf="@id/transaction_amount"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toEndOf="@id/space"
-                tools:text="Transaction Name" />
-
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Item.Secondary"
-                android:textSize="15sp"
-                app:layout_constraintEnd_toStartOf="@id/transaction_amount"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toEndOf="@id/space"
-                app:layout_constraintTop_toBottomOf="@id/space"
-                tools:text="12 Feb, 2021" />
-
-            <TextView
-                android:id="@+id/transaction_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Item.Primary"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@id/space"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/space"
-                tools:text="$23,000.00" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/transaction_details"
+            <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                android:paddingVertical="5dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/transaction_image"
-                tools:listitem="@layout/item_transaction_details" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
+                app:elevation="10dp">
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:title="Transaction Details"
+                    app:titleCentered="true"
+                    app:titleTextAppearance="@style/TextAppearance.Toolbar.Title" />
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                app:cardElevation="10dp"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="24dp"
+                    android:paddingVertical="10dp">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/transaction_image"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:shapeAppearanceOverlay="?roundImage"
+                        tools:srcCompat="@tools:sample/avatars" />
+
+                    <Space
+                        android:id="@+id/space"
+                        android:layout_width="16dp"
+                        android:layout_height="5dp"
+                        app:layout_constraintBottom_toBottomOf="@id/transaction_image"
+                        app:layout_constraintStart_toEndOf="@id/transaction_image"
+                        app:layout_constraintTop_toTopOf="@id/transaction_image" />
+
+                    <TextView
+                        android:id="@id/transaction_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{transaction.transactionType.value}"
+                        android:textAppearance="?textAppearanceHeadline6"
+                        app:layout_constraintBottom_toTopOf="@id/space"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toEndOf="@id/space"
+                        tools:text="Transaction Name" />
+
+                    <TextView
+                        android:id="@+id/transaction_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{ViewUtils.INSTANCE.getAmt(transaction.amount)}"
+                        android:textAppearance="?textAppearanceBodyLarge"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toEndOf="@id/space"
+                        app:layout_constraintTop_toBottomOf="@id/transaction_name"
+                        app:layout_constraintTop_toTopOf="@id/space"
+                        tools:text="$23,000.00" />
+
+                    <TextView
+                        android:id="@+id/date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{DateUtil.INSTANCE.getMediumDate(transaction.date)}"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toEndOf="@id/space"
+                        app:layout_constraintTop_toBottomOf="@id/transaction_amount"
+                        tools:text="12 Feb, 2021" />
+
+                    <ListView
+                        android:id="@+id/transaction_details"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:paddingVertical="5dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/date"
+                        tools:listitem="@layout/item_transaction_details" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

@@ -43,7 +43,7 @@ class TransactionsAdapter(private val listener: OnTransactionsItemClickListener)
             absoluteAdapterPosition.takeIf {
                 it != NO_POSITION
             }?.also {
-                listener.onClickTransaction(transaction = getItem(it))
+                v?.let { it1 -> listener.onClickTransaction(it1, getItem(it)) }
             }
         }
 
@@ -70,6 +70,6 @@ class TransactionsAdapter(private val listener: OnTransactionsItemClickListener)
     }
 
     interface OnTransactionsItemClickListener {
-        fun onClickTransaction(transaction: Transaction)
+        fun onClickTransaction(container: View, transaction: Transaction)
     }
 }

@@ -11,250 +11,184 @@
             type="co.ke.mshirika.mshirika_app.ui.main.clients.ClientFragment" />
     </data>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.google.android.material.card.MaterialCardView
-            style="?attr/backgroundCardView"
-            android:transitionName="@string/client_card_transition_name">
+    <com.google.android.material.card.MaterialCardView
+        style="?attr/backgroundCardView"
+        android:transitionName="@string/client_card_transition_name">
 
 
-            <androidx.coordinatorlayout.widget.CoordinatorLayout
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appBarLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                app:elevation="0dp">
 
-                <com.google.android.material.appbar.AppBarLayout
-                    android:id="@+id/appBarLayout"
+                <com.google.android.material.appbar.CollapsingToolbarLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:elevation="0dp">
+                    android:layout_height="@dimen/height_client_app_bar"
+                    app:collapsedTitleTextColor="#00000000"
+                    app:expandedTitleGravity="center_horizontal|bottom"
+                    app:expandedTitleTextAppearance="@style/Widget.Material3.CollapsingToolbar.Large"
+                    app:expandedTitleTextColor="#00000000"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                    app:title="Toolbar"
+                    app:titleCollapseMode="scale"
+                    app:toolbarId="@id/client_toolbar">
 
-                    <com.google.android.material.appbar.CollapsingToolbarLayout
+                    <com.google.android.material.appbar.MaterialToolbar
+                        android:id="@+id/client_toolbar"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/height_client_app_bar"
-                        app:collapsedTitleTextColor="#00000000"
-                        app:expandedTitleGravity="center_horizontal|bottom"
-                        app:expandedTitleTextAppearance="@style/Widget.Material3.CollapsingToolbar.Large"
-                        app:expandedTitleTextColor="#00000000"
-                        app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                        app:title="Toolbar"
-                        app:titleCollapseMode="scale"
-                        app:toolbarId="@id/client_toolbar">
+                        android:layout_height="?attr/actionBarSize"
+                        app:layout_collapseMode="pin"
+                        app:menu="@menu/client"
+                        app:navigationIcon="@drawable/ic_round_arrow_back_24"
+                        app:titleTextColor="#00000000" />
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+            </com.google.android.material.appbar.AppBarLayout>
 
-                        <com.google.android.material.appbar.MaterialToolbar
-                            android:id="@+id/client_toolbar"
-                            android:layout_width="match_parent"
-                            android:layout_height="?attr/actionBarSize"
-                            app:layout_collapseMode="pin"
-                            app:menu="@menu/client"
-                            app:navigationIcon="@drawable/ic_round_arrow_back_24"
-                            app:titleTextColor="#00000000" />
-                    </com.google.android.material.appbar.CollapsingToolbarLayout>
-                </com.google.android.material.appbar.AppBarLayout>
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progress_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:layout_anchor="@id/appBarLayout"
+                app:layout_anchorGravity="bottom"
+                tools:visibility="visible" />
 
-                <com.google.android.material.progressindicator.LinearProgressIndicator
-                    android:id="@+id/progress_horizontal"
-                    android:layout_width="match_parent"
+            <androidx.constraintlayout.motion.widget.MotionLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="5dp"
+                android:minHeight="?attr/actionBarSize"
+                app:layoutDescription="@xml/fragment_client_xml_constraintlayout_scene">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/client_image"
+                    android:layout_width="@dimen/size_client_logo"
+                    android:layout_height="@dimen/size_client_logo"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias=".15"
+                    app:shapeAppearanceOverlay="?roundedImage"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+                <TextView
+                    android:id="@+id/client_image_error"
+                    android:layout_width="@dimen/size_client_logo"
+                    android:layout_height="@dimen/size_client_logo"
+                    android:gravity="center"
+                    android:scaleX=".7"
+                    android:scaleY=".7"
+                    android:textColor="@color/white"
+                    android:textSize="65sp"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@+id/client_image"
+                    app:layout_constraintEnd_toEndOf="@id/client_image"
+                    app:layout_constraintStart_toStartOf="@id/client_image"
+                    app:layout_constraintTop_toTopOf="@id/client_image"
+                    tools:scaleX="1"
+                    tools:scaleY="1"
+                    tools:text="C"
+                    tools:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/client_name"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:indeterminate="true"
-                    android:visibility="gone"
-                    app:layout_anchor="@id/appBarLayout"
-                    app:layout_anchorGravity="bottom"
-                    tools:visibility="visible" />
+                    android:layout_marginTop="30dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/roboto_regular"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:maxLines="2"
+                    android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge"
+                    android:textColor="?android:textColorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/client_image"
+                    tools:text="Client's Name" />
 
-                <androidx.constraintlayout.motion.widget.MotionLayout
-                    android:id="@+id/constraintLayout"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/client_mobile_number"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:elevation="5dp"
-                    android:minHeight="?attr/actionBarSize"
-                    app:layoutDescription="@xml/fragment_client_xml_constraintlayout_scene">
+                    android:autoLink="phone"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:minHeight="48dp"
+                    android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+                    android:textColorLink="?android:textColorLink"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toTopOf="@id/available_bal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/client_name"
+                    tools:text="+254715417011" />
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/client_image"
-                        android:layout_width="@dimen/size_client_logo"
-                        android:layout_height="@dimen/size_client_logo"
-                        android:layout_gravity="center_horizontal"
-                        android:scaleType="centerCrop"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias=".15"
-                        app:shapeAppearanceOverlay="?roundedImage"
-                        tools:srcCompat="@tools:sample/avatars" />
-
-                    <TextView
-                        android:id="@+id/client_image_error"
-                        android:layout_width="@dimen/size_client_logo"
-                        android:layout_height="@dimen/size_client_logo"
-                        android:gravity="center"
-                        android:scaleX=".7"
-                        android:scaleY=".7"
-                        android:textColor="@color/white"
-                        android:textSize="65sp"
-                        android:visibility="invisible"
-                        app:layout_constraintBottom_toBottomOf="@+id/client_image"
-                        app:layout_constraintEnd_toEndOf="@id/client_image"
-                        app:layout_constraintStart_toStartOf="@id/client_image"
-                        app:layout_constraintTop_toTopOf="@id/client_image"
-                        tools:scaleX="1"
-                        tools:scaleY="1"
-                        tools:text="C"
-                        tools:visibility="invisible" />
-
-                    <TextView
-                        android:id="@+id/client_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/roboto_regular"
-                        android:marqueeRepeatLimit="marquee_forever"
-                        android:maxLines="2"
-                        android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge"
-                        android:textColor="?android:textColorPrimary"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/client_image"
-                        tools:text="Client's Name" />
-
-                    <TextView
-                        android:id="@+id/client_mobile_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:autoLink="phone"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:minHeight="48dp"
-                        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
-                        android:textColorLink="?android:textColorLink"
-                        android:textSize="20sp"
-                        app:layout_constraintBottom_toTopOf="@id/available_bal"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/client_name"
-                        tools:text="+254715417011" />
-
-                    <TextView
-                        android:id="@+id/available_bal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="0dp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:maxLines="1"
-                        android:text="@string/available_balance"
-                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                        android:textColor="@color/beautiful_text"
-                        app:layout_constraintBottom_toTopOf="@id/balance"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/client_mobile_number" />
-
-                    <TextView
-                        android:id="@+id/balance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="5dp"
-                        android:maxLines="1"
-                        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
-                        app:layout_constraintBottom_toTopOf="@id/client_membership_no"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/available_bal"
-                        tools:text="$23,450.00" />
-
-                    <TextView
-                        android:id="@+id/client_membership_no"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="@string/client_s_member_number"
-                        android:maxLines="1"
-                        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/balance"
-                        tools:text="030323" />
-                </androidx.constraintlayout.motion.widget.MotionLayout>
-
-                <androidx.core.widget.NestedScrollView
-                    android:id="@+id/animation_anchor"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/available_bal"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="0dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:maxLines="1"
+                    android:text="@string/available_balance"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    android:textColor="@color/beautiful_text"
+                    app:layout_constraintBottom_toTopOf="@id/balance"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/client_mobile_number" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingVertical="8dp">
+                <TextView
+                    android:id="@+id/balance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+                    app:layout_constraintBottom_toTopOf="@id/client_membership_no"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/available_bal"
+                    tools:text="$23,450.00" />
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/savings_account"
-                            style="?clientOutlinedButton"
-                            android:onClick="@{(view)->fragment.newSavingsAccount()}"
-                            android:text="@string/new_savings"
-                            app:icon="@drawable/ic_outline_savings_24" />
+                <TextView
+                    android:id="@+id/client_membership_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/client_s_member_number"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/balance"
+                    tools:text="030323" />
+            </androidx.constraintlayout.motion.widget.MotionLayout>
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/loan_account"
-                            style="?clientOutlinedButton"
-                            android:onClick="@{(view)->fragment.newLoanAccount()}"
-                            android:text="@string/new_loan"
-                            app:icon="@drawable/ic_round_account_balance_24" />
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/animation_anchor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/charges"
-                            style="?clientOutlinedButton"
-                            android:onClick="@{(view)->fragment.charges()}"
-                            android:text="@string/charges"
-                            app:icon="@drawable/ic_round_receipt_long_24" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/payment"
-                            style="?clientOutlinedButton"
-                            android:onClick="@{(view)->fragment.payment()}"
-                            android:text="@string/payment"
-                            app:icon="@drawable/ic_round_monetization_on_24" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/edit"
-                            style="?clientOutlinedButton"
-                            android:onClick="@{(view)->fragment.edit()}"
-                            android:text="@string/edit"
-                            app:icon="@drawable/ic_baseline_edit_24" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/action"
-                            style="?clientOutlinedButton"
-                            android:onClick="@{(view) -> fragment.actions()}"
-                            android:text="@string/action"
-                            app:icon="@drawable/ic_baseline_more_horiz_24" />
-
-                        <androidx.constraintlayout.helper.widget.Flow
-                            android:id="@+id/button_flow"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:visibility="gone"
-                            app:constraint_referenced_ids="savings_account,loan_account,payment,edit,charges,action"
-                            app:flow_horizontalStyle="spread_inside"
-                            app:flow_maxElementsWrap="2"
-                            app:flow_wrapMode="aligned"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <include
-                            android:id="@+id/loans_and_transactions"
-                            layout="@layout/content_loans_and_transactions"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.core.widget.NestedScrollView>
-            </androidx.coordinatorlayout.widget.CoordinatorLayout>
-        </com.google.android.material.card.MaterialCardView>
-    </FrameLayout>
+                <include
+                    android:id="@+id/loans_and_transactions"
+                    layout="@layout/content_loans_and_transactions"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </androidx.core.widget.NestedScrollView>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

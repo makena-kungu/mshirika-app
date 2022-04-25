@@ -17,7 +17,7 @@ import co.ke.mshirika.mshirika_app.ui.main.clients.adapters.ClientsAdapter
 import co.ke.mshirika.mshirika_app.ui.main.clients.viewModels.ClientsViewModel
 import co.ke.mshirika.mshirika_app.ui.main.utils.State.Normal
 import co.ke.mshirika.mshirika_app.ui.main.utils.State.Searching
-import co.ke.mshirika.mshirika_app.ui.util.Transitions.itemToDetailTransition
+import co.ke.mshirika.mshirika_app.ui.util.Transitions.itemToDetailsTransition
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -100,7 +100,7 @@ class ClientsFragment : MshirikaFragment<FragmentClientsBinding>(R.layout.fragme
             clientImageUri = imageUrl,
             colors = colors
         ).also {
-            itemToDetailTransition(
+            itemToDetailsTransition(
                 it
             )
         }

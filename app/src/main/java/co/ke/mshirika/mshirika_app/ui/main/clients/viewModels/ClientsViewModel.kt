@@ -3,12 +3,12 @@
 package co.ke.mshirika.mshirika_app.ui.main.clients.viewModels
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.PagingData.Companion.empty
 import androidx.paging.cachedIn
 import co.ke.mshirika.mshirika_app.data.response.Client
+import co.ke.mshirika.mshirika_app.remote.utils.Outcome
 import co.ke.mshirika.mshirika_app.repositories.ClientsRepo
 import co.ke.mshirika.mshirika_app.ui.MshirikaViewModel
 import co.ke.mshirika.mshirika_app.ui.main.utils.State
@@ -29,22 +29,25 @@ class ClientsViewModel @Inject constructor(
     state: SavedStateHandle
 ) : MshirikaViewModel() {
     private val _clients = repo.clients.cachedIn(viewModelScope)
-    private val _state = state.getLiveData(STATE, DEFAULT)
-        .asFlow()
-        .stateIn(
-            viewModelScope,
-            WhileSubscribed(),
-            Normal
-        ) as MutableStateFlow
+
+    private val _state = MutableStateFlow(state.getLiveData(STATE, DEFAULT).value ?: DEFAULT)
 
     private val _filteredClients = MutableStateFlow<PagingData<Client>>(empty())
+    private val _modifiedFilteredClients = channelFlow<PagingData<Client>> {
+        searchedClients.collectLatest {
+            when (it) {
+                is Outcome.Success -> it.data?.let { data -> send(data) }
+                else -> send(empty())
+            }
+        }
+    }
     private val searchedClients
         get() = repo.searchedClients
 
     val clients: StateFlow<PagingData<Client>>
         get() = _state.flatMapLatest {
             when (it) {
-                Searching -> _filteredClients
+                Searching -> _modifiedFilteredClients
                 Normal -> _clients
             }
         }.stateIn(
@@ -55,10 +58,6 @@ class ClientsViewModel @Inject constructor(
 
     fun search(query: String) {
         viewModelScope.launch { repo.search(query) }
-    }
-
-    fun state(state: State) {
-        _state.value = state
     }
 
     init {

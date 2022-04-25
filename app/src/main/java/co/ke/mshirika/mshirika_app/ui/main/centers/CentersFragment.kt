@@ -10,53 +10,32 @@ import androidx.fragment.app.viewModels
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.data.response.Center
 import co.ke.mshirika.mshirika_app.databinding.FragmentCentersBinding
-import co.ke.mshirika.mshirika_app.ui.MshirikaFragment
+import co.ke.mshirika.mshirika_app.ui.ListFragment
 import co.ke.mshirika.mshirika_app.ui.main.utils.State
 import co.ke.mshirika.mshirika_app.ui.search.OnSearchListener
 import co.ke.mshirika.mshirika_app.ui.util.Transitions.itemToDetailReentry
-import co.ke.mshirika.mshirika_app.ui.util.Transitions.itemToDetailTransition
+import co.ke.mshirika.mshirika_app.ui.util.Transitions.itemToDetailsTransition
 import com.google.android.material.appbar.MaterialToolbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
-class CentersFragment : MshirikaFragment<FragmentCentersBinding>(R.layout.fragment_centers),
+class CentersFragment : ListFragment<FragmentCentersBinding>(R.layout.fragment_centers),
     SearchView.OnQueryTextListener,
     OnCenterClickListener,
     OnSearchListener {
 
     private val viewModel by viewModels<CentersViewModel>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         itemToDetailReentry(view)
-
-        lifecycleScope.launchWhenCreated {
-            binding.setupRecyclerView()
-        }
+        binding.setupRecyclerView()
     }
 
-    override val toolbar: MaterialToolbar
-        get() = binding.appBar.toolbarLarge
-
-    override val hasToolbar: Boolean
-        get() = true
-
-    override val isTopFragment: Boolean
-        get() = true
-
-    override val toolbarTitle: String
-        get() = getString(R.string.centers)
-
-    private suspend fun FragmentCentersBinding.setupRecyclerView() {
+    private fun FragmentCentersBinding.setupRecyclerView() {
         val adapter = CentersAdapter(this@CentersFragment)
         centers.adapter = adapter
-        viewModel.data.collectLatest {
+        viewModel.data.collectLatestLifecycle {
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
     }
@@ -79,8 +58,7 @@ class CentersFragment : MshirikaFragment<FragmentCentersBinding>(R.layout.fragme
                 viewModel.search(query)
             }
             false
-        } else
-            true
+        } else true
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
@@ -92,9 +70,21 @@ class CentersFragment : MshirikaFragment<FragmentCentersBinding>(R.layout.fragme
         return true
     }
 
+    override val toolbar: MaterialToolbar
+        get() = binding.appBar.toolbarLarge
+
+    override val hasToolbar: Boolean
+        get() = true
+
+    override val isTopFragment: Boolean
+        get() = true
+
+    override val toolbarTitle: String
+        get() = getString(R.string.centers)
+
     override fun onClickCenter(center: Center, position: Int, view: View) {
         CentersFragmentDirections.actionGlobalCenterFragment().also {
-            itemToDetailTransition(it, view to getString(R.string.center_card_transition_name))
+            itemToDetailsTransition(it, view to getString(R.string.center_card_transition_name))
         }
     }
 

@@ -157,7 +157,6 @@
                 android:fontFamily="@font/roboto_medium"
                 android:onClick="@{() -> fragment.login()}"
                 android:text="@string/sign_in"
-                android:textAppearance="@style/TextAppearance.Button"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 tools:layout_editor_absoluteX="10dp" />

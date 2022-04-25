@@ -13,8 +13,7 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:onClick="@{() -> fragment.hideAddCard()}">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -54,7 +53,7 @@
                         android:layout_gravity="center_vertical"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center_vertical"
-                        android:onClick="@{() -> fragment.openSearchFragment()}"
+                        android:onClick="@{(view) -> fragment.openSearchFragment()}"
                         android:text="@string/search_ellipsize"
                         android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
                         android:textColor="?android:textColorSecondary"
@@ -71,11 +70,17 @@
                 android:layout_height="@dimen/size_logo"
                 android:layout_marginTop="30dp"
                 android:elevation="0dp"
-                android:onClick="@{() -> fragment.hideAddCard()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/scrim"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="@{() -> fragment.hideAddCard()}"
+            android:visibility="gone" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/addition_card"
@@ -85,12 +90,12 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="90dp"
             android:visibility="gone"
+            app:cardCornerRadius="12dp"
             app:cardElevation="@dimen/elevation_addition_card"
-            tools:visibility="visible"
             app:layout_anchor="@id/add_fab"
             app:layout_anchorGravity="top"
-            app:cardCornerRadius="12dp"
-            app:strokeWidth="0dp">
+            app:strokeWidth="0dp"
+            tools:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -133,7 +138,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/margin_fab"
             android:contentDescription="@string/add_fab_desc"
-            android:onClick="@{(view)->fragment.showAddCard(view)}"
+            android:onClick="@{()->fragment.showAddCard()}"
             android:src="@drawable/ic_round_add_24"
             app:layout_behavior="com.google.android.material.floatingactionbutton.FloatingActionButton$Behavior" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

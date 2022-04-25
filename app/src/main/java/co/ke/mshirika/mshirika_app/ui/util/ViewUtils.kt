@@ -15,12 +15,10 @@ import java.math.BigDecimal
 import java.text.NumberFormat
 
 object ViewUtils {
-    private val _AMOUNT_REGEX = "\\d*\\.\\d{0,2}".toRegex()
 
     //ensuring that the amount does not exceed 2 decimal places in an Edit text
-    @Suppress("unused")
     val AMOUNT_REGEX: Regex
-        get() = _AMOUNT_REGEX
+        get() = "\\d*\\.\\d{0,2}".toRegex()
 
     private lateinit var res: Resources
     private lateinit var mTheme: Resources.Theme

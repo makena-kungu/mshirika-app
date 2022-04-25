@@ -1,172 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.loans.LoanRepaymentFragment">
 
     <data>
+
         <variable
             name="loanAccount"
             type="co.ke.mshirika.mshirika_app.data.response.LoanAccount" />
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.loans.LoanRepaymentFragment">
+    <com.google.android.material.card.MaterialCardView
+        style="?backgroundCardView"
+        android:transitionName="@string/loan_card_transition_name">
 
-        <include
-            android:id="@+id/app_bar"
-            layout="@layout/layout_app_bar_large" />
-
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/nestedScrollView"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+            android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <include
+                android:id="@+id/app_bar"
+                layout="@layout/layout_app_bar_large" />
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/nestedScrollView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-                <TextView
-                    android:id="@+id/repayment_client_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@{loanAccount.clientName}"
-                    android:textAppearance="?textAppearanceHeadlineMedium"
-                    tools:text="Client Name" />
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/repayment_client_image"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    app:shapeAppearanceOverlay="?roundedImage"
-                    tools:visibility="visible"
-                    tools:srcCompat="@tools:sample/avatars" />
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/repayment_amount_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:endIconMode="none"
-                    app:prefixText="Ksh">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/repayment_amount"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/amount_required"
-                        android:inputType="phone|numberDecimal"
-                        tools:text="1,000.00" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/payment_type_layout"
-                    style="?textInputOutlinedExposedDropdownMenuStyle"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                        android:id="@+id/payment_type"
+                    <TextView
+                        android:id="@+id/repayment_client_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@{loanAccount.clientName}"
+                        android:textAppearance="?textAppearanceHeadlineMedium"
+                        tools:text="Client Name" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/repayment_client_image"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        app:shapeAppearanceOverlay="?roundedImage"
+                        tools:srcCompat="@tools:sample/avatars"
+                        tools:visibility="visible" />
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/repayment_amount_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/payment_type"
-                        android:inputType="none"
-                        tools:text="M-pesa" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        app:endIconMode="none"
+                        app:prefixText="Ksh">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/receipt_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:endIconMode="none">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/repayment_amount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/amount_required"
+                            android:inputType="phone|numberDecimal"
+                            tools:text="1,000.00" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/receipt"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/payment_type_layout"
+                        style="?textInputOutlinedExposedDropdownMenuStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/payment_type"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/payment_type"
+                            android:inputType="none"
+                            tools:text="M-pesa" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/receipt_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/receipt_no"
-                        android:inputType="textCapCharacters"
-                        tools:text="1,000.00" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        app:endIconMode="none">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/repayment_date_l"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:endIconDrawable="@drawable/ic_baseline_calendar_month_24"
-                    app:endIconMode="custom"
-                    app:errorEnabled="false">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/receipt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/receipt_no_"
+                            android:inputType="textCapCharacters"
+                            tools:text="1,000.00" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/repayment_date"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/repayment_date_l"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/repayment_date"
-                        android:inputType="date"
-                        android:maxLines="1"
-                        tools:text="22.03.2029" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        app:endIconDrawable="@drawable/ic_baseline_calendar_month_24"
+                        app:endIconMode="custom"
+                        app:errorEnabled="false">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/repayment_bank_date_l"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:endIconDrawable="@drawable/ic_baseline_calendar_month_24"
-                    app:endIconMode="custom"
-                    app:errorEnabled="false">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/repayment_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/repayment_date"
+                            android:inputType="date"
+                            android:maxLines="1"
+                            tools:text="22.03.2029" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/repayment_bank_date"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/repayment_bank_date_l"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/bank_date"
-                        android:inputType="date"
-                        tools:text="22.03.2029" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        app:endIconDrawable="@drawable/ic_baseline_calendar_month_24"
+                        app:endIconMode="custom"
+                        app:errorEnabled="false">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/make_repayment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/make_repayment" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/repayment_bank_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/bank_date"
+                            android:inputType="date"
+                            tools:text="22.03.2029" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:id="@+id/repayment_transaction_heading"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/transactions"
-                    android:textAppearance="?textAppearanceHeadline5" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/make_repayment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/make_repayment" />
 
-                <com.google.android.material.progressindicator.LinearProgressIndicator
-                    android:id="@+id/transactions_loading"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:indeterminate="true" />
+                    <TextView
+                        android:id="@+id/repayment_transaction_heading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/transactions"
+                        android:textAppearance="?textAppearanceHeadline5" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/loan_transactions"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"
-                    tools:listitem="@layout/item_transaction_loan" />
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/transactions_loading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:indeterminate="true" />
 
-                <androidx.constraintlayout.helper.widget.Flow
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:orientation="horizontal"
-                    android:padding="8dp"
-                    app:constraint_referenced_ids="repayment_client_name,repayment_client_image,repayment_amount_layout,payment_type_layout,receipt_layout,repayment_date_l,repayment_bank_date_l,make_repayment,repayment_transaction_heading,transactions_loading,loan_transactions"
-                    app:flow_maxElementsWrap="2"
-                    app:flow_verticalGap="8dp"
-                    app:flow_wrapMode="chain"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/loan_transactions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/item_transaction_loan" />
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+                    <androidx.constraintlayout.helper.widget.Flow
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:orientation="horizontal"
+                        android:padding="8dp"
+                        app:constraint_referenced_ids="repayment_client_name,repayment_client_image,repayment_amount_layout,payment_type_layout,receipt_layout,repayment_date_l,repayment_bank_date_l,make_repayment,repayment_transaction_heading,transactions_loading,loan_transactions"
+                        app:flow_maxElementsWrap="2"
+                        app:flow_verticalGap="8dp"
+                        app:flow_wrapMode="chain"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

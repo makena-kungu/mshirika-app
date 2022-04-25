@@ -13,17 +13,13 @@ object DateUtil {
 
 
     val String.fromLongDate: Long
-        get() {
-            return longDateFormat.parse(this)!!.time
-        }
+        get() = longDateFormat.parse(this)!!.time
 
     val String.fromShortDate: Long
         get() = shortDateFormat.parse(this)!!.time
 
     val Long.longDate: String
-        get() {
-            return longDateFormat.format(Date(this))
-        }
+        get() = longDateFormat.format(Date(this))
 
     val Long.shortDate: String
         get() = shortDateFormat.format(Date(this))
@@ -32,24 +28,16 @@ object DateUtil {
         get() = mediumDateFormat.format(Date(this))
 
     private val longDateFormat: DateFormat
-        get() {
-            return getDateInstance(LONG)
-        }
+        get() = getDateInstance(LONG)
 
     private val shortDateFormat: DateFormat
-        get() {
-            return getDateInstance(SHORT)
-        }
+        get() = getDateInstance(SHORT)
 
     private val mediumDateFormat: DateFormat
-        get() {
-            return getDateInstance(MEDIUM)
-        }
+        get() = getDateInstance(MEDIUM)
 
     val Long.mshirikaDate: String
-        get() {
-            return SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(Date(this))
-        }
+        get() = SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(Date(this))
 
     val mshirikaDate: String = System.currentTimeMillis().mshirikaDate
 
@@ -69,7 +57,6 @@ object DateUtil {
 
     val Long.age: Int
         get() {
-            Year.now()
             val then = Calendar.getInstance()
             then.timeInMillis = this
             var age = Year.now() - Year.of(then[Calendar.YEAR])

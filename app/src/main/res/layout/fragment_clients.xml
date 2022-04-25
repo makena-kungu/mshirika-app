@@ -1,35 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.main.clients.ClientsFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <include
-        android:id="@+id/appBarLayout"
-        layout="@layout/layout_app_bar_large" />
+    <data>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/clients"
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="130dp"
-        android:orientation="vertical"
-        android:transitionGroup="true"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_client" />
+        android:layout_height="match_parent"
+        tools:context=".ui.main.clients.ClientsFragment">
 
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/clients_loading"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        app:layout_anchor="@id/appBarLayout"
-        app:layout_anchorGravity="bottom"/>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <include
+            android:id="@+id/appBarLayout"
+            layout="@layout/layout_app_bar_large" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/clients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="130dp"
+            android:orientation="vertical"
+            android:transitionGroup="true"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/item_client" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/clients_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:layout_anchor="@id/appBarLayout"
+            app:layout_anchorGravity="bottom" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

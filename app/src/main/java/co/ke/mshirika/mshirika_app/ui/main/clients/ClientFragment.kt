@@ -14,7 +14,6 @@ import androidx.navigation.fragment.navArgs
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.data.response.Client
 import co.ke.mshirika.mshirika_app.data.response.LoanAccount
-import co.ke.mshirika.mshirika_app.data.response.SavingsAccount
 import co.ke.mshirika.mshirika_app.data.response.Transaction
 import co.ke.mshirika.mshirika_app.databinding.ContentLoansAndTransactionsBinding
 import co.ke.mshirika.mshirika_app.databinding.FragmentClientBinding
@@ -22,11 +21,14 @@ import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Error
 import co.ke.mshirika.mshirika_app.remote.utils.Outcome.Loading
 import co.ke.mshirika.mshirika_app.remote.utils.Urls
 import co.ke.mshirika.mshirika_app.ui.DetailsFragment
+import co.ke.mshirika.mshirika_app.ui.main.clients.ClientFragmentDirections.Companion.actionGlobalLoanRepaymentFragment
+import co.ke.mshirika.mshirika_app.ui.main.clients.ClientFragmentDirections.Companion.actionGlobalTransactionFragment
 import co.ke.mshirika.mshirika_app.ui.main.clients.adapters.LoanAccountsAdapter
-import co.ke.mshirika.mshirika_app.ui.main.clients.adapters.SavingsAccountsAdapter.SavingsClickListener
 import co.ke.mshirika.mshirika_app.ui.main.clients.adapters.TransactionsAdapter
 import co.ke.mshirika.mshirika_app.ui.main.clients.adapters.TransactionsAdapter.OnTransactionsItemClickListener
 import co.ke.mshirika.mshirika_app.ui.main.clients.viewModels.ClientViewModel
+import co.ke.mshirika.mshirika_app.ui.util.Transitions.itemToDetailReentry
+import co.ke.mshirika.mshirika_app.ui.util.Transitions.itemToDetailsTransitionId
 import co.ke.mshirika.mshirika_app.ui.util.UIText
 import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.drawable
 import com.bumptech.glide.Glide
@@ -42,13 +44,10 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 @AndroidEntryPoint
 class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_client),
-    SavingsClickListener,
     co.ke.mshirika.mshirika_app.ui.loans.OnLoanClickListener,
     OnMenuItemClickListener,
     OnTransactionsItemClickListener {
@@ -63,19 +62,18 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        itemToDetailReentry(view)
         binding.fragment = this
         binding.apply {
+            accounts()
+            errorState()
+            loadingState()
             setupAppBar()
-            setupToolbar()
-            lifecycleScope.launchWhenCreated {
-                accounts()
-                errorState()
-                loadingState()
-                setupLoans()
-                loansAndTransactions.setupTransactions()
-                viewModel.totalSavings.collectLatest { it?.let(balance::setText) }
-                viewModel.client.collectLatest { client -> client?.let { loadImage(it) } }
+            setupLoans()
+            loansAndTransactions.setupTransactions()
+            viewModel.apply {
+                totalSavings.collectLatestNonNull { balance.text = it }
+                client.collectLatestNonNull { loadImage(it) }
             }
         }
     }
@@ -92,13 +90,23 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
     override fun onMenuItemClick(item: MenuItem?): Boolean = item?.run {
         when (itemId) {
             R.id.edit -> {
-                binding.setupToolbar()
-                //edit the client
-                TODO("NOT YET IMPLEMENTED")
+                edit()
+            }
+            R.id.withdraw -> {
+                withdraw()
+                true
+            }
+            R.id.charge -> {
+                charges()
+                true
+            }
+            R.id.transfer -> {
+                transfer()
+                true
             }
             else -> false
         }
-    } ?: false
+    } == true
 
     private suspend fun loadImage(client: Client) {
         val authKey = viewModel.authKey()
@@ -119,8 +127,8 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
             .into(binding.clientImage)
     }
 
-    private suspend fun errorState() {
-        viewModel.errorState.collectLatest { uiText ->
+    private fun errorState() {
+        viewModel.errorState.collectLatestLifecycle { uiText ->
             var title: String? = null
             var action: (() -> Unit)? = null
 
@@ -152,14 +160,14 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
         }
     }
 
-    private suspend fun loadingState() {
-        viewModel.loadingState.collectLatest {
+    private fun loadingState() {
+        viewModel.loadingState.collectLatestLifecycle {
             binding.progressHorizontal.isVisible = it
         }
     }
 
-    private suspend fun FragmentClientBinding.accounts() {
-        viewModel.accounts.collectLatest { outcome ->
+    private fun FragmentClientBinding.accounts() {
+        viewModel.accounts.collectLatestLifecycle { outcome ->
             when (outcome) {
                 is Loading -> true
                 is Error -> {
@@ -189,46 +197,25 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
         }
     }
 
-    private suspend fun FragmentClientBinding.setupLoans() {
+    private fun FragmentClientBinding.setupLoans() {
         val adapter = LoanAccountsAdapter(this@ClientFragment)
         loansAndTransactions.loans.adapter = adapter
-        viewModel.loans.collectLatest {
+        viewModel.loans.collectLatestLifecycle {
             adapter.submitList(it)
         }
     }
 
-    private suspend fun ContentLoansAndTransactionsBinding.setupTransactions() {
+    private fun ContentLoansAndTransactionsBinding.setupTransactions() {
         val adapter = TransactionsAdapter(this@ClientFragment)
         transactions.setHasFixedSize(true)
         transactions.adapter = adapter
-        viewModel.transactions.collectLatest { response ->
-            response?.run {
-                adapter.submitList(transactions)
-            }
+        viewModel.transactions.collectLatestNonNull {
+            adapter.submitList(it.transactions)
         }
-    }
-
-    private fun FragmentClientBinding.setupToolbar() {
-        with(clientToolbar) {
-            // TODO: move this logic to the abstract custom class
-            /*val navController = findNavController()
-            val appBarConfiguration = AppBarConfiguration(navController.graph)
-            setNavigationOnClickListener {
-                //go back or pop up
-                navController.navigateUp(appBarConfiguration)
-            }*/
-
-            /*inflateMenu(R.menu.client)
-            setOnMenuItemClickListener(this@ClientFragment)*/
-        }
-    }
-
-    override fun onSavingsClick(acc: SavingsAccount) {
-        //view account
     }
 
     override fun onLoanClicked(loanAccount: LoanAccount) {
-        TODO("Not yet implemented")
+        //todo view a loan
     }
 
     override fun onLoanRepayClicked(
@@ -236,18 +223,25 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
         position: Int,
         container: View
     ): Boolean {
+        itemToDetailsTransitionId(
+            actionGlobalLoanRepaymentFragment(), container to R.string.loan_card_transition_name
+        )
         return false
     }
 
-    override fun onClickTransaction(transaction: Transaction) {
-        TODO("Not yet implemented")
+    override fun onClickTransaction(container: View, transaction: Transaction) {
+        itemToDetailsTransitionId(
+            actionGlobalTransactionFragment(transaction),
+            container to R.string.transition_card_transition_name
+        )
     }
 
+    //todo the following methods
     fun newSavingsAccount() {
 
     }
 
-    fun newLoanAccount() {
+    fun newLoan() {
 
     }
 
@@ -255,16 +249,20 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
 
     }
 
-    fun edit() {
+    private fun withdraw() {
 
     }
 
-    fun charges() {
+    private fun transfer() {
 
     }
 
-    fun actions() {
-        TODO("Display Bottom sheet with transfer and close actions")
+    private fun edit() {
+        // todo edit the client use the create client fragment only the general data
+    }
+
+    private fun charges() {
+
     }
 
     inner class LoadImageListener : RequestListener<Drawable> {
@@ -274,16 +272,12 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
             target: Target<Drawable>?,
             isFirstResource: Boolean
         ): Boolean {
-            lifecycleScope.launchWhenCreated {
-                binding.loadBackupImage()
-            }
+            binding.loadBackupImage()
             return true
         }
 
-        private suspend fun FragmentClientBinding.loadBackupImage() {
-            viewModel.client.collectLatest {
-                if (it == null) return@collectLatest
-
+        private fun FragmentClientBinding.loadBackupImage() {
+            viewModel.client.collectLatestNonNull {
                 clientImage.visibility = INVISIBLE
                 clientImageError.apply {
                     isVisible = true
@@ -308,10 +302,8 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
             isFirstResource: Boolean
         ): Boolean {
             //bind all other details if the image has been loaded
-            lifecycleScope.launch {
-                viewModel.client.collectLatest { client ->
-                    client?.let { binding.bindClient(it) }
-                }
+            viewModel.client.collectLatestNonNull { client ->
+                binding.bindClient(client)
             }
             return true
         }

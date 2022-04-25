@@ -27,7 +27,7 @@ import co.ke.mshirika.mshirika_app.ui.main.groups.OnGroupClickListener
 import co.ke.mshirika.mshirika_app.ui.search.fragments.clients.ClientsFragment
 import co.ke.mshirika.mshirika_app.ui.search.fragments.groups.GroupsFragment
 import co.ke.mshirika.mshirika_app.ui.search.fragments.loans.LoansFragment
-import co.ke.mshirika.mshirika_app.ui.util.Transitions.itemToDetailTransition
+import co.ke.mshirika.mshirika_app.ui.util.Transitions.itemToDetailsTransition
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
@@ -118,7 +118,7 @@ class SearchFragment : MshirikaFragment<FragmentSearchBinding>(R.layout.fragment
             clientImageUri = imageUrl,
             colors = colors
         ).also {
-            itemToDetailTransition(
+            itemToDetailsTransition(
                 it
             )
         }
@@ -132,7 +132,7 @@ class SearchFragment : MshirikaFragment<FragmentSearchBinding>(R.layout.fragment
 
     override fun onLoanClicked(loanAccount:LoanAccount) {
         SearchFragmentDirections.actionGlobalLoanRepaymentFragment().also {
-            itemToDetailTransition(it)
+            itemToDetailsTransition(it)
         }
         TODO("Not yet implemented")
     }

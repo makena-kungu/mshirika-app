@@ -1,33 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <group
         android:id="@+id/main_fragments"
         android:checkableBehavior="none">
         <item
-            android:id="@+id/clients"
+            android:id="@+id/clientsFragment"
             android:icon="@drawable/ic_round_person_outline_24"
-            android:onClick=""
             android:title="@string/clients" />
 
         <item
-            android:id="@+id/groups"
+            android:id="@+id/groupsFragment"
             android:icon="@drawable/ic_baseline_people_outline_24"
             android:title="@string/groups" />
 
         <item
-            android:id="@+id/center"
+            android:id="@+id/centersFragment"
             android:icon="@drawable/ic_round_apartment_24"
             android:title="@string/centers" />
     </group>
 
-    <group android:id="@+id/group3">
+    <group
+        android:id="@+id/group3"
+        android:checkableBehavior="none">
         <item
-            android:id="@+id/loans"
+            android:id="@+id/fragmentLoans"
             android:title="@string/loans" />
 
         <item
             android:id="@+id/reports"
-            android:title="@string/reports" />
+            android:title="@string/reports"
+            android:visible="false"
+            tools:visible="true" />
+        <!-- todo recall to remove visibility attribute-->
 
         <item
             android:id="@+id/events"

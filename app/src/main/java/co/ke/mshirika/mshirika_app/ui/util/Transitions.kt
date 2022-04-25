@@ -20,10 +20,20 @@ object Transitions {
     private val Fragment.mDuration
         get() = resources.getInteger(R.integer.material_motion_duration_medium_2).toLong()
 
+    fun Fragment.itemToDetailsTransitionId(
+        dirs: NavDirections,
+        vararg sharedElements: Pair<View, Int>
+    ) {
+        val elements = sharedElements.map {
+            it.first to getString(it.second)
+        }
+        itemToDetailsTransition(dirs, *elements.toTypedArray())
+    }
+
     /**
      * Add this to the onItemClick() of the respective fragments
      */
-    fun Fragment.itemToDetailTransition(
+    fun Fragment.itemToDetailsTransition(
         dirs: NavDirections,
         vararg sharedElements: Pair<View, String>
     ) {
@@ -49,10 +59,6 @@ object Transitions {
         view.doOnPreDraw {
             startPostponedEnterTransition()
         }
-    }
-
-    fun Fragment.itemToDetailReturnTransition() {
-
     }
 
     /**

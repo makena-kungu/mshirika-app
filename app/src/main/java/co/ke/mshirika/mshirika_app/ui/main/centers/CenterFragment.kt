@@ -2,33 +2,24 @@ package co.ke.mshirika.mshirika_app.ui.main.centers
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.databinding.FragmentCenterBinding
-import co.ke.mshirika.mshirika_app.ui.util.Transitions.itemToDetailSharedElementEnterTransition
+import co.ke.mshirika.mshirika_app.ui.DetailsFragment
+import com.google.android.material.appbar.MaterialToolbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CenterFragment : Fragment(R.layout.fragment_center) {
-    private var _bind: FragmentCenterBinding? = null
-    private val bind get() = _bind!!
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        itemToDetailSharedElementEnterTransition()
-    }
+class CenterFragment : DetailsFragment<FragmentCenterBinding>(R.layout.fragment_center) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _bind = FragmentCenterBinding.bind(view)
-        bind.appBar.toolbarLarge.setNavigationOnClickListener {
-            findNavController().navigateUp()
-        }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _bind = null
-    }
+    override val hasToolbar: Boolean
+        get() = true
+    override val toolbar: MaterialToolbar
+        get() = binding.appBar.toolbarLarge
+    override val toolbarTitle: String
+        get() = getString(R.string.center)
+
 }

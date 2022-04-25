@@ -3,8 +3,10 @@ package co.ke.mshirika.mshirika_app.ui.home
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.annotation.StringRes
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.databinding.FragmentHomeBinding
@@ -14,6 +16,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HomeFragment : MshirikaFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
+    private val viewModel: HomeViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -22,6 +26,43 @@ class HomeFragment : MshirikaFragment<FragmentHomeBinding>(R.layout.fragment_hom
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.fragment = this
+
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            when (viewModel.status.value) {
+                Status.Showing -> {
+                    viewModel.update(Status.Hidden)
+                    isEnabled = false
+                }
+                else -> {}
+            }
+        }
+        viewModel.status.collectLatestLifecycle {
+            when (it) {
+                Status.Showing -> binding.apply {
+                    callback.isEnabled = true
+                    scrim.isVisible = true
+                    componentExpansionTransition(
+                        root as ViewGroup,
+                        addFab,
+                        additionCard,
+                        resources.getDimension(R.dimen.elevation_addition_card)
+                    ) {
+                        additionCard.isVisible = true
+                    }
+                }
+                else -> binding.apply {
+                    componentCollapsingTransition(
+                        root as ViewGroup,
+                        additionCard,
+                        addFab,
+                        resources.getDimension(R.dimen.elevation_addition_card)
+                    ) {
+                        additionCard.isVisible = false
+                        scrim.isVisible = false
+                    }
+                }
+            }
+        }
     }
 
     private fun navigateToSearch() {
@@ -38,29 +79,11 @@ class HomeFragment : MshirikaFragment<FragmentHomeBinding>(R.layout.fragment_hom
     }
 
     fun hideAddCard() {
-        binding.apply {
-            componentCollapsingTransition(
-                root as ViewGroup,
-                additionCard,
-                addFab,
-                resources.getDimension(R.dimen.elevation_addition_card)
-            ) {
-                additionCard.isVisible = false
-            }
-        }
+        viewModel.update(Status.Hidden)
     }
 
-    fun showAddCard(view: View) {
-        binding.apply {
-            componentExpansionTransition(
-                root as ViewGroup,
-                view,
-                additionCard,
-                resources.getDimension(R.dimen.elevation_addition_card)
-            ) {
-                additionCard.isVisible = true
-            }
-        }
+    fun showAddCard() {
+        viewModel.update(Status.Showing)
     }
 
     fun openCreateClient() {

@@ -1,17 +1,30 @@
 package co.ke.mshirika.mshirika_app.ui
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkState
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkState.*
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 //Use this viewModel in all the fragments so as to observe the network state
-class MainViewModel @Inject constructor() : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    prefs: PreferencesStoreRepository
+) : ViewModel() {
 
     private val _netState = MutableStateFlow<NetworkState>(Empty)
     val netState = _netState.asSharedFlow()
+    val staff = flow {
+        withContext(IO) {
+            val staff = prefs.staff()
+            emit(staff)
+        }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
     fun changeNetworkState(online: Boolean) {
         when (online) {

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="48dp"
     android:orientation="horizontal"
-    android:gravity="center_vertical"
+    android:gravity="center"
     android:paddingVertical="5dp"
     android:weightSum="10">
 
@@ -12,8 +12,7 @@
     <TextView
         android:id="@+id/details_heading"
         android:layout_width="0dp"
-        android:textAppearance="@style/Item.Secondary"
-        android:textSize="18sp"
+        android:textAppearance="?textAppearanceBodyLarge"
         tools:text="Transaction ID"
         android:layout_height="wrap_content"
         android:layout_weight="5" />
@@ -21,8 +20,7 @@
     <TextView
         android:id="@+id/details_value"
         android:layout_width="0dp"
-        android:textAppearance="@style/Item.Primary"
-        android:textSize="16sp"
+        android:textAppearance="?textAppearanceTitleMedium"
         tools:text="34987434"
         android:gravity="end"
         android:layout_height="wrap_content"

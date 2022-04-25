@@ -140,19 +140,23 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="make_payment">Make Payment</string>
 
+    <string name="office_name">Office: %1$s</string>
+    <string name="status">Status: %1$s</string>
     <string name="external_id">External ID: %1$s</string>
     <string name="external_identification">External ID</string>
     <string name="account_no">"Account No: %1$s"</string>
 
     <!--Transition-->
     <string name="client_card_transition_name">Client Card Details</string>
-    <string name="client_card">Client Card %d</string>
+    <string name="client_item_card">Client Card %d</string>
     <string name="loan_card_transition_name">Loan Card Details</string>
-    <string name="loan_card">Loan Card %d</string>
+    <string name="loan_item_card">Loan Card %d</string>
     <string name="center_card_transition_name">Center Card Details</string>
-    <string name="center_card">Center Card %d</string>
+    <string name="center_item_card">Center Card %d</string>
+    <string name="transition_card_transition_name">Transition Card Details</string>
+    <string name="transition_item_card">Transition Card %d</string>
     <string name="group_card_transition_name">Group Card Details</string>
-    <string name="group_card">group Card %d</string>
+    <string name="group_item_card">group Card %d</string>
 
     <string name="desc_create_client">Create A New Client</string>
     <string name="desc_create_group">Create A New Group</string>
@@ -172,7 +176,8 @@
     <string name="loan_date">Loan Date</string>
     <string name="due_date">Due Date</string>
     <string name="amount_due">Amount Due</string>
-    <string name="receipt_no">Receipt No*</string>
+    <string name="receipt_no_">Receipt No*</string>
+    <string name="receipt_no">Receipt No</string>
     <string name="payment_type">Payment Type</string>
     <string name="field_cannot_be_empty">%s cannot be  empty</string>
     <string name="loan_repayment">Loan Repayment</string>
@@ -219,6 +224,10 @@
     <string name="unknown_error">Unknown Error!</string>
     <string name="request_cancelled">Request Cancelled</string>
     <string name="network_error">Could not execute request. Check your internet connection!</string>
-    <string name="error_login">\"Error Loginning In!\"</string>
+    <string name="error_login">Error Login In!</string>
     <string name="login_successful">Login Successful!</string>
+    <string name="transaction_id">Transaction Id</string>
+    <string name="transaction_type">Transaction Type</string>
+    <string name="by">By</string>
+    <string name="deposit_and_pay">Deposit and Pay</string>
 </resources>

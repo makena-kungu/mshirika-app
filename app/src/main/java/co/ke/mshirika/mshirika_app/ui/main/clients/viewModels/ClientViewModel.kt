@@ -58,7 +58,7 @@ class ClientViewModel @Inject constructor(
 
     * */
     val loans
-        get() = _loans
+        get() = _loans.asStateFlow()
     val client
         get() = _client.asSharedFlow()
     val totalSavings

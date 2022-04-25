@@ -12,20 +12,16 @@ import co.ke.mshirika.mshirika_app.ui.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui.util.EditableUtils.text
 import co.ke.mshirika.mshirika_app.ui.util.LoadingDialog
 import co.ke.mshirika.mshirika_app.ui.util.ViewUtils.snackS
-import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkMonitor
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginFragment : MshirikaFragment<FragmentLoginBinding>(R.layout.fragment_login) {
-    private var _binding: FragmentLoginBinding? = null
 
-    private val dataStore by lazy { PreferencesStoreRepository(requireContext()) }
     private val viewModel by viewModels<LoginViewModel>()
 
     @Inject
@@ -33,27 +29,25 @@ class LoginFragment : MshirikaFragment<FragmentLoginBinding>(R.layout.fragment_l
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentLoginBinding.bind(view)
-
         val loadingDialog = LoadingDialog(requireContext()) { viewModel.cancel() }
+        binding.fragment = this
         binding.apply {
-            fragment = this@LoginFragment
-            lifecycleScope.launchWhenCreated {
-                viewModel.auth.collectLatest {
-                    viewModel.save(it.base64EncodedAuthenticationKey)
-                    root.snackS(getString(R.string.login_successful))
-                    proceed()
+
+            viewModel.auth.collectLatestLifecycle {
+                viewModel.save(it.base64EncodedAuthenticationKey)
+                viewModel.save(it)
+                root.snackS(getString(R.string.login_successful))
+                proceed()
+            }
+            viewModel.errorState.collectLatestLifecycle {
+                Snackbar.make(root, it.text(requireContext()), LENGTH_LONG).apply {
+                    setAction(R.string.okay) { dismiss() }
+                    show()
                 }
-                viewModel.errorState.collectLatest {
-                    Snackbar.make(root, it.text(requireContext()), LENGTH_LONG).apply {
-                        setAction(R.string.okay) { dismiss() }
-                        show()
-                    }
-                }
-                viewModel.loadingState.collectLatest {
-                    if (it) loadingDialog.show()
-                    else loadingDialog.dismiss()
-                }
+            }
+            viewModel.loadingState.collectLatestLifecycle {
+                if (it) loadingDialog.show()
+                else loadingDialog.dismiss()
             }
         }
     }
@@ -63,15 +57,14 @@ class LoginFragment : MshirikaFragment<FragmentLoginBinding>(R.layout.fragment_l
     }
 
     fun login() {
-        if (!networkMonitor.isOnline) {
+        /*if (!networkMonitor.isOnline) {
             Snackbar.make(
                 binding.root,
                 getString(R.string.no_internet),
                 LENGTH_LONG
             ).show()
             return
-        }
-
+        }*/
         binding.apply {
             if (validate()) {
                 //proceed

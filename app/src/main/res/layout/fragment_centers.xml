@@ -16,21 +16,24 @@
             android:id="@+id/app_bar"
             layout="@layout/layout_app_bar_large" />
 
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/clients_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:layout_anchor="@id/app_bar"
+            app:layout_anchorGravity="bottom" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/centers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:paddingVertical="8dp"
             android:transitionGroup="true"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            tools:listitem="@layout/item_center" />
+            tools:listitem="@layout/item_center2" />
 
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/clients_loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:indeterminate="true" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

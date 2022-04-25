@@ -7,15 +7,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
-import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
-import co.ke.mshirika.mshirika_app.ui.MainActivity
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.databinding.ActivityLauncherBinding
+import co.ke.mshirika.mshirika_app.ui.MainActivity
+import co.ke.mshirika.mshirika_app.ui.util.OnMshirikaFragmentAttach
+import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
-class LauncherActivity : AppCompatActivity() {
+class LauncherActivity : AppCompatActivity(), OnMshirikaFragmentAttach {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityLauncherBinding
@@ -43,5 +44,8 @@ class LauncherActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_launcher)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
+    }
+
+    override fun hideAppBar(hide: Boolean) {
     }
 }

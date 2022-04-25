@@ -14,7 +14,6 @@
         android:paddingHorizontal="8dp"
         android:paddingVertical="5dp">
 
-        <!--todo each icon place here corresponds to the deposit, etc ones-->
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/transaction_image"
             android:layout_width="45dp"

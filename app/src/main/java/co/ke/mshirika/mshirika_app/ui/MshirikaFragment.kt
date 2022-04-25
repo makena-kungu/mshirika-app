@@ -11,7 +11,9 @@ import androidx.annotation.MenuRes
 import androidx.appcompat.widget.Toolbar.OnMenuItemClickListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -22,6 +24,9 @@ import co.ke.mshirika.mshirika_app.ui.util.OnMshirikaFragmentAttach
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 /**
  *
@@ -144,6 +149,20 @@ abstract class MshirikaFragment<B>(@LayoutRes contentLayoutId: Int) :
     private fun OnMshirikaFragmentAttach.detach() {
         if (hidesToolbar)
             showAppBar()
+    }
+
+    fun <T> Flow<T>.collectLatestLifecycle(collect: suspend (T) -> Unit) {
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                collectLatest(collect)
+            }
+        }
+    }
+
+    fun <T> Flow<T?>.collectLatestNonNull(collect: suspend (T) -> Unit) {
+        collectLatestLifecycle {
+            it?.let { collect(it) }
+        }
     }
 
     private val hidesToolbar get() = isTopFragment && hasToolbar

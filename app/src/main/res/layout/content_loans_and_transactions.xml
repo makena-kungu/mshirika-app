@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="fragment"
+            type="co.ke.mshirika.mshirika_app.ui.main.clients.ClientFragment" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -12,97 +16,42 @@
         android:clipToPadding="false"
         android:paddingHorizontal="10dp">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/make_payment_card"
-            style="?attr/transactionCardView"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/deposit"
+            style="?materialButtonOutlinedStyle"
             android:layout_width="0dp"
-            android:onClick="@{}">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/make_payment"
-                style="?transactionTextView"
-                android:text="@string/deposit"
-                app:drawableTopCompat="@drawable/ic_deposit" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/withdraw_card"
-            style="?attr/transactionCardView"
-            android:layout_width="0dp"
-            android:onClick="@{}">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/withdraw"
-                style="?transactionTextView"
-                android:text="@string/withdraw"
-                app:drawableTopCompat="@drawable/ic_withdraw" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/transfer_card"
-            style="?attr/transactionCardView"
-            android:onClick="@{}">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/transfer"
-                style="?transactionTextView"
-                android:text="@string/transfer"
-                app:drawableTopCompat="@drawable/ic_transfer" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/charge_card"
-            style="?attr/transactionCardView"
-            android:onClick="@{}">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/charge"
-                style="?transactionTextView"
-                android:text="@string/charge"
-                app:drawableTopCompat="@drawable/ic_charge" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/waive_card"
-            style="?attr/transactionCardView"
-            android:onClick="@{}">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/waive"
-                style="?transactionTextView"
-                android:text="@string/waive_charge"
-                app:drawableTopCompat="@drawable/ic_waive" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <androidx.constraintlayout.helper.widget.Flow
-            android:id="@+id/transaction_flow"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:elevation="3dp"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            app:constraint_referenced_ids="transfer_card,charge_card,waive_card,make_payment_card,withdraw_card"
-            app:flow_firstHorizontalStyle="spread_inside"
-            app:flow_horizontalGap="5dp"
-            app:flow_maxElementsWrap="3"
-            app:flow_verticalGap="8dp"
-            app:flow_wrapMode="chain"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="gone" />
+            android:text="@string/deposit_and_pay"
+            android:onClick="@{() -> fragment.payment()}"
+            app:layout_constraintEnd_toStartOf="@id/new_loan"
+            android:layout_marginEnd="6dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/new_loan"
+            style="?materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:onClick="@{() -> fragment.newLoan()}"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/new_loan"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/deposit"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/loan"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:text="@string/loans"
             android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/loans"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/deposit" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/loans"
@@ -159,4 +108,4 @@
             tools:itemCount="4"
             tools:listitem="@layout/item_transaction" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+</layout>

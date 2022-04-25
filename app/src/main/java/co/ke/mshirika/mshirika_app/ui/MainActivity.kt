@@ -5,7 +5,6 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.ColorStateListDrawable
 import android.os.Build
 import android.os.Bundle
-import android.view.MenuItem
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -23,22 +22,21 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.transition.TransitionManager.beginDelayedTransition
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.databinding.ActivityMainBinding
+import co.ke.mshirika.mshirika_app.databinding.LayoutNavHeaderBinding
+import co.ke.mshirika.mshirika_app.ui.util.FlowUtils.collectLatestLifecycle
 import co.ke.mshirika.mshirika_app.ui.util.OnMshirikaFragmentAttach
 import co.ke.mshirika.mshirika_app.ui.util.findNavigationController
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkMonitor
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkState.Offline
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkState.Online
-import com.google.android.material.navigation.NavigationView
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.android.material.transition.MaterialSharedAxis.Y
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import java.time.Duration
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(),
-    NavigationView.OnNavigationItemSelectedListener,
     OnMshirikaFragmentAttach {
     private val viewModel: MainViewModel by viewModels()
 
@@ -50,24 +48,6 @@ class MainActivity : AppCompatActivity(),
     @Inject
     lateinit var networkMonitor: NetworkMonitor
 
-    private val appBarListener =
-        NavController.OnDestinationChangedListener { _, destination, _ ->
-            binding.appBar.apply {
-                elevation =
-                    when (destination.id) {
-                        R.id.homeFragment -> 0F
-                        else -> resources.getDimension(R.dimen.elevation_appbar)
-                    }
-
-                isVisible =
-                    when (destination.id) {
-                        R.id.clientFragment -> false
-                        R.id.searchFragment -> false
-                        else -> true
-                    }
-            }
-        }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -78,21 +58,12 @@ class MainActivity : AppCompatActivity(),
             navController = findNavigationController(R.id.nav_host_fragment_main)
             appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
             drawerLayout()
-            navController.addOnDestinationChangedListener(appBarListener)
 
             internetStatus.internetStatus()
         }
 
         networkMonitor.observe(this) {
             viewModel.changeNetworkState(it)
-        }
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.clients -> {
-            }
-            else -> false
         }
     }
 
@@ -110,25 +81,21 @@ class MainActivity : AppCompatActivity(),
         )
 
         drawerLayout.addDrawerListener(toggle)
+        navView.setupWithNavController(navController)
         toggle.syncState()
+        heading()
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        navView.setNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.action_homeFragment_to_clientFragment -> {}
-            }
-            true
-        }
 
         setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
     }
 
     private fun TextView.internetStatus() {
         lifecycleScope.launchWhenCreated {
-            viewModel.netState.collect {
-                when (it) {
+            viewModel.netState.collectLatestLifecycle {
+                when (this) {
                     Online -> {
-                        if (!it.isInitial) {
+                        if (!isInitial) {
                             //decorate regardless of whether it's online or not
                             decorate(
                                 R.string.online,
@@ -152,7 +119,7 @@ class MainActivity : AppCompatActivity(),
                         }
                     }
                     Offline -> {
-                        if (it.isInitial) {
+                        if (isInitial) {
                             decorate(
                                 R.string.offline,
                                 R.color.stop,
@@ -195,6 +162,15 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
+    private fun ActivityMainBinding.heading() {
+        val binding = LayoutNavHeaderBinding.bind(navView.getHeaderView(0))
+        viewModel.staff.collectLatestLifecycle {
+            this?.let {
+                binding.staff = it
+            }
+        }
+    }
+
     private fun ActivityMainBinding.hideNetStatus() {
         motionLayout.transitionToStart()
     }
@@ -205,20 +181,6 @@ class MainActivity : AppCompatActivity(),
 
     private val Int.color: ColorStateList
         get() = AppCompatResources.getColorStateList(this@MainActivity, this)
-
-    override fun onResume() {
-        super.onResume()
-        navController.apply {
-            addOnDestinationChangedListener(appBarListener)
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        navController.apply {
-            removeOnDestinationChangedListener(appBarListener)
-        }
-    }
 
     override fun hideAppBar(hide: Boolean) {
         MaterialSharedAxis(Y, hide).apply {
