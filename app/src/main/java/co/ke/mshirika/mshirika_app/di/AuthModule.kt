@@ -1,6 +1,6 @@
 package co.ke.mshirika.mshirika_app.di
 
-import co.ke.mshirika.mshirika_app.remote.services.AuthService
+import co.ke.mshirika.mshirika_app.data_layer.remote.services.AuthService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

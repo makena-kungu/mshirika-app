@@ -36,6 +36,7 @@
 
         <item name="bottomSheetStyle">@style/Widget.Mshirika.BottomSheetStyle</item>
         <item name="colorCustomPrimaryContainer">@color/md_theme_light_primaryContainer</item>
+        <item name="colorNavHeader">@color/md_theme_light_primaryContainer</item>
 
         <item name="textInputOutlinedDenseStyle">
             @style/Widget.Mshirika.TextInputLayout.OutlinedBox.Dense

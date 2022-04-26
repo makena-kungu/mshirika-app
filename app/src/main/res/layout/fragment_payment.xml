@@ -1,132 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.main.utils.PaymentFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    tools:context=".ui_layer.ui.main.utils.PaymentFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+        <variable
+            name="frag"
+            type="co.ke.mshirika.mshirika_app.ui_layer.ui.main.utils.PaymentFragment" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="25dp">
+        android:nestedScrollingEnabled="false">
 
-        <TextView
-            android:id="@+id/loan_accounts"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/loan_accounts"
-            android:textAppearance="@style/TextAppearance.Toolbar.Title"
-            android:textColor="@color/beautiful_text"
-            android:textSize="20sp" />
+            android:layout_height="match_parent"
+            android:paddingHorizontal="12dp">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/loan_accs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:itemCount="1"
-            tools:listitem="@layout/item_payment" />
-
-        <TextView
-            android:id="@+id/savings_accounts"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/savings_accounts"
-            android:textAppearance="@style/TextAppearance.Toolbar.Title"
-            android:textColor="@color/beautiful_text"
-            android:textSize="20sp"
-            tools:ignore="MissingConstraints" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/savings_accs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:itemCount="2"
-            tools:listitem="@layout/item_payment" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/submitted_on_lo"
-            style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:endIconContentDescription="@string/date_picker_desc"
-            app:endIconDrawable="@drawable/ic_baseline_calendar_month_24"
-            app:endIconMode="custom">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/transaction_date"
+            <TextView
+                android:id="@+id/loan_accounts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/transaction_date" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:text="@string/loan_accounts"
+                android:textAppearance="@style/TextAppearance.Toolbar.Title"
+                android:textColor="@color/beautiful_text"
+                android:textSize="20sp" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/product_name_lo"
-            style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/repayment_product_name"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/loan_accs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:editable="false"
-                android:hint="@string/mode_of_payment"
-                tools:ignore="Deprecated" />
-            <!--android:afterTextChanged="@{(text) -> viewmodel.paymentMode(text)}"-->
-        </com.google.android.material.textfield.TextInputLayout>
+                tools:itemCount="1"
+                tools:listitem="@layout/item_payment" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/receipt_no_lo"
-            style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/receipt_no"
+            <TextView
+                android:id="@+id/savings_accounts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:hint="Receipt No*" />
-            <!--
-                todo add this fields hint dynamically in sync with the
-                     mode of payment selected
-             -->
-        </com.google.android.material.textfield.TextInputLayout>
+                android:text="@string/savings_accounts"
+                android:textAppearance="?textAppearanceHeadline5"
+                android:textColor="@color/beautiful_text"
+                tools:ignore="MissingConstraints" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/bank_date_lo"
-            style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:endIconContentDescription="@string/date_picker_desc"
-            app:endIconDrawable="@drawable/ic_baseline_calendar_month_24"
-            app:endIconMode="custom">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/bank_date"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/savings_accs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/bank_date" />
-        </com.google.android.material.textfield.TextInputLayout>
+                tools:itemCount="2"
+                tools:listitem="@layout/item_payment" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/submit"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:onClick="@{(view) -> frag.submit()}"
-            android:text="@string/submit"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/submitted_on_lo"
+                style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:endIconContentDescription="@string/date_picker_desc"
+                app:endIconDrawable="@drawable/ic_baseline_calendar_month_24"
+                app:endIconMode="custom">
 
-        <androidx.constraintlayout.helper.widget.Flow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            app:constraint_referenced_ids="loan_accounts,loan_accs,savings_accounts,savings_accs,submitted_on_lo,product_name_lo,receipt_no_lo,bank_date_lo,submit"
-            app:flow_verticalGap="12dp"
-            app:flow_wrapMode="aligned"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/transaction_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/transaction_date" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/product_name_lo"
+                style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/repayment_product_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:hint="@string/mode_of_payment"
+                    tools:ignore="Deprecated" />
+                <!--android:afterTextChanged="@{(text) -> viewmodel.paymentMode(text)}"-->
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/receipt_no_lo"
+                style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/receipt_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:hint="Receipt No*" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/bank_date_lo"
+                style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:endIconContentDescription="@string/date_picker_desc"
+                app:endIconDrawable="@drawable/ic_baseline_calendar_month_24"
+                app:endIconMode="custom">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/bank_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/bank_date" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/submit"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:onClick="@{(view) ->  frag.submit()}"
+                android:text="@string/submit" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/shares_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="savings_accounts,savings_accs" />
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                app:constraint_referenced_ids="loan_accounts,loan_accs,savings_accounts,savings_accs,submitted_on_lo,product_name_lo,receipt_no_lo,bank_date_lo,submit"
+                app:flow_verticalGap="12dp"
+                app:flow_wrapMode="aligned"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

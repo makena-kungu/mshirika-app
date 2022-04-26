@@ -2,17 +2,17 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.transactions.TransactionFragment">
+    tools:context=".ui_layer.ui.transactions.TransactionFragment">
 
     <data>
 
-        <import type="co.ke.mshirika.mshirika_app.ui.util.DateUtil" />
+        <import type="co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil" />
 
-        <import type="co.ke.mshirika.mshirika_app.ui.util.ViewUtils" />
+        <import type="co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils" />
 
         <variable
             name="transaction"
-            type="co.ke.mshirika.mshirika_app.data.response.Transaction" />
+            type="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Transaction" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

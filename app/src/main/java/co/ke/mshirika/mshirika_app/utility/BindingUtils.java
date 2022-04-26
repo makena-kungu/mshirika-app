@@ -5,8 +5,8 @@ import androidx.annotation.NonNull;
 import java.math.BigDecimal;
 import java.util.List;
 
-import co.ke.mshirika.mshirika_app.ui.util.DateUtil;
-import co.ke.mshirika.mshirika_app.ui.util.ViewUtils;
+import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil;
+import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils;
 
 public class BindingUtils {
 

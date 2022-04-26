@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.loans.LoanRepaymentFragment">
+    tools:context=".ui_layer.ui.loans.LoanRepaymentFragment">
 
     <data>
 
         <variable
             name="loanAccount"
-            type="co.ke.mshirika.mshirika_app.data.response.LoanAccount" />
+            type="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.LoanAccount" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

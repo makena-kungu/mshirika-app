@@ -37,6 +37,8 @@
 
         <item name="backgroundCardView">@style/Widget.Mshirika.Transition.CardView</item>
         <item name="clientOutlinedButton">@style/Widget.Mshirika.Client.OutlinedButton</item>
+        <item name="colorNavHeader">#083d2bb9</item>
+
         <item name="roundImage">@style/Widget.Mshirika.ImageView.Round</item>
         <item name="roundedImage">@style/Widget.Mshirika.ImageView.Rounded</item>
         <item name="transactionCardView">@style/Widget.Mshirika.Transaction.CardView</item>

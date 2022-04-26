@@ -9,7 +9,7 @@
 
         <variable
             name="transaction"
-            type="co.ke.mshirika.mshirika_app.data.response.LoanAccount.LoanTransaction" />
+            type="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.LoanAccount.LoanTransaction" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

@@ -2,17 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.main.utils.DepositFragment">
+    tools:context=".ui_layer.ui.main.utils.DepositFragment">
 
     <data>
 
         <variable
             name="frag"
-            type="co.ke.mshirika.mshirika_app.ui.main.utils.DepositFragment" />
-
-        <variable
-            name="viewmodel"
-            type="co.ke.mshirika.mshirika_app.ui.viewModels.DepositViewModel" />
+            type="co.ke.mshirika.mshirika_app.ui_layer.ui.main.utils.DepositFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

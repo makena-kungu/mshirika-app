@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.main.clients.ClientFragment">
+    tools:context=".ui_layer.ui.main.clients.ClientFragment">
 
     <data>
 
         <variable
             name="fragment"
-            type="co.ke.mshirika.mshirika_app.ui.main.clients.ClientFragment" />
+            type="co.ke.mshirika.mshirika_app.ui_layer.ui.main.clients.ClientFragment" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

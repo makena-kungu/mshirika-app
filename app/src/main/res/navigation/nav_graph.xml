@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="co.ke.mshirika.mshirika_app.ui.home.HomeFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.home.HomeFragment"
         android:label="@string/home"
         tools:layout="@layout/fragment_home">
         <action
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/clientsFragment"
-        android:name="co.ke.mshirika.mshirika_app.ui.main.clients.ClientsFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.main.clients.ClientsFragment"
         android:label="@string/clients"
         tools:layout="@layout/fragment_clients">
         <action
@@ -42,7 +42,7 @@
     </fragment>
     <fragment
         android:id="@+id/clientFragment"
-        android:name="co.ke.mshirika.mshirika_app.ui.main.clients.ClientFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.main.clients.ClientFragment"
         android:label="@string/client"
         tools:layout="@layout/fragment_client">
         <action
@@ -53,7 +53,7 @@
             app:destination="@id/fragmentDeposit" />
         <argument
             android:name="client"
-            app:argType="co.ke.mshirika.mshirika_app.data.response.Client" />
+            app:argType="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Client" />
         <argument
             android:name="clientImageUri"
             app:argType="string" />
@@ -63,22 +63,22 @@
     </fragment>
     <fragment
         android:id="@+id/paymentFragment"
-        android:name="co.ke.mshirika.mshirika_app.ui.main.utils.PaymentFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.main.utils.PaymentFragment"
         android:label="@string/make_payment"
         tools:layout="@layout/fragment_payment" />
     <fragment
         android:id="@+id/fragmentDeposit"
-        android:name="co.ke.mshirika.mshirika_app.ui.main.utils.DepositFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.main.utils.DepositFragment"
         android:label="@string/deposit"
         tools:layout="@layout/fragment_deposit" />
     <fragment
         android:id="@+id/searchFragment"
-        android:name="co.ke.mshirika.mshirika_app.ui.search.SearchFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.search.SearchFragment"
         android:label="@string/search"
         tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/centersFragment"
-        android:name="co.ke.mshirika.mshirika_app.ui.main.centers.CentersFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.main.centers.CentersFragment"
         android:label="@string/centers"
         tools:layout="@layout/fragment_centers">
         <action
@@ -90,7 +90,7 @@
     </fragment>
     <fragment
         android:id="@+id/groupsFragment"
-        android:name="co.ke.mshirika.mshirika_app.ui.main.groups.GroupsFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.main.groups.GroupsFragment"
         android:label="@string/groups"
         tools:layout="@layout/fragment_groups">
         <action
@@ -99,12 +99,12 @@
     </fragment>
     <fragment
         android:id="@+id/centerFragment"
-        android:name="co.ke.mshirika.mshirika_app.ui.main.centers.CenterFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.main.centers.CenterFragment"
         android:label="@string/center"
         tools:layout="@layout/fragment_center" />
     <fragment
         android:id="@+id/fragmentLoans"
-        android:name="co.ke.mshirika.mshirika_app.ui.loans.LoansFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.loans.LoansFragment"
         android:label="@string/loans"
         tools:layout="@layout/fragment_loans">
         <action
@@ -119,7 +119,7 @@
         app:destination="@id/centerFragment" />
     <fragment
         android:id="@+id/loanRepaymentFragment"
-        android:name="co.ke.mshirika.mshirika_app.ui.loans.LoanRepaymentFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.loans.LoanRepaymentFragment"
         android:label="@string/loan"
         tools:layout="@layout/fragment_loan_repayment" />
     <action
@@ -127,7 +127,7 @@
         app:destination="@id/loanRepaymentFragment" />
     <fragment
         android:id="@+id/createNewClientFragment"
-        android:name="co.ke.mshirika.mshirika_app.ui.create.new_client.MainFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.create.new_client.MainFragment"
         android:label="@string/create_client"
         tools:layout="@layout/fragment_create_new_client" />
     <action
@@ -135,7 +135,7 @@
         app:destination="@id/createNewClientFragment" />
     <fragment
         android:id="@+id/createGroupFragment"
-        android:name="co.ke.mshirika.mshirika_app.ui.create.new_group.CreateGroupFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.create.new_group.CreateGroupFragment"
         android:label="@string/create_group"
         tools:layout="@layout/fragment_create_new_group" />
     <action
@@ -143,7 +143,7 @@
         app:destination="@id/createGroupFragment" />
     <fragment
         android:id="@+id/createCenterFragment"
-        android:name="co.ke.mshirika.mshirika_app.ui.create.new_center.CreateCenterFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.create.new_center.CreateCenterFragment"
         android:label="@string/create_center"
         tools:layout="@layout/fragment_create_new_center" />
     <action
@@ -151,12 +151,12 @@
         app:destination="@id/createCenterFragment" />
     <fragment
         android:id="@+id/transactionFragment"
-        android:name="co.ke.mshirika.mshirika_app.ui.transactions.TransactionFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.transactions.TransactionFragment"
         android:label="fragment_transaction_details"
         tools:layout="@layout/fragment_transaction_details">
         <argument
             android:name="transaction"
-            app:argType="co.ke.mshirika.mshirika_app.data.response.Transaction" />
+            app:argType="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Transaction" />
     </fragment>
     <action
         android:id="@+id/action_global_transactionFragment"

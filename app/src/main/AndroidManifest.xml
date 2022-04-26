@@ -22,7 +22,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
-            android:name=".ui.auth.LauncherActivity"
+            android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.auth.LauncherActivity"
             android:exported="true"
             android:label="@string/title_activity_launcher"
             android:theme="@style/Theme.MshirikaApp">
@@ -32,7 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.MainActivity" />
+        <activity android:name="co.ke.mshirika.mshirika_app.ui_layer.MainActivity" />
     </application>
 
 </manifest>

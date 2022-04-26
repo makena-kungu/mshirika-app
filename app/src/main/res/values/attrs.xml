@@ -13,6 +13,7 @@
     <attr name="transactionTextView" format="reference" />
     <attr name="transactionCardView" format="reference" />
 
+    <attr name="colorNavHeader" format="color" />
 
     <attr name="colorCustomPrimaryContainer" format="color" />
 

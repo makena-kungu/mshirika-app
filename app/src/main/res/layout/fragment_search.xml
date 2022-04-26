@@ -7,13 +7,13 @@
 
         <variable
             name="fragment"
-            type="co.ke.mshirika.mshirika_app.ui.search.SearchFragment" />
+            type="co.ke.mshirika.mshirika_app.ui_layer.ui.search.SearchFragment" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
         style="?backgroundCardView"
         android:transitionName="@string/search_fragment_card"
-        tools:context=".ui.search.SearchFragment">
+        tools:context=".ui_layer.ui.search.SearchFragment">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"

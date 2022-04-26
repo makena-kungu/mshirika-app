@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.AdminFragment">
+    tools:context=".ui_layer.ui.administration.AdminFragment">
 
     <!--todo to be used in a bottom sheet-->
 

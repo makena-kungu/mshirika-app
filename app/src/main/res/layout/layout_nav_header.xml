@@ -7,13 +7,13 @@
 
         <variable
             name="staff"
-            type="co.ke.mshirika.mshirika_app.data.response.Staff" />
+            type="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Staff" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:background="?colorCustomPrimaryContainer">
+        android:background="?colorNavHeader">
 
 
         <TextView

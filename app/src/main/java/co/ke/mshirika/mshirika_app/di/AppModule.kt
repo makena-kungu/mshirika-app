@@ -1,6 +1,6 @@
 package co.ke.mshirika.mshirika_app.di
 
-import co.ke.mshirika.mshirika_app.remote.utils.Urls.BASE_URL
+import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Urls.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
