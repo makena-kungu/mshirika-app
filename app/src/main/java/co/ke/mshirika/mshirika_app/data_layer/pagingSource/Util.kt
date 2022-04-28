@@ -1,5 +1,6 @@
 package co.ke.mshirika.mshirika_app.data_layer.pagingSource
 
+import android.os.Parcelable
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource.LoadResult
 import androidx.paging.PagingState
@@ -13,12 +14,11 @@ import java.io.IOException
 object Util {
 
     const val STARTING_PAGING_INDEX = 0
-    private val clientsService: ClientsService? = null
 
     /**
      * An extension method to help convert a [Response] into a [LoadResult]
      */
-    fun <T : Any, V : Feedback<T>> Response<V>.loadResult(
+    fun <T : Parcelable> Response<Feedback<T>>.loadResult(
         position: Int
     ): LoadResult<Int, T> {
         return try {
@@ -42,7 +42,7 @@ object Util {
     }
 
     fun pagingConfig(
-        pageSize: Int = 20,
+        pageSize: Int = 30,
         maxSize: Int = 60,
         enablePlaceholders: Boolean = true
     ) = PagingConfig(pageSize, maxSize, enablePlaceholders)

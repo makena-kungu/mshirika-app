@@ -14,14 +14,14 @@
 
         <include
             android:id="@+id/appBarLayout"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             layout="@layout/layout_app_bar_large" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/clients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="130dp"
             android:orientation="vertical"
             android:transitionGroup="true"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -35,6 +35,8 @@
             android:id="@+id/clients_loading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="?linearProgressIndicatorStyle"
+            app:trackThickness="3dp"
             android:indeterminate="true"
             app:layout_anchor="@id/appBarLayout"
             app:layout_anchorGravity="bottom" />

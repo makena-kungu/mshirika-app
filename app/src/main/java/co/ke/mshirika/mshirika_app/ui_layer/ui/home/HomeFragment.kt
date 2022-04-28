@@ -1,6 +1,7 @@
 package co.ke.mshirika.mshirika_app.ui_layer.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
@@ -10,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.databinding.FragmentHomeBinding
-import co.ke.mshirika.mshirika_app.ui_layer.MainActivity
+import co.ke.mshirika.mshirika_app.MainActivity
 import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.MshirikaFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -42,6 +43,7 @@ class HomeFragment : MshirikaFragment<FragmentHomeBinding>(R.layout.fragment_hom
             }
         }
         viewModel.status.collectLatestLifecycle {
+            Log.d(TAG, "onViewCreated: $it")
             when (it) {
                 Status.Showing -> binding.apply {
                     callback.isEnabled = true
@@ -121,3 +123,5 @@ class HomeFragment : MshirikaFragment<FragmentHomeBinding>(R.layout.fragment_hom
         )
     }
 }
+
+private const val TAG = "HomeFragment"

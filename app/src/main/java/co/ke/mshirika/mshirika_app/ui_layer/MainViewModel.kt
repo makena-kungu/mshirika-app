@@ -2,29 +2,27 @@ package co.ke.mshirika.mshirika_app.ui_layer
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
+import co.ke.mshirika.mshirika_app.data_layer.repositories.PreferencesStoreRepository
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkState
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkState.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 //Use this viewModel in all the fragments so as to observe the network state
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    prefs: PreferencesStoreRepository
+    private val prefs: PreferencesStoreRepository
 ) : ViewModel() {
 
     private val _netState = MutableStateFlow<NetworkState>(Empty)
     val netState = _netState.asSharedFlow()
-    val staff = flow {
-        withContext(IO) {
-            val staff = prefs.staff()
-            emit(staff)
-        }
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
+    val staff = prefs.staff
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = null
+        )
 
     fun changeNetworkState(online: Boolean) {
         when (online) {
@@ -48,5 +46,11 @@ class MainViewModel @Inject constructor(
         }.also {
             _netState.value = it
         }
+    }
+
+    suspend fun isLoggedIn(): Flow<Boolean> = prefs.isLoggedIn
+
+    suspend fun authKey(): String {
+        return prefs.authKey()
     }
 }

@@ -22,7 +22,7 @@ object EditableUtils {
         text.toString().trim()
 
     val EditText.s: String
-        get() = text.trim().toString()
+        get() = text.toString().trim()
 
     /**
      * The views pushed as parameters will be equipped with a text watcher that ensures that they're

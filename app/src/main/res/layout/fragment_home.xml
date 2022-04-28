@@ -96,6 +96,7 @@
             android:layout_marginBottom="90dp"
             android:visibility="gone"
             app:cardCornerRadius="12dp"
+            android:transitionName="@string/create_card"
             app:cardElevation="@dimen/elevation_addition_card"
             app:layout_anchor="@id/add_fab"
             app:layout_anchorGravity="top"

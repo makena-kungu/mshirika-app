@@ -1,6 +1,7 @@
 package co.ke.mshirika.mshirika_app.ui_layer.ui.util
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -23,6 +24,15 @@ object FlowUtils {
         collectLatestLifecycle {
             this?.let {
                 collect(it)
+            }
+        }
+    }
+
+    context (Fragment)
+    fun <T> Flow<T>.collectLatestFragmentLifecycle(collect: suspend (T) -> Unit) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                collectLatest(collect)
             }
         }
     }

@@ -10,7 +10,6 @@ import co.ke.mshirika.mshirika_app.data_layer.remote.services.SearchService
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome.Success
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.UnpackResponse.respond
-import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
 import co.ke.mshirika.mshirika_app.utility.Util.headers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

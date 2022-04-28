@@ -11,8 +11,10 @@ import co.ke.mshirika.mshirika_app.ui_layer.ui.create.ViewerFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.Counties
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.EditableUtils.text
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import dagger.hilt.android.AndroidEntryPoint
 
-class AddressFragment :
+@AndroidEntryPoint
+class AddressFragment() :
     MshirikaFragment<FragmentNewClientAddressBinding>(R.layout.fragment_new_client_address),
     ViewerFragment {
 

@@ -1,4 +1,4 @@
-package co.ke.mshirika.mshirika_app.utility
+package co.ke.mshirika.mshirika_app.data_layer.repositories
 
 import android.content.Context
 import androidx.datastore.preferences.core.Preferences
@@ -6,31 +6,34 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Staff
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Staff.Companion.staff
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Staff.Companion.string
-import co.ke.mshirika.mshirika_app.utility.Keys.AUTH_KEY
-import co.ke.mshirika.mshirika_app.utility.Keys.STAFF_KEY
+import co.ke.mshirika.mshirika_app.data_layer.repositories.Keys.AUTH_KEY
+import co.ke.mshirika.mshirika_app.data_layer.repositories.Keys.STAFF_KEY
 import com.google.android.gms.common.util.Base64Utils
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
 
-private const val PREF_STORE = "preferences"
+private const val PREF_STORE = "p@Gh?aDM('Sy?AR=PDXqSS"
 val Context.datastore by preferencesDataStore(name = PREF_STORE)
 
 class PreferencesStoreRepository(private val context: Context) {
+    private val gson = Gson()
+    private val keySuffix = "cK(pkpT-ZLk)zq>IPoOl,wp#i"
+    private val staffSuffix = "*s&X\$U)!NCgqk>xpq/psH"
+
+    private val datastore get() = context.datastore
 
     suspend fun authKey(): String {
-        return context.datastore.data
-            .map {
-                it[AUTH_KEY]!!.let { key ->
-                    "Basic ${Base64Utils.decode(key).decodeToString()}"
-                }
+        return datastore.data
+            .map { preferences ->
+                val key = preferences.key()!!
+                key
             }.last()
     }
 
     suspend fun saveAuthKey(key: String): Boolean {
-        val authKey = Base64Utils.encode(key.toByteArray())
-        return context.datastore.edit {
+        val authKey = Base64Utils.encode(key.toByteArray()) + keySuffix
+        return datastore.edit {
             it[AUTH_KEY] = authKey
         }.let {
             it[AUTH_KEY] != null
@@ -38,29 +41,52 @@ class PreferencesStoreRepository(private val context: Context) {
     }
 
     suspend fun saveStaff(staff: Staff) {
-        val s = Base64Utils.encode(staff.string().toByteArray())
-        context.datastore.edit {
+        val json = gson.toJson(staff)
+        val s = Base64Utils.encode(json.toByteArray()) + staffSuffix
+        datastore.edit {
             it[STAFF_KEY] = s
         }
     }
 
     suspend fun staff(): Staff {
-        val encoded = context.datastore.data.map { it[STAFF_KEY] }.last()!!
-        val staff = Base64Utils.decode(encoded).decodeToString()
-        return staff.staff()
+        return datastore.data.map {
+            it.staff()!!
+        }.last()
     }
 
-    val isLoggedIn = context.datastore
+    val isLoggedIn = datastore
         .data
-        .map { !it[AUTH_KEY].isNullOrBlank() }
+        .map { it[AUTH_KEY]?.isBlank() == true }
+
+    val authKey = datastore.data.map {
+        it.key()
+    }
+
+    val staff = datastore.data.map {
+        it.staff()
+    }
 
     suspend fun logout() =
-        context.datastore.edit {
+        datastore.edit {
             removeAll(AUTH_KEY, STAFF_KEY)
         }
 
+    private fun Preferences.key(): String? {
+        return this[AUTH_KEY]?.let { encodedKey ->
+            val encodeAuthKey = encodedKey.removeSuffix(keySuffix)
+            "Basic ${Base64Utils.decode(encodeAuthKey).decodeToString()}"
+        }
+    }
+
+    private fun Preferences.staff(): Staff? {
+        var encodedJson = this[STAFF_KEY]
+        encodedJson = encodedJson?.removeSuffix(staffSuffix)
+        val json = Base64Utils.decode(encodedJson).decodeToString()
+        return gson.fromJson(json, Staff::class.java)
+    }
+
     private suspend fun removeAll(vararg preferences: Preferences.Key<*>) {
-        context.datastore.edit {
+        datastore.edit {
             preferences.forEach { key ->
                 it.remove(key)
             }
@@ -68,7 +94,9 @@ class PreferencesStoreRepository(private val context: Context) {
     }
 }
 
+private const val TAG = "PreferencesStoreReposit"
+
 private object Keys {
-    val AUTH_KEY = stringPreferencesKey("abcd")
-    val STAFF_KEY = stringPreferencesKey("oxpsgwo")
+    val AUTH_KEY = stringPreferencesKey("-HejWbaR<jRt?jwN,yTkkWSfh")
+    val STAFF_KEY = stringPreferencesKey("JLG\"NROgCAF's\$ZmoOuWt/")
 }

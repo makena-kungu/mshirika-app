@@ -7,7 +7,9 @@ import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.util.Size
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import androidx.core.content.getSystemService
 import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.*
@@ -63,6 +65,12 @@ object ViewUtils {
         }
 
     val Context.random get() = colors.random()
+
+    val View.hideKeyBoard: Unit
+        get() {
+            val imm: InputMethodManager? = context.getSystemService()
+            imm?.hideSoftInputFromWindow(windowToken, 0)
+        }
 
     private fun color(id: Int) = ResourcesCompat.getColor(res, id, mTheme)
 

@@ -16,12 +16,15 @@
             android:id="@+id/collapsing_toolbar_large"
             style="?collapsingToolbarLayoutLargeStyle"
             android:layout_width="match_parent"
-            android:layout_height="?collapsingToolbarLayoutLargeSize">
+            android:layout_height="?collapsingToolbarLayoutLargeSize"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleCollapseMode="scale">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar_large"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
+                app:layout_collapseMode="parallax"
                 app:navigationIcon="@drawable/ic_round_arrow_back_24"
                 tools:title="Title" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>

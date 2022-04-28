@@ -18,7 +18,7 @@ abstract class MshirikaViewModel : ViewModel() {
 
     suspend inline fun <T> Outcome<T>.stateHandler(
         hasLoading: Boolean = true,
-        success: Outcome.Success<T>.() -> Unit
+        success: (T) -> Unit
     ) {
         stateHandlerWithAction(hasLoading = hasLoading, success = success) {}
     }
@@ -26,7 +26,7 @@ abstract class MshirikaViewModel : ViewModel() {
     suspend inline fun <T> Outcome<T>.stateHandlerWithAction(
         title: String? = null,
         hasLoading: Boolean = true,
-        success: Outcome.Success<T>.() -> Unit,
+        success: (T) -> Unit,
         noinline action: () -> Unit = {}
     ) {
         when (this) {
@@ -37,7 +37,10 @@ abstract class MshirikaViewModel : ViewModel() {
                 false
             }
             is Outcome.Success -> {
-                success()
+                val outcome = this
+                outcome.data?.let {
+                    success(it)
+                }
                 false
             }
         }.also {

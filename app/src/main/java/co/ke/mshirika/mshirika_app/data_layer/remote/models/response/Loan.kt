@@ -68,18 +68,17 @@ data class Loan(
         val submittedOnDate: List<Int>
     ) : Parcelable
 
-    companion object : DiffUtil.ItemCallback<Pair<Loan, LoanRepaymentSchedule>>() {
+    companion object : DiffUtil.ItemCallback<Loan>() {
         override fun areItemsTheSame(
-            oldItem: Pair<Loan, LoanRepaymentSchedule>,
-            newItem: Pair<Loan, LoanRepaymentSchedule>
-        ): Boolean = oldItem.first.id == newItem.first.id
-                && oldItem.second.id == newItem.second.id
+            oldItem: Loan,
+            newItem: Loan
+        ): Boolean = oldItem.id == newItem.id
 
         override fun areContentsTheSame(
-            oldItem: Pair<Loan, LoanRepaymentSchedule>,
-            newItem: Pair<Loan, LoanRepaymentSchedule>
+            oldItem: Loan,
+            newItem: Loan
         ): Boolean {
-            return oldItem.second == newItem.second && newItem.first == oldItem.first
+            return oldItem == newItem
         }
     }
 }

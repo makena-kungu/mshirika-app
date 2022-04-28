@@ -9,8 +9,8 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Client
-import co.ke.mshirika.mshirika_app.databinding.ItemClientBinding
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Urls
+import co.ke.mshirika.mshirika_app.databinding.ItemClientBinding
 import co.ke.mshirika.mshirika_app.ui_layer.ui.main.clients.OnClientItemClickListener
 import co.ke.mshirika.mshirika_app.ui_layer.ui.main.utils.MyPagingDataAdapter
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.drawable
@@ -23,9 +23,14 @@ import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 class ClientsAdapter(
-    private val authKey: String,
+    private val scope: CoroutineScope,
+    private val authKey: Flow<String?>,
     private val listener: OnClientItemClickListener
 ) :
     MyPagingDataAdapter<Client, ClientsAdapter.ClientViewHolder>(Client) {
@@ -65,23 +70,26 @@ class ClientsAdapter(
             url = "${Urls.BASE_URL}clients/${client.id}/images"
             itemView.setOnClickListener(this)
 
-            val headers = LazyHeaders
-                .Builder()
-                .addHeader("Authorization", authKey)
-                .addHeader("Fineract-Platform-TenantId", "default").build()
+            scope.launch {
+                val authKey = authKey.first()!!
+                val headers = LazyHeaders
+                    .Builder()
+                    .addHeader("Authorization", authKey)
+                    .addHeader("Fineract-Platform-TenantId", "default").build()
 
-            val glideUrl =
-                GlideUrl(
-                    url,
-                    headers
-                )
+                val glideUrl =
+                    GlideUrl(
+                        url,
+                        headers
+                    )
 
-            Glide.with(binding.root)
-                .load(glideUrl)
-                .centerCrop()
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .listener(this)
-                .into(binding.clientImage)
+                Glide.with(binding.root)
+                    .load(glideUrl)
+                    .centerCrop()
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .listener(this@ClientViewHolder)
+                    .into(binding.clientImage)
+            }
         }
 
         private fun ItemClientBinding.bindToViews() {

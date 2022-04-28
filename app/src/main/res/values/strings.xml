@@ -230,4 +230,7 @@
     <string name="transaction_type">Transaction Type</string>
     <string name="by">By</string>
     <string name="deposit_and_pay">Deposit and Pay</string>
+    <string name="login">Login</string>
+    <string name="create_card">Creation card transition</string>
+    <string name="shares_account">Shares Account</string>
 </resources>

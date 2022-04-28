@@ -9,7 +9,7 @@ import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome
 import co.ke.mshirika.mshirika_app.data_layer.repositories.ClientsRepo
 import co.ke.mshirika.mshirika_app.ui_layer.MshirikaViewModel
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.amt
-import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
+import co.ke.mshirika.mshirika_app.data_layer.repositories.PreferencesStoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.*
@@ -127,11 +127,9 @@ class ClientViewModel @Inject constructor(
     private suspend fun handleAccounts() {
         _accounts.collectLatest { outcome ->
             outcome.stateHandlerWithAction("Retry", success = {
-                data?.run {
-                    //do some calculations
-                    savingsAccounts.savingAccounts()
-                    loans.loans()
-                }
+                //do some calculations
+                it.savingsAccounts.savingAccounts()
+                it.loans.loans()
             }) {
                 reload()
             }
@@ -141,9 +139,7 @@ class ClientViewModel @Inject constructor(
     private suspend fun handleTransactions() {
         repo.transactions.collectLatest { outcome ->
             outcome.stateHandler {
-                data?.let {
-                    _transactions.value = it
-                }
+                _transactions.value = it
             }
         }
     }

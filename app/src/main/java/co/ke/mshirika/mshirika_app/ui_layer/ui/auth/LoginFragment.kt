@@ -1,31 +1,63 @@
 package co.ke.mshirika.mshirika_app.ui_layer.ui.auth
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.databinding.FragmentLoginBinding
-import co.ke.mshirika.mshirika_app.ui_layer.MainActivity
-import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.EditableUtils.text
+import co.ke.mshirika.mshirika_app.ui_layer.ui.util.FlowUtils.collectLatestFragmentLifecycle
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.LoadingDialog
+import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.hideKeyBoard
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.snackS
 import co.ke.mshirika.mshirika_app.utility.connectivity.NetworkMonitor
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.last
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LoginFragment : MshirikaFragment<FragmentLoginBinding>(R.layout.fragment_login) {
+class LoginFragment : Fragment() {
 
     private val viewModel by viewModels<LoginViewModel>()
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
 
     @Inject
     lateinit var networkMonitor: NetworkMonitor
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        lifecycleScope.launchWhenStarted {
+            viewModel.loggedInState.collectLatest {
+                if (it) {
+                    Log.d(TAG, "onCreate: Is Logged In")
+                    val authKey = viewModel.authKey.last()
+                    Log.d(TAG, "onCreate: auth key = $authKey")
+                    proceed()
+                }
+            }
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,19 +65,20 @@ class LoginFragment : MshirikaFragment<FragmentLoginBinding>(R.layout.fragment_l
         binding.fragment = this
         binding.apply {
 
-            viewModel.auth.collectLatestLifecycle {
+            viewModel.auth.collectLatestFragmentLifecycle {
                 viewModel.save(it.base64EncodedAuthenticationKey)
                 viewModel.save(it)
                 root.snackS(getString(R.string.login_successful))
+                binding.signInButton.isEnabled = true
                 proceed()
             }
-            viewModel.errorState.collectLatestLifecycle {
+            viewModel.errorState.collectLatestFragmentLifecycle {
                 Snackbar.make(root, it.text(requireContext()), LENGTH_LONG).apply {
                     setAction(R.string.okay) { dismiss() }
                     show()
                 }
             }
-            viewModel.loadingState.collectLatestLifecycle {
+            viewModel.loadingState.collectLatestFragmentLifecycle {
                 if (it) loadingDialog.show()
                 else loadingDialog.dismiss()
             }
@@ -57,17 +90,10 @@ class LoginFragment : MshirikaFragment<FragmentLoginBinding>(R.layout.fragment_l
     }
 
     fun login() {
-        /*if (!networkMonitor.isOnline) {
-            Snackbar.make(
-                binding.root,
-                getString(R.string.no_internet),
-                LENGTH_LONG
-            ).show()
-            return
-        }*/
         binding.apply {
             if (validate()) {
                 //proceed
+                root.hideKeyBoard
                 val username = username.text()
                 val password = password.text()
 
@@ -79,9 +105,9 @@ class LoginFragment : MshirikaFragment<FragmentLoginBinding>(R.layout.fragment_l
     }
 
     private fun validate() =
-        !binding.run {
+        binding.run {
             username.isEmpty() && password.isEmpty()
-        }
+        }.not()
 
     private fun TextInputEditText.isEmpty(): Boolean {
         return TextUtils.isEmpty(text).also {
@@ -90,7 +116,12 @@ class LoginFragment : MshirikaFragment<FragmentLoginBinding>(R.layout.fragment_l
     }
 
     private fun proceed() {
-        startActivity(Intent(requireContext(), MainActivity::class.java))
+        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

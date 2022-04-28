@@ -16,12 +16,17 @@ import co.ke.mshirika.mshirika_app.ui_layer.ui.util.EditableUtils.emailAddressVa
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.EditableUtils.s
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.EditableUtils.viewsOpeningTheDatePicker
 import com.bumptech.glide.Glide
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class GeneralFragment :
     MshirikaFragment<FragmentNewClientGeneralBinding>(R.layout.fragment_new_client_general),
     ViewerFragment, OnImageSelectedListener {
 
     private val viewModel: ViewModel by viewModels()
+    @Inject
+    lateinit var mainFragment: MainFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,12 +51,12 @@ class GeneralFragment :
     }
 
     private fun FragmentNewClientGeneralBinding.setupRequiredFields() {
-        with(parentFragment as MainFragment) {
-            binding.goToNext.attachNonVoidFields(
+        with(mainFragment) {
+            /*binding.goToNext.attachNonVoidFields(
                 firstNameRequired,
                 lastName,
                 activationDate
-            )
+            )*/
         }
         email.emailAddressValidator()
     }

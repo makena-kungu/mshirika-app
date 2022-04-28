@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 
 @Keep
 @Parcelize
-data class CreateClientTemplate(
+data class ClientTemplate(
     val activationDate: List<Int>,
     val isStaff: Boolean,
     val officeId: Int,

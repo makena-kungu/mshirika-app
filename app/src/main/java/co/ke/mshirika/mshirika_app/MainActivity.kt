@@ -1,4 +1,4 @@
-package co.ke.mshirika.mshirika_app.ui_layer
+package co.ke.mshirika.mshirika_app
 
 import android.content.res.ColorStateList
 import android.graphics.drawable.ColorDrawable
@@ -20,9 +20,10 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.transition.TransitionManager.beginDelayedTransition
-import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.databinding.ActivityMainBinding
 import co.ke.mshirika.mshirika_app.databinding.LayoutNavHeaderBinding
+import co.ke.mshirika.mshirika_app.ui_layer.MainViewModel
+import co.ke.mshirika.mshirika_app.ui_layer.ui.util.FlowUtils.collectLatestLifeCycleNonNull
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.FlowUtils.collectLatestLifecycle
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.OnMshirikaFragmentAttach
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.findNavigationController
@@ -34,6 +35,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.google.android.material.transition.MaterialSharedAxis.Y
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.Duration
+import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -44,7 +46,8 @@ class MainActivity : AppCompatActivity(),
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
-    private lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var toggle: ActionBarDrawerToggle;
+    private val count = AtomicInteger(0)
 
     @Inject
     lateinit var networkMonitor: NetworkMonitor
@@ -52,6 +55,8 @@ class MainActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        lifecycleScope.launchWhenStarted {
+        }
         setContentView(binding.root)
 
         binding.apply {
@@ -168,12 +173,12 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun ActivityMainBinding.heading() {
+        if (count.get() > 0) return
         val binding = LayoutNavHeaderBinding.bind(navView.getHeaderView(0))
-        viewModel.staff.collectLatestLifecycle {
-            this?.let {
-                binding.staff = it
-            }
+        viewModel.staff.collectLatestLifeCycleNonNull {
+            binding.staff = it
         }
+        count.incrementAndGet()
     }
 
     private fun ActivityMainBinding.hideNetStatus() {

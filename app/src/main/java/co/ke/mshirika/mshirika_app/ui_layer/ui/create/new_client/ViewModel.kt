@@ -3,7 +3,7 @@ package co.ke.mshirika.mshirika_app.ui_layer.ui.create.new_client
 import androidx.lifecycle.viewModelScope
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.CreateClient
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.CreateClientTemplate
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.ClientTemplate
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.CANCELLATION_ERROR
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.NETWORK_ERROR
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome
@@ -34,20 +34,11 @@ class ViewModel @Inject constructor(
     val familyMembers: StateFlow<List<FamilyMember>> get() = _familyMembers.asStateFlow()
     val indicators get() = _indicators.asStateFlow()
     val template = flow {
-        repo.template1.collectLatest {
-            when (it) {
-                is Outcome.Success -> it.data?.let { data -> emit(data) }
-                else -> {}
+        repo.template1.collectLatest { outcome ->
+            outcome.stateHandler {
+                emit(it)
             }
         }
-        /*repo.template()
-        repo.template.collectLatest { outcome ->
-            when (outcome) {
-                is Outcome.Error -> errorChannel.send(UIText.PlainText(outcome.msg))
-                is Outcome.Success -> outcome.data?.let { emit(it) }
-                else -> {}
-            }
-        }*/
     }.shareIn(viewModelScope, WhileSubscribed())
     val clientCreated = flow {
         repo.created.collectLatest { outcome ->
@@ -97,7 +88,7 @@ class ViewModel @Inject constructor(
         }
     }
 
-    context(CreateClientTemplate, GeneralData) private suspend fun finalPost() {
+    context(ClientTemplate, GeneralData) private suspend fun finalPost() {
         val savingsProductId = savingProductOptions.first {
             it.name.contains("savings", ignoreCase = true)
         }.id

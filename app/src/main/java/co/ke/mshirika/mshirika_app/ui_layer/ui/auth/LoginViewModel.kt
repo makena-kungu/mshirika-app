@@ -2,19 +2,17 @@ package co.ke.mshirika.mshirika_app.ui_layer.ui.auth
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.Login
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Staff
-import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome
-import co.ke.mshirika.mshirika_app.data_layer.remote.utils.resource
 import co.ke.mshirika.mshirika_app.data_layer.repositories.AuthRepo
 import co.ke.mshirika.mshirika_app.ui_layer.MshirikaViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,26 +20,19 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val repo: AuthRepo
 ) : MshirikaViewModel() {
+
     @OptIn(ExperimentalCoroutinesApi::class)
     val auth = channelFlow {
-        repo.auth.asSharedFlow().collectLatest { outcome ->
+        repo.auth.collectLatest { outcome ->
             Log.i(TAG, "authentication: $outcome")
-            when (outcome) {
-                is Outcome.Success -> {
-                    outcome.data?.let { data -> send(data) }
-                    false
-                }
-                is Outcome.Error -> {
-                    outcome.resource(R.string.error_login)
-                    false
-                }
-                is Outcome.Loading -> true
-                else -> false
-            }.also {
-                loadingChannel.send(it)
+            outcome.stateHandler {
+                trySend(it)
             }
         }
-    }
+    }.shareIn(viewModelScope, SharingStarted.WhileSubscribed())
+
+    val loggedInState = repo.loggedInState
+    val authKey = repo.authKey
 
     fun login(username: String, password: String) {
         viewModelScope.launch {

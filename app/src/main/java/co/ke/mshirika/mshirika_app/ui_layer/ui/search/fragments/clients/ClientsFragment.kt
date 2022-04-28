@@ -10,6 +10,7 @@ import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.main.clients.OnClientItemClickListener
 import co.ke.mshirika.mshirika_app.ui_layer.ui.main.clients.adapters.ClientsAdapter
 import co.ke.mshirika.mshirika_app.ui_layer.ui.search.OnSearchListener
+import co.ke.mshirika.mshirika_app.ui_layer.ui.search.SearchFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.search.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -19,14 +20,17 @@ class ClientsFragment :
     MshirikaFragment<FragmentSearchFragsBinding>(R.layout.fragment_search_frags), OnSearchListener {
     private val viewModel by viewModels<SearchViewModel>()
 
+    private lateinit var listener: OnClientItemClickListener
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         lifecycleScope.launch {
-            val authKey = viewModel.authKey()
+            viewModel.authKey()
             val adapter = ClientsAdapter(
-                authKey,
-                parentFragment as OnClientItemClickListener
+                lifecycleScope,
+                viewModel.authKey,
+                listener
             )
             binding.list.adapter = adapter
             viewModel.clients.collectLatestLifecycle {
@@ -43,8 +47,10 @@ class ClientsFragment :
         get() = getString(R.string.clients)
 
     companion object {
-        fun getInstance(): ClientsFragment {
-            return ClientsFragment()
+        fun getInstance(searchFragment: SearchFragment): ClientsFragment {
+            val fragment = ClientsFragment()
+            fragment.listener = searchFragment
+            return fragment
         }
     }
 }

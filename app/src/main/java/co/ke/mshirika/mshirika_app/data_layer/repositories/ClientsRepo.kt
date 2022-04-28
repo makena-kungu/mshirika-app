@@ -1,15 +1,16 @@
 package co.ke.mshirika.mshirika_app.data_layer.repositories
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingData
+import co.ke.mshirika.mshirika_app.data_layer.pagingSource.ClientsPagingSource
+import co.ke.mshirika.mshirika_app.data_layer.pagingSource.Util.pagingConfig
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.CreateClient
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Client
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.CreateClientTemplate
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.ClientTemplate
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.LoanAccount
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Search
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Search.Companion.ENTITY_CLIENT
-import co.ke.mshirika.mshirika_app.data_layer.pagingSource.ClientsPagingSource
-import co.ke.mshirika.mshirika_app.data_layer.pagingSource.Util.pagingConfig
 import co.ke.mshirika.mshirika_app.data_layer.remote.response.AccountsResponse
 import co.ke.mshirika.mshirika_app.data_layer.remote.response.ClientCreationResponse
 import co.ke.mshirika.mshirika_app.data_layer.remote.response.TransactionResponse
@@ -22,21 +23,20 @@ import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome.Success
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.UnpackResponse.respond
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.UnpackResponse.respondWithCallback
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.empty
-import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
 import co.ke.mshirika.mshirika_app.utility.Util.headers
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 import retrofit2.Call
 import javax.inject.Inject
+
+private const val TAG = "ClientsRepo"
 
 class ClientsRepo @Inject constructor(
     private val service: ClientsService,
     private val loansService: LoansService,
     private val searchService: SearchService,
+    private val pagingSource: ClientsPagingSource,
     private val prefRepo: PreferencesStoreRepository
 ) {
     private val searchedClientList = mutableListOf<Client>()
@@ -48,7 +48,7 @@ class ClientsRepo @Inject constructor(
     private val _loans = MutableStateFlow<List<LoanAccount>>(emptyList())
     private val _searchedClients = MutableStateFlow<Outcome<PagingData<Client>>>(empty())
     private val _transactions = MutableStateFlow<Outcome<TransactionResponse>>(empty())
-    private val _template = MutableStateFlow<Outcome<CreateClientTemplate>>(empty())
+    private val _template = MutableStateFlow<Outcome<ClientTemplate>>(empty())
 
     val accounts
         get() = _accounts
@@ -69,9 +69,10 @@ class ClientsRepo @Inject constructor(
         }
     }
 
-    val clients: Flow<PagingData<Client>>
+    /*val clients: Flow<PagingData<Client>>
         get() = flow {
             val key = prefRepo.authKey()
+            Log.d(TAG, "auth key: $key")
             Pager(
                 config = pagingConfig(),
                 pagingSourceFactory = {
@@ -81,7 +82,13 @@ class ClientsRepo @Inject constructor(
                     )
                 }
             ).flow
-        }
+        }*/
+
+    val clients
+        get() = Pager(
+            config = pagingConfig(),
+            pagingSourceFactory = { pagingSource }
+        ).flow
 
     suspend fun accounts(clientId: Int) {
         _accounts.value = Loading()

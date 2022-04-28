@@ -11,7 +11,7 @@ import co.ke.mshirika.mshirika_app.data_layer.repositories.GroupsRepo
 import co.ke.mshirika.mshirika_app.ui_layer.ui.main.utils.State
 import co.ke.mshirika.mshirika_app.ui_layer.ui.main.utils.State.Normal
 import co.ke.mshirika.mshirika_app.ui_layer.ui.main.utils.State.Searching
-import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
+import co.ke.mshirika.mshirika_app.data_layer.repositories.PreferencesStoreRepository
 import co.ke.mshirika.mshirika_app.utility.Util.headers
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO

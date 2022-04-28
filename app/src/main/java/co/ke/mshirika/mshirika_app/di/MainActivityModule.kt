@@ -1,7 +1,7 @@
 package co.ke.mshirika.mshirika_app.di
 
 import android.content.Context
-import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
+import co.ke.mshirika.mshirika_app.data_layer.repositories.PreferencesStoreRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

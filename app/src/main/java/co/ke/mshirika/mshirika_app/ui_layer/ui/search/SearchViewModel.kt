@@ -6,7 +6,7 @@ import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import co.ke.mshirika.mshirika_app.data_layer.repositories.SearchRepo
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.FlowUtils.collectLatestNonNull
-import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
+import co.ke.mshirika.mshirika_app.data_layer.repositories.PreferencesStoreRepository
 import co.ke.mshirika.mshirika_app.utility.mld
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -53,6 +53,8 @@ class SearchViewModel @Inject constructor(
     suspend fun authKey(): String {
         return prefRepo.authKey()
     }
+
+    val authKey = prefRepo.authKey
 
     init {
         _query.switchMap { query ->

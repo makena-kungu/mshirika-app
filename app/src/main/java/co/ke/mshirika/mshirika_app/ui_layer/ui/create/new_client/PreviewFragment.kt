@@ -10,8 +10,10 @@ import co.ke.mshirika.mshirika_app.databinding.FragmentNewClientPreviewBinding
 import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.create.ViewerFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.mediumDate
+import dagger.hilt.android.AndroidEntryPoint
 
-class PreviewFragment :
+@AndroidEntryPoint
+class PreviewFragment() :
     MshirikaFragment<FragmentNewClientPreviewBinding>(R.layout.fragment_new_client_preview),
     ViewerFragment {
 

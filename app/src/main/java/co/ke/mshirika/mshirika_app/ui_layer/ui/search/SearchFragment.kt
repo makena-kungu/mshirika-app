@@ -38,13 +38,13 @@ class SearchFragment : MshirikaFragment<FragmentSearchBinding>(R.layout.fragment
     OnGroupClickListener, OnLoanClickListener {
     val viewModel by viewModels<SearchViewModel>()
     private val clientsFragment by lazy {
-        ClientsFragment.getInstance()
+        ClientsFragment.getInstance(this)
     }
     private val groupsFragment by lazy {
-        GroupsFragment.getInstance()
+        GroupsFragment.getInstance(this)
     }
     private val loansFragment by lazy {
-        LoansFragment.getInstance()
+        LoansFragment.getInstance(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

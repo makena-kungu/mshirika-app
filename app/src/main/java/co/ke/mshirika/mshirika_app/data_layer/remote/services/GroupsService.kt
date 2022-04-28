@@ -3,10 +3,10 @@ package co.ke.mshirika.mshirika_app.data_layer.remote.services
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.CreateGroup
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Group
 import co.ke.mshirika.mshirika_app.data_layer.remote.response.GroupCreatedResponse
-import co.ke.mshirika.mshirika_app.data_layer.remote.response.GroupResponse
 import co.ke.mshirika.mshirika_app.data_layer.remote.response.OfficeResponse
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.EndPoint
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.EndPoint.Paths.GROUP_ID
+import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Feedback
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -23,7 +23,7 @@ interface GroupsService {
         @Query("paged") paged: Boolean = true,
         @Query("offset") page: Int,
         @Query("limit") pageSize: Int
-    ): Response<GroupResponse>
+    ): Response<Feedback<Group>>
 
     @GET(EndPoint.GROUP)
     suspend fun group(

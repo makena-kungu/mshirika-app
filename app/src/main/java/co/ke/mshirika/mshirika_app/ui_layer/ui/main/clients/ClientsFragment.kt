@@ -21,6 +21,7 @@ import co.ke.mshirika.mshirika_app.ui_layer.ui.util.Transitions.itemToDetailsTra
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 /**
  * Displays a list of Clients
@@ -34,17 +35,6 @@ class ClientsFragment : MshirikaFragment<FragmentClientsBinding>(R.layout.fragme
 
     private lateinit var searchView: SearchView
 
-    override val hasToolbar: Boolean
-        get() = true
-    override val isTopFragment: Boolean
-        get() = true
-    override val toolbar: MaterialToolbar
-        get() = binding.appBarLayout.toolbarLarge
-    override val toolbarTitle: String
-        get() = getString(R.string.clients)
-    override val menuResId: Int?
-        get() = null// TODO("Study whether this fragment requires a menu")
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -57,20 +47,27 @@ class ClientsFragment : MshirikaFragment<FragmentClientsBinding>(R.layout.fragme
         }
     }
 
-    private suspend fun FragmentClientsBinding.setupRecyclerView() {
-        val authKey = viewModel.authKey()
+    private fun FragmentClientsBinding.setupRecyclerView() {
         val adapter = ClientsAdapter(
-            authKey = authKey,
+            scope = lifecycleScope,
+            authKey = viewModel.authKey,
             listener = this@ClientsFragment
         )
         clients.adapter = adapter
 
-        viewModel.clients.collectLatestLifecycle {
-            adapter.submitData(lifecycle, it)
+        lifecycleScope.launchWhenStarted {
+            viewModel.clients.collectLatest {
+                Log.d(TAG, "setupRecyclerView: data = $it")
+                adapter.submitData(lifecycle, it)
+            }
         }
+        /*viewModel.clients.collectLatestLifecycle {
+
+        }*/
+        // viewModel.initializeState()
 
         adapter.loadStateFlow.collectLatestLifecycle { loadStates ->
-            //progressBar.isVisible = loadStates.refresh is LoadState.Loading
+            clientsLoading.isVisible = loadStates.refresh is LoadState.Loading
             //show a snackbar
             when (loadStates.refresh) {
                 is LoadState.Error -> Snackbar.make(
@@ -84,8 +81,7 @@ class ClientsFragment : MshirikaFragment<FragmentClientsBinding>(R.layout.fragme
                     }
                     show()
                 }
-                is LoadState.Loading -> clientsLoading.isVisible = true
-                is LoadState.NotLoading -> clientsLoading.isVisible = false
+                else -> {}
             }
         }
     }
@@ -115,7 +111,7 @@ class ClientsFragment : MshirikaFragment<FragmentClientsBinding>(R.layout.fragme
         }?.also {
             Log.d(TAG, "onCreateOptionsMenu: search item not null")
             searchView = it
-        searchView.setOnQueryTextListener(this)
+            searchView.setOnQueryTextListener(this)
             searchView.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) viewModel.state()
             }
@@ -135,6 +131,17 @@ class ClientsFragment : MshirikaFragment<FragmentClientsBinding>(R.layout.fragme
         }
         return true
     }
+
+    override val hasToolbar: Boolean
+        get() = true
+    override val isTopFragment: Boolean
+        get() = true
+    override val toolbar: MaterialToolbar
+        get() = binding.appBarLayout.toolbarLarge
+    override val toolbarTitle: String
+        get() = getString(R.string.clients)
+    /*override val menuResId: Int?
+        get() = null*/// TODO("Study whether this fragment requires a menu")
 
     companion object {
         private const val TAG = "ClientsFragment"

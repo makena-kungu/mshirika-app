@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Users/LENOVO/AppData/Local/Android/Sdk/platforms/android-31/data/res/layout/simple_list_item_1.xml" value="0.15760869565217392" />
         <entry key="..\:/Users/LENOVO/AppData/Local/Android/Sdk/platforms/android-31/data/res/layout/simple_list_item_2.xml" value="0.15760869565217392" />
+        <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/activity_launcher.xml" value="0.16621376811594202" />
         <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/bottom_sheet_pick_image.xml" value="0.15760869565217392" />
         <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/content_launcher.xml" value="0.15760869565217392" />
@@ -27,13 +28,15 @@
         <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/fragment_new_client_family.xml" value="0.33" />
         <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/fragment_new_client_general.xml" value="0.25" />
         <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/fragment_new_client_preview.xml" value="0.2" />
-        <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/fragment_payment.xml" value="0.25" />
-        <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/fragment_search.xml" value="0.1" />
+        <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/fragment_payment.xml" value="0.33" />
+        <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/fragment_search.xml" value="0.22" />
+        <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/fragment_splash.xml" value="0.16621376811594202" />
         <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/fragment_transaction_details.xml" value="0.33" />
         <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/fragment_transfer.xml" value="0.25" />
         <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/item_account.xml" value="0.15760869565217392" />
         <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/item_center.xml" value="0.1" />
         <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/item_center2.xml" value="0.33" />
+        <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/item_client.xml" value="0.27537593984962405" />
         <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/item_group.xml" value="0.15760869565217392" />
         <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/item_loan2.xml" value="0.1" />
         <entry key="..\:/Users/LENOVO/StudioProjects/mshirika-app/app/src/main/res/layout/item_loan3.xml" value="0.15760869565217392" />

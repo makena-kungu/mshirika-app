@@ -7,7 +7,6 @@ import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome.Empty
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome.Loading
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.UnpackResponse.respond
-import co.ke.mshirika.mshirika_app.utility.PreferencesStoreRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import retrofit2.Call
 import javax.inject.Inject
@@ -16,11 +15,13 @@ import javax.inject.Singleton
 @Singleton
 class AuthRepo @Inject constructor(
     private val service: AuthService,
-    private val pref:PreferencesStoreRepository
+    private val pref: PreferencesStoreRepository
 ) {
 
     private var call: Call<Staff>? = null
     val auth = MutableStateFlow<Outcome<Staff>>(Empty())
+    val loggedInState = pref.isLoggedIn
+    val authKey = pref.authKey
 
     suspend fun login(login: Login) {
         auth.value = Loading()

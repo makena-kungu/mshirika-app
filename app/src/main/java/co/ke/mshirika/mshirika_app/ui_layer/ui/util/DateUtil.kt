@@ -46,7 +46,7 @@ object DateUtil {
     val List<Int>.mediumDate: String
         get() = getDateInstance(MEDIUM).format(date)
 
-    private val List<Int>.date: Long
+    val List<Int>.date: Long
         get() {
             val date = asReversed().joinToString(".")
             val sdf = SimpleDateFormat(REMOTE_DATE_FORMAT, Locale.getDefault())

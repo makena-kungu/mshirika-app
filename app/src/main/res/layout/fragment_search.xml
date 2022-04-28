@@ -36,10 +36,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:boxBackgroundMode="filled"
                         app:endIconMode="clear_text"
                         app:hintAnimationEnabled="false"
                         app:hintEnabled="false"
-                        app:shapeAppearanceOverlay="@style/SearchShape"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Button"
                         app:startIconDrawable="@drawable/ic_round_arrow_back_24">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -53,7 +55,7 @@
                             android:inputType="text"
                             android:maxLines="1"
                             android:paddingTop="8dp"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                            android:textAppearance="?textAppearanceBodyLarge"
                             android:textSize="18sp"
                             tools:text="12344" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -100,9 +102,9 @@
                     android:id="@+id/suggestion_scrim"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="gone"
+                    android:background="#34000000"
                     android:onClick="@{() -> fragment.hideSuggestions()}"
-                    android:background="#34000000">
+                    android:visibility="gone">
 
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"

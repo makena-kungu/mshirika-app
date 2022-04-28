@@ -13,10 +13,13 @@ import co.ke.mshirika.mshirika_app.ui_layer.ui.create.ViewerFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.LoadingDialog
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.snackL
 import com.google.android.material.appbar.MaterialToolbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import javax.inject.Inject
 
-class MainFragment :
+@AndroidEntryPoint
+class MainFragment @Inject constructor() :
     MshirikaFragment<FragmentCreateNewClientBinding>(R.layout.fragment_create_new_client) {
 
     private val viewModel: ViewModel by viewModels()
@@ -26,7 +29,10 @@ class MainFragment :
         super.onViewCreated(view, savedInstanceState)
 
         viewPager = binding.viewPager.apply {
-            adapter = FormPagingAdapter(parentFragmentManager, lifecycle)
+            adapter = FormPagingAdapter(
+                parentFragmentManager,
+                lifecycle
+            )
             registerOnPageChangeCallback(PageChangeCallback())
         }
 

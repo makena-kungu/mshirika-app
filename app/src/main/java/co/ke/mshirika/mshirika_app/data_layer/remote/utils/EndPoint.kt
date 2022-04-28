@@ -4,16 +4,20 @@ import co.ke.mshirika.mshirika_app.data_layer.remote.utils.EndPoint.Paths.CENTER
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.EndPoint.Paths.CLIENT_ID
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.EndPoint.Paths.GROUP_ID
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.EndPoint.Paths.LOAN_ID
+import co.ke.mshirika.mshirika_app.data_layer.remote.utils.EndPoint.Paths.SAVINGS_ACCOUNT_ID
 
 object EndPoint {
     //This class contains all the Constants for API End Points
     const val AUTHENTICATION = "authentication"
+    const val SAVINGS_ACCOUNTS = "savingsaccounts"
 
     const val CHARGES = "charges"
     const val CENTERS = "centers"
     const val CENTER = "$CENTERS/{$CENTER_ID}"
     const val CLIENTS = "clients"
     const val CLIENTS_TEMPLATE = "$CLIENTS/template"
+    const val CLIENT_PAYMENT= "clientpayment/{$CLIENT_ID}"
+    const val CLIENT_DEPOSIT= "${SAVINGS_ACCOUNTS}/${SAVINGS_ACCOUNT_ID}/transactions"
     const val CLIENT = "$CLIENTS/{$CLIENT_ID}"
     const val CLIENT_ACCOUNTS = "$CLIENTS/{$CLIENT_ID}/accounts"
     const val COLLECTION_SHEET = "collectionsheet"
@@ -39,7 +43,6 @@ object EndPoint {
     const val RUN_REPORTS = "runreports"
     const val RECURRING_ACCOUNTS = "recurringdepositaccounts"
 
-    const val SAVINGS_ACCOUNTS = "savingsaccounts"
     const val SEARCH = "search"
     const val STAFF = "staff"
     const val SURVEYS = "surveys"
@@ -51,6 +54,7 @@ object EndPoint {
         const val CENTER_ID = "{centerId}"
         const val GROUP_ID = "{groupId}"
         const val CLIENT_ID = "{clientId}"
+        const val SAVINGS_ACCOUNT_ID = "{savingsAccountId}"
     }
 
 }

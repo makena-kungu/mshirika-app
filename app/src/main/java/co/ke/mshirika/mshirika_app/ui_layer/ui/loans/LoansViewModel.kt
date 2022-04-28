@@ -47,7 +47,7 @@ class LoansViewModel
                 }
                 repo.repaymentStatus.collectLatest {
                     it.stateHandler {
-                        data?.let { successChannel.send(resourceText(R.string.repayment_successful)) }
+                        successChannel.send(resourceText(R.string.repayment_successful))
                     }
                 }
             }
@@ -66,7 +66,7 @@ class LoansViewModel
                 repo.repaymentTypes()
                 _repaymentTypes.collectLatest { outcome ->
                     outcome.stateHandler(false) {
-                        data?.let { _rTypes.value = it }
+                        _rTypes.value = it
                     }
                 }
             }

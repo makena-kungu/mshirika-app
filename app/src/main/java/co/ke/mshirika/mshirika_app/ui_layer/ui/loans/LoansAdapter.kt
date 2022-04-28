@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.LoanAccount
 import co.ke.mshirika.mshirika_app.databinding.ItemLoan3Binding
+import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.date
+import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.mediumDate
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.amt
 
 class LoansAdapter(
@@ -22,7 +24,7 @@ class LoansAdapter(
 
     override fun onBindViewHolder(holder: LoansViewHolder, position: Int) {
         getItem(position)?.let {
-            holder.binder(it)
+            holder.binder(it, position)
         }
     }
 
@@ -53,17 +55,29 @@ class LoansAdapter(
             listener
         }
 
-        fun binder(acc: LoanAccount) {
-            acc.bind()
+        fun binder(acc: LoanAccount, position: Int) {
+            acc.apply {
+                binding.apply {
+                    bind(position)
+                }
+            }
         }
 
-        private fun LoanAccount.bind() {
+        context (LoanAccount, ItemLoan3Binding)
+                private fun LoanAccount.bind(pos: Int) {
             binding.apply {
+                position = pos
                 loanProductName.text = loanType.value
                 loanClientName.text = clientName
                 loanPrincipalAmount.text = principal.amt
-                //loanInterestAmount.text =
-                //todo extract the due date and amount
+                //loanInterestAmount.text = // TODO:
+                repaymentSchedule.periods.first {
+                    val time = System.currentTimeMillis()
+                    it.fromDate.date < time && it.dueDate.date > time
+                }.also {
+                    dueDate = it.dueDate.date.mediumDate
+                    amountDue = it.totalDueForPeriod.amt
+                }
             }
         }
 

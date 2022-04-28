@@ -19,9 +19,11 @@ import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.fromShortDate
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.EditableUtils.clear
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.EditableUtils.text
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
-class FamilyFragment :
+@AndroidEntryPoint
+class FamilyFragment() :
     MshirikaFragment<FragmentNewClientFamilyBinding>(fragment_new_client_family), ViewerFragment {
 
     private val viewModel: ViewModel by viewModels()
