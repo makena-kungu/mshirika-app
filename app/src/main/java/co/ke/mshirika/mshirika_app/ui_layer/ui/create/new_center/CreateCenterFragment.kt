@@ -14,36 +14,35 @@ import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.mshirikaDate
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.EditableUtils.attachNonVoidFields
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.EditableUtils.text
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.UIText
-import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.flow.collectLatest
+import dagger.hilt.android.AndroidEntryPoint
 
-class CreateCenterFragment :
-    MshirikaFragment<FragmentCreateNewCenterBinding>(R.layout.fragment_create_new_center) {
-
+@AndroidEntryPoint
+class CreateCenterFragment : MshirikaFragment<FragmentCreateNewCenterBinding>(
+    R.layout.fragment_create_new_center
+) {
     private val viewModel: ViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.apply {
-            submit.attachNonVoidFields(centerName, centerOffice)
-            lifecycleScope.launchWhenStarted {
-                viewModel.offices.collectLatest {
-                    val offices = it.map { office -> office.nameDecorated }
-                    val adapter = ArrayAdapter(
-                        requireContext(),
-                        android.R.layout.simple_list_item_1,
-                        android.R.id.text1,
-                        offices
-                    )
-                    centerOffice.setAdapter(adapter)
-                }
-                viewModel.errorState.collectLatest { snack(it) }
-                viewModel.successState.collectLatest { snack(it, LENGTH_SHORT) }
-            }
+
+        binding.appBar.toolbarLarge.setupToolbar(R.string.create_center, R.menu.creation)
+        binding.apply { submit.attachNonVoidFields(centerName, centerOffice) }
+        viewModel.offices.collectLatestLifecycle {
+            val offices = it.map { office -> office.nameDecorated }
+            val adapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_list_item_1,
+                android.R.id.text1,
+                offices
+            )
+            binding.centerOffice.setAdapter(adapter)
         }
+
+        viewModel.errorState.collectLatestLifecycle { snack(it) }
+        viewModel.successState.collectLatestLifecycle { snack(it, LENGTH_SHORT) }
     }
 
     private fun snack(text: UIText, duration: Int = LENGTH_LONG) {
@@ -72,13 +71,4 @@ class CreateCenterFragment :
         viewModel.refresh()
         true
     } ?: super.onMenuItemClick(item)
-
-    override val hasToolbar: Boolean
-        get() = true
-    override val toolbar: MaterialToolbar
-        get() = binding.appBar.toolbarLarge
-    override val toolbarTitle: String
-        get() = getString(R.string.create_center)
-    override val menuResId: Int
-        get() = R.menu.creation
 }

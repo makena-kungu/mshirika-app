@@ -24,10 +24,6 @@ class ClientsPagingSource
     private val service: ClientsService
 ) : PagingSource<Int, Client>() {
 
-    init {
-        Log.d(TAG, "initialising")
-    }
-
     override fun getRefreshKey(state: PagingState<Int, Client>): Int? =
         state.refreshKey
 

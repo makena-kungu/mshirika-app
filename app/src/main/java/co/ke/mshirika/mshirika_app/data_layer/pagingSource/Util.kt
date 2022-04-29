@@ -4,7 +4,6 @@ import android.os.Parcelable
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource.LoadResult
 import androidx.paging.PagingState
-import co.ke.mshirika.mshirika_app.data_layer.remote.services.ClientsService
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Feedback
 import retrofit2.HttpException
 import retrofit2.Response
@@ -42,10 +41,16 @@ object Util {
     }
 
     fun pagingConfig(
-        pageSize: Int = 30,
-        maxSize: Int = 60,
-        enablePlaceholders: Boolean = true
-    ) = PagingConfig(pageSize, maxSize, enablePlaceholders)
+        pageSize: Int = 20,
+        maxSize: Int = 30,
+        enablePlaceholders: Boolean = false
+    ) = PagingConfig(
+        pageSize = pageSize,
+        maxSize = maxSize,
+        prefetchDistance = 5,
+        enablePlaceholders = enablePlaceholders,
+        initialLoadSize = pageSize
+    )
 
     val <Value : Any> PagingState<Int, Value>.refreshKey: Int?
         get() = anchorPosition?.let {

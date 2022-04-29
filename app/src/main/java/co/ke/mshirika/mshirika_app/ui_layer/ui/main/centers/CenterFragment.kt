@@ -15,8 +15,6 @@ class CenterFragment : DetailsFragment<FragmentCenterBinding>(R.layout.fragment_
         super.onViewCreated(view, savedInstanceState)
     }
 
-    override val hasToolbar: Boolean
-        get() = true
     override val toolbar: MaterialToolbar
         get() = binding.appBar.toolbarLarge
     override val toolbarTitle: String

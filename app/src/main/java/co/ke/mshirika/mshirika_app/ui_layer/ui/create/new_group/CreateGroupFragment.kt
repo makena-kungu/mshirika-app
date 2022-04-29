@@ -93,8 +93,6 @@ class CreateGroupFragment :
         }
     }
 
-    override val hasToolbar: Boolean
-        get() = true
     override val toolbar: MaterialToolbar
         get() = binding.appBar.toolbarLarge
     override val toolbarTitle: String

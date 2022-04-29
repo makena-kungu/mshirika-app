@@ -1,8 +1,6 @@
 package co.ke.mshirika.mshirika_app.ui_layer.ui.main.groups
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
@@ -13,7 +11,6 @@ import co.ke.mshirika.mshirika_app.databinding.FragmentGroupsBinding
 import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.main.utils.State
 import co.ke.mshirika.mshirika_app.ui_layer.ui.search.OnSearchListener
-import com.google.android.material.appbar.MaterialToolbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,8 +25,12 @@ class GroupsFragment : MshirikaFragment<FragmentGroupsBinding>(R.layout.fragment
         setHasOptionsMenu(true)
     }
 
+    override val title: String
+        get() = getString(R.string.groups)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.appBar.toolbarLarge.setupToolbar(R.string.groups, R.menu.search)
         binding.setupRecyclerView()
     }
 
@@ -41,31 +42,24 @@ class GroupsFragment : MshirikaFragment<FragmentGroupsBinding>(R.layout.fragment
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        val searchItem = menu.findItem(R.id.action_search)
-        val searchView = searchItem?.actionView as SearchView
+    override fun onMenuItemClick(item: MenuItem?): Boolean = item?.run {
+        val searchView = actionView as SearchView
 
         searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 viewModel.state()
             }
         }
-        searchView.setOnQueryTextListener(this)
-    }
+        searchView.setOnQueryTextListener(this@GroupsFragment)
+        true
+    } == true
 
-    override fun onMenuItemClick(item: MenuItem?): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        return if (!query.isNullOrBlank()) {
-            lifecycleScope.launchWhenCreated {
-                viewModel.search(query)
-            }
-            false
-        } else true
-    }
+    override fun onQueryTextSubmit(query: String?): Boolean = if (!query.isNullOrBlank()) {
+        lifecycleScope.launchWhenCreated {
+            viewModel.search(query)
+        }
+        true
+    } else false
 
     override fun onQueryTextChange(newText: String?): Boolean {
         newText?.let {
@@ -77,17 +71,6 @@ class GroupsFragment : MshirikaFragment<FragmentGroupsBinding>(R.layout.fragment
     }
 
     override fun onClickGroup(group: Group, position: Int) {
-        TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
-
-    override val title: String
-        get() = getString(R.string.groups)
-    override val toolbarTitle: String
-        get() = title
-    override val toolbar: MaterialToolbar
-        get() = binding.appBar.toolbarLarge
-    override val isTopFragment: Boolean
-        get() = true
-    override val menuResId: Int?
-        get() = null //R.menu.group
 }

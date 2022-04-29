@@ -155,12 +155,8 @@ class SearchFragment : MshirikaFragment<FragmentSearchBinding>(R.layout.fragment
         binding.suggestionScrim.isVisible = false
     }
 
-    override val hasToolbar: Boolean
-        get() = true
     override val toolbar: MaterialToolbar
         get() = binding.toolbar
-    override val isTopFragment: Boolean
-        get() = true
     override val toolbarTitle: String
         get() = getString(R.string.search)
 

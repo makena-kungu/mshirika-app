@@ -2,7 +2,6 @@
 
 package co.ke.mshirika.mshirika_app.ui_layer.ui.main.clients.viewModels
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -15,7 +14,6 @@ import co.ke.mshirika.mshirika_app.data_layer.repositories.PreferencesStoreRepos
 import co.ke.mshirika.mshirika_app.ui_layer.MshirikaViewModel
 import co.ke.mshirika.mshirika_app.ui_layer.ui.main.utils.State
 import co.ke.mshirika.mshirika_app.ui_layer.ui.main.utils.State.Normal
-import co.ke.mshirika.mshirika_app.ui_layer.ui.main.utils.State.Searching
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
@@ -43,42 +41,28 @@ class ClientsViewModel @Inject constructor(
     }
 
     private val _stateChannel = Channel<State>()
-    private val _state = _stateChannel.receiveAsFlow()
+    private val _state = MutableStateFlow(state.getLiveData(STATE, DEFAULT).value ?: DEFAULT)
+
+    private val _expresar = channelFlow {
+        _state.collectLatest {
+            send(it)
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private val _clientes = _expresar.flatMapLatest {
+        when (it) {
+            Normal -> repo.clients.cachedIn(viewModelScope)
+            else -> _modifiedFilteredClients
+        }
+    }
+
+    val clientes get() = _clientes.stateIn(viewModelScope, WhileSubscribed(), empty())
 
     private val searchedClients
         get() = repo.searchedClients
 
     val clients = repo.clients.cachedIn(viewModelScope)
-    val temp: StateFlow<PagingData<Client>> by lazy {
-        _state.flatMapLatest {
-            Log.d(TAG, "state: $it")
-            when (it) {
-                Searching -> _modifiedFilteredClients
-                Normal ->
-                    repo.clients.cachedIn(viewModelScope)
-            }
-        }.stateIn(
-            scope = viewModelScope,
-            started = WhileSubscribed(),
-            initialValue = empty()
-        )
-    }
-
-    /*val c = MutableStateFlow<PagingData<Client>>(empty())
-    fun clients() {
-        viewModelScope.launch {
-            _state.collectLatest { state ->
-                val clients = when (state) {
-                    Searching -> _modifiedFilteredClients
-                    Normal -> repo.clients().cachedIn(viewModelScope)
-                }
-                clients.flatMapMerge {
-                    c.value = it
-                    c
-                }
-            }
-        }
-    }*/
 
     fun clients() {
         viewModelScope.launch {

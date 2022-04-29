@@ -32,12 +32,6 @@ class LoansFragment : DetailsFragment<FragmentLoansBinding>(R.layout.fragment_lo
         }
     }
 
-    override val hasToolbar: Boolean
-        get() = true
-
-    override val isTopFragment: Boolean
-        get() = true
-
     override val toolbar: MaterialToolbar
         get() = binding.appBar.toolbarLarge
 

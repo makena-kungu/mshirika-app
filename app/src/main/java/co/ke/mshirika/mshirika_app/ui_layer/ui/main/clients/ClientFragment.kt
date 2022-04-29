@@ -64,6 +64,7 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
         itemToDetailReentry(view)
         binding.fragment = this
         binding.apply {
+            clientToolbar.setupToolbar(R.string.client, R.menu.client)
             accounts()
             errorState()
             loadingState()
@@ -76,15 +77,6 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(R.layout.fragment_
             }
         }
     }
-
-    override val menuResId: Int
-        get() = R.id.client
-
-    override val toolbar: MaterialToolbar
-        get() = binding.clientToolbar
-
-    override val toolbarTitle: String
-        get() = getString(R.string.client)
 
     override fun onMenuItemClick(item: MenuItem?): Boolean = item?.run {
         when (itemId) {

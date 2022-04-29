@@ -24,7 +24,7 @@
                 android:id="@+id/toolbar_large"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
-                app:layout_collapseMode="parallax"
+                app:layout_collapseMode="pin"
                 app:navigationIcon="@drawable/ic_round_arrow_back_24"
                 tools:title="Title" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>

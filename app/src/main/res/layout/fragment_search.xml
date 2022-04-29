@@ -48,14 +48,13 @@
                             android:id="@+id/search_edit_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
                             android:gravity="center_vertical"
                             android:hint="@string/search_ellipsize"
                             android:imeOptions="actionSearch"
                             android:inputType="text"
                             android:maxLines="1"
                             android:paddingTop="8dp"
-                            android:textAppearance="?textAppearanceBodyLarge"
+                            android:textAppearance="?textAppearanceBodySmall"
                             android:textSize="18sp"
                             tools:text="12344" />
                     </com.google.android.material.textfield.TextInputLayout>

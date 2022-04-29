@@ -21,7 +21,6 @@ import co.ke.mshirika.mshirika_app.ui_layer.ui.util.Transitions.itemToDetailsTra
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 
 /**
  * Displays a list of Clients
@@ -42,9 +41,11 @@ class ClientsFragment : MshirikaFragment<FragmentClientsBinding>(R.layout.fragme
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        lifecycleScope.launchWhenCreated {
-            binding.setupRecyclerView()
-        }
+        binding.setupRecyclerView()
+        binding.appBarLayout.toolbarLarge.setupToolbar(
+            R.string.clients,
+            R.menu.search
+        )
     }
 
     private fun FragmentClientsBinding.setupRecyclerView() {
@@ -54,17 +55,14 @@ class ClientsFragment : MshirikaFragment<FragmentClientsBinding>(R.layout.fragme
             listener = this@ClientsFragment
         )
         clients.adapter = adapter
+        clients.setHasFixedSize(false)
 
-        lifecycleScope.launchWhenStarted {
-            viewModel.clients.collectLatest {
-                Log.d(TAG, "setupRecyclerView: data = $it")
-                adapter.submitData(lifecycle, it)
-            }
-        }
         /*viewModel.clients.collectLatestLifecycle {
-
+            adapter.submitData(lifecycle, it)
         }*/
-        // viewModel.initializeState()
+        viewModel.clientes.collectLatestLifecycle {
+            adapter.submitData(lifecycle, it)
+        }
 
         adapter.loadStateFlow.collectLatestLifecycle { loadStates ->
             clientsLoading.isVisible = loadStates.refresh is LoadState.Loading
@@ -132,10 +130,6 @@ class ClientsFragment : MshirikaFragment<FragmentClientsBinding>(R.layout.fragme
         return true
     }
 
-    override val hasToolbar: Boolean
-        get() = true
-    override val isTopFragment: Boolean
-        get() = true
     override val toolbar: MaterialToolbar
         get() = binding.appBarLayout.toolbarLarge
     override val toolbarTitle: String

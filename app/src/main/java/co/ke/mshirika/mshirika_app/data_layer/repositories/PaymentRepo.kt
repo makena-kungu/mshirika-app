@@ -11,6 +11,10 @@ import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.UnpackResponse.respond
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.mshirikaDate
 import co.ke.mshirika.mshirika_app.utility.Util.headers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class PaymentRepo @Inject constructor(
@@ -68,7 +72,12 @@ class PaymentRepo @Inject constructor(
         }
     }
 
-    suspend fun headers() = repo.authKey().headers
+    suspend fun headers() = withContext(Dispatchers.IO) {
+        val key = async {
+            repo.authKey
+        }
+        key.await().first()!!.headers
+    }
 }
 
 data class Other(

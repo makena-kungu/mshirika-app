@@ -74,12 +74,6 @@ class CentersFragment : ListFragment<FragmentCentersBinding>(R.layout.fragment_c
     override val toolbar: MaterialToolbar
         get() = binding.appBar.toolbarLarge
 
-    override val hasToolbar: Boolean
-        get() = true
-
-    override val isTopFragment: Boolean
-        get() = true
-
     override val toolbarTitle: String
         get() = getString(R.string.centers)
 

@@ -102,10 +102,6 @@ class MainFragment @Inject constructor() :
         // set up what the next and previous button does
     }
 
-    override val hasToolbar: Boolean
-        get() = true
-    override val isTopFragment: Boolean
-        get() = true
     override val toolbar: MaterialToolbar
         get() = binding.appBarLarge.toolbarLarge
     override val toolbarTitle: String
