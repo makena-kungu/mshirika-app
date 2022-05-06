@@ -2,7 +2,7 @@ package co.ke.mshirika.mshirika_app.ui_layer.ui.util
 
 import android.content.Context
 
-sealed class UIText() {
+sealed class UIText {
 
     data class PlainText(
         val s: String

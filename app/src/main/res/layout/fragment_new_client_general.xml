@@ -7,7 +7,7 @@
 
         <variable
             name="fragment"
-            type="co.ke.mshirika.mshirika_app.ui_layer.ui.create.new_client.GeneralFragment" />
+            type="co.ke.mshirika.mshirika_app.ui_layer.ui.create.new_client.content.GeneralFragment" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -42,9 +42,9 @@
                     android:onClick="@{()->fragment.pickImage()}"
                     app:fabSize="mini"
                     app:layout_constraintBottom_toBottomOf="@id/create_client_image"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintHorizontal_bias=".9"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias=".9"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/create_client_image"
                     app:srcCompat="@drawable/ic_round_insert_photo_24" />
 
@@ -87,7 +87,8 @@
                         android:id="@+id/first_name_required"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/first_name_" />
+                        android:hint="@string/first_name_"
+                        android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -98,7 +99,8 @@
                         android:id="@+id/middle_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/middle_name" />
+                        android:hint="@string/middle_name"
+                        android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -109,22 +111,23 @@
                         android:id="@+id/last_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/last_name_" />
+                        android:hint="@string/last_name_"
+                        android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/dob_lo"
-                    style="?textInputOutlinedDenseStyle"
-                    app:endIconContentDescription="@string/pick_date_desc"
-                    app:endIconDrawable="@drawable/ic_baseline_calendar_month_24"
-                    app:endIconMode="custom">
+                    style="?textInputOutlinedDenseDateStyle"
+                    app:endIconContentDescription="@string/pick_date_desc">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/dob"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:editable="false"
                         android:hint="@string/date_of_birth"
-                        android:inputType="date" />
+                        android:inputType="date"
+                        android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -136,7 +139,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/member_no"
-                        android:inputType="phone|number" />
+                        android:inputType="phone|number"
+                        android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -149,7 +153,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/mobile_no"
-                        android:inputType="phone" />
+                        android:inputType="phone"
+                        android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <RadioGroup
@@ -211,8 +216,10 @@
                         android:id="@+id/submit_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:editable="false"
                         android:hint="@string/submit_date"
-                        android:inputType="date" />
+                        android:inputType="date"
+                        android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -224,28 +231,33 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/national_id_no"
-                        android:inputType="phone|number" />
+                        android:inputType="phone|number"
+                        android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/email_lo"
                     style="?textInputOutlinedDenseStyle"
-                    app:errorEnabled="true">
+                    app:errorEnabled="true"
+                    app:placeholderText="someone@example.com">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/email_address" />
+                        android:hint="@string/email_address"
+                        android:imeOptions="actionDone"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!--<com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/is_active"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/active" />-->
+                    android:text="@string/active" />
 
-                <!--todo to be shown when is_active is checked-->
+                &lt;!&ndash;todo to be shown when is_active is checked&ndash;&gt;
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/activation_date_lo"
                     style="?textInputOutlinedDenseStyle"
@@ -254,12 +266,13 @@
                     app:endIconMode="custom">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:maxLines="1"
                         android:id="@+id/activation_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/activation_date_"
                         android:inputType="date" />
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>-->
 
                 <!--<com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/open_savings_account"
@@ -282,16 +295,17 @@
                 <androidx.constraintlayout.helper.widget.Flow
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:constraint_referenced_ids="create_client_image,office_lo,legal_form_lo,first_name_lo,middle_name_lo,last_name_lo,dob_lo,mem_no_lo,mobile_no_lo,gender_group,is_staff,client_type_lo,client_classification_lo,submit_date_lo,national_id_lo,email_lo,activation_date_lo"
+                    android:layout_marginVertical="10dp"
+                    android:paddingBottom="10dp"
+                    app:constraint_referenced_ids="create_client_image,office_lo,legal_form_lo,first_name_lo,middle_name_lo,last_name_lo,dob_lo,mem_no_lo,mobile_no_lo,gender_group,is_staff,client_type_lo,client_classification_lo,submit_date_lo,national_id_lo,email_lo"
                     app:flow_firstHorizontalBias="0.5"
                     app:flow_firstHorizontalStyle="packed"
+                    app:flow_firstVerticalStyle="spread"
                     app:flow_horizontalAlign="start"
                     app:flow_horizontalGap="8dp"
                     app:flow_horizontalStyle="spread_inside"
                     app:flow_verticalGap="5dp"
-                    app:flow_firstVerticalStyle="spread"
                     app:flow_wrapMode="chain2"
-                    android:layout_marginVertical="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

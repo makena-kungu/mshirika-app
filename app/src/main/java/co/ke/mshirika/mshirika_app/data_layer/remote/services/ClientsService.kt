@@ -1,9 +1,14 @@
 package co.ke.mshirika.mshirika_app.data_layer.remote.services
 
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.ClientSms
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.CreateClient
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.DepositShares
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Client
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.ClientTemplate
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.TransferFunds
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.*
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.templates.ClientTemplate
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.templates.TransferFundsTemplate
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.templates.TransferFundsTemplateWithToClients
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.templates.TransferFundsTemplateWithToClientsAccounts
 import co.ke.mshirika.mshirika_app.data_layer.remote.response.*
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.EndPoint
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.EndPoint.Paths.CLIENT_ID
@@ -52,9 +57,15 @@ interface ClientsService {
     suspend fun deposit(
         @HeaderMap headers: Map<String, String>,
         @Path(SAVINGS_ACCOUNT_ID) savingsAccountId: Int,
-        deposit: DepositShares,
-        @Query("command") command: String = "deposit"
+        @Query("command") command: String = "deposit",
+        deposit: DepositShares
     ): Response<DepositResponse>
+
+    @POST(EndPoint.SMS)
+    suspend fun sendSms(
+        @HeaderMap headers: Map<String, String>,
+        clientSms:ClientSms
+    ):Response<ClientSmsResponse>
 
     @GET(EndPoint.CLIENTS_TEMPLATE)
     suspend fun template(
@@ -67,6 +78,30 @@ interface ClientsService {
         @Path(CLIENT_ID) clientId: Int
     ): Response<ClientPaymentTemplate>
 
+    @POST(EndPoint.ACCOUNTS_TRANSFER_TEMPLATE)
+    suspend fun transferFundsTemplate(
+        @HeaderMap headers: Map<String, String>,
+        @Query("fromAccountId") fromAccountId: Int,
+        @Query("fromAccountType") fromAccountType: Int = 2
+    ): Response<TransferFundsTemplate>
+
+    @POST(EndPoint.ACCOUNTS_TRANSFER_TEMPLATE)
+    suspend fun transferFundsTemplateWithToClients(
+        @HeaderMap headers: Map<String, String>,
+        @Query("fromAccountId") fromAccountId: Int,
+        @Query("toOfficeId") toOfficeId: Int,
+        @Query("fromAccountType") fromAccountType: Int = 2
+    ): Response<TransferFundsTemplateWithToClients>
+
+    @POST(EndPoint.ACCOUNTS_TRANSFER_TEMPLATE)
+    suspend fun transferFundsTemplateWithAccounts(
+        @HeaderMap headers: Map<String, String>,
+        @Query("fromAccountId") fromAccountId: Int,
+        @Query("toOfficeId") toOfficeId: Int,
+        @Query("toAccountType") toAccountType: Int = 2,
+        @Query("fromAccountType") fromAccountType: Int = 2
+    ): Response<TransferFundsTemplateWithToClientsAccounts>
+
     @GET("${EndPoint.SAVINGS_ACCOUNTS}/{accountId}")
     suspend fun transactions(
         @HeaderMap headers: Map<String, String>,
@@ -74,4 +109,10 @@ interface ClientsService {
         @Query("associations") associations: String = "All",
         @Query("checkOfficeHierarchy") boolean: Boolean = false
     ): Response<TransactionResponse>
+
+    @POST(EndPoint.ACCOUNTS_TRANSFER)
+    suspend fun transferFunds(
+        @HeaderMap headers: Map<String, String>,
+        transfer: TransferFunds
+    ): Response<co.ke.mshirika.mshirika_app.data_layer.remote.models.response.TransferFunds>
 }

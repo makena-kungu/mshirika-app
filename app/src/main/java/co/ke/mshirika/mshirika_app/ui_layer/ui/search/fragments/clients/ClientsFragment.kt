@@ -7,8 +7,8 @@ import androidx.fragment.app.viewModels
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.databinding.FragmentSearchFragsBinding
 import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.MshirikaFragment
-import co.ke.mshirika.mshirika_app.ui_layer.ui.main.clients.OnClientItemClickListener
-import co.ke.mshirika.mshirika_app.ui_layer.ui.main.clients.adapters.ClientsAdapter
+import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.OnClientItemClickListener
+import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.adapters.ClientsAdapter
 import co.ke.mshirika.mshirika_app.ui_layer.ui.search.OnSearchListener
 import co.ke.mshirika.mshirika_app.ui_layer.ui.search.SearchFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.search.SearchViewModel
@@ -34,7 +34,7 @@ class ClientsFragment :
             )
             binding.list.adapter = adapter
             viewModel.clients.collectLatestLifecycle {
-                adapter.submitData(lifecycle, it)
+                adapter.submitData(it)
             }
         }
     }

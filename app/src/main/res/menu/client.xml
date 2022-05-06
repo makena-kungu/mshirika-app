@@ -4,15 +4,16 @@
     <item
         android:id="@+id/edit"
         android:icon="@drawable/ic_baseline_edit_24"
-        app:showAsAction="ifRoom"
-        android:title="@string/edit" />
+        android:title="@string/edit"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/deposit"
-        android:visible="false"
-        android:title="@string/deposit" />
+        android:title="@string/deposit"
+        android:visible="false" />
     <item
         android:id="@+id/withdraw"
+        android:visible="false"
         android:title="@string/withdraw" />
     <item
         android:id="@+id/charge"
@@ -21,5 +22,7 @@
         android:id="@+id/transfer"
         android:title="@string/transfer" />
 
-
+    <item
+        android:id="@+id/send_sms"
+        android:title="@string/send_sms" />
 </menu>

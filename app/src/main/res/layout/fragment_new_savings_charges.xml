@@ -18,7 +18,8 @@
             android:id="@+id/charge"
             style="@style/Widget.Mshirika.TextInputEditText.SingleLine"
             android:editable="false"
-            android:hint="@string/charge" />
+            android:hint="@string/charge"
+            tools:ignore="Deprecated" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton

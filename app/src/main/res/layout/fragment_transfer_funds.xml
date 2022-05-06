@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui_layer.ui.core.utils.transfer_savings_or_shares.TransferFundsFragment">
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.transfer_savings_or_shares.TransferFundsFragment" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <include
+            android:id="@+id/app_bar"
+            layout="@layout/layout_app_bar" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/transfer_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="invisible"
+            app:layout_anchor="@id/app_bar"
+            app:layout_anchorGravity="bottom" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="14dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/bal_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="20dp"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="41.5"
+                            android:maxLines="1"
+                            android:text="@string/available_balance"
+                            android:textAppearance="@style/Item.Secondary"
+                            android:textColor="@color/beautiful_text"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/available_balance"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="58.5"
+                            android:gravity="end"
+                            android:textAppearance="@style/Item.Primary"
+                            android:textColor="#2CA409"
+                            android:textSize="20sp"
+                            tools:text="$23,450" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="20dp">
+
+                        <TextView
+                            android:id="@+id/transfer_details"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="8dp"
+                            android:textAppearance="@style/TextAppearance.Toolbar.Title"
+                            android:textColor="@color/beautiful_text"
+                            android:textSize="19sp"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Transfer Details" />
+
+                        <View
+                            android:id="@+id/divider"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:alpha=".3"
+                            app:layout_constraintTop_toBottomOf="@id/transfer_details" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/office_lo"
+                            style="?textInputOutlinedExposedDropdownMenuStyle">
+
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/office"
+                                style="?singleLineInputField"
+                                android:hint="@string/office" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/client_lo"
+                            style="?textInputOutlinedExposedDropdownMenuStyle">
+
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/client"
+                                style="?singleLineInputField"
+                                android:hint="@string/client" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/account_type_lo"
+                            style="?textInputOutlinedExposedDropdownMenuStyle">
+
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/account_type"
+                                style="?singleLineInputField"
+                                android:editable="false"
+                                android:hint="@string/account_type"
+                                tools:ignore="Deprecated" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/account_lo"
+                            style="?textInputOutlinedExposedDropdownMenuStyle">
+
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/account"
+                                style="?singleLineInputField"
+                                android:editable="false"
+                                android:hint="@string/account"
+                                tools:ignore="Deprecated" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/amount_lo"
+                            style="?textInputOutlinedDenseStyle"
+                            tools:prefixText="Ksh">
+
+                            <!--todo add the prefix dynamically-->
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/amount"
+                                style="?singleLineInputField"
+                                android:hint="@string/amount_required"
+                                android:inputType="phone|number"
+                                tools:text="1,000" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/date_lo"
+                            style="?textInputOutlinedDenseDateStyle"
+                            android:layout_width="match_parent">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/date"
+                                style="?textInputEditTextDate"
+                                android:editable="false"
+                                android:hint="@string/transaction_date"
+                                tools:ignore="Deprecated" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/description_lo"
+                            style="?textInputOutlinedDenseStyle">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/description"
+                                style="@style/Widget.Mshirika.TextInputEditText"
+                                android:hint="@string/description_required"
+                                android:inputType="textMultiLine" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <androidx.constraintlayout.helper.widget.Flow
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="16dp"
+                            app:constraint_referenced_ids="office_lo,client_lo,account_type_lo,account_lo,amount_lo,date_lo,description_lo"
+                            app:flow_horizontalStyle="spread"
+                            app:flow_maxElementsWrap="2"
+                            app:flow_verticalGap="8dp"
+                            app:flow_wrapMode="chain"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/divider" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/transfer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:onClick="@{(view) -> fragment.transfer()}"
+                    android:text="@string/transfer" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

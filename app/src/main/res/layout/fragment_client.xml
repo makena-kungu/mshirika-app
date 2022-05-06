@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui_layer.ui.main.clients.ClientFragment">
+    tools:context=".ui_layer.ui.core.clients.ClientFragment">
 
     <data>
 
         <variable
             name="fragment"
-            type="co.ke.mshirika.mshirika_app.ui_layer.ui.main.clients.ClientFragment" />
+            type="co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.ClientFragment" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -49,16 +49,6 @@
                 </com.google.android.material.appbar.CollapsingToolbarLayout>
             </com.google.android.material.appbar.AppBarLayout>
 
-            <com.google.android.material.progressindicator.LinearProgressIndicator
-                android:id="@+id/progress_horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"
-                android:visibility="gone"
-                app:layout_anchor="@id/appBarLayout"
-                app:layout_anchorGravity="bottom"
-                tools:visibility="visible" />
-
             <androidx.constraintlayout.motion.widget.MotionLayout
                 android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
@@ -67,38 +57,39 @@
                 android:minHeight="?attr/actionBarSize"
                 app:layoutDescription="@xml/fragment_client_xml_constraintlayout_scene">
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/client_image"
+                <FrameLayout
+                    android:id="@+id/client_image_layout"
                     android:layout_width="@dimen/size_client_logo"
                     android:layout_height="@dimen/size_client_logo"
                     android:layout_gravity="center_horizontal"
-                    android:scaleType="centerCrop"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias=".15"
-                    app:shapeAppearanceOverlay="?roundedImage"
-                    tools:srcCompat="@tools:sample/avatars" />
+                    app:layout_constraintVertical_bias=".15">
 
-                <TextView
-                    android:id="@+id/client_image_error"
-                    android:layout_width="@dimen/size_client_logo"
-                    android:layout_height="@dimen/size_client_logo"
-                    android:gravity="center"
-                    android:scaleX=".7"
-                    android:scaleY=".7"
-                    android:textColor="@color/white"
-                    android:textSize="65sp"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="@+id/client_image"
-                    app:layout_constraintEnd_toEndOf="@id/client_image"
-                    app:layout_constraintStart_toStartOf="@id/client_image"
-                    app:layout_constraintTop_toTopOf="@id/client_image"
-                    tools:scaleX="1"
-                    tools:scaleY="1"
-                    tools:text="C"
-                    tools:visibility="invisible" />
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/client_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        tools:visibility="invisible"
+                        app:shapeAppearanceOverlay="?roundedImage"
+                        tools:srcCompat="@tools:sample/avatars" />
+
+                    <TextView
+                        android:id="@+id/client_image_error"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="65sp"
+                        android:visibility="invisible"
+                        tools:background="@android:color/holo_red_light"
+                        tools:text="C"
+                        tools:visibility="visible" />
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/client_name"
@@ -106,14 +97,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
                     android:ellipsize="end"
-                    android:fontFamily="@font/roboto_regular"
                     android:marqueeRepeatLimit="marquee_forever"
-                    android:maxLines="2"
-                    android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge"
-                    android:textColor="?android:textColorPrimary"
+                    android:maxLines="1"
+                    android:textAppearance="?textAppearanceHeadlineMedium"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/client_image"
+                    app:layout_constraintTop_toBottomOf="@+id/client_image_layout"
                     tools:text="Client's Name" />
 
                 <TextView
@@ -124,7 +113,7 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:minHeight="48dp"
-                    android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+                    android:textAppearance="?textAppearanceHeadlineSmall"
                     android:textColorLink="?android:textColorLink"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toTopOf="@id/available_bal"
@@ -142,7 +131,7 @@
                     android:fontFamily="@font/roboto_regular"
                     android:maxLines="1"
                     android:text="@string/available_balance"
-                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    android:textAppearance="?textAppearanceLabelLarge"
                     android:textColor="@color/beautiful_text"
                     app:layout_constraintBottom_toTopOf="@id/balance"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -155,7 +144,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="5dp"
                     android:maxLines="1"
-                    android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+                    android:textAppearance="?textAppearanceHeadlineSmall"
                     app:layout_constraintBottom_toTopOf="@id/client_membership_no"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -168,13 +157,24 @@
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/client_s_member_number"
                     android:maxLines="1"
-                    android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+                    android:textAppearance="?textAppearanceHeadlineSmall"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/balance"
                     tools:text="030323" />
             </androidx.constraintlayout.motion.widget.MotionLayout>
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progress_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:layout_anchor="@id/appBarLayout"
+                app:layout_anchorGravity="bottom"
+                app:trackThickness="3dp"
+                tools:visibility="visible" />
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/animation_anchor"

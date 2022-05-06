@@ -10,9 +10,12 @@ import co.ke.mshirika.mshirika_app.data_layer.remote.services.SearchService
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome.Success
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.UnpackResponse.respond
+import co.ke.mshirika.mshirika_app.data_layer.remote.utils.UnpackResponse.respondWithSuccess
 import co.ke.mshirika.mshirika_app.utility.Util.headers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SearchRepo @Inject constructor(
@@ -43,7 +46,7 @@ class SearchRepo @Inject constructor(
         searchGroups(query)
     }
 
-    private suspend fun searchClients(query: String) {
+    private suspend fun searchClients(query: String) = withContext(IO) {
         respond {
             searchService.search(
                 map = headers(),
@@ -55,30 +58,30 @@ class SearchRepo @Inject constructor(
         }
     }
 
-    private suspend fun searchGroups(query: String) {
+    private suspend fun searchGroups(query: String) = withContext(IO) {
         respond {
             searchService.search(
                 map = headers(),
                 query = query,
                 resource = SearchService.GROUPS
             )
-        }.also { execute(it) { groupRespondent() } }
+        }.let { execute(it) { groupRespondent() } }
     }
 
-    private suspend fun searchLoans(query: String) {
+    private suspend fun searchLoans(query: String) = withContext(IO) {
         respond {
             searchService.search(
                 map = headers(),
                 query = query,
                 resource = SearchService.LOANS
             )
-        }.also { execute(it) { loanRespondent() } }
+        }.let { execute(it) { loanRespondent() } }
     }
 
-    private suspend fun Search.clientRespondent() {
+    private suspend fun Search.clientRespondent() = withContext(IO) {
         respond {
             clientsService.client(headers(), entityId)
-        }.also { result ->
+        }.let { result ->
             if (result is Success) {
                 result.data?.let {
                     clientsList += it
@@ -88,10 +91,10 @@ class SearchRepo @Inject constructor(
         }
     }
 
-    private suspend fun Search.groupRespondent() {
+    private suspend fun Search.groupRespondent() = withContext(IO) {
         respond {
             groupsService.group(headers(), entityId)
-        }.also { result ->
+        }.let { result ->
             if (result is Success) {
                 result.data?.let {
                     groupsList += it
@@ -101,17 +104,13 @@ class SearchRepo @Inject constructor(
         }
     }
 
-    private suspend fun Search.loanRespondent() {
-        respond {
-            //clientsService.account(headers, entityId)
+    private suspend fun Search.loanRespondent() = withContext(IO) {
+        //clientsService.account(headers, entityId)
+        respondWithSuccess {
             loansService.loan(headers(), entityId)
-        }.also { result ->
-            if (result is Success) {
-                result.data?.let {
-                    loansList += it
-                    _loans.value = PagingData.from(loansList)
-                }
-            }
+        }?.let { result ->
+            loansList += result
+            _loans.value = PagingData.from(loansList)
         }
     }
 

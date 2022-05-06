@@ -7,13 +7,12 @@ import androidx.fragment.app.viewModels
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.databinding.FragmentSearchFragsBinding
 import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.MshirikaFragment
-import co.ke.mshirika.mshirika_app.ui_layer.ui.main.groups.GroupsAdapter
-import co.ke.mshirika.mshirika_app.ui_layer.ui.main.groups.OnGroupClickListener
+import co.ke.mshirika.mshirika_app.ui_layer.ui.core.groups.GroupsAdapter
+import co.ke.mshirika.mshirika_app.ui_layer.ui.core.groups.OnGroupClickListener
 import co.ke.mshirika.mshirika_app.ui_layer.ui.search.OnSearchListener
 import co.ke.mshirika.mshirika_app.ui_layer.ui.search.SearchFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.search.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class GroupsFragment : MshirikaFragment<FragmentSearchFragsBinding>(R.layout.fragment_search_frags),
@@ -26,10 +25,8 @@ class GroupsFragment : MshirikaFragment<FragmentSearchFragsBinding>(R.layout.fra
         super.onViewCreated(view, savedInstanceState)
         val adapter = GroupsAdapter(listener)
         binding.list.adapter = adapter
-        lifecycleScope.launchWhenCreated {
-            viewModel.groups.collectLatest {
-                adapter.submitData(lifecycle, it)
-            }
+        viewModel.groups.collectLatestLifecycle {
+            adapter.submitData(it)
         }
     }
 

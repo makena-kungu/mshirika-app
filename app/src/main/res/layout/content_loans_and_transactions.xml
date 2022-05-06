@@ -6,7 +6,7 @@
     <data>
         <variable
             name="fragment"
-            type="co.ke.mshirika.mshirika_app.ui_layer.ui.main.clients.ClientFragment" />
+            type="co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.ClientFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -82,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:gravity="center_vertical"
-            android:onClick="@{}"
+            android:onClick="@{() -> fragment.openTransactionHistoryFragment()}"
             android:text="@string/view_all"
             android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
             android:textSize="14sp"

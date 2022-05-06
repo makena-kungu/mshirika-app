@@ -1,6 +1,5 @@
 package co.ke.mshirika.mshirika_app.data_layer.pagingSource
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import co.ke.mshirika.mshirika_app.data_layer.pagingSource.Util.STARTING_PAGING_INDEX
@@ -29,17 +28,15 @@ class ClientsPagingSource
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Client> {
         val position = params.key ?: STARTING_PAGING_INDEX
+        return withContext(IO) {
+            val await = async { store.authKey }
+            val key = await.await().first()
 
-        val key = withContext(IO) {
-            val await = async {
-                store.authKey
-            }
-            await.await().first()
+            service.clients(
+                headers = headers(key!!),
+                page = position,
+                perPage = params.loadSize
+            ).loadResult(position, params.loadSize)
         }
-        return service.clients(
-            headers = headers(key!!),
-            page = position,
-            perPage = params.loadSize
-        ).loadResult(position)
     }
 }

@@ -13,9 +13,14 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
+            style="?toolbarStyle"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:navigationIconTint="?android:textColorPrimary"
             app:titleCentered="true"
+            app:subtitleCentered="true"
+            tools:navigationIcon="@drawable/ic_round_arrow_back_24"
+            tools:subtitle="Details"
             tools:title="Title" />
     </com.google.android.material.appbar.AppBarLayout>
 </layout>

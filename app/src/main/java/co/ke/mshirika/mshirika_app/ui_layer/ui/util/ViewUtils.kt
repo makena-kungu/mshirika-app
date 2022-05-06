@@ -8,11 +8,15 @@ import android.graphics.drawable.LayerDrawable
 import android.util.Size
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.getSystemService
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.*
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import java.math.BigDecimal
 import java.text.NumberFormat
 
@@ -64,7 +68,7 @@ object ViewUtils {
             )
         }
 
-    val Context.random get() = colors.random()
+    val Context.randomColors get() = colors.random()
 
     val View.hideKeyBoard: Unit
         get() {
@@ -90,6 +94,24 @@ object ViewUtils {
 
     fun Size.drawable(colorArray: IntArray, drawable: Drawable) =
         LayerDrawable(arrayOf(drawable(colorArray), drawable))
+
+    val SearchView.funga: Boolean
+        get() = if (!isIconified) {
+            setQuery("", false)
+            isIconified = true
+            true
+        } else false
+
+    context (Fragment)
+    fun MaterialAutoCompleteTextView.setAdapter(list: List<String>) {
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_dropdown_item_1line,
+            android.R.id.text1,
+            list
+        )
+        setAdapter(adapter)
+    }
 
     fun View.snackS(message: String) =
         make(this, message, LENGTH_SHORT)

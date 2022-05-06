@@ -9,7 +9,7 @@ sealed class Outcome<T> {
     data class Success<T>(val data: T?) : Outcome<T>()
 }
 
-fun <T> error(msg: String = "Unknown Error"): Outcome.Error<T> = Outcome.Error(msg)
+fun <T> error(msg: String = UNKNOWN_ERROR): Outcome.Error<T> = Outcome.Error(msg)
 fun <T> empty() = Outcome.Empty<T>()
 fun <T> loading() = Outcome.Loading<T>()
 

@@ -7,7 +7,9 @@ import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome.Empty
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome.Loading
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.UnpackResponse.respond
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -25,8 +27,10 @@ class AuthRepo @Inject constructor(
 
     suspend fun login(login: Login) {
         auth.value = Loading()
-        auth.value = respond {
-            service.login(login)
+        withContext(IO) {
+            auth.value = respond {
+                service.login(login)
+            }
         }
     }
 
@@ -35,10 +39,10 @@ class AuthRepo @Inject constructor(
     }
 
     suspend fun save(key: String) {
-        pref.saveAuthKey(key)
+        withContext(IO) { pref.saveAuthKey(key) }
     }
 
     suspend fun save(staff: Staff) {
-        pref.saveStaff(staff)
+        withContext(IO) { pref.saveStaff(staff) }
     }
 }

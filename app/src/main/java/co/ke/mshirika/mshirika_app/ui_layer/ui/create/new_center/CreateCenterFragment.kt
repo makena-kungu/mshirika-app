@@ -11,8 +11,10 @@ import co.ke.mshirika.mshirika_app.databinding.FragmentCreateNewCenterBinding
 import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.fromShortDate
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.mshirikaDate
+import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.shortDate
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.EditableUtils.attachNonVoidFields
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.EditableUtils.text
+import co.ke.mshirika.mshirika_app.ui_layer.ui.util.OperationalUtils.openDatePicker
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.UIText
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT
@@ -28,8 +30,18 @@ class CreateCenterFragment : MshirikaFragment<FragmentCreateNewCenterBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.appBar.toolbarLarge.setupToolbar(R.string.create_center, R.menu.creation)
-        binding.apply { submit.attachNonVoidFields(centerName, centerOffice) }
+        binding.appBar.toolbarLarge.setupToolbar(
+            titleId = R.string.create_center,
+            resId = R.menu.creation
+        )
+        binding.apply {
+            centerSubmittedOnLayout.setEndIconOnClickListener {
+                openDatePicker(R.string.submitted_on) {
+                    centerSubmittedOn.setText(it.shortDate)
+                }
+            }
+            submit.attachNonVoidFields(centerName, centerOffice)
+        }
         viewModel.offices.collectLatestLifecycle {
             val offices = it.map { office -> office.nameDecorated }
             val adapter = ArrayAdapter(

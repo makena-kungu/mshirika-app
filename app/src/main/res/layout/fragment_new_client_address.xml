@@ -1,57 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingHorizontal="20dp"
-    android:paddingVertical="16dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/address_lo"
-        style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="0dp"
-        app:layout_constraintWidth_percent=".485">
+    <data>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/address" />
-    </com.google.android.material.textfield.TextInputLayout>
+    </data>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/postal_code_lo"
-        style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="0dp"
-        app:layout_constraintWidth_percent=".485">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/postal_code"
-            android:layout_width="match_parent"
-            android:inputType="phone|number"
-            android:layout_height="wrap_content"
-            android:hint="@string/postal_code" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/county_lo"
-        style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-        android:layout_width="0dp"
-        app:layout_constraintWidth_percent="1">
-
-        <com.google.android.material.textfield.MaterialAutoCompleteTextView
-            android:id="@+id/county"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/county" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <androidx.constraintlayout.helper.widget.Flow
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="address_lo,postal_code_lo,county_lo"
-        app:flow_verticalGap="5dp"
-        app:flow_horizontalStyle="spread_inside"
-        app:flow_wrapMode="chain2"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="match_parent"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="16dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/address_lo"
+            style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent=".485">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/address"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/postal_code_lo"
+            style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent=".485">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/postal_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/postal_code"
+                android:inputType="phone|number"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/county_lo"
+            style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="1">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/county"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/county" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="address_lo,postal_code_lo,county_lo"
+            app:flow_horizontalStyle="spread_inside"
+            app:flow_verticalGap="5dp"
+            app:flow_wrapMode="chain2"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

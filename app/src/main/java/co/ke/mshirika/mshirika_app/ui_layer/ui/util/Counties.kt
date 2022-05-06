@@ -1,7 +1,9 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package co.ke.mshirika.mshirika_app.ui_layer.ui.util
 
 object Counties {
-    val COUNTIES = mutableMapOf(
+    private val COUNTIES = mutableMapOf(
         1 to "Mombasa",
         2 to "Kwale",
         3 to "Kilifi",

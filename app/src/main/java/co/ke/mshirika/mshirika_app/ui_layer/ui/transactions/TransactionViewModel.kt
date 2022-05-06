@@ -36,6 +36,5 @@ class TransactionViewModel @Inject constructor() : MshirikaViewModel() {
         this.transaction.value = transaction
     }
 
-    companion object {
-    }
+    companion object
 }

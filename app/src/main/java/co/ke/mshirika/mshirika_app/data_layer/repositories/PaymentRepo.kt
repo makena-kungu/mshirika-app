@@ -11,7 +11,7 @@ import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.UnpackResponse.respond
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.mshirikaDate
 import co.ke.mshirika.mshirika_app.utility.Util.headers
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
@@ -27,7 +27,7 @@ class PaymentRepo @Inject constructor(
         shares: Triple<SavingsAccount, Double, Double>?,
         loans: MutableMap<Loan, Pair<Double, Double>>,
         other: Other
-    ) {
+    ) = withContext(IO) {
         val headers = headers()
         shares?.apply {
             val savingsAccount = first
@@ -45,7 +45,7 @@ class PaymentRepo @Inject constructor(
                 service.deposit(
                     headers,
                     savingsAccount.id,
-                    deposit
+                    deposit = deposit
                 )
             }
         }
@@ -66,13 +66,13 @@ class PaymentRepo @Inject constructor(
     }
 
 
-    suspend fun queryTemplate(clientId: Int): Outcome<ClientPaymentTemplate> {
-        return respond {
+    suspend fun queryTemplate(clientId: Int): Outcome<ClientPaymentTemplate> = withContext(IO) {
+        respond {
             service.templateClientPayment(headers(), clientId)
         }
     }
 
-    suspend fun headers() = withContext(Dispatchers.IO) {
+    suspend fun headers() = withContext(IO) {
         val key = async {
             repo.authKey
         }

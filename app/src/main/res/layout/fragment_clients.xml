@@ -10,13 +10,13 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui_layer.ui.main.clients.ClientsFragment">
+        tools:context=".ui_layer.ui.core.clients.ClientsFragment">
 
         <include
             android:id="@+id/appBarLayout"
-            android:layout_height="wrap_content"
+            layout="@layout/layout_app_bar_large"
             android:layout_width="wrap_content"
-            layout="@layout/layout_app_bar_large" />
+            android:layout_height="wrap_content" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/clients"
@@ -29,16 +29,27 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            tools:itemCount="0"
             tools:listitem="@layout/item_client" />
+
+        <TextView
+            android:id="@+id/error_no_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/no_clients_found"
+            android:textAppearance="?textAppearanceHeadlineSmall"
+            android:visibility="invisible" />
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/clients_loading"
+            style="?linearProgressIndicatorStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="?linearProgressIndicatorStyle"
-            app:trackThickness="3dp"
             android:indeterminate="true"
             app:layout_anchor="@id/appBarLayout"
-            app:layout_anchorGravity="bottom" />
+            app:layout_anchorGravity="bottom"
+            app:trackThickness="3dp" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

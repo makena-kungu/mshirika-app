@@ -29,11 +29,4 @@ public class BindingUtils {
     public static String amount(BigDecimal amount) {
         return ViewUtils.INSTANCE.getAmt(amount);
     }
-
-/*
-    @BindingAdapter({"android:onclick"})
-    public static void setOnClick(@NonNull View view, View.OnClickListener listener) {
-        view.setOnClickListener(listener);
-    }
-*/
 }

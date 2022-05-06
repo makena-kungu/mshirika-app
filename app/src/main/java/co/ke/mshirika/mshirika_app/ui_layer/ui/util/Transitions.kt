@@ -18,7 +18,7 @@ import com.google.android.material.transition.MaterialElevationScale
 
 object Transitions {
     private val Fragment.mDuration
-        get() = resources.getInteger(R.integer.material_motion_duration_medium_2).toLong()
+        get() = resources.getInteger(R.integer.material_motion_duration_medium_1).toLong()
 
     fun Fragment.itemToDetailsTransitionId(
         dirs: NavDirections,
@@ -68,7 +68,7 @@ object Transitions {
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.nav_host_fragment_main
             duration = mDuration
-            scrimColor = Color.TRANSPARENT
+            // todo reactivate or not after testing scrimColor = Color.TRANSPARENT
             setAllContainerColors(requireContext().themeColor(R.attr.colorSurface))
         }
     }

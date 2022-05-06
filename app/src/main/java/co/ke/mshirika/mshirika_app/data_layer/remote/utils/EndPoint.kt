@@ -11,13 +11,16 @@ object EndPoint {
     const val AUTHENTICATION = "authentication"
     const val SAVINGS_ACCOUNTS = "savingsaccounts"
 
+    const val ACCOUNTS_TRANSFER = "accounttransfers"
+    const val ACCOUNTS_TRANSFER_TEMPLATE = "$ACCOUNTS_TRANSFER/template"
+
     const val CHARGES = "charges"
     const val CENTERS = "centers"
     const val CENTER = "$CENTERS/{$CENTER_ID}"
     const val CLIENTS = "clients"
     const val CLIENTS_TEMPLATE = "$CLIENTS/template"
-    const val CLIENT_PAYMENT= "clientpayment/{$CLIENT_ID}"
-    const val CLIENT_DEPOSIT= "${SAVINGS_ACCOUNTS}/${SAVINGS_ACCOUNT_ID}/transactions"
+    const val CLIENT_PAYMENT = "clientpayment/{$CLIENT_ID}"
+    const val CLIENT_DEPOSIT = "${SAVINGS_ACCOUNTS}/${SAVINGS_ACCOUNT_ID}/transactions"
     const val CLIENT = "$CLIENTS/{$CLIENT_ID}"
     const val CLIENT_ACCOUNTS = "$CLIENTS/{$CLIENT_ID}/accounts"
     const val COLLECTION_SHEET = "collectionsheet"
@@ -33,6 +36,7 @@ object EndPoint {
     const val GROUP = "${GROUPS}/$GROUP_ID"
     const val IDENTIFIERS = "identifiers"
     const val LOANS = "loans"
+    const val LOANS_TEMPLATE = "$LOANS/template"
     const val LOANS_PATH = "${LOANS}/{$LOAN_ID}"
     const val LOANS_TRANSACTIONS = "${LOANS}/{$LOAN_ID}/transactions"
 
@@ -44,6 +48,7 @@ object EndPoint {
     const val RECURRING_ACCOUNTS = "recurringdepositaccounts"
 
     const val SEARCH = "search"
+    const val SMS = "sms"
     const val STAFF = "staff"
     const val SURVEYS = "surveys"
 

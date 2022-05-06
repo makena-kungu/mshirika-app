@@ -11,13 +11,14 @@ import co.ke.mshirika.mshirika_app.data_layer.remote.response.OfficeResponse
 import co.ke.mshirika.mshirika_app.data_layer.remote.services.GroupsService
 import co.ke.mshirika.mshirika_app.data_layer.remote.services.SearchService
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome
-import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome.Success
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.UnpackResponse.respond
+import co.ke.mshirika.mshirika_app.data_layer.remote.utils.UnpackResponse.respondWithSuccess
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.empty
 import co.ke.mshirika.mshirika_app.utility.Util.headers
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class GroupsRepo @Inject constructor(
@@ -40,39 +41,34 @@ class GroupsRepo @Inject constructor(
         pagingSourceFactory = { pagingSource }
     ).flow
 
-    suspend fun search(headers: Map<String, String>, query: String) {
-        respond {
+    suspend fun search(headers: Map<String, String>, query: String) = withContext(IO) {
+        val list = mutableListOf<Group>()
+        respondWithSuccess {
             searchService.search(
                 map = headers,
                 query = query,
                 resource = arrayOf("groups")
             )
-        }.apply {
-            if (this !is Success) return
-            val list = mutableListOf<Group>()
-            data?.forEach { search ->
-                respond {
-                    service.group(
-                        headers = headers,
-                        accountID = search.entityId
-                    )
-                }.apply {
-                    if (this !is Success || data == null) return
-
-                    list += data
-                    _searched.tryEmit(PagingData.from(list))
-                }
+        }?.onEach {
+            respondWithSuccess {
+                service.group(
+                    headers = headers,
+                    accountID = it.entityId
+                )
+            }?.let {
+                list += it
+                _searched.tryEmit(PagingData.from(list))
             }
         }
     }
 
-    suspend fun offices() {
+    suspend fun offices() = withContext(IO) {
         respond {
             service.offices(headers())
         }.also { _offices.value = it }
     }
 
-    suspend fun create(group: CreateGroup) {
+    suspend fun create(group: CreateGroup) = withContext(IO) {
         respond {
             service.create(
                 headers(),
@@ -81,5 +77,5 @@ class GroupsRepo @Inject constructor(
         }.also { _groupCreated.value = it }
     }
 
-    private suspend fun headers() = pref.authKey().headers
+    private suspend fun headers() = withContext(IO) { pref.authKey().headers }
 }

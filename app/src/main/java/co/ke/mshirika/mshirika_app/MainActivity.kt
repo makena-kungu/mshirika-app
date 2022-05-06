@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity(),
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
-    private lateinit var toggle: ActionBarDrawerToggle;
+    private lateinit var toggle: ActionBarDrawerToggle
     private val count = AtomicInteger(0)
 
     @Inject
@@ -101,52 +101,50 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun TextView.internetStatus() {
-        lifecycleScope.launchWhenCreated {
-            viewModel.netState.collectLatestLifecycle {
-                when (this) {
-                    Online -> {
-                        if (!isInitial) {
-                            //decorate regardless of whether it's online or not
-                            decorate(
-                                R.string.online,
-                                R.color.green,
-                                R.color.colorInternetStatusTextOnline
-                            )
-                            binding.currentState()
-
-                            Duration
-                                .ofSeconds(2)
-                                .toMillis()
-                                .also { duration ->
-                                    postDelayed(duration) {
-                                        // hide the view after a short period of two seconds
-                                        // regardless of whether it was initially online or not.
-                                        // Therefore the hideNetStatus is only called when the user is back
-                                        // online.
-                                        binding.hideNetStatus()
-                                    }
-                                }
-                        }
-                    }
-                    Offline -> {
-                        if (isInitial) {
-                            decorate(
-                                R.string.offline,
-                                R.color.stop,
-                                R.color.colorInternetStatusTextOffline
-                            )
-                        } else {
-                            decorate(
-                                R.string.lost_connectivity,
-                                R.color.no_internet,
-                                R.color.white
-                            )
-                        }
-
+        viewModel.netState.collectLatestLifecycle {
+            when (this) {
+                Online -> {
+                    if (!isInitial) {
+                        //decorate regardless of whether it's online or not
+                        decorate(
+                            R.string.online,
+                            R.color.green,
+                            R.color.colorInternetStatusTextOnline
+                        )
                         binding.currentState()
+
+                        Duration
+                            .ofSeconds(2)
+                            .toMillis()
+                            .also { duration ->
+                                postDelayed(duration) {
+                                    // hide the view after a short period of two seconds
+                                    // regardless of whether it was initially online or not.
+                                    // Therefore the hideNetStatus is only called when the user is back
+                                    // online.
+                                    binding.hideNetStatus()
+                                }
+                            }
                     }
-                    else -> {}
                 }
+                Offline -> {
+                    if (isInitial) {
+                        decorate(
+                            R.string.offline,
+                            R.color.stop,
+                            R.color.colorInternetStatusTextOffline
+                        )
+                    } else {
+                        decorate(
+                            R.string.lost_connectivity,
+                            R.color.no_internet,
+                            R.color.white
+                        )
+                    }
+
+                    binding.currentState()
+                }
+                else -> {}
             }
         }
     }

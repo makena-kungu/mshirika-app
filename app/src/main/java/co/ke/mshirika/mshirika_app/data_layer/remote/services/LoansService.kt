@@ -1,9 +1,12 @@
 package co.ke.mshirika.mshirika_app.data_layer.remote.services
 
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.NewLoan
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.Repayment
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.LoanAccount
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.LoanRepaymentSchedule
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.RepaymentSuccessful
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.templates.NewLoanTemplate
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.templates.NewLoanTemplate2
 import co.ke.mshirika.mshirika_app.data_layer.remote.response.RepaymentResponse
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.EndPoint
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.EndPoint.Paths.LOAN_ID
@@ -28,6 +31,12 @@ interface LoansService {
         @Query("exclude") exclude: Array<String> = arrayOf("guarantors,futureSchedule")
     ): Response<LoanAccount>
 
+    @POST(EndPoint.LOANS)
+    suspend fun newLoan(
+        @HeaderMap headers: Map<String, String>,
+        newLoan: NewLoan
+    )
+
     @GET(EndPoint.PAYMENT_TYPES)
     suspend fun repaymentType(
         @HeaderMap headers: Map<String, String>,
@@ -47,4 +56,23 @@ interface LoansService {
         @Query("command") command: String = "repayment",
         repayment: Repayment
     ): Response<RepaymentSuccessful>
+
+    @GET(EndPoint.LOANS_TEMPLATE)
+    suspend fun template1(
+        @HeaderMap headers: Map<String, String>,
+        @Query("activeOnly") activeOnly: Boolean = true,
+        @Query("clientId") clientId: Int,
+        @Query("staffInSelectedOfficeOnly") staffInSelectedOfficeOnly: Boolean = true,
+        @Query("templateType") templateType: String = "individual",
+    ): Response<NewLoanTemplate>
+
+    @GET(EndPoint.LOANS_TEMPLATE)
+    suspend fun template2(
+        @HeaderMap headers: Map<String, String>,
+        @Query("activeOnly") activeOnly: Boolean = true,
+        @Query("clientId") clientId: Int,
+        @Query("staffInSelectedOfficeOnly") staffInSelectedOfficeOnly: Boolean = true,
+        @Query("templateType") templateType: String = "individual",
+        @Query("productId") productId: Int
+    ): Response<NewLoanTemplate2>
 }

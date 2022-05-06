@@ -7,13 +7,12 @@ import androidx.fragment.app.viewModels
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.databinding.FragmentSearchFragsBinding
 import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.MshirikaFragment
-import co.ke.mshirika.mshirika_app.ui_layer.ui.loans.LoansAdapter
-import co.ke.mshirika.mshirika_app.ui_layer.ui.loans.OnLoanClickListener
+import co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.LoansAdapter
+import co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.OnLoanClickListener
 import co.ke.mshirika.mshirika_app.ui_layer.ui.search.OnSearchListener
 import co.ke.mshirika.mshirika_app.ui_layer.ui.search.SearchFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.search.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class LoansFragment : MshirikaFragment<FragmentSearchFragsBinding>(R.layout.fragment_search_frags),
@@ -27,10 +26,8 @@ class LoansFragment : MshirikaFragment<FragmentSearchFragsBinding>(R.layout.frag
         val adapter = LoansAdapter(listener)
         binding.list.adapter = adapter
 
-        lifecycleScope.launchWhenCreated {
-            viewModel.loans.collectLatest {
-                adapter.submitData(lifecycle, it)
-            }
+        viewModel.loans.collectLatestLifecycle {
+            adapter.submitData(it)
         }
     }
 

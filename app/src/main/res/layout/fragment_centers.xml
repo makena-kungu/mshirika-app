@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui_layer.ui.main.centers.CentersFragment">
+    tools:context=".ui_layer.ui.core.centers.CentersFragment">
 
     <data>
 
@@ -17,7 +17,7 @@
             layout="@layout/layout_app_bar_large" />
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:id="@+id/clients_loading"
+            android:id="@+id/centers_loading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:indeterminate="true"
@@ -34,6 +34,16 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             tools:listitem="@layout/item_center2" />
+
+        <TextView
+            android:id="@+id/error_no_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/no_centers_found"
+            android:textAppearance="?textAppearanceHeadlineSmall"
+            android:visibility="invisible" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

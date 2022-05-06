@@ -10,6 +10,7 @@ import co.ke.mshirika.mshirika_app.data_layer.repositories.Keys.AUTH_KEY
 import co.ke.mshirika.mshirika_app.data_layer.repositories.Keys.STAFF_KEY
 import com.google.android.gms.common.util.Base64Utils
 import com.google.gson.Gson
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
 
@@ -28,7 +29,7 @@ class PreferencesStoreRepository(private val context: Context) {
             .map { preferences ->
                 val key = preferences.key()!!
                 key
-            }.last()
+            }.first()
     }
 
     suspend fun saveAuthKey(key: String): Boolean {

@@ -43,7 +43,6 @@ class HomeFragment : MshirikaFragment<FragmentHomeBinding>(R.layout.fragment_hom
             }
         }
         viewModel.status.collectLatestLifecycle {
-            Log.d(TAG, "onViewCreated: $it")
             when (it) {
                 Status.Showing -> binding.apply {
                     callback.isEnabled = true
@@ -55,6 +54,7 @@ class HomeFragment : MshirikaFragment<FragmentHomeBinding>(R.layout.fragment_hom
                         resources.getDimension(R.dimen.elevation_addition_card)
                     ) {
                         additionCard.isVisible = true
+                        addFab.isVisible = false
                     }
                 }
                 else -> binding.apply {
@@ -66,6 +66,7 @@ class HomeFragment : MshirikaFragment<FragmentHomeBinding>(R.layout.fragment_hom
                     ) {
                         additionCard.isVisible = false
                         scrim.isVisible = false
+                        addFab.isVisible = true
                     }
                 }
             }
@@ -90,6 +91,7 @@ class HomeFragment : MshirikaFragment<FragmentHomeBinding>(R.layout.fragment_hom
     }
 
     fun showAddCard() {
+        Log.d(TAG, "showAddCard: clicked")
         viewModel.update(Status.Showing)
     }
 

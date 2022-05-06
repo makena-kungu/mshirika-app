@@ -21,9 +21,9 @@ import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Group
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.LoanAccount
 import co.ke.mshirika.mshirika_app.databinding.FragmentSearchBinding
 import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.MshirikaFragment
-import co.ke.mshirika.mshirika_app.ui_layer.ui.loans.OnLoanClickListener
-import co.ke.mshirika.mshirika_app.ui_layer.ui.main.clients.OnClientItemClickListener
-import co.ke.mshirika.mshirika_app.ui_layer.ui.main.groups.OnGroupClickListener
+import co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.OnLoanClickListener
+import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.OnClientItemClickListener
+import co.ke.mshirika.mshirika_app.ui_layer.ui.core.groups.OnGroupClickListener
 import co.ke.mshirika.mshirika_app.ui_layer.ui.search.fragments.clients.ClientsFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.search.fragments.groups.GroupsFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.search.fragments.loans.LoansFragment
@@ -116,8 +116,8 @@ class SearchFragment : MshirikaFragment<FragmentSearchBinding>(R.layout.fragment
     override fun onClickClient(
         containerView: View,
         client: Client,
-        imageUrl: String,
-        colors: IntArray
+        imageUrl: String?,
+        colors: IntArray?
     ) {
         SearchFragmentDirections.actionGlobalClientFragment(
             client = client,
@@ -154,11 +154,6 @@ class SearchFragment : MshirikaFragment<FragmentSearchBinding>(R.layout.fragment
     fun hideSuggestions() {
         binding.suggestionScrim.isVisible = false
     }
-
-    override val toolbar: MaterialToolbar
-        get() = binding.toolbar
-    override val toolbarTitle: String
-        get() = getString(R.string.search)
 
     @ColorInt
     @SuppressLint("Recycle")

@@ -1,13 +1,11 @@
 package co.ke.mshirika.mshirika_app.data_layer.repositories
 
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingData
 import co.ke.mshirika.mshirika_app.data_layer.pagingSource.ClientsPagingSource
 import co.ke.mshirika.mshirika_app.data_layer.pagingSource.Util.pagingConfig
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.CreateClient
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Client
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.ClientTemplate
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.LoanAccount
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Search
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Search.Companion.ENTITY_CLIENT
@@ -23,9 +21,10 @@ import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome.Success
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.UnpackResponse.respond
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.UnpackResponse.respondWithCallback
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.empty
-import co.ke.mshirika.mshirika_app.utility.Util.headers
+import co.ke.mshirika.mshirika_app.data_layer.repositories.Util.headers
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
 import retrofit2.Call
 import javax.inject.Inject
@@ -37,7 +36,7 @@ class ClientsRepo @Inject constructor(
     private val loansService: LoansService,
     private val searchService: SearchService,
     private val pagingSource: ClientsPagingSource,
-    private val prefRepo: PreferencesStoreRepository
+    private val store: PreferencesStoreRepository
 ) {
     private val searchedClientList = mutableListOf<Client>()
     private val loanAccounts = mutableListOf<LoanAccount>()
@@ -48,7 +47,6 @@ class ClientsRepo @Inject constructor(
     private val _loans = MutableStateFlow<List<LoanAccount>>(emptyList())
     private val _searchedClients = MutableStateFlow<Outcome<PagingData<Client>>>(empty())
     private val _transactions = MutableStateFlow<Outcome<TransactionResponse>>(empty())
-    private val _template = MutableStateFlow<Outcome<ClientTemplate>>(empty())
 
     val accounts
         get() = _accounts
@@ -60,49 +58,25 @@ class ClientsRepo @Inject constructor(
         get() = _searchedClients.asStateFlow()
     val transactions
         get() = _transactions.asStateFlow()
-    val template
-        get() = _template.asStateFlow()
-
-    val template1 = flow {
-        withContext(IO) {
-            respond { service.template(headers()) }.also { emit(it) }
-        }
-    }
-
-    /*val clients: Flow<PagingData<Client>>
-        get() = flow {
-            val key = prefRepo.authKey()
-            Log.d(TAG, "auth key: $key")
-            Pager(
-                config = pagingConfig(),
-                pagingSourceFactory = {
-                    ClientsPagingSource(
-                        authKey = key,
-                        service = service
-                    )
-                }
-            ).flow
-        }*/
-
     val clients
         get() = Pager(
-            config = pagingConfig(),
+            config = pagingConfig(enablePlaceholders = false),
             pagingSourceFactory = { pagingSource }
         ).flow
 
-    suspend fun accounts(clientId: Int) {
+    suspend fun accounts(clientId: Int) = withContext(IO) {
         _accounts.value = Loading()
         respond {
-            service.accounts(headers(), clientId)
+            service.accounts(store.headers(), clientId)
         }.also {
             _accounts.value = it
         }
     }
 
-    suspend fun loans(loanId: Int) {
+    suspend fun loans(loanId: Int) = withContext(IO) {
         respond {
             loansService.loan(
-                headers(),
+                store.headers(),
                 loanId
             )
         }.apply {
@@ -111,10 +85,19 @@ class ClientsRepo @Inject constructor(
         }
     }
 
-    suspend fun search(query: String) {
+    suspend fun search(query: String) = withContext(IO) {
         _searchedClients.value = Loading()
-        val headers = headers()
+        val headers = store.headers()
         respond {
+            searchService.searchClient(
+                headers = headers,
+                sqlSearch = SearchService.clients(query)
+            )
+        }.let {
+            if(it !is Success) return@let null
+            it.data
+        }
+        /*respond {
             searchService.search(
                 headers,
                 false,
@@ -130,17 +113,18 @@ class ClientsRepo @Inject constructor(
                 }
                 else -> {}
             }
-        }
+        }*/
     }
 
     private suspend fun Search.handleSearch(headers: Map<String, String>) {
         when (entityType) {
-            ENTITY_CLIENT ->
+            ENTITY_CLIENT -> withContext(IO) {
                 respond {
                     service.client(headers, entityId)
                 }.apply {
                     clientOutcome()
                 }
+            }
             else -> {}
         }
     }
@@ -158,9 +142,9 @@ class ClientsRepo @Inject constructor(
         }
     }
 
-    suspend fun createClient(client: CreateClient) {
+    suspend fun createClient(client: CreateClient) = withContext(IO) {
         _created.value = respondWithCallback {
-            service.createWithCall(headers(), client).also { call = it }
+            service.createWithCall(store.headers(), client).also { call = it }
         }
     }
 
@@ -168,10 +152,10 @@ class ClientsRepo @Inject constructor(
         call?.cancel()
     }
 
-    suspend fun transactions(accountId: Int) {
+    suspend fun transactions(accountId: Int) = withContext(IO) {
         respond {
             service.transactions(
-                headers(),
+                store.headers(),
                 accountId
             )
         }.also {
@@ -179,12 +163,9 @@ class ClientsRepo @Inject constructor(
         }
     }
 
-    suspend fun template() =
+    suspend fun template() = withContext(IO) {
         respond {
-            service.template(headers())
-        }.let {
-            _template.value = it
+            service.template(store.headers())
         }
-
-    private suspend fun headers() = prefRepo.authKey().headers
+    }
 }

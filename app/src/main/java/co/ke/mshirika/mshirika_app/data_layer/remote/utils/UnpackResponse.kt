@@ -1,5 +1,6 @@
 package co.ke.mshirika.mshirika_app.data_layer.remote.utils
 
+import android.util.Log
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.DeveloperMessages.LOGIN
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome.Success
 import okhttp3.ResponseBody
@@ -9,8 +10,10 @@ import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
+import java.net.SocketTimeoutException
 
 object UnpackResponse {
+
     inline fun <T : Respondent> respond(request: () -> Response<T>): Outcome<T> {
         var outcome: Outcome<T>? = null
         try {
@@ -21,10 +24,21 @@ object UnpackResponse {
         } catch (e: HttpException) {
             e.printStackTrace()
         } catch (e: Exception) {
-            //Any other error
+            e.printStackTrace()
+        } catch (e: SocketTimeoutException) {
             e.printStackTrace()
         }
         return outcome ?: error()
+    }
+
+    inline fun <T : Respondent> respondWithSuccess(request: () -> Response<T>): T? {
+        val response = respond(request)
+        val tag = "UnpackResponse"
+        Log.d(tag, "respondWithSuccess: $response")
+        if (response !is Success) {
+            return null
+        }
+        return response.data
     }
 
     inline fun <T : Respondent> respondWithCallback(

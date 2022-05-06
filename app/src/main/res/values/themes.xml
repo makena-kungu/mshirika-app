@@ -42,19 +42,30 @@
             @style/Widget.Mshirika.TextInputLayout.OutlinedBox.Dense
         </item>
         <item name="textInputOutlinedExposedDropdownMenuStyle">
-            @style/Widget.Mshirika.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu
+            @style/Widget.Mshirika.TextInputLayout.OutlinedBox.ExposedDropdownMenu
         </item>
-        <item name="textInputOutlinedStyle">@style/Widget.Mshirika.TextInputLayout.OutlinedBox</item>
+        <item name="textInputOutlinedStyle">@style/Widget.Mshirika.TextInputLayout.OutlinedBox
+        </item>
 
         <!-- belongs to Mshirika -->
         <item name="backgroundCardView">@style/Widget.Mshirika.Transition.CardView</item>
         <item name="clientOutlinedButton">@style/Widget.Mshirika.Client.OutlinedButton</item>
+
         <item name="roundImage">@style/Widget.Mshirika.ImageView.Round</item>
         <item name="roundedImage">@style/Widget.Mshirika.ImageView.Rounded</item>
+
+        <item name="searchViewStyle">@style/Widget.Mshirika.SearchView</item>
+        <item name="singleLineInputField">@style/Widget.Mshirika.TextInputEditText.SingleLine</item>
+
         <item name="textInputEditText">@style/Widget.Mshirika.TextInputEditText</item>
         <item name="textInputEditTextDate">@style/Widget.Mshirika.TextInputEditText.Date</item>
         <item name="textInputOutlinedDateStyle">@style/Widget.Mshirika.TextInputLayout.Date</item>
-        <item name="textInputOutlinedDenseDateStyle">@style/Widget.Mshirika.TextInputLayout.Dense.Date</item>
+        <item name="textInputOutlinedExposedDenseDropdownMenuStyle">
+            @style/Widget.Mshirika.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu
+        </item>
+        <item name="textInputOutlinedDenseDateStyle">
+            @style/Widget.Mshirika.TextInputLayout.Dense.Date
+        </item>
         <item name="transactionCardView">@style/Widget.Mshirika.Transaction.CardView</item>
         <item name="transactionTextView">@style/Widget.Mshirika.TextView.Style</item>
     </style>

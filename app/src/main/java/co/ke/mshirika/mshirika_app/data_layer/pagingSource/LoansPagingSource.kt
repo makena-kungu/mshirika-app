@@ -28,17 +28,15 @@ class LoansPagingSource
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LoanAccount> {
         val position = params.key ?: STARTING_PAGING_INDEX
 
-        val key = withContext(Dispatchers.IO) {
-            val await = async {
-                store.authKey
-            }
-            await.await().first()
+        return withContext(Dispatchers.IO) {
+            val await = async { store.authKey }
+            val key = await.await().first()
+            loans(
+                headers = key!!.headers,
+                page = position,
+                pageSize = params.loadSize
+            )
         }
-        return loans(
-            headers = headers(key!!),
-            page = position,
-            pageSize = params.loadSize
-        )
     }
 
 
@@ -50,5 +48,5 @@ class LoansPagingSource
         headers = headers,
         page = page,
         perPage = pageSize
-    ).loadResult(page)
+    ).loadResult(page, pageSize)
 }

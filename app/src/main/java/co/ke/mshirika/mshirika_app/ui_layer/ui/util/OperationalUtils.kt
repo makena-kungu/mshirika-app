@@ -5,15 +5,18 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.datepicker.MaterialDatePicker.Builder.datePicker
+import java.util.*
 
 object OperationalUtils {
+    private const val TAG = "OperationalUtils"
     fun Fragment.openDatePicker(@StringRes idRes: Int, action: (Long) -> Unit) =
         openDatePicker(getString(idRes), action)
 
     fun Fragment.openDatePicker(title: String, action: (Long) -> Unit) {
         val constraints = CalendarConstraints.Builder()
-            .setEnd(System.currentTimeMillis())
+            .setEnd(Calendar.getInstance().timeInMillis)
             .build()
+
 
         val datePicker = datePicker().run {
             setInputMode(MaterialDatePicker.INPUT_MODE_CALENDAR)

@@ -1,49 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui_layer.ui.create.new_loan.NewLoanFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <data>
+
+        <variable
+            name="fragment"
+            type="co.ke.mshirika.mshirika_app.ui_layer.ui.create.new_loan.NewLoanFragment" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.MaterialToolbar
+        <include
+            android:id="@+id/app_bar"
+            layout="@layout/layout_app_bar" />
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="New Loan Account"
-            app:titleCentered="true"
-            app:titleTextAppearance="@style/TextAppearance.Toolbar.Title" />
-    </com.google.android.material.appbar.AppBarLayout>
+            android:layout_height="match_parent"
+            app:layout_anchor="@id/bottom_view"
+            app:layout_anchorGravity="top"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bottom_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:background="?colorSurface">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/new_loan_account_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/new_loan_account_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toTopOf="@id/navigating_pages_flow"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="16dp" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/go_to_next"
+                    style="@style/Widget.Material3.Button.TextButton.Icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:contentDescription="@string/go_to_next_page"
+                    android:onClick="@{() -> fragment.navigateToNext()}"
+                    android:text="@string/next"
+                    app:icon="@drawable/ic_round_navigate_next_24"
+                    app:iconGravity="end" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/previous"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|start"
-        android:layout_margin="10dp"
-        android:contentDescription="@string/previous_page"
-        android:src="@drawable/ic_round_arrow_back_24" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/go_to_previous"
+                    style="@style/Widget.Material3.Button.TextButton.Icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|bottom"
+                    android:layout_margin="16dp"
+                    android:contentDescription="@string/go_to_previous_page"
+                    android:enabled="false"
+                    android:onClick="@{() -> fragment.navigateToPrev()}"
+                    android:text="@string/prev"
+                    app:elevation="6dp"
+                    app:icon="@drawable/ic_round_navigate_before_24"
+                    app:iconGravity="start" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/next_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="10dp"
-        android:contentDescription="@string/next_page"
-        android:src="@drawable/ic_round_arrow_forward_24" />
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/indicators"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxHeight="60dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="4"
+                    tools:listitem="@layout/item_page_indicator" />
+
+                <androidx.constraintlayout.helper.widget.Flow
+                    android:id="@+id/navigating_pages_flow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="go_to_previous,indicators,go_to_next"
+                    app:flow_horizontalGap="10dp"
+                    app:flow_horizontalStyle="spread_inside"
+                    app:flow_wrapMode="chain2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

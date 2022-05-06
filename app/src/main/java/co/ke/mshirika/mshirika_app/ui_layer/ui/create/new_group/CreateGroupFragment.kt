@@ -31,7 +31,7 @@ class CreateGroupFragment :
         binding.apply {
             submit.attachNonVoidFields(groupName, groupOffice)
             groupSubmittedOnLayout.setEndIconOnClickListener {
-                openDatePicker("Submitted on") {
+                openDatePicker(R.string.submitted_on) {
                     groupSubmittedOn.setText(it.shortDate)
                 }
             }
@@ -92,9 +92,4 @@ class CreateGroupFragment :
             )
         }
     }
-
-    override val toolbar: MaterialToolbar
-        get() = binding.appBar.toolbarLarge
-    override val toolbarTitle: String
-        get() = getString(R.string.create_center)
 }

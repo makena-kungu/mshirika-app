@@ -1,11 +1,14 @@
 package co.ke.mshirika.mshirika_app.ui_layer.ui.create
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import co.ke.mshirika.mshirika_app.databinding.ItemPageIndicatorBinding
 import co.ke.mshirika.mshirika_app.ui_layer.ui.create.PageIndicatorAdapter.PageIndicatorViewHolder
+
+private const val TAG = "PageIndicatorAdapter"
 
 class PageIndicatorAdapter : ListAdapter<PageIndicator, PageIndicatorViewHolder>(PageIndicator) {
 
@@ -27,7 +30,11 @@ class PageIndicatorAdapter : ListAdapter<PageIndicator, PageIndicatorViewHolder>
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(indicator: PageIndicator) {
-            itemView.isSelected = indicator.isSelected
+            val isselected = indicator.isSelected
+            val position = absoluteAdapterPosition
+
+            Log.d(TAG, "bind: ($position, $isselected)")
+            itemView.isSelected = isselected
         }
     }
 }

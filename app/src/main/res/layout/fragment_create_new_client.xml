@@ -21,20 +21,42 @@
             tools:ignore="Deprecated">
 
             <include
-                android:id="@+id/app_bar_large"
-                layout="@layout/layout_app_bar_large" />
+                android:id="@+id/app_bar"
+                layout="@layout/layout_app_bar" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/view_pager"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    app:layout_constraintBottom_toTopOf="@id/navigating_pages_flow"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="6dp"
+                        android:textAppearance="?textAppearanceBodyLarge"
+                        tools:text="General Data" />
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/view_pager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bottom_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="?colorSurface">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/go_to_next"
@@ -70,7 +92,6 @@
                     android:maxHeight="60dp"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:stackFromEnd="true"
                     tools:itemCount="4"
                     tools:listitem="@layout/item_page_indicator" />
 

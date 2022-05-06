@@ -10,7 +10,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui_layer.ui.main.groups.GroupsFragment">
+        tools:context=".ui_layer.ui.core.groups.GroupsFragment">
 
         <include
             android:id="@+id/app_bar"
@@ -25,11 +25,22 @@
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             tools:listitem="@layout/item_group" />
 
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/clients_loading"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/error_no_data"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/no_groups_found"
+            android:textAppearance="?textAppearanceHeadlineSmall"
+            android:visibility="invisible" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/groups_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_anchor="@id/app_bar"
+            app:layout_anchorGravity="bottom"
             android:indeterminate="true" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
