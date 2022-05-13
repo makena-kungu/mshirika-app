@@ -4,39 +4,43 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH
-import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
-import androidx.core.content.getSystemService
 import androidx.core.content.res.use
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager2.widget.ViewPager2
 import co.ke.mshirika.mshirika_app.R
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Client
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.Client
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Group
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.LoanAccount
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.ConservativeLoanAccount
 import co.ke.mshirika.mshirika_app.databinding.FragmentSearchBinding
 import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.MshirikaFragment
-import co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.OnLoanClickListener
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.OnClientItemClickListener
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.groups.OnGroupClickListener
+import co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.LoansFragmentDirections
+import co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.OnLoanClickListener
 import co.ke.mshirika.mshirika_app.ui_layer.ui.search.fragments.clients.ClientsFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.search.fragments.groups.GroupsFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.search.fragments.loans.LoansFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.Transitions.itemToDetailsTransition
-import com.google.android.material.appbar.MaterialToolbar
+import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.hideKeyBoard
+import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.showKeyBoard
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchFragment : MshirikaFragment<FragmentSearchBinding>(R.layout.fragment_search), OnClientItemClickListener,
-    OnGroupClickListener, OnLoanClickListener {
-    val viewModel by viewModels<SearchViewModel>()
+class SearchFragment : MshirikaFragment<FragmentSearchBinding>(
+    R.layout.fragment_search
+), OnClientItemClickListener, OnGroupClickListener, OnLoanClickListener {
+    private val viewModel by viewModels<SearchViewModel>()
+
     private val clientsFragment by lazy {
         ClientsFragment.getInstance(this)
     }
@@ -62,10 +66,21 @@ class SearchFragment : MshirikaFragment<FragmentSearchBinding>(R.layout.fragment
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
+            root.showKeyBoard()
             setupSearchView()
             setupViewPager()
         }
 
+        viewModel.loadingState.collectLatestLifecycle {
+            binding.searchLoading.isVisible = it
+        }
+        binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                val query: String = _query ?: return
+                search(position, query)
+            }
+        })
     }
 
     private fun FragmentSearchBinding.setupSearchView() {
@@ -76,7 +91,9 @@ class SearchFragment : MshirikaFragment<FragmentSearchBinding>(R.layout.fragment
             }
             setOnEditorActionListener { v, actionId, _ ->
                 when (actionId) {
-                    IME_ACTION_SEARCH -> v?.search() ?: false
+                    IME_ACTION_SEARCH -> {
+                        v?.search() ?: false
+                    }
                     else -> false
                 }
             }
@@ -84,17 +101,32 @@ class SearchFragment : MshirikaFragment<FragmentSearchBinding>(R.layout.fragment
     }
 
     private fun TextView.search(): Boolean {
-        viewModel.setQuery(text.toString())
+        val query = text.toString()
+
+        if (query.isEmpty()) return false
+
+        //viewModel.setQuery(query)
         //hide the keypad
+
+        val currentItem = binding.viewPager.currentItem
+        _query = query
+        search(currentItem, query)
         clearFocus()
-        requireContext().getSystemService<InputMethodManager>()?.run {
-            hideSoftInputFromWindow(windowToken, 0)
-        }
+        hideKeyBoard()
         return true
     }
 
+    private fun search(position: Int, query: String) {
+        val found = childFragmentManager.findFragmentByTag("f$position") ?: return
+        val fragment = found as OnSearchListener
+        Log.d(TAG, "search: position = $position")
+        fragment.search(query)
+    }
+
+    private var _query: String? = null
+
     private fun FragmentSearchBinding.setupViewPager() {
-        val adapter = ViewPagerAdapter(parentFragmentManager, lifecycle)
+        val adapter = SearchingPagerAdapter(childFragmentManager, fragmentLifecycle)
         viewPager.adapter = adapter
         adapter.addFragment(
             clientsFragment,
@@ -124,9 +156,7 @@ class SearchFragment : MshirikaFragment<FragmentSearchBinding>(R.layout.fragment
             clientImageUri = imageUrl,
             colors = colors
         ).also {
-            itemToDetailsTransition(
-                it
-            )
+            itemToDetailsTransition(it)
         }
     }
 
@@ -136,19 +166,26 @@ class SearchFragment : MshirikaFragment<FragmentSearchBinding>(R.layout.fragment
         TODO("Not yet implemented")
     }
 
-    override fun onLoanClicked(loanAccount:LoanAccount) {
-        SearchFragmentDirections.actionGlobalLoanRepaymentFragment().also {
-            itemToDetailsTransition(it)
-        }
+    override fun onLoanClicked(
+        loanAccount: ConservativeLoanAccount,
+        position: Int,
+        container: View
+    ) {
         TODO("Not yet implemented")
     }
 
     override fun onLoanRepayClicked(
-        loanAccount: LoanAccount,
+        loanAccount: ConservativeLoanAccount,
         position: Int,
         container: View
     ): Boolean {
-        TODO("Not yet implemented")
+        val dirs = LoansFragmentDirections.actionGlobalLoanRepaymentFragment(
+            clientName = loanAccount.clientName,
+            clientId = loanAccount.clientId,
+            loanId = loanAccount.id
+        )
+            findNavController().navigate(dirs)
+        return true
     }
 
     fun hideSuggestions() {
@@ -165,5 +202,9 @@ class SearchFragment : MshirikaFragment<FragmentSearchBinding>(R.layout.fragment
         ).use {
             it.getColor(0, Color.MAGENTA)
         }
+    }
+
+    companion object {
+        private const val TAG = "SearchFragment"
     }
 }

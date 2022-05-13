@@ -24,6 +24,7 @@
         android:id="@+id/group3"
         android:checkableBehavior="none">
         <item
+            android:icon="@drawable/ic_round_account_balance_24"
             android:id="@+id/fragmentLoans"
             android:title="@string/loans" />
 

@@ -8,14 +8,14 @@ import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Group
 import co.ke.mshirika.mshirika_app.databinding.ItemGroupBinding
-import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.MyPagingDataAdapter
+import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.MshirikaPagingDataAdapter
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.drawable
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.randomColors
 
 class GroupsAdapter(
     private val listener: OnGroupClickListener
 ) :
-    MyPagingDataAdapter<Group, GroupsAdapter.GroupViewHolder>(Group) {
+    MshirikaPagingDataAdapter<Group, GroupsAdapter.GroupViewHolder>(Group) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder =
         LayoutInflater.from(parent.context)

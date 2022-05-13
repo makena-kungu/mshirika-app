@@ -3,7 +3,7 @@ package co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.transfer_savings_or_s
 import androidx.lifecycle.viewModelScope
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.TransferFunds
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Client
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.Client
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.UNKNOWN_ERROR
 import co.ke.mshirika.mshirika_app.data_layer.repositories.TransferFundsRepo
@@ -18,13 +18,13 @@ class TransferFundsViewModel @Inject constructor(
     private val repo: TransferFundsRepo
 ) : MshirikaViewModel() {
 
-    suspend fun getTemplate(client: Client) = repo.getTemplate(client.savingsAccountId)
+    suspend fun getTemplate(savingsAccountId: Int) = repo.getTemplate(savingsAccountId)
 
-    suspend fun getTemplate(client: Client, toOffice: Int) =
-        repo.getTemplate(client.savingsAccountId, toOffice)
+    suspend fun getTemplate(savingsAccountId: Int, toOffice: Int) =
+        repo.getTemplate(savingsAccountId, toOffice)
 
-    suspend fun getTemplate(client: Client, toOffice: Int, accountType: Int) =
-        repo.getTemplate(client.id, toOffice, accountType)
+    suspend fun getTemplate(client: Int, toOffice: Int, accountType: Int) =
+        repo.getTemplate(client, toOffice, accountType)
 
     fun transfer(client: Client, tr: TransferSavingsOrShares) {
         val transfer = TransferFunds(

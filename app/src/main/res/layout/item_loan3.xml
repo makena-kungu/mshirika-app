@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="co.ke.mshirika.mshirika_app.utility.BindingUtils" />
+        <import type="co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils" />
 
         <variable
             name="dueDate"
@@ -17,7 +17,7 @@
 
         <variable
             name="loan"
-            type="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.LoanAccount" />
+            type="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.ConservativeLoanAccount" />
 
         <variable
             name="position"
@@ -85,12 +85,12 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:text="@string/due"
                 android:textAppearance="?textAppearanceHeadline6"
                 app:layout_constraintBottom_toTopOf="@id/loan_due_date"
                 app:layout_constraintEnd_toStartOf="@id/loan_client_image"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/loan_client_name"
-                tools:text="Due" />
+                app:layout_constraintTop_toBottomOf="@id/loan_client_name" />
 
             <TextView
                 android:id="@+id/loan_due_date"
@@ -125,11 +125,11 @@
                 android:layout_marginTop="5dp"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:text="@string/principal"
                 android:textAppearance="?textAppearanceLabelLarge"
                 app:layout_constraintEnd_toStartOf="@id/loan_interest"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/loan_due_date"
-                tools:text="@string/principal" />
+                app:layout_constraintTop_toBottomOf="@id/loan_due_date" />
 
             <TextView
                 android:id="@+id/loan_interest"
@@ -138,11 +138,11 @@
                 android:layout_marginTop="5dp"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:text="@string/interest"
                 android:textAppearance="?textAppearanceLabelLarge"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/loan_principal"
-                app:layout_constraintTop_toBottomOf="@id/loan_due_date"
-                tools:text="Interest" />
+                app:layout_constraintTop_toBottomOf="@id/loan_due_date" />
 
             <TextView
                 android:id="@+id/loan_principal_amount"
@@ -150,7 +150,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{BindingUtils.amount(loan.principal)}"
+                android:text="@{ViewUtils.getAmt(loan.principal)}"
                 android:textAppearance="?textAppearanceBodyLarge"
                 app:layout_constraintEnd_toStartOf="@id/loan_interest_amount"
                 app:layout_constraintStart_toStartOf="parent"
@@ -164,7 +164,7 @@
                 android:ellipsize="end"
                 android:gravity="center_vertical|start"
                 android:maxLines="1"
-                android:text="@{BindingUtils.amount(loan.originalSchedule.totalInterestCharged)}"
+                android:text="@{ViewUtils.getAmt(loan.summary.interestCharged)}"
                 android:textAppearance="?textAppearanceBodyLarge"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/loan_principal_amount"

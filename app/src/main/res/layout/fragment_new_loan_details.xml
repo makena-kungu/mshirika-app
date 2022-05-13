@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui_layer.ui.create.new_loan.content.NewLoanDetailsFragment">
+    tools:context=".ui_layer.ui.core.loans.new_loan.content.NewLoanDetailsFragment">
 
     <data>
 
         <variable
             name="fragment"
-            type="co.ke.mshirika.mshirika_app.ui_layer.ui.create.new_loan.content.NewLoanDetailsFragment" />
+            type="co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.new_loan.content.NewLoanDetailsFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,8 +24,21 @@
                 android:id="@+id/product"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:afterTextChanged="@{(product) -> fragment.product(product)}"
+                android:afterTextChanged="@{(text) -> fragment.product(text)}"
                 android:hint="@string/loan_product"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/officer_lo"
+            style="?textInputOutlinedExposedDropdownMenuStyle">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/officer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:afterTextChanged="@{(text) -> fragment.officer(text)}"
+                android:hint="@string/loan_officer"
                 tools:ignore="SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -37,7 +50,7 @@
                 android:id="@+id/purpose"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:afterTextChanged="@{(purpose) -> fragment.purpose(purpose)}"
+                android:afterTextChanged="@{(text) -> fragment.purpose(text)}"
                 android:hint="@string/loan_purpose"
                 tools:ignore="SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -51,7 +64,7 @@
                 android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:afterTextChanged="@{(date) -> fragment.date(date)}"
+                android:afterTextChanged="@{(text) -> fragment.date(text)}"
                 android:hint="@string/date_"
                 android:inputType="date|phone" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -64,8 +77,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/disbursement_date"
                 android:layout_width="match_parent"
-                android:afterTextChanged="@{(dis_date) -> fragment.disDate(dis_date)}"
                 android:layout_height="wrap_content"
+                android:afterTextChanged="@{(text) -> fragment.disbursementDate(text)}"
                 android:hint="@string/disbursement_date"
                 android:inputType="date|phone" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -89,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="20dp"
-            app:constraint_referenced_ids="product_lo,purpose_lo,date_lo,disbursement_date_lo,loan_form_no_lo"
+            app:constraint_referenced_ids="product_lo,officer_lo,purpose_lo,date_lo,disbursement_date_lo,loan_form_no_lo"
             app:flow_verticalGap="12dp"
             app:flow_wrapMode="aligned"
             app:layout_constraintStart_toStartOf="parent"

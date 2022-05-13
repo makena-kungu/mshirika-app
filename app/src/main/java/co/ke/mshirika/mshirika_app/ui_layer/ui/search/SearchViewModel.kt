@@ -1,18 +1,16 @@
 package co.ke.mshirika.mshirika_app.ui_layer.ui.search
 
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.switchMap
+import android.util.Log
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import co.ke.mshirika.mshirika_app.data_layer.repositories.SearchRepo
-import co.ke.mshirika.mshirika_app.ui_layer.ui.util.FlowUtils.collectLatestNonNull
+import androidx.paging.cachedIn
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.LoanRepaymentSchedule
+import co.ke.mshirika.mshirika_app.data_layer.remote.utils.GetsRepaymentSchedule
 import co.ke.mshirika.mshirika_app.data_layer.repositories.PreferencesStoreRepository
-import co.ke.mshirika.mshirika_app.utility.mld
+import co.ke.mshirika.mshirika_app.data_layer.repositories.SearchRepo
+import co.ke.mshirika.mshirika_app.ui_layer.MshirikaViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -20,52 +18,43 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val repo: SearchRepo,
-    private val prefRepo: PreferencesStoreRepository,
-    stateHandle: SavedStateHandle
-) : ViewModel() {
+    private val store: PreferencesStoreRepository
+) : MshirikaViewModel(),GetsRepaymentSchedule {
 
-    val centers
-        get() = repo.centers
-    val clients
-        get() = repo.clients
-    val groups
-        get() = repo.groups
-    val loans
-        get() = repo.loans
-
-    private val _query = stateHandle.getLiveData<String>(KEY_QUERY)
-    private val _modifiedQuery = MutableStateFlow(stateHandle.getLiveData<String>(KEY_QUERY).value)
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val query = channelFlow<Unit> {
-        withContext(Dispatchers.IO) {
-            _modifiedQuery.collectLatestNonNull {
-                repo.search(it)
-            }
-        }
-    }
-
-    fun setQuery(query: String) {
-        //_query.value = query
-        _modifiedQuery.value = query
-    }
+    val authKey = store.authKey
 
     suspend fun authKey(): String {
-        return prefRepo.authKey()
+        return store.authKey()
     }
 
-    val authKey = prefRepo.authKey
+    fun clientes(query: String) = repo.clientes(query)
+        .cachedIn(this)
 
-    init {
-        _query.switchMap { query ->
-            viewModelScope.launch(Dispatchers.IO) {
-                repo.search(query)
-            }
-            mld<Nothing>()
+    fun grupos(query: String) = repo.grupos(query)
+        .asLiveData()
+        .cachedIn(this)
+
+    fun prestamos(query: String) = repo.prestamos(query)
+        .asLiveData()
+        .cachedIn(this)
+    
+    @JvmOverloads
+    fun load(isLoading:Boolean = true) {
+        viewModelScope.launch {
+            Log.d(TAG, "load: sent")
+            loadingChannel.send(isLoading)
         }
+    }
+
+    override suspend fun repaymentSchedule(loanId: Int): LoanRepaymentSchedule?  = withContext(IO){
+        repo.repaymentSchedule(loanId)
+    }
+
+    fun stopLoading() {
+        load(isLoading = false)
     }
 
     companion object {
-        private const val KEY_QUERY = "QUERY"
+        private const val TAG = "SearchViewModel"
     }
 }

@@ -12,8 +12,9 @@ import co.ke.mshirika.mshirika_app.databinding.ItemTransactionBinding
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.mediumDate
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.amt
 
-class TransactionsAdapter(private val listener: OnTransactionsItemClickListener) :
-    ListAdapter<Transaction, TransactionsAdapter.TransactionsViewHolder>(Transaction) {
+class TransactionsAdapter(
+    private val listener: OnTransactionsItemClickListener
+) : ListAdapter<Transaction, TransactionsAdapter.TransactionsViewHolder>(Transaction) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionsViewHolder =
         LayoutInflater.from(parent.context).let { inflater ->
@@ -32,23 +33,21 @@ class TransactionsAdapter(private val listener: OnTransactionsItemClickListener)
         }
     }
 
-    inner class TransactionsViewHolder(private val binding: ItemTransactionBinding) :
-        RecyclerView.ViewHolder(binding.root), View.OnClickListener {
-
-        init {
-            itemView.setOnClickListener(this)
-        }
+    inner class TransactionsViewHolder(
+        private val binding: ItemTransactionBinding
+    ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
         override fun onClick(v: View?) {
             absoluteAdapterPosition.takeIf {
                 it != NO_POSITION
             }?.also {
-                v?.let { it1 -> listener.onClickTransaction(it1, getItem(it)) }
+                v?.let { view -> listener.onClickTransaction(view, getItem(it)) }
             }
         }
 
         fun bind(transaction: Transaction) {
             binding.bind(transaction)
+            itemView.setOnClickListener(this)
         }
 
         private fun ItemTransactionBinding.bind(transaction: Transaction) {
@@ -58,9 +57,8 @@ class TransactionsAdapter(private val listener: OnTransactionsItemClickListener)
                 transactionId.text = id.toString()
                 transactionName.text = transactionType.value
                 when (transactionType.value) {
-                    "Deposit" -> {
-                        R.drawable.ic_deposit
-                    }
+                    "Deposit" -> R.drawable.ic_deposit
+                    "Withdrawal" -> R.drawable.ic_withdraw
                     else -> null
                 }?.also {
                     transactionImage.setImageResource(it)

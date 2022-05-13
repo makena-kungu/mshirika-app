@@ -18,28 +18,28 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/deposit"
-            style="?materialButtonOutlinedStyle"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:text="@string/deposit_and_pay"
-            android:onClick="@{() -> fragment.payment()}"
-            app:layout_constraintEnd_toStartOf="@id/new_loan"
-            android:layout_marginEnd="6dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/new_loan"
-            style="?materialButtonOutlinedStyle"
-            android:layout_width="0dp"
-            android:onClick="@{() -> fragment.newLoan()}"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:text="@string/new_loan"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/deposit"
-            app:layout_constraintTop_toTopOf="parent" />
+            style="@style/Widget.Material3.Button.TonalButton" />
+
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/buttons_flow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:flow_horizontalStyle="packed"
+            app:flow_horizontalGap="20dp"
+            android:layout_marginTop="10dp"
+            app:constraint_referenced_ids="deposit,new_loan"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/loan"
@@ -51,7 +51,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/deposit" />
+            app:layout_constraintTop_toBottomOf="@id/buttons_flow"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/loans"

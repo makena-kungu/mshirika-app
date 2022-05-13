@@ -9,8 +9,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.ke.mshirika.mshirika_app.R
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Client
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.SavingsAccount
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.Client
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.SavingsAccount
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.templates.TransferFundsTemplateWithToClientsAccounts
 import co.ke.mshirika.mshirika_app.databinding.FragmentTransferFundsBinding
 import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.MshirikaFragment
@@ -39,7 +39,7 @@ class TransferFundsFragment : MshirikaFragment<FragmentTransferFundsBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.appBar.toolbar.setupToolbar(R.string.transfer)
+        binding.appBar.toolbar.setup(R.string.transfer)
         binding.setupFields()
         binding.availableBalance.text = account.accountBalance.amt
         setupError()
@@ -60,7 +60,7 @@ class TransferFundsFragment : MshirikaFragment<FragmentTransferFundsBinding>(
 
         lifecycleScope.launch {
             try {
-                val template = requireNotNull(viewModel.getTemplate(_client))
+                val template = requireNotNull(viewModel.getTemplate(_client.savingsAccountId))
                 val offices = template.toOfficeOptions.map { it.name }
                 office.setAdapter(offices)
 
@@ -71,7 +71,7 @@ class TransferFundsFragment : MshirikaFragment<FragmentTransferFundsBinding>(
                     lifecycleScope.launch {
                         val templateWithToClients = requireNotNull(
                             viewModel.getTemplate(
-                                _client,
+                                _client.savingsAccountId,
                                 office.id
                             )
                         )
@@ -94,7 +94,7 @@ class TransferFundsFragment : MshirikaFragment<FragmentTransferFundsBinding>(
                             viewModel.viewModelScope.launch {
                                 val templateWithToClientsAccounts = requireNotNull(
                                     viewModel.getTemplate(
-                                        _client,
+                                        _client.id,
                                         templateWithToClients.toOffice.id,
                                         accountType.id
                                     )

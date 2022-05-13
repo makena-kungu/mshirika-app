@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="guarantor"
+            type="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.LoanWithGuarantors.Guarantor" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="5dp">
+
+            <TextView
+                android:id="@+id/guarantor_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{guarantor.guarantorType.type()}"
+                android:textAppearance="?textAppearanceLabelMedium"
+                tools:text="Customer" />
+
+            <TextView
+                android:id="@+id/guarantor_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{guarantor.name}"
+                android:textAppearance="?textAppearanceHeadlineSmall"
+                tools:text="Name" />
+
+            <TextView
+                android:id="@+id/guarantor_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{@string/amount(guarantor.guarantorFundingDetails.get(0).amount)}"
+                android:textAppearance="?textAppearanceBodyMedium"
+                tools:text="@string/amount" />
+
+            <TextView
+                android:id="@+id/guarantor_remaining_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{@string/amount_remaining(guarantor.guarantorFundingDetails.get(0).amountRemaining)}"
+                android:textAppearance="?textAppearanceBodyMedium"
+                tools:text="@string/amount_remaining" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/guarantor_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{guarantor.guarantorFundingDetails.get(0).status.status()}"
+                android:textAppearance="?textAppearanceLabelSmall"
+                tools:text="ACTIVE" />
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/flow"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="guarantor_type,guarantor_name,guarantor_amount,guarantor_remaining_amount,guarantor_status"
+                app:flow_lastHorizontalStyle="spread_inside"
+                app:flow_wrapMode="chain2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

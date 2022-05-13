@@ -20,6 +20,7 @@ object Util {
     /**
      * An extension method to help convert a [Response] into a [LoadResult]
      */
+    @JvmStatic
     fun <T : Parcelable> Response<Feedback<T>>.loadResult(
         position: Int,
         loadSize: Int
@@ -27,6 +28,7 @@ object Util {
         val list = mutableListOf<T>()
         body()?.run { pageItems.forEach { if (it !in list) list += it } }
         val size = list.size
+
         Log.d(TAG, "loadResult: size = $size")
         Log.d(TAG, "loadResult: load size = $loadSize")
         val hasMore = size == loadSize
@@ -44,11 +46,17 @@ object Util {
     } catch (e: HttpException) {
         //for any non 200 Http status code
         LoadResult.Error(e)
-    } catch (e: SocketTimeoutException) {
-        val message = "Slow network connectivity!"
-        LoadResult.Error(SocketTimeoutException(message))
+    } catch (e: Exception) {
+        LoadResult.Error(e)
     }
 
+    @JvmStatic
+    fun <T : Any> loadResult(): LoadResult<Int, T> {
+        return LoadResult.Page(emptyList(), null, STARTING_PAGING_INDEX)
+    }
+
+    @JvmStatic
+    @JvmOverloads
     fun pagingConfig(
         pageSize: Int = 20,
         maxSize: Int = 30,

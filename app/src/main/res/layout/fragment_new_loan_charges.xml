@@ -2,12 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui_layer.ui.create.new_loan.content.NewLoanChargesFragment">
+    tools:context=".ui_layer.ui.core.loans.new_loan.content.NewLoanChargesFragment">
 
     <data>
+
         <variable
             name="fragment"
-            type="co.ke.mshirika.mshirika_app.ui_layer.ui.create.new_loan.content.NewLoanChargesFragment" />
+            type="co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.new_loan.content.NewLoanChargesFragment" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -40,6 +41,7 @@
                 android:id="@+id/add_charge"
                 style="?materialButtonOutlinedStyle"
                 android:layout_width="0dp"
+                android:onClick="@{() -> fragment.addCharge()}"
                 android:text="@string/add"
                 app:icon="@drawable/ic_round_add_24"
                 app:iconGravity="textStart"
@@ -61,8 +63,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@android:layout/simple_list_item_2"
-                tools:itemCount="4" />
+                tools:itemCount="4"
+                tools:listitem="@android:layout/simple_list_item_2" />
 
             <TextView
                 android:id="@+id/overdue_charges_h"

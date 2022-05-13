@@ -7,7 +7,8 @@
 
     </data>
 
-    <com.google.android.material.card.MaterialCardView style="?backgroundCardView"
+    <com.google.android.material.card.MaterialCardView
+        style="?backgroundCardView"
         android:transitionName="Details Card">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -17,5 +18,14 @@
             android:transitionGroup="true"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:viewBindingIgnore="true" />
+
+        <TextView
+            android:id="@+id/error_no_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="8dp"
+            android:visibility="gone"
+            android:text="@string/no_clients_found" />
     </com.google.android.material.card.MaterialCardView>
 </layout>

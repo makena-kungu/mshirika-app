@@ -3,8 +3,8 @@ package co.ke.mshirika.mshirika_app.data_layer.remote.utils
 import android.util.Log
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.DeveloperMessages.LOGIN
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome.Success
+import com.google.gson.Gson
 import okhttp3.ResponseBody
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -12,8 +12,10 @@ import retrofit2.Response
 import java.io.IOException
 import java.net.SocketTimeoutException
 
+
 object UnpackResponse {
 
+    @JvmStatic
     inline fun <T : Respondent> respond(request: () -> Response<T>): Outcome<T> {
         var outcome: Outcome<T>? = null
         try {
@@ -31,6 +33,7 @@ object UnpackResponse {
         return outcome ?: error()
     }
 
+    @JvmStatic
     inline fun <T : Respondent> respondWithSuccess(request: () -> Response<T>): T? {
         val response = respond(request)
         val tag = "UnpackResponse"
@@ -74,6 +77,7 @@ object UnpackResponse {
         response.enqueue(callback)
     }
 
+    @JvmStatic
     fun <T> Response<T>.handle(): Outcome<T> {
         if (isSuccessful) {
             return Success(body())
@@ -83,20 +87,20 @@ object UnpackResponse {
         val code: Int = code()
         try {
 
-            val error: ResponseBody? = errorBody()
-            //extract error message from the above
-            msg = error?.run {
-                JSONObject(string()).run {
-                    getString("developerMessage")
-                }
-            }
-
-            if (msg == null) {
+            val responseError: ResponseBody? = errorBody()
+            if (responseError == null) {
                 msg = "Unknown Error"
+                throw IllegalArgumentException("$code: $msg")
             }
+            //extract error message from the above
+
+            val gson = Gson()
+            val body = responseError.string()
+            val error: Error = gson.fromJson(body, Error::class.java)
+            msg = error.errors.first().defaultUserMessage
 
             msg = when (msg) {
-                LOGIN -> "Wrong Username or Password"
+                LOGIN -> "Wrong username or password!"
                 else -> msg
             }
 
@@ -106,5 +110,26 @@ object UnpackResponse {
         }
 
         return error(msg!!)
+    }
+
+    data class Error(
+        val developerMessage: String,
+        val httpStatusCode: String,
+        val defaultUserMessage: String,
+        val userMessageGlobalisationCode: String,
+        val errors: List<Error>
+    ) {
+        data class Error(
+            val developerMessage: String,
+            val defaultUserMessage: String,
+            val userMessageGlobalisationCode: String,
+            val parameterName: String,
+            val value: Any,
+            val args: List<Arg>
+        ) {
+            data class Arg(
+                val value: Int
+            )
+        }
     }
 }

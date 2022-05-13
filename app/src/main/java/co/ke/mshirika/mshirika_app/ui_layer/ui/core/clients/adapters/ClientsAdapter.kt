@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.NO_POSITION
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Client
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.Client
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Urls
 import co.ke.mshirika.mshirika_app.databinding.ItemClientBinding
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.OnClientItemClickListener
-import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.MyPagingDataAdapter
+import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.MshirikaPagingDataAdapter
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.drawable
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.randomColors
 import com.bumptech.glide.Glide
@@ -34,7 +34,7 @@ class ClientsAdapter(
     private val authKey: Flow<String?>,
     private val listener: OnClientItemClickListener
 ) :
-    MyPagingDataAdapter<Client, ClientsAdapter.ClientViewHolder>(Client) {
+    MshirikaPagingDataAdapter<Client, ClientsAdapter.ClientViewHolder>(Client) {
     private var _authKey: String? = null
 
     init {

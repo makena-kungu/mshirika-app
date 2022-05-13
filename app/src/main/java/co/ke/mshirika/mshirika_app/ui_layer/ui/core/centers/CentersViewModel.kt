@@ -13,6 +13,7 @@ import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.State.Normal
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.State.Searching
 import co.ke.mshirika.mshirika_app.data_layer.repositories.PreferencesStoreRepository
 import co.ke.mshirika.mshirika_app.utility.Util.headers
+import dagger.assisted.Assisted
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.ExperimentalCoroutinesApi

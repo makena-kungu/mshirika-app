@@ -14,7 +14,6 @@ import retrofit2.Call
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class AuthRepo @Inject constructor(
     private val service: AuthService,
     private val pref: PreferencesStoreRepository

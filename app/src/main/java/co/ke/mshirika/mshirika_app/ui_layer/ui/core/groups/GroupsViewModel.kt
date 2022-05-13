@@ -9,10 +9,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Group
 import co.ke.mshirika.mshirika_app.data_layer.repositories.GroupsRepo
+import co.ke.mshirika.mshirika_app.data_layer.repositories.PreferencesStoreRepository
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.State
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.State.Normal
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.State.Searching
-import co.ke.mshirika.mshirika_app.data_layer.repositories.PreferencesStoreRepository
 import co.ke.mshirika.mshirika_app.utility.Util.headers
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-private const val TAG = "GroupsViewModel"
+
 @HiltViewModel
 class GroupsViewModel @Inject constructor(
     private val repo: GroupsRepo,
@@ -60,6 +60,7 @@ class GroupsViewModel @Inject constructor(
 
     companion object {
         const val STATE = "thecurrentstate"
+        private const val TAG = "GroupsViewModel"
         val DEFAULT: State = Normal
     }
 }

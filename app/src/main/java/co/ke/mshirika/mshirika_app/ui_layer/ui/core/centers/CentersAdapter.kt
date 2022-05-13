@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Center
 import co.ke.mshirika.mshirika_app.databinding.ItemCenter2Binding
-import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.MyPagingDataAdapter
+import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.MshirikaPagingDataAdapter
 
 class CentersAdapter(
     private val listener: OnCenterClickListener
 ) :
-    MyPagingDataAdapter<Center, CentersAdapter.CenterViewHolder>(Center) {
+    MshirikaPagingDataAdapter<Center, CentersAdapter.CenterViewHolder>(Center) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CenterViewHolder {
         val inflater = LayoutInflater.from(parent.context)

@@ -8,6 +8,7 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.navGraphViewModels
 import androidx.paging.LoadState
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Center
@@ -16,7 +17,6 @@ import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.ListFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.State
 import co.ke.mshirika.mshirika_app.ui_layer.ui.search.OnSearchListener
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.Transitions.itemToDetailsTransition
-import com.google.android.material.appbar.MaterialToolbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,11 +25,11 @@ class CentersFragment : ListFragment<FragmentCentersBinding>(R.layout.fragment_c
     OnCenterClickListener,
     OnSearchListener {
 
-    private val viewModel by viewModels<CentersViewModel>()
+    private val viewModel by navGraphViewModels<CentersViewModel>(R.id.centersFragment)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.appBar.toolbarLarge.setupToolbar(R.string.centers)
+        binding.appBar.toolbarLarge.setup(R.string.centers)
         binding.setupRecyclerView()
     }
 
@@ -91,4 +91,8 @@ class CentersFragment : ListFragment<FragmentCentersBinding>(R.layout.fragment_c
 
     override val title: String
         get() = getString(R.string.centers)
+
+    override fun search(query: String) {
+
+    }
 }

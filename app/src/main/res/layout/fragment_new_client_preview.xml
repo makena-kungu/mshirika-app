@@ -15,7 +15,7 @@
 
         <variable
             name="address"
-            type="co.ke.mshirika.mshirika_app.ui_layer.ui.create.new_client.content.Address" />
+            type="co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client.content.Address" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -124,7 +124,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="5dp"
-                    android:text="@{address.postalCode}"
+                    android:text="@{String.valueOf(address.postalCode)}"
                     android:textAppearance="?textAppearanceBodyLarge"
                     tools:text="Address Postal Code" />
 

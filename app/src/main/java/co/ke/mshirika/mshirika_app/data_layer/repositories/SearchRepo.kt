@@ -1,7 +1,16 @@
 package co.ke.mshirika.mshirika_app.data_layer.repositories
 
+import android.util.Log
+import androidx.paging.Pager
 import androidx.paging.PagingData
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.*
+import androidx.paging.liveData
+import co.ke.mshirika.mshirika_app.data_layer.pagingSource.ClientsPagingSourceWithQuery
+import co.ke.mshirika.mshirika_app.data_layer.pagingSource.Util.pagingConfig
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Center
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Group
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Search
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.Client
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.ConservativeLoanAccount
 import co.ke.mshirika.mshirika_app.data_layer.remote.response.SearchResponse
 import co.ke.mshirika.mshirika_app.data_layer.remote.services.ClientsService
 import co.ke.mshirika.mshirika_app.data_layer.remote.services.GroupsService
@@ -13,8 +22,13 @@ import co.ke.mshirika.mshirika_app.data_layer.remote.utils.UnpackResponse.respon
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.UnpackResponse.respondWithSuccess
 import co.ke.mshirika.mshirika_app.utility.Util.headers
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -23,59 +37,108 @@ class SearchRepo @Inject constructor(
     private val clientsService: ClientsService,
     private val groupsService: GroupsService,
     private val loansService: LoansService,
-    private val repository: PreferencesStoreRepository
+    private val store: PreferencesStoreRepository
 ) {
+
+    private val _query = MutableSharedFlow<String>(
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
 
     private val clientsList = mutableListOf<Client>()
     private val groupsList = mutableListOf<Group>()
-    private val loansList = mutableListOf<LoanAccount>()
+    private val loansList = mutableListOf<ConservativeLoanAccount>()
+
+    val loadingLoans = Channel<Boolean>()
+    val loadingGroups = Channel<Boolean>()
 
     private val _centers = MutableStateFlow<PagingData<Center>>(PagingData.empty())
     private val _clients = MutableStateFlow<PagingData<Client>>(PagingData.empty())
     private val _groups = MutableStateFlow<PagingData<Group>>(PagingData.empty())
-    private val _loans = MutableStateFlow<PagingData<LoanAccount>>(PagingData.empty())
+    private val _loans = MutableStateFlow<PagingData<ConservativeLoanAccount>>(PagingData.empty())
 
     val centers = _centers.asStateFlow()
-    val clients = _clients.asStateFlow()
-    val groups = _groups.asStateFlow()
-    val loans = _loans.asStateFlow()
 
-    suspend fun search(query: String) {
-        searchClients(query)
-        searchLoans(query)
-        searchGroups(query)
+    fun clientes(query: String) = Pager(
+        config = pagingConfig(),
+        pagingSourceFactory = {
+            ClientsPagingSourceWithQuery(
+                store = store,
+                service = searchService,
+                query = query
+            )
+        }
+    ).liveData
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun grupos(query: String) = channelFlow {
+        withContext(IO) {
+            loadingGroups.send(true)
+            val result: SearchResponse = searchGroups(query) ?: return@withContext
+
+            Log.d(TAG, "searching groups ${result.toList().joinToString("\n")}")
+            val list = mutableListOf<Group>()
+            for (search in result) {
+                val group = search.groupRespondent() ?: continue
+                list += group
+            }
+            send(PagingData.from(list))
+        }
+        loadingGroups.send(false)
     }
 
-    private suspend fun searchClients(query: String) = withContext(IO) {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun prestamos(consulta: String) = channelFlow {
+        withContext(IO) {
+            loadingLoans.send(true)
+            val result = searchLoans(consulta) ?: return@withContext
+
+            val loans = mutableListOf<ConservativeLoanAccount>()
+            for (search in result) {
+                val loan = search.loanRespondent() ?: continue
+                loans += loan
+            }
+            send(PagingData.from(loans))
+        }
+        loadingLoans.send(false)
+    }
+
+    fun search(query: String) {
+        _query.tryEmit(query)
+        //searchLoans(query)
+        //searchGroups(query)
+        /*withContext(IO) {
+
+        }*/
+    }
+
+    suspend fun searchClients(query: String) = withContext(IO) {
         respond {
-            searchService.search(
-                map = headers(),
-                query = query,
-                resource = SearchService.CLIENTS
+            searchService.searchClient(
+                headers(),
+                sqlSearch = SearchService.clients(query)
             )
-        }.also {
-            execute(it) { clientRespondent() }
         }
     }
 
     private suspend fun searchGroups(query: String) = withContext(IO) {
-        respond {
+        respondWithSuccess {
             searchService.search(
                 map = headers(),
                 query = query,
                 resource = SearchService.GROUPS
             )
-        }.let { execute(it) { groupRespondent() } }
+        }//.also { execute(it) { groupRespondent() } }
     }
 
     private suspend fun searchLoans(query: String) = withContext(IO) {
-        respond {
+        respondWithSuccess {
             searchService.search(
                 map = headers(),
                 query = query,
                 resource = SearchService.LOANS
             )
-        }.let { execute(it) { loanRespondent() } }
+        }//.also { execute(it) { loanRespondent() } }
     }
 
     private suspend fun Search.clientRespondent() = withContext(IO) {
@@ -92,15 +155,8 @@ class SearchRepo @Inject constructor(
     }
 
     private suspend fun Search.groupRespondent() = withContext(IO) {
-        respond {
+        respondWithSuccess {
             groupsService.group(headers(), entityId)
-        }.let { result ->
-            if (result is Success) {
-                result.data?.let {
-                    groupsList += it
-                    _groups.value = PagingData.from(groupsList)
-                }
-            }
         }
     }
 
@@ -108,7 +164,7 @@ class SearchRepo @Inject constructor(
         //clientsService.account(headers, entityId)
         respondWithSuccess {
             loansService.loan(headers(), entityId)
-        }?.let { result ->
+        }?.also { result ->
             loansList += result
             _loans.value = PagingData.from(loansList)
         }
@@ -125,5 +181,13 @@ class SearchRepo @Inject constructor(
         }
     }
 
-    private suspend fun headers() = repository.authKey().headers
+    suspend fun repaymentSchedule(loanId: Int) = withContext(IO) {
+        respondWithSuccess { loansService.loanRepaymentSchedule(headers(), loanId) }
+    }
+
+    private suspend fun headers() = store.authKey().headers
+
+    companion object {
+        private const val TAG = "SearchRepo"
+    }
 }

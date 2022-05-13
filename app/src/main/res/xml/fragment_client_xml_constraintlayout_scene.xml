@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:motion="http://schemas.android.com/apk/res-auto">
+    xmlns:motion="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <Transition
         motion:constraintSetEnd="@+id/collapsed"
-        motion:constraintSetStart="@id/expanded">
+        motion:constraintSetStart="@id/expanded"
+        motion:pathMotionArc="flip">
         <KeyFrameSet>
             <KeyAttribute
                 android:alpha="0.3"
@@ -37,6 +39,11 @@
                 motion:motionTarget="@+id/client_image_layout"
                 motion:percentX="1"
                 motion:sizePercent="1" />
+            <KeyPosition
+                motion:framePosition="40"
+                motion:keyPositionType="deltaRelative"
+                motion:motionTarget="@+id/client_name"
+                motion:percentX="1" />
         </KeyFrameSet>
     </Transition>
 
@@ -47,22 +54,33 @@
             android:id="@+id/client_image_layout"
             android:layout_width="@dimen/size_client_small_logo"
             android:layout_height="@dimen/size_client_small_logo"
-            android:layout_marginStart="64dp"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintHorizontal_bias="0"
-            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintStart_toEndOf="@id/navigation_menu_space"
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintVertical_bias="0.5" />
+        <Constraint
+            android:id="@+id/navigation_menu_space"
+            android:layout_width="64dp"
+            android:layout_height="?actionBarSize"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent" />
+        <Constraint
+            android:id="@+id/overflow_menu_space"
+            android:layout_width="48dp"
+            android:layout_height="?actionBarSize"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toTopOf="parent" />
         <Constraint
             android:id="@+id/client_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="0dp"
-            android:layout_marginEnd="48dp"
+            motion:layout_constrainedWidth="true"
             motion:layout_constraintBottom_toBottomOf="parent"
-            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintEnd_toStartOf="@id/overflow_menu_space"
             motion:layout_constraintHorizontal_bias="0"
             motion:layout_constraintStart_toEndOf="@id/client_image_layout"
             motion:layout_constraintTop_toTopOf="parent"
@@ -75,13 +93,13 @@
             android:id="@+id/client_mobile_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleX=".5"
-            android:scaleY=".5"
             android:visibility="gone"
             motion:layout_constraintBottom_toTopOf="@id/available_bal"
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toBottomOf="@id/client_name" />
+            motion:layout_constraintTop_toBottomOf="@id/client_name"
+            tools:scaleX=".4"
+            tools:scaleY=".4" />
         <Constraint
             android:id="@+id/available_bal"
             android:layout_width="wrap_content"
@@ -102,6 +120,7 @@
             android:visibility="gone"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintHorizontal_bias=".5"
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toBottomOf="@id/balance" />
         <Constraint

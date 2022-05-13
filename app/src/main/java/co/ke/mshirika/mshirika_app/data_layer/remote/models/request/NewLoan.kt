@@ -3,6 +3,8 @@ package co.ke.mshirika.mshirika_app.data_layer.remote.models.request
 
 import android.os.Parcelable
 import androidx.annotation.Keep
+import co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.new_loan.content.Charge
+import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil
 import kotlinx.parcelize.Parcelize
 
 @Keep
@@ -11,7 +13,7 @@ data class NewLoan(
     val productId: Int,
     val loanOfficerId: Int,
     val loanPurposeId: Int,
-    val fundId: String,
+    val fundId: String = "",
     val submittedOnDate: String,
     val expectedDisbursementDate: String,
     val externalId: String,
@@ -23,8 +25,8 @@ data class NewLoan(
     val numberOfRepayments: Int,
     val repaymentEvery: Int,
     val repaymentFrequencyType: Int,
-    val repaymentFrequencyNthDayType: String,
-    val repaymentFrequencyDayOfWeekType: String,
+    val repaymentFrequencyNthDayType: String = "",
+    val repaymentFrequencyDayOfWeekType: String = "",
     val repaymentsStartingFromDate: String? = null,
     val interestChargedFromDate: String? = null,
     val interestRatePerPeriod: Int,
@@ -35,15 +37,15 @@ data class NewLoan(
     val allowPartialPeriodInterestCalcualtion: Boolean,
     val transactionProcessingStrategyId: Int,
     val graceOnArrearsAgeing: Int,
-    val loanIdToClose: String,
-    val isTopup: String,
-    val recalculationCompoundingFrequencyDate: String,
+    val loanIdToClose: String = "",
+    val isTopup: String = "",
+    val recalculationCompoundingFrequencyDate: String = "",
     val charges: List<Charge>,
     val collateral: List<String> = emptyList(),
     val clientId: Int,
-    val dateFormat: String,
-    val locale: String,
-    val loanType: String
+    val dateFormat: String = DateUtil.DATE_FORMAT,
+    val locale: String = "en",
+    val loanType: String = "individual"
 ) : Parcelable {
     @Keep
     @Parcelize

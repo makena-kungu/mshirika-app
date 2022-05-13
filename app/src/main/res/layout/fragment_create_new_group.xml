@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui_layer.ui.create.new_group.CreateGroupFragment">
+    tools:context=".ui_layer.ui.core.groups.new_group.CreateGroupFragment">
 
     <data>
 
         <variable
             name="fragment"
-            type="co.ke.mshirika.mshirika_app.ui_layer.ui.create.new_group.CreateGroupFragment" />
+            type="co.ke.mshirika.mshirika_app.ui_layer.ui.core.groups.new_group.CreateGroupFragment" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

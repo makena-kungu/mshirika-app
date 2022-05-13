@@ -20,6 +20,7 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/app_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -35,9 +36,9 @@
                         style="@style/Widget.Material3.TextInputLayout.FilledBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:boxBackgroundMode="filled"
                         app:boxStrokeWidth="0dp"
                         app:boxStrokeWidthFocused="0dp"
-                        app:boxBackgroundMode="filled"
                         app:endIconMode="clear_text"
                         app:hintAnimationEnabled="false"
                         app:hintEnabled="false"
@@ -86,6 +87,15 @@
                         android:text="@string/loans" />
                 </com.google.android.material.tabs.TabLayout>
             </com.google.android.material.appbar.AppBarLayout>
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="invisible"
+                android:id="@+id/search_loading"
+                app:layout_anchor="@id/app_bar"
+                app:layout_anchorGravity="bottom" />
 
             <FrameLayout
                 android:layout_width="match_parent"

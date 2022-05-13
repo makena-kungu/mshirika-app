@@ -2,8 +2,8 @@ package co.ke.mshirika.mshirika_app.data_layer.repositories
 
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.DepositShares
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.Repayment
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Loan
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.SavingsAccount
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.LoanFromClientAccounts
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.SavingsAccount
 import co.ke.mshirika.mshirika_app.data_layer.remote.response.ClientPaymentTemplate
 import co.ke.mshirika.mshirika_app.data_layer.remote.services.ClientsService
 import co.ke.mshirika.mshirika_app.data_layer.remote.services.LoansService
@@ -25,7 +25,7 @@ class PaymentRepo @Inject constructor(
 
     suspend fun pay(
         shares: Triple<SavingsAccount, Double, Double>?,
-        loans: MutableMap<Loan, Pair<Double, Double>>,
+        loans: MutableMap<LoanFromClientAccounts, Pair<Double, Double>>,
         other: Other
     ) = withContext(IO) {
         val headers = headers()

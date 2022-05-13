@@ -1,88 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="75dp"
-    android:layout_marginHorizontal="5dp"
-    android:layout_marginVertical="4dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+        <variable
+            name="position"
+            type="Integer" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:paddingHorizontal="8dp"
-        android:paddingVertical="5dp">
+        android:layout_height="75dp"
+        android:transitionName="@{@string/transition_item_card(position)}"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginVertical="4dp">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/transaction_image"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/ic_deposit" />
-
-        <Space
-            android:id="@+id/space"
-            android:layout_width="16dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/transaction_image"
-            app:layout_constraintStart_toEndOf="@id/transaction_image"
-            app:layout_constraintTop_toTopOf="@id/transaction_image" />
+            android:layout_gravity="center"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="5dp">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".5" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/transaction_image"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@drawable/ic_deposit" />
 
-        <TextView
-            android:id="@+id/transaction_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="5dp"
-            android:textAppearance="@style/Item.Primary"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@id/guideline"
-            app:layout_constraintEnd_toStartOf="@id/transaction_amount"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toEndOf="@id/space"
-            tools:text="Deposit" />
+            <Space
+                android:id="@+id/space"
+                android:layout_width="16dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/transaction_image"
+                app:layout_constraintStart_toEndOf="@id/transaction_image"
+                app:layout_constraintTop_toTopOf="@id/transaction_image" />
 
-        <TextView
-            android:id="@+id/transaction_id"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="5dp"
-            android:fontFamily="@font/roboto_bold"
-            android:textAppearance="@style/Item.Secondary"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/transaction_date"
-            app:layout_constraintStart_toEndOf="@id/space"
-            app:layout_constraintTop_toBottomOf="@id/guideline"
-            tools:text="JY42567" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent=".5" />
 
-        <TextView
-            android:id="@+id/transaction_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:textAppearance="@style/Item.Primary"
-            app:layout_constraintBottom_toTopOf="@id/guideline"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="Kes1000.00" />
+            <TextView
+                android:id="@+id/transaction_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:textAppearance="@style/Item.Primary"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@id/guideline"
+                app:layout_constraintEnd_toStartOf="@id/transaction_amount"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/space"
+                tools:text="Deposit" />
+
+            <TextView
+                android:id="@+id/transaction_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:fontFamily="@font/roboto_bold"
+                android:textAppearance="@style/Item.Secondary"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/transaction_date"
+                app:layout_constraintStart_toEndOf="@id/space"
+                app:layout_constraintTop_toBottomOf="@id/guideline"
+                tools:text="JY42567" />
+
+            <TextView
+                android:id="@+id/transaction_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:textAppearance="@style/Item.Primary"
+                app:layout_constraintBottom_toTopOf="@id/guideline"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="Kes1000.00" />
 
 
-        <TextView
-            android:id="@+id/transaction_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textAppearance="@style/Item.Secondary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guideline"
-            tools:text="21 Jan, 2022" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+            <TextView
+                android:id="@+id/transaction_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textAppearance="@style/Item.Secondary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/guideline"
+                tools:text="21 Jan, 2022" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

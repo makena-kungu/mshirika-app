@@ -1,149 +1,124 @@
 package co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.viewModels
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Client
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Loan
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.SavingsAccount
-import co.ke.mshirika.mshirika_app.data_layer.remote.response.TransactionResponse
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Transaction
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.Client
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.SavingsAccount
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.ConservativeLoanAccount
+import co.ke.mshirika.mshirika_app.data_layer.remote.response.AccountsResponse
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome
-import co.ke.mshirika.mshirika_app.data_layer.repositories.ClientsRepo
 import co.ke.mshirika.mshirika_app.data_layer.repositories.PreferencesStoreRepository
+import co.ke.mshirika.mshirika_app.data_layer.repositories.clients.ClientsRepo
 import co.ke.mshirika.mshirika_app.ui_layer.MshirikaViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class ClientViewModel @Inject constructor(
+    private val state: SavedStateHandle,
     private val repo: ClientsRepo,
-    private val prefRepo: PreferencesStoreRepository
+    private val store: PreferencesStoreRepository
 ) : MshirikaViewModel() {
 
-    private lateinit var client: Client
-    private val _totalSavings = MutableStateFlow<String?>(null)
-
-    private val _accounts get() = repo.accounts
-    private val _transactions = MutableStateFlow<TransactionResponse?>(null)
-
-    private val _trs = repo.transactions.map {
-        var transaction: TransactionResponse? = null
-        it.stateHandler { response ->
-            transaction = response
-        }
-        transaction
+    private val _client = Channel<Client>()
+    private val _cuentas: Flow<AccountsResponse?> = _client.receiveAsFlow()
+        .map {
+            state[CLIENT_TAG] = it
+            _ac.send(true)
+            val accounts = repo.accounts(it.id)
+            _ac.send(false)
+            if (accounts is Outcome.Success) {
+                val data = accounts.data ?: return@map null
+                data.savingsAccounts
+                data
+            } else null
+        }.shareIn(viewModelScope, SharingStarted.WhileSubscribed())
+    private val _cuentaDeAhorros = _cuentas.map { response ->
+        response?.run { savingsAccounts.find { it.id == client.savingsAccountId } }
     }
-    private val _loans
-        get() = repo.loans
+    private val _prestamos = _cuentas.map { response -> //loans
+        withContext(IO) {
+            val loans = response?.loans?.filter { it.status.active }
+            val list = mutableListOf<ConservativeLoanAccount>()
+            if (loans == null) return@withContext list
 
-    //they are showing a snackbar
-    val accounts
-        get() = _accounts.asSharedFlow()
+            _lo.send(true)
+            for (loan in loans) {
+                Log.d(TAG, "loans: ${loan.productName}")
+                val outcome = repo.loans(loan.id)
+                if (outcome !is Outcome.Success) continue
 
-    /*
-    * get() = repo.accounts.map {
-            when (it) {
-                is Outcome.Empty -> {
-                    loadingChannel.send(false)
-                    null
-                }
-                is Outcome.Error -> {
-                    errorChannel.send(UIText.PlainText(it.msg))
-                    loadingChannel.send(false)
-                    null
-                }
-                is Outcome.Loading -> {
-                    loadingChannel.send(true)
-                    null
-                }
-                is Outcome.Success -> {
-                    loadingChannel.send(false)
-                    it.data
-                }
+                val data = outcome.data ?: continue
+                list += data
             }
-
-    * */
-    val loans
-        get() = _loans.asStateFlow()
-    val totalSavings
-        get() = _totalSavings.asStateFlow()
-
-    // not to be used anywhere just for showing how some things like reduce works
-    val savings
-        get() = _accounts.map { outcome ->
-            when (outcome) {
-                is Outcome.Success -> outcome.data?.savingsAccounts?.reduce { acc, savingsAccount ->
-                    acc.copy(accountBalance = acc.accountBalance + savingsAccount.accountBalance)
-                }?.accountBalance ?: .0
-                else -> .0
-            }
-        }
-    val transactions
-        get() = _transactions.asStateFlow()
-
-    suspend fun authKey() = prefRepo.authKey()
-
-    val authKey = prefRepo.authKey
-
-    fun reload() = viewModelScope.launch(IO) {
-        repo.accounts(client.id)
-    }
-
-
-    fun setClient(client: Client) {
-        this.client = client
-        viewModelScope.launch(IO) {
-            repo.apply {
-                client.apply {
-                    accounts(id)
-                    loans(id)
-                }
-            }
+            _lo.send(false)
+            list
         }
     }
+    private val client: Client get() = state[CLIENT_TAG]!!
 
-    private fun List<SavingsAccount>.savingAccounts() {
-        val savingsAccount = find { it.id == client.savingsAccountId } ?: return
-        _totalSavings.value = savingsAccount.accountBalance.toString()
-
-        viewModelScope.launch(IO) {
-            repo.transactions(accountId = savingsAccount.id)
-        }
-    }
-
-    private fun List<Loan>.loans() {
-        viewModelScope.launch(IO) {
-            forEach {
-                repo.loans(it.id)
+    private val _tr = Channel<Boolean>()
+    private val _lo = Channel<Boolean>()
+    private val _ac = Channel<Boolean>()
+    private val loading =
+        _tr.receiveAsFlow()
+            .combineTransform(_lo.receiveAsFlow()) { transaction, loan ->
+                emit(transaction || loan)
+            }.combineTransform(_ac.receiveAsFlow()) { loansNTransaction, accounts ->
+                emit(loansNTransaction || accounts)
             }
-        }
-    }
 
-    private suspend fun handleAccounts() {
-        _accounts.collectLatest { outcome ->
-            outcome.stateHandlerWithAction("Retry", success = {
-                //do some calculations
-                it.savingsAccounts.savingAccounts()
-                it.loans.loans()
-            }) {
-                reload()
+    val authKey: Flow<String?>
+        get() = store.authKey
+    val actas: LiveData<MutableList<Transaction>>
+        get() = _cuentaDeAhorros.map { account ->
+            Log.d(TAG, "transactions map: $account")
+            val list = mutableListOf<Transaction>()
+            if (account == null) return@map list
+            withContext(IO) {
+                _tr.send(true)
+                val outcome = repo.transactions(accountId = account.id)
+                _tr.send(false)
+                if (outcome !is Outcome.Success) return@withContext list
+                val data = outcome.data ?: return@withContext list
+                val transactions = data.transactions
+                list += transactions
+                list
             }
-        }
-    }
+        }.asLiveData()
+    val cuentaDeAhorros: LiveData<SavingsAccount?>
+        get() = _cuentaDeAhorros.asLiveData()
+    val prestamos: LiveData<MutableList<ConservativeLoanAccount>>
+        get() = _prestamos.asLiveData()
 
-    private suspend fun handleTransactions() {
-        repo.transactions.collectLatest { outcome ->
-            outcome.stateHandler {
-                _transactions.value = it
-            }
+    suspend fun authKey() = authKey.first()
+
+    fun client(client: Client) {
+        state[CLIENT_TAG] = client
+        viewModelScope.launch {
+            _client.send(client)
         }
     }
 
     init {
-        viewModelScope.launch(IO) {
-            handleAccounts()
-            handleTransactions()
+        viewModelScope.launch {
+            loading.collectLatest {
+                loadingChannel.send(it)
+            }
         }
+    }
+
+    companion object {
+        private const val TAG = "ClientViewModel"
+        private const val CLIENT_TAG = "client_tag"
     }
 }

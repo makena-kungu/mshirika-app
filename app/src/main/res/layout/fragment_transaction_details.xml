@@ -34,14 +34,14 @@
                     android:layout_height="?attr/actionBarSize"
                     app:title="Transaction Details"
                     app:titleCentered="true"
-                    app:titleTextAppearance="@style/TextAppearance.Toolbar.Title" />
+                    app:navigationIcon="@drawable/ic_round_arrow_back_24" />
             </com.google.android.material.appbar.AppBarLayout>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                app:cardElevation="10dp"
+                app:cardElevation="2dp"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -83,7 +83,7 @@
                         android:id="@+id/transaction_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{ViewUtils.INSTANCE.getAmt(transaction.amount)}"
+                        android:text="@{ViewUtils.getAmt(transaction.amount)}"
                         android:textAppearance="?textAppearanceBodyLarge"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0"
@@ -96,7 +96,7 @@
                         android:id="@+id/date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{DateUtil.INSTANCE.getMediumDate(transaction.date)}"
+                        android:text="@{DateUtil.getMediumDate(transaction.date)}"
                         app:layout_constraintHorizontal_bias="0"
                         app:layout_constraintStart_toEndOf="@id/space"
                         app:layout_constraintTop_toBottomOf="@id/transaction_amount"

@@ -74,7 +74,7 @@
             app:destination="@id/fragmentDeposit" />
         <argument
             android:name="client"
-            app:argType="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Client" />
+            app:argType="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.Client" />
         <argument
             android:name="clientImageUri"
             app:argType="string"
@@ -91,6 +91,9 @@
         <action
             android:id="@+id/action_clientFragment_to_transactionFragment"
             app:destination="@id/transactionFragment" />
+        <action
+            android:id="@+id/action_clientFragment_to_newLoanFragment"
+            app:destination="@id/newLoanFragment" />
     </fragment>
     <fragment
         android:id="@+id/paymentFragment"
@@ -102,7 +105,7 @@
             app:argType="co.ke.mshirika.mshirika_app.data_layer.remote.response.AccountsResponse" />
         <argument
             android:name="client"
-            app:argType="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Client" />
+            app:argType="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.Client" />
     </fragment>
     <fragment
         android:id="@+id/fragmentDeposit"
@@ -163,13 +166,22 @@
         <action
             android:id="@+id/action_loanRepaymentFragment_to_transactionFragment"
             app:destination="@id/transactionFragment" />
+        <argument
+            android:name="clientName"
+            app:argType="string" />
+        <argument
+            android:name="clientId"
+            app:argType="integer" />
+        <argument
+            android:name="loanId"
+            app:argType="integer" />
     </fragment>
     <action
         android:id="@+id/action_global_loanRepaymentFragment"
         app:destination="@id/loanRepaymentFragment" />
     <fragment
         android:id="@+id/createNewClientFragment"
-        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.create.new_client.MainFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client.MainFragment"
         android:label="@string/create_client"
         tools:layout="@layout/fragment_create_new_client" />
     <action
@@ -177,7 +189,7 @@
         app:destination="@id/createNewClientFragment" />
     <fragment
         android:id="@+id/createGroupFragment"
-        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.create.new_group.CreateGroupFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.core.groups.new_group.CreateGroupFragment"
         android:label="@string/create_group"
         tools:layout="@layout/fragment_create_new_group" />
     <action
@@ -185,7 +197,7 @@
         app:destination="@id/createGroupFragment" />
     <fragment
         android:id="@+id/createCenterFragment"
-        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.create.new_center.CreateCenterFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.core.centers.new_center.CreateCenterFragment"
         android:label="@string/create_center"
         tools:layout="@layout/fragment_create_new_center" />
     <action
@@ -210,9 +222,41 @@
         tools:layout="@layout/fragment_transfer_funds" >
         <argument
             android:name="client"
-            app:argType="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Client" />
+            app:argType="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.Client" />
         <argument
             android:name="account"
-            app:argType="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.SavingsAccount" />
+            app:argType="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.SavingsAccount" />
+    </fragment>
+    <fragment
+        android:id="@+id/newLoanFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.new_loan.NewLoanFragment"
+        android:label="fragment_create_new_loan"
+        tools:layout="@layout/fragment_create_new_loan" >
+        <action
+            android:id="@+id/action_newLoanFragment_to_guarantorsFragment"
+            app:destination="@id/guarantorsFragment"
+            app:popUpTo="@id/clientFragment"
+            app:popUpToInclusive="false" />
+        <argument
+            android:name="client"
+            app:argType="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.Client" />
+    </fragment>
+    <fragment
+        android:id="@+id/guarantorsFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.guarantors.GuarantorsFragment"
+        android:label="fragment_guarantors"
+        tools:layout="@layout/fragment_guarantors" >
+        <argument
+            android:name="clientName"
+            app:argType="string" />
+        <argument
+            android:name="clientId"
+            app:argType="integer" />
+        <argument
+            android:name="loanId"
+            app:argType="integer" />
+        <argument
+            android:name="guarantors"
+            app:argType="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.LoanWithGuarantors$Guarantor[]" />
     </fragment>
 </navigation>

@@ -7,12 +7,11 @@
 
         <variable
             name="fragment"
-            type="co.ke.mshirika.mshirika_app.ui_layer.ui.create.new_client.content.FamilyFragment" />
+            type="co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client.content.FamilyFragment" />
     </data>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:nestedScrollingEnabled="false"
         android:layout_height="match_parent"
         tools:ignore="Deprecated">
 

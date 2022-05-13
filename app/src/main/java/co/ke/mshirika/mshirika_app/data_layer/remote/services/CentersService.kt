@@ -29,7 +29,7 @@ interface CentersService {
     @POST(EndPoint.CENTERS)
     suspend fun create(
         @HeaderMap headers: Map<String, String>,
-        center: CreateCenter
+        @Body center: CreateCenter
     ): Response<CenterCreatedResponse>
 
     @GET(EndPoint.OFFICES)

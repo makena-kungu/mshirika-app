@@ -5,7 +5,7 @@ import androidx.paging.PagingState
 import co.ke.mshirika.mshirika_app.data_layer.pagingSource.Util.STARTING_PAGING_INDEX
 import co.ke.mshirika.mshirika_app.data_layer.pagingSource.Util.loadResult
 import co.ke.mshirika.mshirika_app.data_layer.pagingSource.Util.refreshKey
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Client
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.Client
 import co.ke.mshirika.mshirika_app.data_layer.remote.services.ClientsService
 import co.ke.mshirika.mshirika_app.data_layer.repositories.PreferencesStoreRepository
 import co.ke.mshirika.mshirika_app.utility.Util.headers
@@ -15,10 +15,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-private const val TAG = "ClientsPagingSource"
-
-class ClientsPagingSource
-@Inject constructor(
+class ClientsPagingSource @Inject constructor(
     private val store: PreferencesStoreRepository,
     private val service: ClientsService
 ) : PagingSource<Int, Client>() {
@@ -38,5 +35,9 @@ class ClientsPagingSource
                 perPage = params.loadSize
             ).loadResult(position, params.loadSize)
         }
+    }
+
+    companion object {
+        private const val TAG = "ClientsPagingSource"
     }
 }

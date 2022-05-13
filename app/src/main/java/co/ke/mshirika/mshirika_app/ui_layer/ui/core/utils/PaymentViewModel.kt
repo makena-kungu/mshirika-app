@@ -2,9 +2,9 @@ package co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Client
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Loan
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.SavingsAccount
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.Client
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.LoanFromClientAccounts
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.SavingsAccount
 import co.ke.mshirika.mshirika_app.data_layer.remote.response.ClientPaymentTemplate
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.empty
@@ -42,7 +42,7 @@ class PaymentViewModel @Inject constructor(
     fun pay(
         paymentMode: String,
         shares: Triple<SavingsAccount, Double, Double>?,
-        loans: MutableMap<Loan, Pair<Double, Double>>,
+        loans: MutableMap<LoanFromClientAccounts, Pair<Double, Double>>,
         other: Other
     ) {
         viewModelScope.launch(Dispatchers.IO) {

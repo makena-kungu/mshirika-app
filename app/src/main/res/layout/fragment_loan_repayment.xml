@@ -7,8 +7,8 @@
     <data>
 
         <variable
-            name="loanAccount"
-            type="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.LoanAccount" />
+            name="clientName"
+            type="String" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -37,8 +37,8 @@
                         android:id="@+id/repayment_client_name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@{loanAccount.clientName}"
-                        android:textAppearance="?textAppearanceHeadlineMedium"
+                        android:text="@{clientName}"
+                        android:textAppearance="?textAppearanceHeadlineSmall"
                         tools:text="Client Name" />
 
                     <com.google.android.material.imageview.ShapeableImageView
@@ -109,7 +109,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/repayment_date"
-                            android:inputType="date"
+                            android:inputType="none"
                             android:maxLines="1"
                             tools:text="22.03.2029" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -126,9 +126,11 @@
                             android:id="@+id/repayment_bank_date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:editable="false"
                             android:hint="@string/bank_date"
                             android:inputType="date"
-                            tools:text="22.03.2029" />
+                            tools:text="22.03.2029"
+                            tools:ignore="Deprecated" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.button.MaterialButton

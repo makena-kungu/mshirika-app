@@ -1,8 +1,10 @@
 package co.ke.mshirika.mshirika_app.ui_layer.ui.util
 
+import android.text.Editable
 import android.util.Patterns
 import android.widget.EditText
 import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.shortDate
@@ -18,8 +20,10 @@ object EditableUtils {
     fun TextInputEditText.text(): String =
         text.toString().trim()
 
-    fun MaterialAutoCompleteTextView.text():String =
+    fun MaterialAutoCompleteTextView.text(): String =
         text.toString().trim()
+
+    fun Editable.text() = toString().trim()
 
     val EditText.s: String
         get() = text.toString().trim()
@@ -29,19 +33,22 @@ object EditableUtils {
      * not empty before enabling the button
      */
     fun MaterialButton.attachNonVoidFields(vararg inputFields: EditText) {
-        isEnabled = inputFields.map { it.text.isNotEmpty() }.reduce { acc, b -> acc && b }
+        isEnabled = inputFields.status
 
         inputFields.forEach { editText ->
-            editText.addTextChangedListener { editable ->
+            editText.doAfterTextChanged { editable ->
                 editable?.let {
-                    isEnabled =
-                        inputFields.map { it.text.isNotEmpty() }.reduce { acc, b -> acc && b }
+                    isEnabled = inputFields.status
                 }
+                //check if it doesn't contain an error
+                isEnabled = inputFields.all { it.error.isEmpty() }
             }
         }
     }
 
-    fun Fragment.viewsOpeningTheDatePicker(vararg views: Triple<String, EditText, TextInputLayout>) {
+    val Array<out EditText>.status get() = all { it.text.isNotEmpty() }
+
+    fun Fragment.viewsOpeningTheDatePicker(vararg views: Triple<Int, EditText, TextInputLayout>) {
         views.forEach { (tag, editText, inputLayout) ->
             inputLayout.setEndIconOnClickListener {
                 openDatePicker(tag) {

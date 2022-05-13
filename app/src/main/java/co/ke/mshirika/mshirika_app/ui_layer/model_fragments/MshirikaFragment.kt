@@ -42,7 +42,7 @@ abstract class MshirikaFragment<B>(@LayoutRes contentLayoutId: Int) :
 
     var mBinding: B? = null
     val binding get() = mBinding!!
-    val mLifecycle get() = viewLifecycleOwner.lifecycle
+    val fragmentLifecycle get() = viewLifecycleOwner.lifecycle
     val lifecycleScope get() = viewLifecycleOwner.lifecycleScope
 
     private val SearchView.searchCallback: OnBackPressedCallback
@@ -59,11 +59,27 @@ abstract class MshirikaFragment<B>(@LayoutRes contentLayoutId: Int) :
         mBinding = DataBindingUtil.bind(view)
     }
 
-    fun MaterialToolbar.setupToolbar(
+    fun MaterialToolbar.setup(_title: String) {
+        title = _title
+        setup()
+    }
+
+    fun MaterialToolbar.setup(
         @StringRes titleId: Int,
         @StringRes subtitleId: Int? = null,
-        @MenuRes resId: Int? = null
+        @MenuRes menuId: Int? = null
     ) {
+        setup()
+        menuId?.let { menuResId ->
+            setHasOptionsMenu(true)
+            inflateMenu(menuResId)
+        }
+        setTitle(titleId)
+        if (subtitleId == null) return
+        setSubtitle(subtitleId)
+    }
+
+    private fun MaterialToolbar.setup() {
         setNavigationOnClickListener {
             findNavController().navigateUp()
         }
@@ -73,14 +89,7 @@ abstract class MshirikaFragment<B>(@LayoutRes contentLayoutId: Int) :
                 R.drawable.ic_round_arrow_back_24,
                 null
             )
-        resId?.let { menuResId ->
-            setHasOptionsMenu(true)
-            inflateMenu(menuResId)
-        }
         setOnMenuItemClickListener(this@MshirikaFragment)
-        setTitle(titleId)
-        if (subtitleId == null) return
-        setSubtitle(subtitleId)
     }
 
     fun SearchView.setup() {

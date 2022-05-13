@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui_layer.ui.create.new_loan.content.NewLoanTermsFragment">
+    tools:context=".ui_layer.ui.core.loans.new_loan.content.NewLoanTermsFragment">
 
     <data>
 
         <variable
             name="fragment"
-            type="co.ke.mshirika.mshirika_app.ui_layer.ui.create.new_loan.content.NewLoanTermsFragment" />
+            type="co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.new_loan.content.NewLoanTermsFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +27,6 @@
                 android:id="@+id/principal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:afterTextChanged="@{(principal) -> fragment.principal(principal)}"
                 android:hint="@string/principal"
                 android:inputType="phone|number"
                 tools:text="1,000" />
@@ -54,7 +53,6 @@
                 android:id="@+id/loan_term"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:afterTextChanged="@{(loanTerm) -> fragment.loanTerm(loanTerm)}"
                 android:hint="@string/loan_term_required"
                 android:inputType="phone|numberDecimal"
                 tools:text="1,000" />
@@ -73,7 +71,6 @@
                 android:id="@+id/frequency"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:afterTextChanged="@{(frequency) -> fragment.frequency(frequency)}"
                 android:hint="@string/frequency" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,7 +97,6 @@
                 android:id="@+id/repay_every"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:afterTextChanged="@{(repaidEvery) -> fragment.repaidEvery(repaidEvery)}"
                 android:hint="@string/repaid_every"
                 android:inputType="phone|number"
                 tools:text="1,000" />
@@ -117,7 +113,6 @@
                 android:id="@+id/repayment_freq"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:afterTextChanged="@{(repaymentFrequency) -> fragment.repaymentFrequency(repaymentFrequency)}"
                 android:hint="@string/frequency" />
         </com.google.android.material.textfield.TextInputLayout>
 

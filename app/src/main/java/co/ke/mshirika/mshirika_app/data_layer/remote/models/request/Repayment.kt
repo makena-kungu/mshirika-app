@@ -12,7 +12,7 @@ import java.util.*
 @Parcelize
 data class Repayment(
     val dateFormat: String = DATE_FORMAT,
-    val locale: String = Locale.getDefault().toLanguageTag(),
+    val locale: String = "en",
     val transactionDate: String,
     val transactionAmount: String,
     val paymentTypeId: String,

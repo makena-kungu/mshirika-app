@@ -11,7 +11,7 @@
 
         <variable
             name="loan"
-            type="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Loan" />
+            type="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.LoanFromClientAccounts" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

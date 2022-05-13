@@ -6,7 +6,7 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import co.ke.mshirika.mshirika_app.R
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Loan
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.LoanFromClientAccounts
 import co.ke.mshirika.mshirika_app.data_layer.repositories.Other
 import co.ke.mshirika.mshirika_app.databinding.FragmentPaymentBinding
 import co.ke.mshirika.mshirika_app.databinding.ItemPaymentBinding
@@ -19,12 +19,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class PaymentFragment : MshirikaFragment<FragmentPaymentBinding>(R.layout.fragment_payment) {
 
     private val args by navArgs<PaymentFragmentArgs>()
-    private val accounts by lazy {
-        args.accounts
-    }
-    private val client by lazy {
-        args.client
-    }
+    private val accounts get() = args.accounts
+    private val client get() = args.client
 
     private val viewModel: PaymentViewModel by viewModels()
 
@@ -36,6 +32,7 @@ class PaymentFragment : MshirikaFragment<FragmentPaymentBinding>(R.layout.fragme
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.appBar.toolbarLarge.setup(R.string.make_payment)
         binding.setupViews()
     }
 
@@ -64,7 +61,7 @@ class PaymentFragment : MshirikaFragment<FragmentPaymentBinding>(R.layout.fragme
     }
 
     fun FragmentPaymentBinding.submit() {
-        val map = mutableMapOf<Loan, Pair<Double, Double>>()
+        val map = mutableMapOf<LoanFromClientAccounts, Pair<Double, Double>>()
         (0..adapter.itemCount).forEach { position ->
             loanAccs.layoutManager!!.findViewByPosition(position)?.let {
                 with(ItemPaymentBinding.bind(it)) {

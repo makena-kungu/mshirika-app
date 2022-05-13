@@ -19,6 +19,7 @@ class TransactionViewModel @Inject constructor() : MshirikaViewModel() {
 
     val data = flow<List<Pair<Int, String>>> {
         transaction.collectLatestNonNull { (_, _, _, _, _, id, _, paymentDetailData, _, _, submittedByUsername, _, transactionType) ->
+            if (paymentDetailData == null) return@collectLatestNonNull
             val list = mutableListOf(
                 R.string.transaction_id to id.toString(),
                 R.string.transaction_type to transactionType.value,

@@ -11,22 +11,30 @@ object DateUtil {
     const val DATE_FORMAT = "dd MMMM yyyy"
     private const val REMOTE_DATE_FORMAT = "dd.MM.yyyy"
 
+    @JvmStatic
+    val today = System.currentTimeMillis().shortDate
 
+    @JvmStatic
     val String.fromLongDate: Long
         get() = longDateFormat.parse(this)!!.time
 
+    @JvmStatic
     val String.fromShortDate: Long
         get() = shortDateFormat.parse(this)!!.time
 
+    @JvmStatic
     val Long.longDate: String
         get() = longDateFormat.format(Date(this))
 
+    @JvmStatic
     val Long.shortDate: String
         get() = shortDateFormat.format(Date(this))
 
+    @JvmStatic
     val Long.mediumDate: String
         get() = mediumDateFormat.format(Date(this))
 
+    @JvmStatic
     private val longDateFormat: DateFormat
         get() = getDateInstance(LONG)
 
@@ -36,16 +44,21 @@ object DateUtil {
     private val mediumDateFormat: DateFormat
         get() = getDateInstance(MEDIUM)
 
+    @JvmStatic
     val Long.mshirikaDate: String
         get() = SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(Date(this))
 
+    @JvmStatic
     val mshirikaDate: String = System.currentTimeMillis().mshirikaDate
 
+    @JvmStatic
     val List<Int>.shortDate: String
         get() = shortDateFormat.format(date)
+    @JvmStatic
     val List<Int>.mediumDate: String
         get() = getDateInstance(MEDIUM).format(date)
 
+    @JvmStatic
     val List<Int>.date: Long
         get() {
             val date = asReversed().joinToString(".")
@@ -53,8 +66,10 @@ object DateUtil {
             return sdf.parse(date)!!.time
         }
 
+    @JvmStatic
     fun mediumDate(date: List<Int>) = date.mediumDate
 
+    @JvmStatic
     val Long.age: Int
         get() {
             val then = Calendar.getInstance()
@@ -70,6 +85,7 @@ object DateUtil {
             }
         }
 
+    @JvmStatic
     private operator fun Year.minus(then: Year): Int {
         return value - then.value
     }

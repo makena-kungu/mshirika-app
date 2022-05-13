@@ -16,7 +16,7 @@ data class Transaction(
     val date: List<Int>,
     val id: Int,
     val interestedPostedAsOn: Boolean,
-    val paymentDetailData: PaymentDetailData,
+    val paymentDetailData: PaymentDetailData?,
     val reversed: Boolean,
     val runningBalance: Double,
     val submittedByUsername: String,

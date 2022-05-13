@@ -29,12 +29,10 @@ class GroupsRepo @Inject constructor(
 ) {
 
     private val _groupCreated = MutableStateFlow<Outcome<GroupCreatedResponse>>(empty())
-    private val _offices = MutableStateFlow<Outcome<OfficeResponse>>(empty())
     private val _searched = MutableStateFlow<PagingData<Group>>(PagingData.empty())
 
     val groupCreated get() = _groupCreated.asStateFlow()
     val searched get() = _searched.asStateFlow()
-    val offices get() = _offices.asStateFlow()
 
     val groups = Pager(
         config = pagingConfig(),
@@ -63,9 +61,9 @@ class GroupsRepo @Inject constructor(
     }
 
     suspend fun offices() = withContext(IO) {
-        respond {
+        respondWithSuccess {
             service.offices(headers())
-        }.also { _offices.value = it }
+        }
     }
 
     suspend fun create(group: CreateGroup) = withContext(IO) {

@@ -4,7 +4,7 @@
     <dimen name="elevation_appbar">4dp</dimen>
 
     <dimen name="height_button">55dp</dimen>
-    <dimen name="height_client_app_bar">390dp</dimen>
+    <dimen name="height_client_app_bar">430dp</dimen>
 
     <dimen name="margin_fab">16dp</dimen>
     <dimen name="padding_dialog">10dp</dimen>

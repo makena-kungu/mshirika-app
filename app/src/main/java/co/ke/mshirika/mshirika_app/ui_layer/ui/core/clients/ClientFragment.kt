@@ -8,28 +8,30 @@ import android.view.View
 import androidx.annotation.FloatRange
 import androidx.appcompat.widget.Toolbar.OnMenuItemClickListener
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.core.view.accessibility.AccessibilityEventCompat.setAction
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
 import co.ke.mshirika.mshirika_app.R
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Client
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.LoanAccount
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Transaction
-import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome.Error
-import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome.Loading
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.Client
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.ConservativeLoanAccount
 import co.ke.mshirika.mshirika_app.databinding.ContentLoansAndTransactionsBinding
 import co.ke.mshirika.mshirika_app.databinding.FragmentClientBinding
 import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.DetailsFragment
-import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.ClientFragmentDirections.Companion.actionGlobalLoanRepaymentFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.ClientFragmentDirections.Companion.actionGlobalTransactionFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.adapters.LoanAccountsAdapter
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.adapters.TransactionsAdapter
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.adapters.TransactionsAdapter.OnTransactionsItemClickListener
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.viewModels.ClientViewModel
+import co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.LoansFragmentDirections
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.OnLoanClickListener
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.Transitions.itemToDetailReentry
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.Transitions.itemToDetailsTransitionId
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.UIText
+import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.amt
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.drawable
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.randomColors
 import com.bumptech.glide.Glide
@@ -45,7 +47,6 @@ import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.math.abs
@@ -58,14 +59,14 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(
 ), OnLoanClickListener, OnMenuItemClickListener, OnTransactionsItemClickListener {
 
     private val args by navArgs<ClientFragmentArgs>()
-    private val viewModel by viewModels<ClientViewModel>()
+    private val viewModel by navGraphViewModels<ClientViewModel>(R.id.clientFragment)
     private val client get() = args.client
     private val _colors get() = args.colors
     private val imageUrl get() = args.clientImageUri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.setClient(client)
+        viewModel.client(client)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -73,18 +74,28 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(
         itemToDetailReentry(view)
         binding.fragment = this
         binding.apply {
-            clientToolbar.setupToolbar(R.string.client)
+            clientToolbar.setup(R.string.client)
             loadImage()
-            client.apply { bindClient() }
+            client.apply {
+                bindClient()
+            }
+            viewModel.cuentaDeAhorros.observe(viewLifecycleOwner) { account ->
+                if (account == null) return@observe
 
-            accounts()
+                binding.balance.text = account.accountBalance.amt
+            }
+
             errorState()
             loadingState()
             setupAppBar()
             setupLoans()
             loansAndTransactions.setupTransactions()
-            viewModel.totalSavings.collectLatestLifeCycleNonNull { balance.text = it }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.client(client)
     }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean = item?.run {
@@ -116,8 +127,8 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(
             return
         }
 
-        lifecycleScope.launch {
-            val key = withContext(IO) { viewModel.authKey.first()!! }
+        launch {
+            val key = withContext(IO) { viewModel.authKey()!! }
             val headers = LazyHeaders
                 .Builder()
                 .addHeader("Authorization", key)
@@ -174,28 +185,8 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(
         }
     }
 
-    private fun FragmentClientBinding.accounts() {
-        viewModel.accounts.collectLatestLifecycle { outcome ->
-            when (outcome) {
-                is Loading -> true
-                is Error -> {
-                    Snackbar.make(root, outcome.msg, LENGTH_LONG).apply {
-                        setAction(R.string.retry) {
-                            viewModel.reload()
-                        }
-                        show()
-                    }
-                    false
-                }
-                else -> false
-            }.also {
-                progressHorizontal.isVisible = it
-            }
-        }
-    }
-
-    context (FragmentClientBinding, Client)
-    private fun bindClient() {
+    context (FragmentClientBinding, Client) private
+    fun bindClient() {
         Log.d(TAG, "bindClient: starting")
 
         clientName.text = displayName
@@ -217,31 +208,40 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(
     private fun FragmentClientBinding.setupLoans() {
         val adapter = LoanAccountsAdapter(this@ClientFragment)
         loansAndTransactions.loans.adapter = adapter
-        viewModel.loans.collectLatestLifecycle {
+        viewModel.prestamos.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
     }
 
     private fun ContentLoansAndTransactionsBinding.setupTransactions() {
         val adapter = TransactionsAdapter(this@ClientFragment)
-        //transactions.setHasFixedSize(true)
         transactions.adapter = adapter
-        viewModel.transactions.collectLatestLifeCycleNonNull {
-            adapter.submitList(it.transactions)
+        viewModel.actas.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
         }
     }
 
-    override fun onLoanClicked(loanAccount: LoanAccount) {
+    override fun onLoanClicked(
+        loanAccount: ConservativeLoanAccount,
+        position: Int,
+        container: View
+    ) {
         //todo view a loan
     }
 
     override fun onLoanRepayClicked(
-        loanAccount: LoanAccount,
+        loanAccount: ConservativeLoanAccount,
         position: Int,
         container: View
     ): Boolean {
+        val dirs = LoansFragmentDirections.actionGlobalLoanRepaymentFragment(
+            clientName = loanAccount.clientName,
+            clientId = loanAccount.clientId,
+            loanId = loanAccount.id
+        )
         itemToDetailsTransitionId(
-            actionGlobalLoanRepaymentFragment(), container to R.string.loan_card_transition_name
+            dirs,
+            container to R.string.loan_card_transition_name
         )
         return false
     }
@@ -259,7 +259,8 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(
     }
 
     fun newLoan() {
-
+        val directions = ClientFragmentDirections.actionClientFragmentToNewLoanFragment(client)
+        findNavController().navigate(directions)
     }
 
     fun payment() {
@@ -309,7 +310,8 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(
                 animate().apply {
                     scaleX(1f)
                     scaleY(1f)
-                    duration = resources.getInteger(R.integer.material_motion_duration_short_1).toLong()
+                    duration =
+                        resources.getInteger(R.integer.material_motion_duration_short_1).toLong()
                     start()
                 }
             }
@@ -337,11 +339,21 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(
             progress: Float
         ) {
 
+            motionLayout?.let {
+
+            }
             //the text size is as it is say if text-size = 28 then it would be 28sp in xml
             binding.apply {
-                clientName.textSize = textSize(28F, 22F, progress)
-                clientImageError.textSize = textSize(65F, 30F, progress)
-                balance.textSize = textSize(24F, 16F, progress)
+                clientName.textSize = textSize(28F, 20F, progress)
+                balance.textSize = textSize(24F, 14F, progress)
+
+                // error progress ranges from 0 - .4 if greater than .4, ignore it
+                if (progress > .4 && clientImageError.textSize > 30) {
+                    clientImageError.textSize = 30F
+                    return
+                }
+                val errorProgress = progress / .4f
+                clientImageError.textSize = textSize(60F, 30F, errorProgress)
             }
         }
 
@@ -352,7 +364,8 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(
             triggerId: Int,
             positive: Boolean,
             progress: Float
-        ) {}
+        ) {
+        }
 
 
         private fun textSize(

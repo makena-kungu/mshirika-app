@@ -21,8 +21,8 @@ object EndPoint {
     const val CLIENTS_TEMPLATE = "$CLIENTS/template"
     const val CLIENT_PAYMENT = "clientpayment/{$CLIENT_ID}"
     const val CLIENT_DEPOSIT = "${SAVINGS_ACCOUNTS}/${SAVINGS_ACCOUNT_ID}/transactions"
-    const val CLIENT = "$CLIENTS/{$CLIENT_ID}"
-    const val CLIENT_ACCOUNTS = "$CLIENTS/{$CLIENT_ID}/accounts"
+    const val CLIENT = "$CLIENTS/CLIENT_ID"
+    const val CLIENT_ACCOUNTS = "$CLIENTS/{$CLIENT_ID}/accounts?fields=loanAccounts,savingsAccounts"
     const val COLLECTION_SHEET = "collectionsheet"
     const val CREATE_LOANS_ACCOUNTS = "loans"
     const val CREATE_LOANS_PRODUCTS = "loanproducts"
@@ -33,9 +33,11 @@ object EndPoint {
     const val DISBURSE = "disburse"
     const val DOCUMENTS = "documents"
     const val GROUPS = "groups"
-    const val GROUP = "${GROUPS}/$GROUP_ID"
+    const val GROUP = "${GROUPS}/{$GROUP_ID}"
     const val IDENTIFIERS = "identifiers"
     const val LOANS = "loans"
+    const val LOANS_GUARANTORS = "$LOANS/{$LOAN_ID}/guarantors"
+    const val LOANS_GUARANTORS_TEMPLATE = "$LOANS/{$LOAN_ID}/guarantors/template"
     const val LOANS_TEMPLATE = "$LOANS/template"
     const val LOANS_PATH = "${LOANS}/{$LOAN_ID}"
     const val LOANS_TRANSACTIONS = "${LOANS}/{$LOAN_ID}/transactions"
@@ -55,11 +57,11 @@ object EndPoint {
     const val PAYMENT_TYPES = "paymenttypes"
 
     object Paths {
-        const val LOAN_ID = "{loanId}"
-        const val CENTER_ID = "{centerId}"
-        const val GROUP_ID = "{groupId}"
-        const val CLIENT_ID = "{clientId}"
-        const val SAVINGS_ACCOUNT_ID = "{savingsAccountId}"
+        const val LOAN_ID = "loanId"
+        const val CENTER_ID = "centerId"
+        const val GROUP_ID = "groupId"
+        const val CLIENT_ID = "clientId"
+        const val SAVINGS_ACCOUNT_ID = "savingsAccountId"
     }
 
 }

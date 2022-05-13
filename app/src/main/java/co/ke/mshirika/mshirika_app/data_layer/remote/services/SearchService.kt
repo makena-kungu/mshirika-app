@@ -1,6 +1,6 @@
 package co.ke.mshirika.mshirika_app.data_layer.remote.services
 
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Client
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.Client
 import co.ke.mshirika.mshirika_app.data_layer.remote.response.SearchResponse
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.EndPoint
 import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Feedback
@@ -19,13 +19,28 @@ interface SearchService {
         @Query("resource") resource: Array<String>
     ): Response<SearchResponse>
 
-    @GET()
+    @GET(EndPoint.CLIENTS)
     suspend fun searchClient(
         @HeaderMap headers: Map<String, String>,
-        @Query("orphansOnly") orphansOnly: Boolean= false,
+        @Query("orphansOnly") orphansOnly: Boolean = false,
         @Query("sortOrder") sortOrder: String = "ASC",
         @Query("orderBy") orderBy: String = "displayName",
-        @Query("sqlSearch") sqlSearch: String
+        @Query("sqlSearch") sqlSearch: String,
+        @Query("paged") paged: Boolean = false,
+        @Query("offset") page: Int? = null,
+        @Query("limit") perPage: Int? = null
+    ): Response<Feedback<Client>>
+
+    @GET(EndPoint.CLIENTS)
+    suspend fun searchClients(
+        @HeaderMap headers: Map<String, String>,
+        @Query("orphansOnly") orphansOnly: Boolean = false,
+        @Query("sortOrder") sortOrder: String = "ASC",
+        @Query("orderBy") orderBy: String = "displayName",
+        @Query("sqlSearch") sqlSearch: String,
+        @Query("paged") paged: Boolean = true,
+        @Query("offset") page: Int,
+        @Query("limit") perPage: Int
     ): Response<Feedback<Client>>
 
     companion object {
@@ -37,18 +52,14 @@ interface SearchService {
 
         fun clients(query: String) = buildQuery(query, "c.id", "c.external_id", "display_name")
 
-        fun buildQuery(query: String, vararg fields: String):String {
+        private fun buildQuery(query: String, vararg fields: String): String {
             val stringBuilder = StringBuilder()
             val like = " LIKE "
             val q = query.encapsulate
-
-            println(fields.joinToString())
             fields.forEachIndexed { index, field ->
                 stringBuilder.append(field)
                 stringBuilder.append(like)
                 stringBuilder.append(q)
-
-                println(stringBuilder.toString())
 
                 if (index < fields.lastIndex) {
                     println("($index, true)")
@@ -60,6 +71,7 @@ interface SearchService {
 
         private val String.encapsulate: String get() = "'%$this%'"
 
-        val sampleQuery = "c.id LIKE '%Bild%' OR c.external_id LIKE '%Bild%' OR display_name LIKE '%Bild%'"
+        val sampleQuery =
+            "c.id LIKE '%Bild%' OR c.external_id LIKE '%Bild%' OR display_name LIKE '%Bild%'"
     }
 }

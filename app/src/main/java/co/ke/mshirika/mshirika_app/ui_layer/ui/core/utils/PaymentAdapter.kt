@@ -4,10 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Loan
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.LoanFromClientAccounts
 import co.ke.mshirika.mshirika_app.databinding.ItemPaymentBinding
 
-class PaymentAdapter : ListAdapter<Loan, PaymentAdapter.PaymentViewHolder>(Loan) {
+class PaymentAdapter : ListAdapter<LoanFromClientAccounts, PaymentAdapter.PaymentViewHolder>(
+    LoanFromClientAccounts
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PaymentViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -21,7 +23,7 @@ class PaymentAdapter : ListAdapter<Loan, PaymentAdapter.PaymentViewHolder>(Loan)
         }
     }
 
-    override fun getItem(position: Int): Loan {
+    override fun getItem(position: Int): LoanFromClientAccounts {
         return super.getItem(position)
     }
 
@@ -30,7 +32,7 @@ class PaymentAdapter : ListAdapter<Loan, PaymentAdapter.PaymentViewHolder>(Loan)
     inner class PaymentViewHolder(private val binding: ItemPaymentBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(loanAccount: Loan) {
+        fun bind(loanAccount: LoanFromClientAccounts) {
             binding.apply {
                 loanAccount.apply {
                     bind()
@@ -38,7 +40,7 @@ class PaymentAdapter : ListAdapter<Loan, PaymentAdapter.PaymentViewHolder>(Loan)
             }
         }
 
-        context (ItemPaymentBinding, Loan)
+        context (ItemPaymentBinding, LoanFromClientAccounts)
         fun bind() {
             amount.hint = productName
 

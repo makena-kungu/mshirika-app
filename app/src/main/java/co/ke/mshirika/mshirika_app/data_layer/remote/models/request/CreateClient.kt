@@ -11,7 +11,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class CreateClient(
     val officeId: Int,
-    val legalFormId: Int,
+    val legalFormId: Int? = null,
     val isStaff: Boolean,
     val active: Boolean = true,
     val genderId: Int,

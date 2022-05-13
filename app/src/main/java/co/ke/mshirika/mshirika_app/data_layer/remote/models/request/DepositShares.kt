@@ -21,6 +21,6 @@ data class DepositShares(
     val receiptNumber: String,
     @SerializedName("bankNumber")
     val bankDate: String,
-    val locale: String = Locale.getDefault().toLanguageTag(),
+    val locale: String = "en",
     val dateFormat: String = DateUtil.DATE_FORMAT
 ) : Parcelable

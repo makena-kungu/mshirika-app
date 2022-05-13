@@ -93,7 +93,7 @@ class LoginFragment : Fragment() {
         binding.apply {
             if (validate()) {
                 //proceed
-                root.hideKeyBoard
+                root.hideKeyBoard()
                 val username = username.text()
                 val password = password.text()
 

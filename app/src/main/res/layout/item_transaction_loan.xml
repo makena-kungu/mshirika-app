@@ -5,11 +5,13 @@
 
     <data>
 
-        <import type="co.ke.mshirika.mshirika_app.utility.BindingUtils" />
+        <import type="co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil" />
+
+        <import type="co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils" />
 
         <variable
             name="transaction"
-            type="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.LoanAccount.LoanTransaction" />
+            type="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.DetailedLoanAccount.Transaction" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -48,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|end"
                 android:maxLines="1"
-                android:text="@{BindingUtils.mediumDate(transaction.submittedOnDate)}"
+                android:text="@{DateUtil.mediumDate(transaction.submittedOnDate)}"
                 android:textAppearance="?textAppearanceBody1"
                 app:layout_constraintWidth_percent=".61"
                 tools:text="22 Feb, 2022" />
@@ -69,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|end"
                 android:maxLines="1"
-                android:text="@{BindingUtils.amount(transaction.principalPortion)}"
+                android:text="@{ViewUtils.getAmt(transaction.principalPortion)}"
                 android:textAppearance="?textAppearanceBody1"
                 app:layout_constraintWidth_percent=".61"
                 tools:text="Kshs2,000.00" />
@@ -89,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|end"
                 android:maxLines="1"
-                android:text="@{BindingUtils.amount(transaction.interestPortion)}"
+                android:text="@{ViewUtils.getAmt(transaction.interestPortion)}"
                 android:textAppearance="?textAppearanceBody1"
                 app:layout_constraintWidth_percent=".61"
                 tools:text="Kshs300" />
@@ -109,7 +111,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|end"
-                android:text="@{BindingUtils.amount(transaction.outstandingLoanBalance)}"
+                android:text="@{ViewUtils.getAmt(transaction.outstandingLoanBalance)}"
                 android:textAppearance="?textAppearanceBody1"
                 app:layout_constraintWidth_percent=".61"
                 tools:text="Kshs600" />

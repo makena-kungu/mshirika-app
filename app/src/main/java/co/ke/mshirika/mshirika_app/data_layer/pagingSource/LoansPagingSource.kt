@@ -5,7 +5,7 @@ import androidx.paging.PagingState
 import co.ke.mshirika.mshirika_app.data_layer.pagingSource.Util.STARTING_PAGING_INDEX
 import co.ke.mshirika.mshirika_app.data_layer.pagingSource.Util.loadResult
 import co.ke.mshirika.mshirika_app.data_layer.pagingSource.Util.refreshKey
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.LoanAccount
+import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.ConservativeLoanAccount
 import co.ke.mshirika.mshirika_app.data_layer.remote.services.LoansService
 import co.ke.mshirika.mshirika_app.data_layer.repositories.PreferencesStoreRepository
 import co.ke.mshirika.mshirika_app.utility.Util.headers
@@ -20,12 +20,12 @@ class LoansPagingSource
     private val store: PreferencesStoreRepository,
     private val service: LoansService
 ) :
-    PagingSource<Int, LoanAccount>() {
+    PagingSource<Int, ConservativeLoanAccount>() {
 
-    override fun getRefreshKey(state: PagingState<Int, LoanAccount>): Int? =
+    override fun getRefreshKey(state: PagingState<Int, ConservativeLoanAccount>): Int? =
         state.refreshKey
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LoanAccount> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ConservativeLoanAccount> {
         val position = params.key ?: STARTING_PAGING_INDEX
 
         return withContext(Dispatchers.IO) {
@@ -44,7 +44,7 @@ class LoansPagingSource
         headers: Map<String, String>,
         page: Int,
         pageSize: Int
-    ): LoadResult<Int, LoanAccount> = service.loan(
+    ): LoadResult<Int, ConservativeLoanAccount> = service.loan(
         headers = headers,
         page = page,
         perPage = pageSize

@@ -9,18 +9,18 @@ import kotlinx.parcelize.Parcelize
 @Keep
 @Parcelize
 data class ClientTemplate(
+    val clientTypeOptions: List<ClientTypeOption>,
+    val clientClassificationOptions: List<ClientClassificationOption>,
+    val savingProductOptions: List<SavingProductOption>,
+    val familyMemberOptions: FamilyMemberOptions,
     val activationDate: List<Int>,
     val isStaff: Boolean,
     val officeId: Int,
     val officeOptions: List<OfficeOption>,
     val staffOptions: List<StaffOption>,
-    val savingProductOptions: List<SavingProductOption>,
     val genderOptions: List<GenderOption>,
-    val clientTypeOptions: List<ClientTypeOption>,
-    val clientClassificationOptions: List<ClientClassificationOption>,
     val clientNonPersonConstitutionOptions: List<ClientNonPersonConstitutionOption>,
     val clientLegalFormOptions: List<ClientLegalFormOption>,
-    val familyMemberOptions: FamilyMemberOptions,
     val isAddressEnabled: Boolean
 ) : Respondent {
     @Keep

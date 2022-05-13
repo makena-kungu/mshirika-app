@@ -14,7 +14,7 @@ interface GroupsService {
     @POST(EndPoint.GROUPS)
     fun create(
         @HeaderMap headers: Map<String, String>,
-        group: CreateGroup
+        @Body group: CreateGroup
     ): Response<GroupCreatedResponse>
 
     @GET(EndPoint.GROUPS)

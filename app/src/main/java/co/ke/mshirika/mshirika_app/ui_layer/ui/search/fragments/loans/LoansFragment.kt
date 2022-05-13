@@ -3,6 +3,7 @@ package co.ke.mshirika.mshirika_app.ui_layer.ui.search.fragments.loans
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.databinding.FragmentSearchFragsBinding
@@ -19,16 +20,18 @@ class LoansFragment : MshirikaFragment<FragmentSearchFragsBinding>(R.layout.frag
     OnSearchListener {
     private val viewModel by viewModels<SearchViewModel>()
     private lateinit var listener: OnLoanClickListener
+    private lateinit var adapter: LoansAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = LoansAdapter(listener)
+        adapter = LoansAdapter(
+            viewModel,
+            listener,
+            lifecycleScope
+        )
         binding.list.adapter = adapter
-
-        viewModel.loans.collectLatestLifecycle {
-            adapter.submitData(it)
-        }
+        binding.errorNoData.setText(R.string.no_loans_found)
     }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
@@ -37,6 +40,16 @@ class LoansFragment : MshirikaFragment<FragmentSearchFragsBinding>(R.layout.frag
 
     override val title: String
         get() = getString(R.string.loans)
+
+    override fun search(query: String) {
+        viewModel.load()
+        viewModel.prestamos(query).observe(viewLifecycleOwner) {
+            viewModel.stopLoading()
+            adapter.submitData(fragmentLifecycle, it)
+            val count = adapter.itemCount
+            binding.errorNoData.isVisible = count == 0
+        }
+    }
 
     companion object {
         fun getInstance(searchFragment: SearchFragment): LoansFragment {

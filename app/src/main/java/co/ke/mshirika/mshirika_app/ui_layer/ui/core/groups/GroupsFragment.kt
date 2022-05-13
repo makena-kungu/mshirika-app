@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.navGraphViewModels
 import androidx.paging.LoadState
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Group
@@ -18,23 +19,18 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class GroupsFragment : MshirikaFragment<FragmentGroupsBinding>(R.layout.fragment_groups),
     SearchView.OnQueryTextListener,
-    OnGroupClickListener,
-    OnSearchListener {
-    private val viewModel by viewModels<GroupsViewModel>()
+    OnGroupClickListener {
+    private val viewModel by navGraphViewModels<GroupsViewModel>(R.id.groupsFragment)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
 
-    override val title: String
-        get() = getString(R.string.groups)
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.appBar.toolbarLarge.setupToolbar(
-            titleId = R.string.groups,
-            resId = R.menu.search
+        binding.appBar.toolbarLarge.setup(
+            titleId = R.string.groups
         )
         binding.setupRecyclerView()
     }

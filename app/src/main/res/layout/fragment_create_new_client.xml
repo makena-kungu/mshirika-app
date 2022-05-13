@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui_layer.ui.create.new_client.MainFragment">
+    tools:context=".ui_layer.ui.core.clients.new_client.MainFragment">
 
     <data>
 
         <variable
             name="fragment"
-            type="co.ke.mshirika.mshirika_app.ui_layer.ui.create.new_client.MainFragment" />
+            type="co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client.MainFragment" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -65,7 +65,6 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:contentDescription="@string/go_to_next_page"
-                    android:onClick="@{() -> fragment.navigateToNext()}"
                     android:text="@string/next"
                     app:icon="@drawable/ic_round_navigate_next_24"
                     app:iconGravity="end" />
