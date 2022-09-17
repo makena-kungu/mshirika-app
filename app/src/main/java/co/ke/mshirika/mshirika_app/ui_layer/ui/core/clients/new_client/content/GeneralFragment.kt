@@ -3,14 +3,18 @@ package co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client.content
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import co.ke.mshirika.mshirika_app.R
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.client.Cliente
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.templates.client.EditClientTemplate
 import co.ke.mshirika.mshirika_app.databinding.FragmentNewClientGeneralBinding
 import co.ke.mshirika.mshirika_app.ui_layer.OnImageSelectedListener
 import co.ke.mshirika.mshirika_app.ui_layer.PickImageDialog
 import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client.CreateClientViewModel
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client.MainFragment
+import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client.Task
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.create.ViewerFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.fromShortDate
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.shortDate
@@ -24,6 +28,7 @@ import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.setAdapter
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.parcelize.Parcelize
+import java.util.concurrent.atomic.AtomicReference
 
 @AndroidEntryPoint
 class GeneralFragment : MshirikaFragment<FragmentNewClientGeneralBinding>(
@@ -31,6 +36,11 @@ class GeneralFragment : MshirikaFragment<FragmentNewClientGeneralBinding>(
 ), ViewerFragment, OnImageSelectedListener {
 
     private val viewModel: CreateClientViewModel by viewModels({ requireParentFragment() })
+    private val client: Cliente by lazy {
+        val args = requireArguments()
+        args.getParcelable(KEY_CLIENTE)!!
+    }
+    private val _template = AtomicReference<EditClientTemplate>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +55,7 @@ class GeneralFragment : MshirikaFragment<FragmentNewClientGeneralBinding>(
             setupViewsWithCalendars()
             resume()
 
+            // TODO remove these statements
             firstNameRequired.setText("First")
             lastName.setText("Last")
             middleName.setText("Middle")
@@ -53,10 +64,38 @@ class GeneralFragment : MshirikaFragment<FragmentNewClientGeneralBinding>(
             mobileNo.setText("7${(10_000_000 until 100_000_000).random()}")
             clientType.setText("Member")
             clientClassification.setText("Catholic")
-            submitDate.setText(today)
+
             nationalId.setText("${(235246..342956).random()}")
             email.setText("some@domain.com")
+
+            viewModel.task.observe(viewLifecycleOwner) {
+                if (it is Task.Create) return@observe
+                launch {
+                    loadTemplate()
+                }
+            }
         }
+    }
+
+    private suspend fun FragmentNewClientGeneralBinding.loadTemplate() {
+        memNo.isVisible = false
+        val template = viewModel.getEditTemplate(client.id) ?: return
+        _template.set(template)
+
+        firstNameRequired.setText(template.firstname)
+        middleName.setText(template.middlename)
+        lastName.setText(template.lastname)
+
+        dob.setText(client.dateOfBirth?.shortDate)
+        memNo.setText(client.memberNumber)
+        mobileNo.setText(client.mobileNo)
+        val isMale = template.gender.name.equals("male", false)
+        genderGroup.check(if (isMale) male.id else female.id)
+        isStaff.isChecked = client.isStaff
+        savingsProduct.isVisible = false
+        clientType.setText(client.clientType.name)
+        clientClassification.setText(client.clientClassification?.name)
+        nationalId.setText(template.nationalId)
     }
 
     private fun FragmentNewClientGeneralBinding.resume() {
@@ -73,7 +112,6 @@ class GeneralFragment : MshirikaFragment<FragmentNewClientGeneralBinding>(
             savingsProduct.setText(it.savingsAccount)
             clientType.setText(it.clientType)
             clientClassification.setText(it.clientClassification)
-            submitDate.setText(it.submitDate.shortDate)
             nationalId.setText(it.nationalId)
             email.setText(it.email)
         }
@@ -81,7 +119,7 @@ class GeneralFragment : MshirikaFragment<FragmentNewClientGeneralBinding>(
 
     private fun FragmentNewClientGeneralBinding.setupFields() {
         launch {
-            val (typeOptions, classificationOptions, savingsOptions) = viewModel.template()
+            val (_, typeOptions, classificationOptions, savingsOptions) = viewModel.template()
                 ?: return@launch
 
             val types = typeOptions.map { it.name }
@@ -94,23 +132,25 @@ class GeneralFragment : MshirikaFragment<FragmentNewClientGeneralBinding>(
     }
 
     private fun FragmentNewClientGeneralBinding.setupRequiredFields() {
-        with(requireParentFragment() as MainFragment) {
-            binding.goToNext.attachNonVoidFields(
-                firstNameRequired,
-                lastName,
-                savingsProduct,
-                clientType,
-                clientClassification
-            )
+        viewModel.task.observe(viewLifecycleOwner) {
+            if (it is Task.Edit) return@observe
+
+            with(requireParentFragment() as MainFragment) {
+                binding.goToNext.attachNonVoidFields(
+                    firstNameRequired,
+                    lastName,
+                    savingsProduct,
+                    clientType,
+                    clientClassification
+                )
+            }
+            email.emailAddressValidator()
         }
-        email.emailAddressValidator()
     }
 
     private fun FragmentNewClientGeneralBinding.setupViewsWithCalendars() {
         viewsOpeningTheDatePicker(
-            R.string.date_of_birth andd (dob to dobLo),
-            R.string.submit_date andd (submitDate to submitDateLo)//,
-            //"activation_date" andd (activationDate to activationDateLo)
+            R.string.date_of_birth andd (dob to dobLo)
         )
     }
 
@@ -129,7 +169,7 @@ class GeneralFragment : MshirikaFragment<FragmentNewClientGeneralBinding>(
         return true
     }
 
-    private fun FragmentNewClientGeneralBinding.submit() {
+    private fun FragmentNewClientGeneralBinding.submit(edit: Boolean = false) {
         viewModel.saveGeneralData(
             data = GeneralData(
                 firstName = firstNameRequired.s,
@@ -143,12 +183,22 @@ class GeneralFragment : MshirikaFragment<FragmentNewClientGeneralBinding>(
                 savingsAccount = savingsProduct.s,
                 clientType = clientType.s,
                 clientClassification = clientClassification.s,
-                submitDate = submitDate.s.fromShortDate,
+                submitDate = System.currentTimeMillis(),
                 nationalId = nationalId.s,
-                email = email.s//,
+                email = email.s,
+                isEdit = edit//,
                 //activationDate.s.fromShortDate
-            )
+            ),
+            template = _template.get()
         )
+    }
+
+    fun edit() {
+        binding.submit(edit = true)
+    }
+
+    companion object {
+        const val KEY_CLIENTE = "CLIENTE"
     }
 }
 
@@ -168,9 +218,9 @@ data class GeneralData(
     val submitDate: Long,
     val nationalId: String,
     val email: String,
-    val activationDate: Long = System.currentTimeMillis()
+    val activationDate: Long = System.currentTimeMillis(),
+    val isEdit: Boolean = false
 ) : Parcelable {
-    fun name(): String {
-        return firstName + middleName + lastName
-    }
+    val name: String
+        get() = "$firstName $middleName $lastName"
 }

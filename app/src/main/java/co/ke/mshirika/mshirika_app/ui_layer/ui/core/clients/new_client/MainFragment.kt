@@ -9,16 +9,15 @@ import androidx.viewpager2.widget.ViewPager2
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.databinding.FragmentCreateNewClientBinding
 import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.MshirikaFragment
+import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client.content.FamilyFragment
+import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client.content.GeneralFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.create.FormPagingAdapter
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.create.PageIndicatorAdapter
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.create.ViewerFragment
-import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client.content.AddressFragment
-import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client.content.FamilyFragment
-import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client.content.GeneralFragment
-import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client.content.PreviewFragment
-import co.ke.mshirika.mshirika_app.ui_layer.ui.util.EditableUtils.andd
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.LoadingDialog
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.snackL
+import com.google.android.material.button.MaterialButton.ICON_GRAVITY_TEXT_END
+import com.google.android.material.button.MaterialButton.ICON_GRAVITY_TEXT_START
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -31,24 +30,21 @@ class MainFragment @Inject constructor() : MshirikaFragment<FragmentCreateNewCli
     private val toolbar by lazy { binding.appBar.toolbar }
     private val fragments: List<Fragment> = listOf(
         GeneralFragment(),
-        FamilyFragment(),
-        PreviewFragment()
+        FamilyFragment()
     )
-        //AddressFragment(),
-    private lateinit var viewPager: ViewPager2
+    //PreviewFragment()
+    //AddressFragment(),
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.size(fragments.size)
-    }
+    private lateinit var viewPager: ViewPager2
+    private lateinit var adapter: PageIndicatorAdapter
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        binding.fragment = this
         toolbar.setup(R.string.create_client)
-        viewModel.title.collectLatestLifecycle { resId ->
-        //    binding.title.text = getString(resId)
+        viewModel.title.observe(viewLifecycleOwner) { resId ->
             toolbar.subtitle = getString(resId)
         }
         viewPager = binding.viewPager.apply {
@@ -57,21 +53,14 @@ class MainFragment @Inject constructor() : MshirikaFragment<FragmentCreateNewCli
             registerOnPageChangeCallback(PageChangeCallback())
         }
 
-        binding.goToNext.setOnClickListener { navigateToNext() }
-
-        val adapter = PageIndicatorAdapter()
+        adapter = PageIndicatorAdapter(fragments.size)
         binding.indicators.adapter = adapter
-        viewModel.indicators.collectLatestLifecycle {
-            Log.d(TAG, "onViewCreated: ${it.joinToString()}")
-            adapter.submitList(it)
-            adapter.notifyItemRangeChanged(0, it.count())
-        }
         binding.error()
         loading()
     }
 
     private fun FragmentCreateNewClientBinding.error() {
-        viewModel.errorState.collectLatestLifecycle {
+        viewModel.errorState.observe(viewLifecycleOwner) {
             root.snackL(it.text(requireContext())) {
                 dismiss()
             }
@@ -82,13 +71,13 @@ class MainFragment @Inject constructor() : MshirikaFragment<FragmentCreateNewCli
         val loading = LoadingDialog(requireContext()) {
             viewModel.cancel()
         }
-        viewModel.loadingState.collectLatestLifecycle {
+        viewModel.loadingState.observe(viewLifecycleOwner) {
             if (it) loading.show()
             else loading.dismiss()
         }
     }
 
-    private fun navigateToNext() {
+    fun navigateToNext() {
         Log.d(TAG, "navigateToNext: invoked")
         viewPager.apply {
             adapter?.apply {
@@ -119,16 +108,12 @@ class MainFragment @Inject constructor() : MshirikaFragment<FragmentCreateNewCli
         if (page > 0) viewPager.currentItem = page - 1
     }
 
-    fun onChildAttached() {
-        // set up what the next and previous button does
-    }
-
     inner class PageChangeCallback : ViewPager2.OnPageChangeCallback() {
 
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
             Log.d(TAG, "onPageSelected: $position")
-            viewModel.updatePage(position)
+            adapter.selectedPagePosition = position
 
             viewPager.adapter?.let {
                 binding.setup(position, it.itemCount - 1)
@@ -136,20 +121,34 @@ class MainFragment @Inject constructor() : MshirikaFragment<FragmentCreateNewCli
         }
 
         private fun FragmentCreateNewClientBinding.setup(position: Int, last: Int) {
-            val (isEnabled, icon, text) = when (position) {
-                0 -> false andd (R.drawable.ic_round_navigate_next_24 to R.string.next)
-                last -> true andd (R.drawable.ic_round_check_24 to R.string.submit)
-                else -> true andd (R.drawable.ic_round_navigate_next_24 to R.string.next)
+            val (isEnabled, icon, iconGravity, text) = when (position) {
+                0 -> false to R.drawable.ic_round_navigate_next_24 pair (ICON_GRAVITY_TEXT_END to R.string.next)
+                last -> true to R.drawable.ic_round_check_24 pair (ICON_GRAVITY_TEXT_START to R.string.submit)
+                else -> true to R.drawable.ic_round_navigate_next_24 pair (ICON_GRAVITY_TEXT_END to R.string.next)
             }
 
+
             goToPrevious.isEnabled = isEnabled
+            goToNext.iconGravity = iconGravity
             goToNext.setIconResource(icon)
             goToNext.setText(text)
         }
 
     }
 
+
     companion object {
         private const val TAG = "MainFragment"
+
+        internal data class Quadruple<A, B, C, D>(
+            val a: A,
+            val b: B,
+            val c: C,
+            val d: D
+        )
+
+        internal infix fun <A, B, C, D> Pair<A, B>.pair(other: Pair<C, D>): Quadruple<A, B, C, D> {
+            return Quadruple(first, second, other.first, other.second)
+        }
     }
 }

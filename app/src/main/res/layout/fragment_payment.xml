@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui_layer.ui.core.utils.PaymentFragment">
+    tools:context=".ui_layer.ui.core.utils.payment.PaymentFragment">
 
     <data>
 
         <variable
             name="frag"
-            type="co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.PaymentFragment" />
+            type="co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.payment.PaymentFragment" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -30,16 +30,40 @@
                 android:paddingHorizontal="12dp">
 
                 <TextView
-                    android:id="@+id/shares_account_heading"
+                    android:id="@+id/savings_account_heading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/shares_account"
+                    android:text="@string/savings_account"
                     android:textAppearance="?textAppearanceHeadline5"
                     android:textColor="@color/beautiful_text" />
 
-                <include
-                    android:id="@+id/shares_account"
-                    layout="@layout/item_payment" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/savings_account"
+                    style="?textInputOutlinedStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:endIconContentDescription="@string/add_charge"
+                    app:endIconDrawable="@drawable/ic_round_attach_money_24"
+                    app:endIconMode="custom"
+                    app:prefixText="Ksh">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="@string/deposit"
+                        android:inputType="number"
+                        tools:text="30,000" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/payment_charges"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="2"
+                    tools:listitem="@android:layout/simple_list_item_2" />
 
                 <TextView
                     android:id="@+id/loan_accounts"
@@ -57,8 +81,8 @@
                     tools:listitem="@layout/item_payment" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/submitted_on_lo"
-                    style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox"
+                    android:id="@+id/transaction_date_lo"
+                    style="?textInputOutlinedDateStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:endIconContentDescription="@string/date_picker_desc"
@@ -69,7 +93,9 @@
                         android:id="@+id/transaction_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/transaction_date" />
+                        android:hint="@string/transaction_date"
+                        android:inputType="none"
+                        android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -84,6 +110,7 @@
                         android:layout_height="wrap_content"
                         android:editable="false"
                         android:hint="@string/mode_of_payment"
+                        android:maxLines="1"
                         tools:ignore="Deprecated" />
                     <!--android:afterTextChanged="@{(text) -> viewmodel.paymentMode(text)}"-->
                 </com.google.android.material.textfield.TextInputLayout>
@@ -98,23 +125,25 @@
                         android:id="@+id/receipt_no"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:hint="Receipt No*" />
+                        android:hint="@string/receipt_no_"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapCharacters" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/bank_date_lo"
-                    style="@style/Widget.Mshirika.TextInputLayout.OutlinedBox"
+                    style="?textInputOutlinedDateStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:endIconContentDescription="@string/date_picker_desc"
-                    app:endIconDrawable="@drawable/ic_baseline_calendar_month_24"
-                    app:endIconMode="custom">
+                    app:endIconContentDescription="@string/date_picker_desc">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/bank_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/bank_date" />
+                        android:hint="@string/bank_date"
+                        android:inputType="none"
+                        android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
@@ -128,14 +157,14 @@
                     android:id="@+id/shares_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:constraint_referenced_ids="shares_account_heading,shares_account" />
+                    app:constraint_referenced_ids="savings_account_heading,savings_account" />
 
                 <androidx.constraintlayout.helper.widget.Flow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
-                    app:constraint_referenced_ids="shares_account_heading,shares_account,loan_accounts,loan_accs,submitted_on_lo,payment_mode_layout,receipt_no_lo,bank_date_lo,submit"
+                    app:constraint_referenced_ids="savings_account_heading,savings_account,payment_charges,loan_accounts,loan_accs,transaction_date_lo,payment_mode_layout,receipt_no_lo,bank_date_lo,submit"
                     app:flow_verticalGap="12dp"
                     app:flow_wrapMode="aligned"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -144,5 +173,71 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/bottom_sheet"
+            style="?bottomSheetStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            app:strokeWidth="0dp">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/charge_lo"
+                        style="?textInputOutlinedExposedDropdownMenuStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/charge"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:hint="@string/charge"
+                            android:maxLines="1"
+                            tools:text="30,000" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/charge_amount_lo"
+                        style="?textInputOutlinedStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/charge_amount"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:hint="@string/amount_required"
+                            android:inputType="phone|number"
+                            tools:text="30,000" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/submit_charge"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{() -> frag.submitCharge()}"
+                        android:text="@string/submit_charge" />
+
+                    <androidx.constraintlayout.helper.widget.Flow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        android:orientation="vertical"
+                        app:constraint_referenced_ids="charge_lo,charge_amount_lo,submit_charge"
+                        app:flow_verticalGap="5dp"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
+        </com.google.android.material.card.MaterialCardView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

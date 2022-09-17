@@ -87,7 +87,6 @@
             android:id="@+id/confirm_transfer"
             android:layout_width="match_parent"
             android:layout_height="65dp"
-            android:onClick="@{()->frag.sendSMS()}"
             android:text="@string/send"
             app:icon="@drawable/ic_round_send_24" />
 

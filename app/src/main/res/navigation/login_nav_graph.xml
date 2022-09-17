@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_nav_graph"
+    app:startDestination="@id/loginFragment">
+
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.auth.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment2_to_loginLoadingFragment"
+            app:destination="@id/loginLoadingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginLoadingFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.auth.LoginLoadingFragment"
+        android:label="fragment_login_loading"
+        tools:layout="@layout/fragment_login_loading" >
+        <argument
+            android:name="username"
+            app:argType="string" />
+        <argument
+            android:name="password"
+            app:argType="string" />
+    </fragment>
+</navigation>

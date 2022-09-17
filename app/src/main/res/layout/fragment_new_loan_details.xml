@@ -24,7 +24,6 @@
                 android:id="@+id/product"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:afterTextChanged="@{(text) -> fragment.product(text)}"
                 android:hint="@string/loan_product"
                 tools:ignore="SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -37,7 +36,6 @@
                 android:id="@+id/officer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:afterTextChanged="@{(text) -> fragment.officer(text)}"
                 android:hint="@string/loan_officer"
                 tools:ignore="SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -50,7 +48,6 @@
                 android:id="@+id/purpose"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:afterTextChanged="@{(text) -> fragment.purpose(text)}"
                 android:hint="@string/loan_purpose"
                 tools:ignore="SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -64,7 +61,6 @@
                 android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:afterTextChanged="@{(text) -> fragment.date(text)}"
                 android:hint="@string/date_"
                 android:inputType="date|phone" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -78,7 +74,6 @@
                 android:id="@+id/disbursement_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:afterTextChanged="@{(text) -> fragment.disbursementDate(text)}"
                 android:hint="@string/disbursement_date"
                 android:inputType="date|phone" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -91,7 +86,6 @@
                 android:id="@+id/loan_form_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:afterTextChanged="@{(form) -> fragment.form(form)}"
                 android:hint="@string/form_number"
                 android:inputType="phone|number"
                 android:maxLines="1"

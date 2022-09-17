@@ -8,6 +8,10 @@
         <variable
             name="position"
             type="Integer" />
+
+        <variable
+            name="cliente"
+            type="co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.client.Cliente" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -43,6 +47,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.2"
                 tools:background="@drawable/bg_image_text_sub"
                 tools:text="C" />
 
@@ -51,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent=".54" />
+                app:layout_constraintGuide_percent=".4" />
 
             <Space
                 android:id="@+id/space"
@@ -63,14 +68,15 @@
 
             <TextView
                 android:id="@+id/client_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textAppearance="@style/Item.Primary"
+                android:text="@{cliente.displayName}"
+                android:textAppearance="?textAppearanceHeadlineSmall"
                 app:layout_constraintBottom_toTopOf="@id/guideline"
-                app:layout_constraintEnd_toStartOf="@id/client_status"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toEndOf="@id/space"
                 tools:text="Client's Name" />
@@ -80,18 +86,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:textAppearance="@style/Item.Secondary"
+                android:text="@{@string/member_no_resource(cliente.memberNumber)}"
+                android:textAppearance="?textAppearanceBodyMedium"
                 app:layout_constraintStart_toEndOf="@id/space"
                 app:layout_constraintTop_toBottomOf="@id/guideline"
-                tools:text="Member No" />
+                tools:text="@string/member_no_resource" />
 
             <TextView
                 android:id="@+id/client_status"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@id/client_membership_number"
+                android:text="@{cliente.subStatus.description}"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/client_membership_number"
+                app:layout_constraintStart_toEndOf="@id/space"
+                app:layout_constraintTop_toBottomOf="@id/client_membership_number"
                 tools:text="Dormant" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

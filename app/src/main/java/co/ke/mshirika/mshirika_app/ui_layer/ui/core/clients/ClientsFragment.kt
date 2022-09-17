@@ -7,11 +7,10 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
-import androidx.navigation.navGraphViewModels
+import androidx.fragment.app.activityViewModels
 import androidx.paging.LoadState
 import co.ke.mshirika.mshirika_app.R
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.Client
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.client.Cliente
 import co.ke.mshirika.mshirika_app.databinding.FragmentClientsBinding
 import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.adapters.ClientsAdapter
@@ -28,7 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ClientsFragment : MshirikaFragment<FragmentClientsBinding>(R.layout.fragment_clients),
     OnQueryTextListener, OnClientItemClickListener {
 
-    private val viewModel: ClientsViewModel by navGraphViewModels(R.id.clientsFragment)
+    private val viewModel: ClientsViewModel by activityViewModels()
     private val toolbar get() = binding.appBarLayout.toolbarLarge
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,7 +62,6 @@ class ClientsFragment : MshirikaFragment<FragmentClientsBinding>(R.layout.fragme
             listener = this@ClientsFragment
         )
         clients.adapter = adapter
-        clients.setHasFixedSize(false)
 
         viewModel.clientes.collectLatestLifecycle {
             adapter.submitData(it)
@@ -72,25 +70,27 @@ class ClientsFragment : MshirikaFragment<FragmentClientsBinding>(R.layout.fragme
             val refresh = loadStates.refresh
             val isLoading = refresh is LoadState.Loading
             viewModel.loadingChannel.send(isLoading)
-            if (refresh is LoadState.Error)
+            if (refresh is LoadState.Error) {
+                Log.e(TAG, "setupRecyclerView",refresh.error)
                 viewModel.errorChannel.send(resourceText(R.string.an_error_occurred))
+            }
 
             val isEmpty = refresh is LoadState.NotLoading &&
                     refresh.endOfPaginationReached &&
                     adapter.itemCount == 0
             errorNoData.isVisible = isEmpty
         }
-        viewModel.errorState.collectLatestLifecycle {
+        viewModel.errorState.observe(viewLifecycleOwner) {
             root.snackL(it.text(requireContext()))
         }
-        viewModel.loadingState.collectLatestLifecycle {
+        viewModel.loadingState.observe(viewLifecycleOwner) {
             clientsLoading.isVisible = it
         }
     }
 
     override fun onClickClient(
         containerView: View,
-        client: Client,
+        client: Cliente,
         imageUrl: String?,
         colors: IntArray?
     ) {
@@ -104,10 +104,6 @@ class ClientsFragment : MshirikaFragment<FragmentClientsBinding>(R.layout.fragme
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        // do not clear the focus as the clients are searched|filtered
-        // if the fragment is in search mode.
-        // todo study this behaviour
-
         query?.let { viewModel.search(it) }
         // searchView.clearFocus()
         return true

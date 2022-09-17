@@ -40,8 +40,9 @@ abstract class MshirikaFragment<B>(@LayoutRes contentLayoutId: Int) :
     Fragment(contentLayoutId),
     OnMenuItemClickListener {
 
-    var mBinding: B? = null
-    val binding get() = mBinding!!
+    private var _binding: B? = null
+    val binding get() = _binding!!
+    val nullableBinding get() = _binding
     val fragmentLifecycle get() = viewLifecycleOwner.lifecycle
     val lifecycleScope get() = viewLifecycleOwner.lifecycleScope
 
@@ -56,14 +57,18 @@ abstract class MshirikaFragment<B>(@LayoutRes contentLayoutId: Int) :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mBinding = DataBindingUtil.bind(view)
+        _binding = DataBindingUtil.bind(view)
     }
 
-    fun MaterialToolbar.setup(_title: String) {
+    @JvmOverloads
+    fun MaterialToolbar.setup(_title: String, _subtitle: String? = null) {
         title = _title
+        subtitle = _subtitle
         setup()
     }
 
+
+    @JvmOverloads
     fun MaterialToolbar.setup(
         @StringRes titleId: Int,
         @StringRes subtitleId: Int? = null,
@@ -154,7 +159,11 @@ abstract class MshirikaFragment<B>(@LayoutRes contentLayoutId: Int) :
 
     override fun onDestroyView() {
         super.onDestroyView()
-        mBinding = null
+        _binding = null
+    }
+
+    open fun executeInChild() {
+
     }
 
     fun <T> Flow<T>.collectLatestLifecycle(collect: suspend (T) -> Unit) {

@@ -6,7 +6,7 @@ import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Center
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.center.Center
 import co.ke.mshirika.mshirika_app.databinding.ItemCenter2Binding
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.MshirikaPagingDataAdapter
 

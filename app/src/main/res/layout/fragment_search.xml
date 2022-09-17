@@ -33,7 +33,7 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/search_layout"
-                        style="@style/Widget.Material3.TextInputLayout.FilledBox"
+                        style="?textInputFilledStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:boxBackgroundMode="filled"
@@ -42,7 +42,7 @@
                         app:endIconMode="clear_text"
                         app:hintAnimationEnabled="false"
                         app:hintEnabled="false"
-                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Button"
+                        app:shapeAppearanceOverlay="?roundImage"
                         app:startIconDrawable="@drawable/ic_round_arrow_back_24">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -55,7 +55,7 @@
                             android:inputType="text"
                             android:maxLines="1"
                             android:paddingTop="8dp"
-                            android:textAppearance="?textAppearanceBodySmall"
+                            android:textAppearance="?textAppearanceBody2"
                             android:textSize="18sp"
                             tools:text="12344" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -65,11 +65,7 @@
                     android:id="@+id/tab_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_scrollFlags="noScroll"
-                    app:tabIndicatorFullWidth="false"
-                    app:tabIndicatorGravity="bottom"
-                    app:tabIndicatorHeight="4dp"
-                    app:tabMode="scrollable">
+                    app:layout_scrollFlags="noScroll">
 
                     <com.google.android.material.tabs.TabItem
                         android:layout_width="wrap_content"

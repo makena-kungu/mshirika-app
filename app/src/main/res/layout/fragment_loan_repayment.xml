@@ -129,8 +129,8 @@
                             android:editable="false"
                             android:hint="@string/bank_date"
                             android:inputType="date"
-                            tools:text="22.03.2029"
-                            tools:ignore="Deprecated" />
+                            tools:ignore="Deprecated"
+                            tools:text="22.03.2029" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.button.MaterialButton
@@ -157,6 +157,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:nestedScrollingEnabled="false"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/item_transaction_loan" />
 
                     <androidx.constraintlayout.helper.widget.Flow

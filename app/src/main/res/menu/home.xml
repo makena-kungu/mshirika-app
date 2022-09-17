@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--    <item-->
+    <!--        android:id="@+id/action"-->
+    <!--        android:icon="@drawable/abc_ic_search_api_material"-->
+    <!--        android:title="@string/more"-->
+    <!--        android:visible="false"-->
+    <!--        app:actionViewClass="androidx.appcompat.widget.SearchView"-->
+    <!--        app:showAsAction="always" />-->
+
     <item
-        android:id="@+id/action"
-        android:icon="@drawable/abc_ic_search_api_material"
-        android:title="@string/more"
+        android:id="@+id/offline_mode"
+        android:icon="@drawable/ic_round_wifi_off_24"
+        android:title="@string/offline"
+        app:iconTint="?colorError"
         android:visible="false"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        tools:visible="true"
         app:showAsAction="always" />
 </menu>

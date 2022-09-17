@@ -1,82 +1,129 @@
 package co.ke.mshirika.mshirika_app.data_layer.repositories
 
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.DepositShares
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.Repayment
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.LoanFromClientAccounts
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.SavingsAccount
-import co.ke.mshirika.mshirika_app.data_layer.remote.response.ClientPaymentTemplate
-import co.ke.mshirika.mshirika_app.data_layer.remote.services.ClientsService
-import co.ke.mshirika.mshirika_app.data_layer.remote.services.LoansService
-import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome
-import co.ke.mshirika.mshirika_app.data_layer.remote.utils.UnpackResponse.respond
-import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.mshirikaDate
+import co.ke.mshirika.mshirika_app.data_layer.datasource.local.sync.daos.ClientDao
+import co.ke.mshirika.mshirika_app.data_layer.datasource.local.sync.daos.LoansDao
+import co.ke.mshirika.mshirika_app.data_layer.datasource.local.sync.models.transactions.clients_savings.OfflineCharge
+import co.ke.mshirika.mshirika_app.data_layer.datasource.local.sync.models.transactions.clients_savings.OfflineDeposit
+import co.ke.mshirika.mshirika_app.data_layer.datasource.local.sync.models.transactions.loans.OfflineRepayLoan
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.request.PaymentTransaction
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.CreateCharge
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.response.ClientPaymentTemplate
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.services.ClientsService
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.services.LoansService
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.utils.UnpackResponse.respondWithSuccess
 import co.ke.mshirika.mshirika_app.utility.Util.headers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class PaymentRepo @Inject constructor(
-    private val repo: PreferencesStoreRepository,
+    private val store: PreferencesStoreRepository,
     private val service: ClientsService,
-    private val loansService: LoansService
+    private val loansService: LoansService,
+    private val dao: ClientDao,
+    private val loansDao: LoansDao
 ) {
-
-    suspend fun pay(
-        shares: Triple<SavingsAccount, Double, Double>?,
-        loans: MutableMap<LoanFromClientAccounts, Pair<Double, Double>>,
-        other: Other
-    ) = withContext(IO) {
-        val headers = headers()
-        shares?.apply {
-            val savingsAccount = first
-            val amount = second
-            //todo find out how ton include a charge
-            val charge = if (third > 0) third else null
-            respond {
-                val deposit = DepositShares(
-                    transactionAmount = amount.toInt().toString(),
-                    transactionDate = other.transactionDate.mshirikaDate,
-                    paymentTypeId = other.modeId,
-                    bankDate = other.bankDate.mshirikaDate,
-                    receiptNumber = other.receiptNo
-                )
-                service.deposit(
-                    headers,
-                    savingsAccount.id,
-                    deposit = deposit
-                )
-            }
-        }
-
-        loans.forEach { (loan, pair) ->
-            loansService.repay(
-                headers = headers,
-                loanId = loan.id,
-                repayment = Repayment(
-                    transactionDate = other.transactionDate.mshirikaDate,
-                    transactionAmount = pair.first.toString(),
-                    paymentTypeId = other.modeId.toString(),
-                    receiptNumber = other.receiptNo,
-                    bankDate = other.bankDate.mshirikaDate
-                )
+    suspend fun accounts(clientId: Int) = withContext(IO) {
+        respondWithSuccess {
+            service.accounts(
+                headers = headers(),
+                clientId = clientId
             )
         }
     }
 
+    suspend fun account(savingsAccountId: Int) = respondWithSuccess {
+        service.account(headers(), savingsAccountId)
+    }
 
-    suspend fun queryTemplate(clientId: Int): Outcome<ClientPaymentTemplate> = withContext(IO) {
-        respond {
+    suspend fun charges(savingsAccountId: Int) = respondWithSuccess {
+        service.charges(headers(), savingsAccountId)
+    }
+
+    suspend fun deposit(
+        savingsAccountId: Int,
+        deposit: PaymentTransaction
+    ) {
+        val isSynced = store.isOffline.single()
+        if (isSynced) {
+            dao.insert(OfflineDeposit(savingsAccountId = savingsAccountId, deposit = deposit))
+            return
+        }
+        service.deposit(
+            headers = headers(),
+            savingsAccountId = savingsAccountId,
+            deposit = deposit
+        )
+    }
+
+    suspend fun payCharge(
+        savingsAccountId: Int,
+        chargeId: Int,
+        charge: PaymentTransaction
+    ) {
+        val isSynced = store.isOffline.single()
+        if (isSynced) {
+            dao.insert(
+                OfflineCharge(
+                    id = 0,
+                    savingsAccountId = savingsAccountId,
+                    chargeId = chargeId,
+                    charge = charge
+                )
+            )
+            return
+        }
+        service.charge(
+            headers = headers(),
+            savingsAccountId = savingsAccountId,
+            chargeId = chargeId,
+            charge = charge
+        )
+    }
+
+    suspend fun repayLoan(loanId: Int, loan: PaymentTransaction) {
+        val isSynced = store.isOffline.single()
+        if (isSynced) {
+            loansDao.insert(OfflineRepayLoan(loanId = loanId, loan = loan, id = 0))
+            return
+        }
+        loansService.repay(
+            headers = headers(),
+            loanId = loanId,
+            repayment = loan
+        )
+    }
+
+    suspend fun queryChargeTemplate1(savingsAccountId: Int) = respondWithSuccess {
+        service.chargeTemplate(headers(), savingsAccountId)
+    }
+
+    suspend fun queryChargeTemplate2(chargeId: Int) = respondWithSuccess {
+        service.chargeTemplate2(headers(), chargeId)
+    }
+
+    suspend fun queryTemplate(clientId: Int): ClientPaymentTemplate? = withContext(IO) {
+        respondWithSuccess {
             service.templateClientPayment(headers(), clientId)
         }
     }
 
+    suspend fun queryOfflineTemplate(clientId: Int): ClientPaymentTemplate? = withContext(IO) {
+        dao.clientPaymentTemplate(clientId)
+    }
+
     suspend fun headers() = withContext(IO) {
         val key = async {
-            repo.authKey
+            store.authKey
         }
         key.await().first()!!.headers
+    }
+
+    suspend fun createCharge(savingsAccountId: Int, createCharge: CreateCharge) {
+        service.charge(headers(), savingsAccountId = savingsAccountId, createCharge)
     }
 }
 

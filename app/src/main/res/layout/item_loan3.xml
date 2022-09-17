@@ -15,9 +15,10 @@
             name="amountDue"
             type="String" />
 
+
         <variable
             name="loan"
-            type="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.ConservativeLoanAccount" />
+            type="co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.loan.ConservativeLoanAccount" />
 
         <variable
             name="position"
@@ -127,18 +128,18 @@
                 android:maxLines="1"
                 android:text="@string/principal"
                 android:textAppearance="?textAppearanceLabelLarge"
-                app:layout_constraintEnd_toStartOf="@id/loan_interest"
+                app:layout_constraintEnd_toStartOf="@id/loan_balance"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/loan_due_date" />
 
             <TextView
-                android:id="@+id/loan_interest"
+                android:id="@+id/loan_balance"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@string/interest"
+                android:text="@string/_balance"
                 android:textAppearance="?textAppearanceLabelLarge"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/loan_principal"
@@ -152,34 +153,49 @@
                 android:maxLines="1"
                 android:text="@{ViewUtils.getAmt(loan.principal)}"
                 android:textAppearance="?textAppearanceBodyLarge"
-                app:layout_constraintEnd_toStartOf="@id/loan_interest_amount"
+                app:layout_constraintEnd_toStartOf="@id/loan_balance_amount"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/loan_interest"
+                app:layout_constraintTop_toBottomOf="@id/loan_balance"
                 tools:text="Ksh1,000" />
 
             <TextView
-                android:id="@+id/loan_interest_amount"
+                android:id="@+id/loan_balance_amount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:gravity="center_vertical|start"
                 android:maxLines="1"
-                android:text="@{ViewUtils.getAmt(loan.summary.interestCharged)}"
+                android:text="@{ViewUtils.getAmt(loan.summary.totalOutstanding)}"
                 android:textAppearance="?textAppearanceBodyLarge"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/loan_principal_amount"
-                app:layout_constraintTop_toBottomOf="@id/loan_interest"
+                app:layout_constraintTop_toBottomOf="@id/loan_balance"
                 tools:text="Ksh1,000" />
 
+
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/client_make_repayment"
-                style="?materialButtonOutlinedStyle"
+                android:id="@+id/make_repayment"
+                style="@style/Widget.Material3.Button.TonalButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/make_repayment"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/loan_principal_amount" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/view_loan"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/view_loan"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/make_repayment"
                 app:layout_constraintHorizontal_bias="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/loan_principal_amount" />

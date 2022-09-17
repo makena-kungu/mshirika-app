@@ -24,15 +24,25 @@
         android:id="@+id/group3"
         android:checkableBehavior="none">
         <item
-            android:icon="@drawable/ic_round_account_balance_24"
             android:id="@+id/fragmentLoans"
+            android:icon="@drawable/ic_round_account_balance_24"
             android:title="@string/loans" />
+
+        <item
+            android:id="@+id/checkerFragment"
+            android:icon="@drawable/ic_round_inbox_24"
+            android:title="@string/tasks" />
+
+        <item
+            android:id="@+id/offline_mode"
+            android:icon="@drawable/ic_round_download_for_offline_24"
+            android:title="@string/download_for_offline" />
 
         <item
             android:id="@+id/reports"
             android:title="@string/reports"
             android:visible="false"
-            tools:visible="true" />
+            tools:visible="false" />
         <!-- todo recall to remove visibility attribute-->
 
         <item

@@ -1,23 +1,25 @@
 package co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import co.ke.mshirika.mshirika_app.R
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.templates.ClientTemplate
-import co.ke.mshirika.mshirika_app.data_layer.remote.utils.CANCELLATION_ERROR
-import co.ke.mshirika.mshirika_app.data_layer.remote.utils.NETWORK_ERROR
-import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.templates.client.ClientTemplate
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.templates.client.EditClientTemplate
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.utils.CANCELLATION_ERROR
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.utils.NETWORK_ERROR
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.utils.Outcome
 import co.ke.mshirika.mshirika_app.data_layer.repositories.clients.ClientsRepo
 import co.ke.mshirika.mshirika_app.ui_layer.MshirikaViewModel
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client.content.Address
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client.content.FamilyMember
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client.content.GeneralData
-import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.create.PageIndicator
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.plainText
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.resourceText
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -26,13 +28,20 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateClientViewModel @Inject constructor(
     private val repo: ClientsRepo,
-    private val useCase: CreateClientUseCase,
+    private val createUseCase: CreateClientUseCase,
+    private val editUseCase: EditClientUseCase,
     private val state: SavedStateHandle
 ) : MshirikaViewModel() {
+    private var _task = MutableStateFlow<Task>(Task.Create)
+    var task = _task.asLiveData()
+
     private val _data = MutableStateFlow(mutableMapOf<String, Any>())
-    private val _list: MutableList<PageIndicator> = mutableListOf()
-    private val _indicators = Channel<MutableList<PageIndicator>>()
-    private val _familyMembers = MutableStateFlow(mutableListOf<FamilyMember>())
+    private val _familyMembers = MutableStateFlow(
+        mutableListOf(
+            *(state.get<List<FamilyMember>>(KEY_FAMILY)
+                ?.toTypedArray() ?: emptyArray())
+        )
+    )
     private val _title = Channel<Int>()
 
     private var _template: ClientTemplate?
@@ -46,9 +55,10 @@ class CreateClientViewModel @Inject constructor(
             state[KEY_GENERAL_DATA] = value
         }
 
+    private val famMembers: List<FamilyMember> = state[KEY_FAMILY] ?: emptyList()
+
     init {
         viewModelScope.launch {
-            _indicators.send(_list)
             _title.send(R.string.general_data)
         }
     }
@@ -56,8 +66,7 @@ class CreateClientViewModel @Inject constructor(
     val data get() = _data.asStateFlow()
     val generalData get() = _generalData
     val familyMembers: StateFlow<List<FamilyMember>> get() = _familyMembers.asStateFlow()
-    val indicators get() = _indicators.receiveAsFlow()
-    val title get() = _title.receiveAsFlow()
+    val title get() = _title.receiveAsFlow().asLiveData()
     val clientCreated = flow {
         repo.created.collectLatest { outcome ->
             when (outcome) {
@@ -83,11 +92,13 @@ class CreateClientViewModel @Inject constructor(
 
     fun addFamilyMember(fam: FamilyMember) {
         _familyMembers.value += fam
+        state[KEY_FAMILY] = _familyMembers.value
+        Log.d(TAG, "addFamilyMember: added $fam")
     }
 
 
     fun post() {
-        launch(Dispatchers.IO) {
+        launch(IO) {
             val errorText = plainText("Couldn't create client!")
             val template = _template
             val general = _generalData
@@ -96,10 +107,10 @@ class CreateClientViewModel @Inject constructor(
                 return@launch
             }
 
-            val result = useCase(
+            val result = createUseCase(
                 general = general,
                 template = template,
-                familyMembers = familyMembers.value
+                familyMembers = famMembers
             )
             if (result == null) {
                 errorChannel.send(errorText)
@@ -110,22 +121,20 @@ class CreateClientViewModel @Inject constructor(
         }
     }
 
-    fun updatePage(position: Int) {
-        _list.forEachIndexed { index, indicator ->
-            _list[index] = indicator.copy(isSelected = index == position)
-        }
-        launch {
-            _indicators.send(_list)
-        }
-    }
-
     fun updateTitle(@StringRes resId: Int) {
         launch {
             _title.send(resId)
         }
     }
 
-    fun saveGeneralData(data: GeneralData) {
+    fun saveGeneralData(data: GeneralData, template: EditClientTemplate?) {
+        if (data.isEdit) {
+            viewModelScope.launch(IO) {
+                editUseCase(data, template!!)
+            }
+            return
+        }
+
         _generalData = data
     }
 
@@ -133,13 +142,6 @@ class CreateClientViewModel @Inject constructor(
         val value = _data.value
         value[KEY_ADDRESS] = address
         _data.value = value
-    }
-
-    fun size(size: Int) {
-        repeat(size) {
-            _list += PageIndicator(it, it == 0)
-        }
-        launch { _indicators.send(_list) }
     }
 
     suspend fun template(): ClientTemplate? {
@@ -154,11 +156,26 @@ class CreateClientViewModel @Inject constructor(
         repo.cancel()
     }
 
+    fun task(task: Task) {
+        _task.value = task
+    }
+
+    suspend fun getEditTemplate(clientId: Int): EditClientTemplate? {
+        return repo.editClientTemplate(clientId)
+    }
+
     companion object {
         private const val TAG = "ViewModel"
 
-        const val KEY_GENERAL_DATA = "GENERAL_DATA"
-        const val KEY_ADDRESS = "ADDRESS"
+        private const val KEY_GENERAL_DATA = "GENERAL_DATA"
+        private const val KEY_ADDRESS = "ADDRESS"
         private const val KEY_TEMPLATE = "TEMPLATE"
+        private const val KEY_FAMILY = "FAMILY"
+
     }
+}
+
+sealed class Task {
+    object Edit : Task()
+    object Create : Task()
 }

@@ -1,12 +1,14 @@
 package co.ke.mshirika.mshirika_app.ui_layer.ui.search.fragments.clients
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.paging.TerminalSeparatorType
+import androidx.paging.insertHeaderItem
+import androidx.paging.map
 import co.ke.mshirika.mshirika_app.R
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.client.Cliente
 import co.ke.mshirika.mshirika_app.databinding.FragmentSearchFragsBinding
 import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.OnClientItemClickListener
@@ -20,9 +22,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class ClientsFragment : MshirikaFragment<FragmentSearchFragsBinding>(
     R.layout.fragment_search_frags
 ), OnSearchListener {
-    private val viewModel by viewModels<SearchViewModel>()
+    private val viewModel by viewModels<SearchViewModel>({ requireParentFragment() })
+    private val listener: OnClientItemClickListener get() = requireParentFragment() as SearchFragment
 
-    private lateinit var listener: OnClientItemClickListener
     private lateinit var adapter: ClientsAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,22 +37,15 @@ class ClientsFragment : MshirikaFragment<FragmentSearchFragsBinding>(
         )
         binding.list.adapter = adapter
         binding.errorNoData.setText(R.string.no_clients_found)
+
+        viewModel.clientes.observe(viewLifecycleOwner) {
+            adapter.submitData(fragmentLifecycle, it)
+        }
     }
 
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         return false
-    }
-
-    override fun search(query: String) {
-        viewModel.load()
-        viewModel.clientes(query).observe(viewLifecycleOwner) {
-            viewModel.stopLoading()
-            adapter.submitData(fragmentLifecycle, it)
-            val count = adapter.itemCount
-            Log.d(TAG, "search: count = $count")
-            binding.errorNoData.isVisible = count == 0
-        }
     }
 
     override val title: String
@@ -59,10 +54,5 @@ class ClientsFragment : MshirikaFragment<FragmentSearchFragsBinding>(
     companion object {
         private const val TAG = "ClientsFragment"
 
-        fun getInstance(searchFragment: SearchFragment): ClientsFragment {
-            val fragment = ClientsFragment()
-            fragment.listener = searchFragment
-            return fragment
-        }
     }
 }

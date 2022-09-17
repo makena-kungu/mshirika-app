@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="fragment"
             type="co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.ClientFragment" />
@@ -16,31 +17,6 @@
         android:clipToPadding="false"
         android:paddingHorizontal="10dp">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/deposit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/deposit_and_pay"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/new_loan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/new_loan"
-            style="@style/Widget.Material3.Button.TonalButton" />
-
-
-        <androidx.constraintlayout.helper.widget.Flow
-            android:id="@+id/buttons_flow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:flow_horizontalStyle="packed"
-            app:flow_horizontalGap="20dp"
-            android:layout_marginTop="10dp"
-            app:constraint_referenced_ids="deposit,new_loan"
-            app:layout_constraintTop_toTopOf="parent"/>
-
         <TextView
             android:id="@+id/loan"
             android:layout_width="0dp"
@@ -51,7 +27,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/buttons_flow"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/loans"

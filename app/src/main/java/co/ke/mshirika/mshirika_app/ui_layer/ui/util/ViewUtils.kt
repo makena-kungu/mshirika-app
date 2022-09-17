@@ -8,15 +8,17 @@ import android.util.Size
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.StringRes
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.getSystemService
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import co.ke.mshirika.mshirika_app.R
-import co.ke.mshirika.mshirika_app.ui_layer.ui.util.EditableUtils.s
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.EditableUtils.text
+import com.google.android.material.snackbar.BaseTransientBottomBar.Duration
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.*
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -112,6 +114,11 @@ object ViewUtils {
     }
 
     @JvmStatic
+    fun ImageView.background(colorArray: IntArray) {
+        background = Size(width, height).drawable(colorArray)
+    }
+
+    @JvmStatic
     fun Size.drawable(colorArray: IntArray): GradientDrawable {
         return GradientDrawable().apply {
             setSize(width, height)
@@ -155,24 +162,57 @@ object ViewUtils {
     @JvmStatic
     fun View.snackS(message: String) =
         make(this, message, LENGTH_SHORT)
-            .show()
 
     @JvmStatic
-    fun View.snackL(messageId: Int) =
-        make(this, messageId, LENGTH_LONG).show()
+    fun View.snackL(@StringRes messageId: Int) =
+        make(this, messageId, LENGTH_LONG)
 
     @JvmStatic
     fun View.snackL(message: String) =
-        make(this, message, LENGTH_LONG).show()
+        make(this, message, LENGTH_LONG)
+
+    @JvmStatic
+    fun View.snackL(uiText: UIText) = make(this, uiText.text(context), LENGTH_LONG)
 
     @JvmStatic
     fun View.snackL(message: String, action: Snackbar.() -> Unit) {
-        make(this, message, LENGTH_LONG).run {
-            action()
-            show()
+        make(this, message, LENGTH_LONG, action)
+    }
+
+    @JvmStatic
+    fun View.snackI(message: String) {
+        return make(this, message, LENGTH_INDEFINITE) {
+            setAction(R.string.okay) {
+                dismiss()
+            }
         }
     }
 
-    fun View.snackI(message: String) =
-        make(this, message, LENGTH_INDEFINITE)
+    @JvmStatic
+    private fun make(
+        view: View,
+        @StringRes messageId: Int,
+        @Suppress("SameParameterValue") @Duration duration: Int,
+        action: Snackbar.() -> Unit = {}
+    ) {
+        return Snackbar.make(view, messageId, duration).apply {
+            text
+            action()
+        }.show()
+    }
+
+    @JvmStatic
+    private fun make(view: View, message: String, @Duration duration: Int, action: Snackbar.() -> Unit = {}) {
+        Snackbar.make(view, message, duration).apply {
+            text
+            action()
+        }.show()
+    }
+
+    @JvmStatic
+    private val Snackbar.text: Snackbar
+        get() {
+            view.findViewById<TextView>(R.id.snackbar_text).maxLines = 5
+            return this
+        }
 }

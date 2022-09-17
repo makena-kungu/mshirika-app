@@ -14,10 +14,6 @@ class AboutFragment:Fragment() {
         TODO("Create the required view")
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
     fun onLicenses() {
         startActivity(Intent(requireActivity(),OssLicensesActivity::class.java))
     }

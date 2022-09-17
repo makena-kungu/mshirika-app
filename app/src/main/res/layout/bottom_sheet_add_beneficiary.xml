@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/beneficiary_name_lo"
+        style="?textInputOutlinedStyle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/beneficiary_name"
+            style="?textInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/name" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/beneficiary_relationship_lo"
+        style="?textInputOutlinedExposedDropdownMenuStyle">
+
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/beneficiary_relationship"
+            style="?textInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/relationship" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/beneficiary_phone_number_lo"
+        style="?textInputOutlinedStyle"
+        app:prefixText="+254">
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/beneficiary_phone_number"
+            style="?textInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/phone_number"
+            android:inputType="phone" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/beneficiary_id_number_lo"
+        style="?textInputOutlinedStyle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/beneficiary_id_number"
+            style="?textInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/id_number"
+            android:inputType="phone|number" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/beneficiary_dob_lo"
+        style="?textInputOutlinedDateStyle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/beneficiary_dob"
+            style="?textInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/date_of_birth"
+            android:inputType="phone|number" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/beneficiary_percent_allocation_lo"
+        style="?textInputOutlinedStyle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/beneficiary_percent_allocation"
+            style="?textInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/percentage_allocation"
+            android:inputType="phone|number" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/add_beneficiary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_beneficiary" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/flow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="8dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="5dp"
+        app:constraint_referenced_ids="beneficiary_name_lo,beneficiary_relationship_lo,beneficiary_phone_number_lo,beneficiary_id_number_lo,beneficiary_dob_lo,beneficiary_percent_allocation_lo,add_beneficiary"
+        app:flow_verticalGap="5dp"
+        app:flow_wrapMode="chain"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintVertical_chainStyle="packed" />
+</androidx.constraintlayout.widget.ConstraintLayout>

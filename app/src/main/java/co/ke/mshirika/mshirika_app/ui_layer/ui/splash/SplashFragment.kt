@@ -23,13 +23,13 @@ class SplashFragment : MshirikaFragment<FragmentSplashBinding>(R.layout.fragment
             val navOptions = NavOptions.Builder()
             val direction = it?.let {
                 navOptions.setPopUpTo(R.id.homeFragment, true)
-                SplashFragmentDirections.actionSplashFragmentToHomeFragment()
+//                SplashFragmentDirections.actionSplashFragmentToHomeFragment()
             } ?: kotlin.run {
                 navOptions.setPopUpTo(R.id.loginFragment, true)
-                SplashFragmentDirections.actionSplashFragmentToLoginFragment()
+//                SplashFragmentDirections.actionSplashFragmentToLoginFragment()
             }
 
-            findNavController().navigate(direction, navOptions.build())
+//            findNavController().navigate(direction, navOptions.build())
         }
     }
 }

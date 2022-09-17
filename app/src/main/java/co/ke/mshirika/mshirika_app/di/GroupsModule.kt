@@ -1,6 +1,6 @@
 package co.ke.mshirika.mshirika_app.di
 
-import co.ke.mshirika.mshirika_app.data_layer.remote.services.GroupsService
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.services.GroupsService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,11 +11,11 @@ import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 object GroupsModule {
 
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun providesGroupsService(retrofit: Retrofit): GroupsService =
         retrofit.create(GroupsService::class.java)
 }

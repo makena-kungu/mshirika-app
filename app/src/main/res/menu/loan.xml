@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/loanRepaymentScheduleFragment"
+        android:title="@string/repayment_schedule" />
+
+    <item
+        android:id="@+id/loanTransactionsFragment"
+        android:title="@string/transactions" />
+</menu>

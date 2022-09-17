@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import co.ke.mshirika.mshirika_app.R
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.NewLoan
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.templates.NewLoanTemplate2
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.request.NewLoan
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.templates.loan.NewLoanTemplate2
 import co.ke.mshirika.mshirika_app.databinding.FragmentNewLoanChargesBinding
 import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.MshirikaFragment
-import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.create.ViewerFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.new_loan.NewLoanViewModel
+import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.create.ViewerFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.EditableUtils.clear
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.EditableUtils.text
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.amt

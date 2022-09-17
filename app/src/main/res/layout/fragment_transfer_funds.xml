@@ -72,7 +72,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="58.5"
                             android:gravity="end"
-                            android:textAppearance="@style/Item.Primary"
+                            android:textAppearance="?textAppearanceHeadlineSmall"
                             android:textColor="#2CA409"
                             android:textSize="20sp"
                             tools:text="$23,450" />
@@ -156,7 +156,7 @@
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/amount_lo"
                             style="?textInputOutlinedDenseStyle"
-                            tools:prefixText="Ksh">
+                            app:prefixText="Ksh">
 
                             <!--todo add the prefix dynamically-->
 

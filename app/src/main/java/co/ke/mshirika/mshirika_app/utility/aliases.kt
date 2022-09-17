@@ -8,3 +8,4 @@ typealias mld<T> = MutableLiveData<T>
 typealias ld<T> = LiveData<T>
 
 typealias msf<T> = MutableStateFlow<T>
+typealias mSharedF<T> = MutableStateFlow<T>

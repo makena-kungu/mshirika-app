@@ -5,22 +5,21 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
-import androidx.navigation.navGraphViewModels
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import co.ke.mshirika.mshirika_app.R
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Group
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.group.Grupo
 import co.ke.mshirika.mshirika_app.databinding.FragmentGroupsBinding
 import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.State
-import co.ke.mshirika.mshirika_app.ui_layer.ui.search.OnSearchListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class GroupsFragment : MshirikaFragment<FragmentGroupsBinding>(R.layout.fragment_groups),
     SearchView.OnQueryTextListener,
     OnGroupClickListener {
-    private val viewModel by navGraphViewModels<GroupsViewModel>(R.id.groupsFragment)
+    private val viewModel by activityViewModels<GroupsViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,7 +80,8 @@ class GroupsFragment : MshirikaFragment<FragmentGroupsBinding>(R.layout.fragment
         return true
     }
 
-    override fun onClickGroup(group: Group, position: Int) {
-        // TODO("Not yet implemented")
+    override fun onClickGroup(group: Grupo, position: Int) {
+        val dirs = GroupsFragmentDirections.actionGroupsFragmentToGroupFragment(group)
+        findNavController().navigate(dirs)
     }
 }

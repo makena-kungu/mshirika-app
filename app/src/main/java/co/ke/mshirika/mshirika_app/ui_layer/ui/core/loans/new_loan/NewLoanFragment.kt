@@ -35,10 +35,11 @@ class NewLoanFragment : MshirikaFragment<FragmentCreateNewLoanBinding>(
     private val toolbar get() = binding.appBar.toolbar
     private val viewPager get() = binding.newLoanAccountContainer
 
+    private lateinit var adapter: PageIndicatorAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.client = client
-        viewModel.setPages(fragments.size)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,9 +48,9 @@ class NewLoanFragment : MshirikaFragment<FragmentCreateNewLoanBinding>(
         viewModel.subtitle.collectLatestLifecycle {
             toolbar.setSubtitle(it)
         }
-        viewModel.page.collectLatestLifecycle { page ->
+        viewModel.page.observe(viewLifecycleOwner) { page ->
             //the page has been updated do something
-            var last = viewPager.adapter?.itemCount ?: return@collectLatestLifecycle
+            var last = viewPager.adapter?.itemCount ?: return@observe
             last--
 
             val (isEnabled, icon, text) = when (page) {
@@ -72,12 +73,8 @@ class NewLoanFragment : MshirikaFragment<FragmentCreateNewLoanBinding>(
             )
         }
 
-        val adapter = PageIndicatorAdapter()
+        adapter = PageIndicatorAdapter(fragments.size)
         binding.indicators.adapter = adapter
-        viewModel.indicators.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-            //todo check if it requires notifying
-        }
 
         viewModel.created.observe(viewLifecycleOwner) {
             NewLoanFragmentDirections.actionNewLoanFragmentToGuarantorsFragment(
@@ -120,6 +117,7 @@ class NewLoanFragment : MshirikaFragment<FragmentCreateNewLoanBinding>(
     inner class Pager : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
+            adapter.selectedPagePosition = position
             viewModel.update(position)
         }
     }

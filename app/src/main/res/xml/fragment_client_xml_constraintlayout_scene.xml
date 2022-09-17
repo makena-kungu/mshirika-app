@@ -132,6 +132,7 @@
             motion:layout_constraintHorizontal_bias="0"
             motion:layout_constraintStart_toStartOf="@id/client_name"
             motion:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="8dp"
             motion:layout_constraintVertical_bias="0.85" />
     </ConstraintSet>
 </MotionScene>

@@ -1,8 +1,7 @@
 package co.ke.mshirika.mshirika_app.data_layer.repositories
 
-import android.util.Log
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.NewLoan
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.templates.NewLoanTemplate2
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.request.NewLoan
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.templates.loan.NewLoanTemplate2
 import com.google.gson.Gson
 
 object Util {

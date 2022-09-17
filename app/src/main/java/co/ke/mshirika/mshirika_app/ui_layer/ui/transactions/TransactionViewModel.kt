@@ -2,7 +2,7 @@ package co.ke.mshirika.mshirika_app.ui_layer.ui.transactions
 
 import androidx.lifecycle.viewModelScope
 import co.ke.mshirika.mshirika_app.R
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Transaction
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.Transaction
 import co.ke.mshirika.mshirika_app.ui_layer.MshirikaViewModel
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.FlowUtils.collectLatestNonNull
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +24,7 @@ class TransactionViewModel @Inject constructor() : MshirikaViewModel() {
                 R.string.transaction_id to id.toString(),
                 R.string.transaction_type to transactionType.value,
                 R.string.transaction_date to paymentDetailData.transactionDate,
-                R.string.by to submittedByUsername,
+                R.string.by to (submittedByUsername ?: ""),
                 R.string.payment_type to paymentDetailData.paymentType.name,
                 R.string.receipt_no to paymentDetailData.receiptNumber
             )

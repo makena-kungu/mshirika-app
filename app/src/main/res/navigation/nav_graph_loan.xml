@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_loan"
+    app:startDestination="@id/generalLoanDataFragment">
+
+    <!-- Include the schedule and transactions fragments -->
+    <fragment
+        android:id="@+id/generalLoanDataFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.view_loan.GeneralLoanDataFragment"
+        android:label="fragment_view_loan_general_page"
+        tools:layout="@layout/fragment_view_loan_general_page" >
+        <action
+            android:id="@+id/action_generalLoanDataFragment_to_loanTransactionsFragment"
+            app:destination="@id/loanTransactionsFragment" />
+        <action
+            android:id="@+id/action_generalLoanDataFragment_to_loanRepaymentScheduleFragment"
+            app:destination="@id/loanRepaymentScheduleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loanTransactionsFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.view_loan.transactions.LoanTransactionsFragment"
+        android:label="@string/transactions"
+        tools:layout="@layout/fragment_loan_transactions" />
+    <fragment
+        android:id="@+id/loanRepaymentScheduleFragment"
+        android:name="co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.view_loan.repayment_schedule.LoanRepaymentScheduleFragment"
+        android:label="@string/repayment_schedule"
+        tools:layout="@layout/fragment_repayment_schedule" />
+</navigation>

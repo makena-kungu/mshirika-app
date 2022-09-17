@@ -6,13 +6,18 @@
         android:title="@string/edit" />
 
     <item
+        android:id="@+id/new_loan"
+        android:icon="@drawable/ic_round_attach_money_24"
+        android:title="@string/new_loan" />
+
+    <item
         android:id="@+id/deposit"
         android:title="@string/deposit"
         android:visible="false" />
     <item
         android:id="@+id/withdraw"
-        android:visible="false"
-        android:title="@string/withdraw" />
+        android:title="@string/withdraw"
+        android:visible="false" />
     <item
         android:id="@+id/charge"
         android:title="@string/charge" />
@@ -23,4 +28,8 @@
     <item
         android:id="@+id/send_sms"
         android:title="@string/send_sms" />
+
+    <item
+        android:id="@+id/more"
+        android:title="@string/more" />
 </menu>

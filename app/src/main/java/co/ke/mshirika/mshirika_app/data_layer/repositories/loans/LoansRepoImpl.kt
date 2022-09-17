@@ -1,40 +1,51 @@
 package co.ke.mshirika.mshirika_app.data_layer.repositories.loans
 
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingData
-import co.ke.mshirika.mshirika_app.data_layer.pagingSource.LoansPagingSource
-import co.ke.mshirika.mshirika_app.data_layer.pagingSource.Util
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.CreateGuarantor
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.NewLoan
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.Repayment
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.RepaymentSuccessful
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.*
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.templates.GuarantorsTemplateWithClient
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.templates.NewLoanTemplate
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.templates.NewLoanTemplate2
-import co.ke.mshirika.mshirika_app.data_layer.remote.response.RepaymentResponse
-import co.ke.mshirika.mshirika_app.data_layer.remote.services.LoansService
-import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome
-import co.ke.mshirika.mshirika_app.data_layer.remote.utils.UnpackResponse
-import co.ke.mshirika.mshirika_app.data_layer.remote.utils.UnpackResponse.respondWithSuccess
+import androidx.paging.filter
+import co.ke.mshirika.mshirika_app.data_layer.datasource.local.cache.daos.CacheDao
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.request.CreateGuarantor
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.request.NewLoan
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.request.PaymentTransaction
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.RepaymentSuccessful
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.loan.*
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.templates.guarantors.GuarantorsTemplateWithClient
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.templates.loan.NewLoanTemplate
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.templates.loan.NewLoanTemplate2
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.response.RepaymentResponse
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.services.LoansService
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.utils.Outcome
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.utils.UnpackResponse.respond
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.utils.UnpackResponse.respondWithSuccess
+import co.ke.mshirika.mshirika_app.data_layer.pagingSource.PagingSourceUtil.pagingConfig
+import co.ke.mshirika.mshirika_app.data_layer.remote_mediators.LoansRemoteMediator
 import co.ke.mshirika.mshirika_app.data_layer.repositories.PreferencesStoreRepository
 import co.ke.mshirika.mshirika_app.utility.Util.headers
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@OptIn(ExperimentalPagingApi::class)
 class LoansRepoImpl @Inject constructor(
     private val service: LoansService,
     private val store: PreferencesStoreRepository,
-    private val pagingSource: LoansPagingSource
+    remoteMediator: LoansRemoteMediator,
+    private val dao: CacheDao
 ) : LoansRepo {
 
     override val loans: Flow<PagingData<ConservativeLoanAccount>> = Pager(
-        config = Util.pagingConfig(pageSize = 10),
-        pagingSourceFactory = { pagingSource }
+        config = pagingConfig(pageSize = 10),
+        pagingSourceFactory = { dao.loans() },
+        remoteMediator = remoteMediator
     ).flow
+
+    override val prestamos: Flow<List<ConservativeLoanAccount>>
+        get() = dao.prestamos()
 
     override suspend fun createGuarantor(
         loanId: Int,
@@ -42,7 +53,7 @@ class LoansRepoImpl @Inject constructor(
     ): Outcome<CreateGuarantorResponse> = withContext(
         IO
     ) {
-        UnpackResponse.respond {
+        respond {
             service.createGuarantor(headers(), loanId, createGuarantor)
         }
     }
@@ -85,7 +96,8 @@ class LoansRepoImpl @Inject constructor(
             }
         }
 
-    override suspend fun guarantorsTemplate(
+    override suspend fun
+            guarantorsTemplate(
         clientId: Int,
         loanId: Int
     ): GuarantorsTemplateWithClient? = withContext(IO) {
@@ -100,7 +112,7 @@ class LoansRepoImpl @Inject constructor(
 
     override suspend fun newLoan(newLoan: NewLoan): Outcome<CreateLoan> =
         withContext(IO) {
-            UnpackResponse.respond {
+            respond {
                 service.newLoan(
                     headers = headers(),
                     newLoan = newLoan
@@ -123,7 +135,7 @@ class LoansRepoImpl @Inject constructor(
         }
     }
 
-    override suspend fun repay(loanId: Int, repayment: Repayment): RepaymentSuccessful? =
+    override suspend fun repay(loanId: Int, repayment: PaymentTransaction): RepaymentSuccessful? =
         withContext(IO) {
             respondWithSuccess {
                 service.repay(

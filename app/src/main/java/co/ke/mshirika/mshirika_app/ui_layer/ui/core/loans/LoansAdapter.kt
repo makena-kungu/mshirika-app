@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.NO_POSITION
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.ConservativeLoanAccount
-import co.ke.mshirika.mshirika_app.data_layer.remote.utils.GetsRepaymentSchedule
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.loan.ConservativeLoanAccount
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.utils.GetsRepaymentSchedule
 import co.ke.mshirika.mshirika_app.databinding.ItemLoan3Binding
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.date
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.mediumDate
+import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.now
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.amt
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -40,12 +41,6 @@ class LoansAdapter(
 
         private val root get() = binding.root
 
-        init {
-            binding.apply {
-
-            }
-        }
-
         override fun onClick(v: View?) {
             if (v == null) return
 
@@ -53,35 +48,47 @@ class LoansAdapter(
             if (pos == NO_POSITION) return
             val account = getItem(pos) ?: return
             when (v.id) {
-                binding.clientMakeRepayment.id -> {
-                    Log.d(TAG, "onClick: $account")
+                binding.makeRepayment.id -> {
                     listener.onLoanRepayClicked(
                         account,
                         pos,
                         root
                     )
                 }
-                else -> {
+                binding.viewLoan.id -> {
                     listener.onLoanClicked(account, pos, root)
-                    // TODO("create a new button and do binding...")
                 }
             }
         }
 
         fun bind(loan: ConservativeLoanAccount, position: Int) {
+            Log.d(TAG, "bind: invoked")
             root.setOnClickListener(this)
-            binding.clientMakeRepayment.setOnClickListener(this)
+            binding.makeRepayment.setOnClickListener(this)
+            binding.viewLoan.setOnClickListener(this)
             binding.loan = loan
             binding.position = position
 
             coroutineScope.launch {
                 val result = scheduleGetter.repaymentSchedule(loan.id) ?: return@launch
-                result.repaymentSchedule.periods?.first {
+                result.repaymentSchedule?.periods?.firstOrNull { period ->
                     val time = System.currentTimeMillis()
-                    it.fromDate.date < time && it.dueDate.date > time
+                    Log.d(TAG, "bind: period = $period")
+                    val from = period.fromDate?.run { date < time } == true
+                    val to = period.dueDate?.run { date > time } == true
+                    from and to
                 }?.also {
-                    binding.dueDate = it.dueDate.date.mediumDate
+                    binding.dueDate = it.dueDate?.date?.mediumDate
                     binding.amountDue = it.totalDueForPeriod.amt
+                } ?: kotlin.run {
+                    //check for the largest period
+                    result.repaymentSchedule?.periods?.takeUnless { list ->
+                        list.any { it.dueDate.isNullOrEmpty() }
+                    }?.maxOfOrNull {
+                        it.dueDate!!.date
+                    }?.also {
+                        if (it < now) binding.dueDate = "Overdue"
+                    }
                 }
             }
         }

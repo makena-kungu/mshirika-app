@@ -1,8 +1,9 @@
 package co.ke.mshirika.mshirika_app.ui_layer
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.utils.Outcome
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.UIText
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.dynamicText
 import kotlinx.coroutines.CoroutineScope
@@ -16,9 +17,9 @@ abstract class MshirikaViewModel : ViewModel() {
     val successChannel = Channel<UIText>()
     val loadingChannel = Channel<Boolean>(1)
 
-    val loadingState get() = loadingChannel.receiveAsFlow()
-    val errorState get() = errorChannel.receiveAsFlow()
-    val successState get() = successChannel.receiveAsFlow()
+    val loadingState get() = loadingChannel.receiveAsFlow().asLiveData()
+    val errorState get() = errorChannel.receiveAsFlow().asLiveData()
+    val successState get() = successChannel.receiveAsFlow().asLiveData()
 
     suspend inline fun <T> Outcome<T>.stateHandler(
         hasLoading: Boolean = true,

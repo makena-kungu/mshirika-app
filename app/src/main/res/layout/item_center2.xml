@@ -7,7 +7,7 @@
 
         <variable
             name="center"
-            type="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Center" />
+            type="co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.center.Center" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -34,7 +34,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/office_name" />
+                tools:text="group_count" />
             <!--todo add the groups count-->
 
             <TextView

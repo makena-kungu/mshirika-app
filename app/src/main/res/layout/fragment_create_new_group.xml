@@ -81,6 +81,7 @@
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/group_is_active"
                         android:layout_width="wrap_content"
+                        android:visibility="gone"
                         android:layout_height="wrap_content"
                         android:checked="true"
                         android:text="@string/is_active" />

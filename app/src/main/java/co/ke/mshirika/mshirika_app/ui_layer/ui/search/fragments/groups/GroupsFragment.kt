@@ -5,7 +5,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.paging.LoadState
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.databinding.FragmentSearchFragsBinding
 import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.MshirikaFragment
@@ -20,15 +19,21 @@ import dagger.hilt.android.AndroidEntryPoint
 class GroupsFragment : MshirikaFragment<FragmentSearchFragsBinding>(R.layout.fragment_search_frags),
     OnSearchListener {
 
-    private lateinit var listener: OnGroupClickListener
+    private val listener: OnGroupClickListener
+        get() = requireParentFragment() as SearchFragment
+    private val viewModel by viewModels<SearchViewModel>({ requireParentFragment() })
+
     private lateinit var adapter: GroupsAdapter
-    private val viewModel by viewModels<SearchViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = GroupsAdapter(listener)
         binding.list.adapter = adapter
         binding.errorNoData.setText(R.string.no_groups_found)
+
+        viewModel.grupos.observe(viewLifecycleOwner) {
+            adapter.submitData(fragmentLifecycle, it)
+        }
     }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
@@ -38,21 +43,7 @@ class GroupsFragment : MshirikaFragment<FragmentSearchFragsBinding>(R.layout.fra
     override val title: String
         get() = getString(R.string.groups)
 
-    override fun search(query: String) {
-        viewModel.load()
-        viewModel.grupos(query).observe(viewLifecycleOwner) {
-            viewModel.stopLoading()
-            adapter.submitData(fragmentLifecycle, it)
-            val count = adapter.itemCount
-            binding.errorNoData.isVisible = count == 0
-        }
-    }
-
     companion object {
-        fun getInstance(searchFragment: SearchFragment): GroupsFragment {
-            val fragment = GroupsFragment()
-            fragment.listener = searchFragment
-            return fragment
-        }
+        private const val TAG = "GroupsFragment"
     }
 }

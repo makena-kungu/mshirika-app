@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <style name="ShapeAppearance.Mshirika.BottomSheet" parent="Widget.Mshirika.Shape">
+        <item name="cornerSizeTopLeft">16dp</item>
+        <item name="cornerSizeTopRight">16dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
+    <style name="ShapeAppearance.Mshirika.MediumComponent" parent="ShapeAppearance.Material3.MediumComponent">
+
+    </style>
+
+    <style name="Widget.Mshirika.BottomSheetStyle" parent="Widget.Material3.BottomSheet">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.BottomSheet</item>
+    </style>
+
     <style name="Widget.Mshirika.Client.OutlinedButton" parent="Widget.Material3.Button.ElevatedButton">
         <item name="android:layout_width">0dp</item>
         <item name="layout_constraintWidth_percent">.48</item>
@@ -9,6 +24,9 @@
 
     <style name="Widget.Mshirika.ImageView.Round" parent="Widget.Mshirika.Shape">
         <item name="cornerSize">50%</item>
+    </style>
+    <style name="Widget.Mshirika.TextInputEditText.Round" parent="Widget.Mshirika.Shape">
+        <item name="cornerSize">20dp</item>
     </style>
 
     <style name="Widget.Mshirika.ImageView.Rounded" parent="Widget.Mshirika.Shape">
@@ -19,6 +37,13 @@
         <item name="iconifiedByDefault">false</item>
         <item name="queryBackground">@android:color/transparent</item>
         <item name="searchIcon">@null</item>
+    </style>
+
+    <style name="Widget.Mshirika.TabLayout" parent="Widget.Material3.TabLayout">
+        <item name="tabIndicatorFullWidth">false</item>
+        <item name="tabIndicatorGravity">bottom</item>
+        <item name="tabIndicatorHeight">4dp</item>
+        <item name="tabMode">scrollable</item>
     </style>
 
     <style name="Widget.Mshirika.TextView.Style" parent="">
@@ -74,10 +99,6 @@
         <item name="maxLines">1</item>
     </style>
 
-    <style name="Widget.Mshirika.BottomSheetStyle" parent="Widget.Material3.BottomSheet">
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.BottomSheet</item>
-    </style>
-
     <style name="Widget.Mshirika.TextAutoComplete" parent="">
         <item name="android:layout_height">50dp</item>
         <item name="android:layout_width">match_parent</item>
@@ -85,7 +106,7 @@
         <item name="android:paddingEnd">0dp</item>
     </style>
 
-    <style name="Widget.Mshirika.TextInputLayout.FilledBox" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+    <style name="Widget.Mshirika.TextInputLayout.FilledBox" parent="Widget.Material3.TextInputLayout.FilledBox">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:paddingHorizontal" tools:targetApi="o">20dp</item>
@@ -93,7 +114,7 @@
         <item name="boxCornerRadiusTopStart">8dp</item>
     </style>
 
-    <style name="Widget.Mshirika.TextInputLayout.FilledBox.DropDown" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu">
+    <style name="Widget.Mshirika.TextInputLayout.FilledBox.DropDown" parent="Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:paddingHorizontal" tools:targetApi="o">20dp</item>
@@ -107,19 +128,19 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="Widget.Mshirika.TextInputLayout.OutlinedBox.Dense" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+    <style name="Widget.Mshirika.TextInputLayout.OutlinedBox.Dense" parent="Widget.Material3.TextInputLayout.OutlinedBox.Dense">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.MediumComponent</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="Widget.Mshirika.TextInputLayout.OutlinedBox.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+    <style name="Widget.Mshirika.TextInputLayout.OutlinedBox.ExposedDropdownMenu" parent="Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.MediumComponent</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="Widget.Mshirika.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+    <style name="Widget.Mshirika.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu" parent="Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mshirika.MediumComponent</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -127,16 +148,5 @@
 
     <style name="Widget.Mshirika.Shape" parent="">
         <item name="cornerFamily">rounded</item>
-    </style>
-
-    <style name="ShapeAppearance.Mshirika.BottomSheet" parent="Widget.Mshirika.Shape">
-        <item name="cornerSizeTopLeft">16dp</item>
-        <item name="cornerSizeTopRight">16dp</item>
-        <item name="cornerSizeBottomLeft">0dp</item>
-        <item name="cornerSizeBottomRight">0dp</item>
-    </style>
-
-    <style name="ShapeAppearance.Mshirika.MediumComponent" parent="ShapeAppearance.Material3.MediumComponent">
-
     </style>
 </resources>

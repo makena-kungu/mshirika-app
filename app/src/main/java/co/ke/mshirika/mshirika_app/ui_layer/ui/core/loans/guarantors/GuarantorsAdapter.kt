@@ -4,10 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.LoanWithGuarantors.Guarantor
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.loan.LoanWithGuarantors
 import co.ke.mshirika.mshirika_app.databinding.ItemLoanGuarantorBinding
 
-class GuarantorsAdapter : ListAdapter<Guarantor, GuarantorsAdapter.GuarantorViewHolder>(Guarantor) {
+class GuarantorsAdapter : ListAdapter<LoanWithGuarantors.Guarantor, GuarantorsAdapter.GuarantorViewHolder>(
+    LoanWithGuarantors.Guarantor
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GuarantorViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -23,7 +25,7 @@ class GuarantorsAdapter : ListAdapter<Guarantor, GuarantorsAdapter.GuarantorView
     inner class GuarantorViewHolder(private val binding: ItemLoanGuarantorBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(guarantor: Guarantor) {
+        fun bind(guarantor: LoanWithGuarantors.Guarantor) {
             binding.guarantor = guarantor
         }
     }

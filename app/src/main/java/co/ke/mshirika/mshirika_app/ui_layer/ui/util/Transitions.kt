@@ -68,7 +68,6 @@ object Transitions {
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.nav_host_fragment_main
             duration = mDuration
-            // todo reactivate or not after testing scrimColor = Color.TRANSPARENT
             setAllContainerColors(requireContext().themeColor(R.attr.colorSurface))
         }
     }

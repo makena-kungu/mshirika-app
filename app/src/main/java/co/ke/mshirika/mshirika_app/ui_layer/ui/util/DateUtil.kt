@@ -3,16 +3,23 @@ package co.ke.mshirika.mshirika_app.ui_layer.ui.util
 import java.text.DateFormat
 import java.text.DateFormat.*
 import java.text.SimpleDateFormat
-import java.time.MonthDay
+import java.time.LocalDate
 import java.time.Year
+import java.time.temporal.ChronoUnit
 import java.util.*
+import kotlin.time.Duration.Companion.milliseconds
 
 object DateUtil {
     const val DATE_FORMAT = "dd MMMM yyyy"
     private const val REMOTE_DATE_FORMAT = "dd.MM.yyyy"
 
     @JvmStatic
-    val today = System.currentTimeMillis().shortDate
+    val today: String
+        get() = now.shortDate
+
+    @JvmStatic
+    val now: Long
+        get() = System.currentTimeMillis()
 
     @JvmStatic
     val String.fromLongDate: Long
@@ -54,9 +61,18 @@ object DateUtil {
     @JvmStatic
     val List<Int>.shortDate: String
         get() = shortDateFormat.format(date)
+
     @JvmStatic
     val List<Int>.mediumDate: String
-        get() = getDateInstance(MEDIUM).format(date)
+        get() {
+            return getDateInstance(MEDIUM).format(date)
+        }
+
+    @JvmStatic
+    val List<Int>?.nullableMediumDate: String?
+        get() {
+            return this?.mediumDate
+        }
 
     @JvmStatic
     val List<Int>.date: Long
@@ -72,17 +88,11 @@ object DateUtil {
     @JvmStatic
     val Long.age: Int
         get() {
-            val then = Calendar.getInstance()
-            then.timeInMillis = this
-            var age = Year.now() - Year.of(then[Calendar.YEAR])
-            return with(MonthDay.now()) {
-                val month = then[Calendar.MONTH]
-                when {
-                    month > monthValue -> age--
-                    month == monthValue && then[Calendar.DAY_OF_MONTH] > dayOfMonth -> age--
-                }
-                age
-            }
+            val duration = milliseconds.inWholeDays
+            val then = LocalDate.ofEpochDay(duration)
+            val now = LocalDate.now()
+
+            return ChronoUnit.YEARS.between(then, now).toInt()
         }
 
     @JvmStatic

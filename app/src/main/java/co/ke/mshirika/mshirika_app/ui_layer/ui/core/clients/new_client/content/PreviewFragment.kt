@@ -15,11 +15,11 @@ import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.mediumDate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PreviewFragment :
-    MshirikaFragment<FragmentNewClientPreviewBinding>(R.layout.fragment_new_client_preview),
-    ViewerFragment {
+class PreviewFragment : MshirikaFragment<FragmentNewClientPreviewBinding>(
+    R.layout.fragment_new_client_preview
+), ViewerFragment {
 
-    private val viewModel: CreateClientViewModel by viewModels({requireParentFragment()})
+    private val viewModel: CreateClientViewModel by viewModels({ requireParentFragment() })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

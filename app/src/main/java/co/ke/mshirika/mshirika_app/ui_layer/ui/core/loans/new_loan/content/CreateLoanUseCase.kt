@@ -1,9 +1,9 @@
 package co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.new_loan.content
 
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.NewLoan
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.CreateLoan
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.templates.NewLoanTemplate2
-import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.request.NewLoan
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.loan.CreateLoan
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.templates.loan.NewLoanTemplate2
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.utils.Outcome
 import co.ke.mshirika.mshirika_app.data_layer.repositories.loans.LoansRepo
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.new_loan.content.NewLoanDetailsFragment.Companion.Details
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.new_loan.content.NewLoanTermsFragment.Companion.Terms
@@ -23,6 +23,7 @@ class CreateLoanUseCase @Inject constructor(
 
 
         val newLoan = NewLoan(
+            id = 0,
             productId = template2.loanProductId,
             loanOfficerId = details.officer,
             loanPurposeId = details.purpose,

@@ -3,20 +3,18 @@ package co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.adapters
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.INVISIBLE
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.NO_POSITION
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.Client
-import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Urls
+import co.ke.mshirika.mshirika_app.GlideApp
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.client.Cliente
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.utils.Urls
 import co.ke.mshirika.mshirika_app.databinding.ItemClientBinding
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.OnClientItemClickListener
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.MshirikaPagingDataAdapter
-import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.drawable
-import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.randomColors
-import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
@@ -24,24 +22,16 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class ClientsAdapter(
-    scope: CoroutineScope,
+    private val scope: CoroutineScope,
     private val authKey: Flow<String?>,
     private val listener: OnClientItemClickListener
-) :
-    MshirikaPagingDataAdapter<Client, ClientsAdapter.ClientViewHolder>(Client) {
+) : MshirikaPagingDataAdapter<Cliente, ClientsAdapter.ClientViewHolder>(Cliente) {
     private var _authKey: String? = null
-
-    init {
-        scope.launch(IO) {
-            _authKey = authKey.first()!!
-        }
-    }
 
     override fun onBindViewHolder(holder: ClientViewHolder, position: Int) {
         getItem(position)?.let {
@@ -56,9 +46,10 @@ class ClientsAdapter(
     inner class ClientViewHolder(private val binding: ItemClientBinding) :
         RecyclerView.ViewHolder(binding.root), View.OnClickListener, RequestListener<Drawable> {
 
-        private lateinit var _client: Client
+        private lateinit var _client: Cliente
         private var url: String? = null
         private var tempUrl: String? = null
+        private var color = 0
 
         override fun onClick(v: View?) {
             if (v == null) return
@@ -74,31 +65,38 @@ class ClientsAdapter(
             )
         }
 
-        fun bind(client: Client) {
+        fun bind(client: Cliente) {
             _client = client
+            binding.cliente = client
+            val listener = this
+            itemView.setOnClickListener(listener)
 
-            val headers = LazyHeaders
-                .Builder()
-                .addHeader("Authorization", _authKey!!)
-                .addHeader("Fineract-Platform-TenantId", "default").build()
-
-            tempUrl = "${Urls.BASE_URL}clients/${client.id}/images"
-            val glideUrl = GlideUrl(tempUrl, headers)
-            Glide.with(binding.root)
-                .load(glideUrl)
-                .centerCrop()
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .listener(this)
-                .into(binding.clientImage)
-        }
-
-        private fun ItemClientBinding.bindToViews() {
-            _client.apply {
-                clientName.text = displayName
-                clientMembershipNumber.text = externalId
-                clientStatus.text = subStatus.description
+            if (!client.hasImage) {
+                loadPlaceHolderImage()
+                return
             }
-            itemView.setOnClickListener(this@ClientViewHolder)
+            binding.clientImageError.isVisible = false
+
+            scope.launch {
+                if (_authKey == null) {
+                    _authKey = authKey.first()!!
+                }
+
+                val headers = LazyHeaders
+                    .Builder()
+                    .addHeader("Authorization", _authKey!!)
+                    .addHeader("Fineract-Platform-TenantId", "default").build()
+
+                tempUrl = "${Urls.BASE_URL}clients/${client.id}/images"
+                val glideUrl = GlideUrl(tempUrl, headers)
+                GlideApp.with(binding.root)
+                    .load(glideUrl)
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .listener(listener)
+                    .into(binding.clientImage)
+            }
         }
 
         override fun onLoadFailed(
@@ -106,18 +104,9 @@ class ClientsAdapter(
             model: Any?,
             target: Target<Drawable>?,
             isFirstResource: Boolean
-        ): Boolean = binding.run {
-            clientImageError.apply {
-                isVisible = true
-                text = _client.displayName[0].toString().uppercase()
-                context.randomColors.let {
-                    colorMapping[absoluteAdapterPosition] = it
-                    drawable(it)
-                }
-            }
-            clientImage.visibility = INVISIBLE
-            bindToViews()
-            false
+        ): Boolean {
+            loadPlaceHolderImage()
+            return false
         }
 
         override fun onResourceReady(
@@ -128,8 +117,22 @@ class ClientsAdapter(
             isFirstResource: Boolean
         ): Boolean {
             url = tempUrl
-            binding.bindToViews()
             return false
+        }
+
+        private fun loadPlaceHolderImage() {
+            binding.apply {
+                clientImageError.apply {
+                    isVisible = true
+                    text = _client.displayName[0].toString().uppercase()
+                    setBackgroundColor(_client.color)
+                    /*context.randomColors.let {
+                        colorMapping[absoluteAdapterPosition] = it
+                        drawable(it)
+                    }*/
+                }
+                clientImage.visibility = View.INVISIBLE
+            }
         }
     }
 

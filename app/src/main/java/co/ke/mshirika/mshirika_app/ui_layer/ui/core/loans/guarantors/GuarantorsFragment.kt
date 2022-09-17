@@ -7,7 +7,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import co.ke.mshirika.mshirika_app.R
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.LoanWithGuarantors
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.loan.LoanWithGuarantors
 import co.ke.mshirika.mshirika_app.databinding.FragmentGuarantorsBinding
 import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.guarantors.GuarantorsViewModel.BottomSheetState.*
@@ -91,6 +91,7 @@ class GuarantorsFragment : MshirikaFragment<FragmentGuarantorsBinding>(
         validate(s, AMOUNT)
         val amount = guarantor[AMOUNT]
         //check whether the amount is available
+
     }
 
     private fun validate(s: Editable, key: String) {

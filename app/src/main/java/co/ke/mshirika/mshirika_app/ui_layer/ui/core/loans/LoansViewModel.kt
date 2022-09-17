@@ -6,21 +6,25 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.Repayment
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.RepaymentSuccessful
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.RepaymentType
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.ConservativeLoanAccount
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.LoanRepaymentSchedule
-import co.ke.mshirika.mshirika_app.data_layer.remote.response.RepaymentResponse
-import co.ke.mshirika.mshirika_app.data_layer.remote.utils.GetsRepaymentSchedule
+import androidx.paging.filter
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.request.PaymentTransaction
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.RepaymentSuccessful
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.RepaymentType
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.loan.ConservativeLoanAccount
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.loan.LoanRepaymentSchedule
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.response.RepaymentResponse
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.utils.GetsRepaymentSchedule
 import co.ke.mshirika.mshirika_app.data_layer.repositories.loans.LoansRepo
 import co.ke.mshirika.mshirika_app.ui_layer.MshirikaViewModel
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.mshirikaDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class LoansViewModel
 @Inject constructor(
@@ -38,8 +42,13 @@ class LoansViewModel
 
     val loans: LiveData<PagingData<ConservativeLoanAccount>>
         get() = repo.loans
+            .mapLatest { pagingData -> pagingData.filter { it.status.active } }
             .asLiveData()
             .cachedIn(this)
+
+    val prestamos
+        get() = repo.prestamos
+            .asLiveData()
 
     suspend fun detailedLoanAccount(loanId: Int) = withContext(IO) {
         repo.detailedLoanAccount(loanId)
@@ -63,12 +72,12 @@ class LoansViewModel
         repaymentDate: Long,
         bankDate: Long
     ): RepaymentSuccessful? {
-        val id = _types.firstOrNull{ it.name == type }?.id ?: return null
+        val id = _types.firstOrNull { it.name == type }?.id ?: return null
         Log.d(TAG, "repay: amount = $amount")
-        val repayment = Repayment(
+        val repayment = PaymentTransaction(
             transactionDate = repaymentDate.mshirikaDate,
             transactionAmount = amount,
-            paymentTypeId = "$id",
+            paymentTypeId = id,
             bankDate = bankDate.mshirikaDate,
             receiptNumber = code
         )

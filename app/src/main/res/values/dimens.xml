@@ -7,11 +7,14 @@
     <dimen name="height_client_app_bar">430dp</dimen>
 
     <dimen name="margin_fab">16dp</dimen>
+    <dimen name="max_height_sms">500dp</dimen>
+
     <dimen name="padding_dialog">10dp</dimen>
     <dimen name="radius_edit_corner">8dp</dimen>
 
-    <dimen name="size_client_image">50dp</dimen>
+    <dimen name="size_client_image">40dp</dimen>
     <dimen name="size_client_image_large">90dp</dimen>
+    <dimen name="size_client_image_medium">70dp</dimen>
     <dimen name="size_client_small_logo">48dp</dimen>
     <dimen name="size_client_logo">110dp</dimen>
     <dimen name="size_logo">180dp</dimen>

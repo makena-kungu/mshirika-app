@@ -5,25 +5,24 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import co.ke.mshirika.mshirika_app.R
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.NewLoan
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.Client
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.CreateLoan
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.templates.NewLoanTemplate
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.templates.NewLoanTemplate2
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.request.NewLoan
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.client.Cliente
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.loan.CreateLoan
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.templates.loan.NewLoanTemplate
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.templates.loan.NewLoanTemplate2
+import co.ke.mshirika.mshirika_app.data_layer.repositories.PreferencesStoreRepository
 import co.ke.mshirika.mshirika_app.data_layer.repositories.loans.LoansRepo
 import co.ke.mshirika.mshirika_app.ui_layer.MshirikaViewModel
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.new_loan.content.CreateLoanUseCase
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.new_loan.content.NewLoanDetailsFragment.Companion.Details
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.new_loan.content.NewLoanTermsFragment.Companion.Terms
-import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.create.PageIndicator
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.resourceText
 import co.ke.mshirika.mshirika_app.utility.ld
 import co.ke.mshirika.mshirika_app.utility.mld
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -33,47 +32,35 @@ import javax.inject.Inject
 class NewLoanViewModel @Inject constructor(
     private val state: SavedStateHandle,
     private val repo: LoansRepo,
-    private val createLoanUseCase: CreateLoanUseCase
+    private val createLoanUseCase: CreateLoanUseCase,
+    private val store: PreferencesStoreRepository
 ) : MshirikaViewModel() {
-    private var _pages = 0
-
-    private val _enableNext = Channel<Boolean>()
-    private val _charges = Channel<List<NewLoan.Charge>>()
-    private val _pageChannel = Channel<Int>()
-    private val _subtitle = Channel<Int>()
     private val _created = mld<CreateLoan>()
+    private val _charges = Channel<List<NewLoan.Charge>>()
+    private val _page = MutableStateFlow(0)
+    private val _subtitle = Channel<Int>()
     private val template1: NewLoanTemplate get() = state[TEMPLATE1]!!
 
-    var client: Client?
+    var client: Cliente?
         get() = state[CLIENT]
         set(value) {
             state[CLIENT] = value
         }
 
-    var terms :Terms?
-    get() = state[TERMS]
-    set(value) {
-        state[TERMS] = value
-    }
+    var terms: Terms?
+        get() = state[TERMS]
+        set(value) {
+            state[TERMS] = value
+        }
 
     val chargesFlow get() = _charges.receiveAsFlow()
-    val enableNext get() = _enableNext.receiveAsFlow()
-    val page get() = _pageChannel.receiveAsFlow()
-    val subtitle get() = _subtitle.receiveAsFlow()
     val created: ld<CreateLoan> = _created
+    val page = _page.asLiveData()
+    val subtitle get() = _subtitle.receiveAsFlow()
     val template2: NewLoanTemplate2 get() = state[TEMPLATE2]!!
 
     val charges: List<NewLoan.Charge> get() = state[CHARGES] ?: emptyList()
     val details: Details? get() = state[DETAILS]
-
-    val indicators = page.map { position ->
-        buildList<PageIndicator> {
-            val range = 0.._pages
-            range.forEach {
-                PageIndicator(it, it == position)
-            }
-        }
-    }.asLiveData()
 
     fun cacheDetails(details: Details) {
         state[DETAILS] = details
@@ -92,7 +79,7 @@ class NewLoanViewModel @Inject constructor(
         }
     }
 
-    fun createNewLoan(savingsAccountId:Int) {
+    fun createNewLoan(savingsAccountId: Int) {
         viewModelScope.launch(IO) {
             val details = details ?: return@launch
             val terms = terms ?: return@launch
@@ -105,7 +92,7 @@ class NewLoanViewModel @Inject constructor(
         }
     }
 
-    suspend fun getLoanTemplate(client: Client): NewLoanTemplate? = withContext(IO) {
+    suspend fun getLoanTemplate(client: Cliente): NewLoanTemplate? = withContext(IO) {
         var template: NewLoanTemplate? = state[TEMPLATE1]
         if (template == null) {
             state[TEMPLATE1] = repo.getLoanTemplate(clientId = client.id)
@@ -125,30 +112,14 @@ class NewLoanViewModel @Inject constructor(
         return state[TEMPLATE2]
     }
 
-    fun disableNext() {
-        enableNext(false)
-    }
-
-    fun enableNext(value: Boolean = true) {
-        viewModelScope.launch {
-            _enableNext.send(value)
-        }
-    }
-
     fun update(position: Int) {
-        viewModelScope.launch(Dispatchers.Default) {
-            _pageChannel.send(position)
-        }
+        _page.value = position
     }
 
     fun updateSubtitle(@StringRes subtitleId: Int) {
         viewModelScope.launch {
             _subtitle.send(subtitleId)
         }
-    }
-
-    fun setPages(pages: Int) {
-        _pages = pages
     }
 
     companion object {

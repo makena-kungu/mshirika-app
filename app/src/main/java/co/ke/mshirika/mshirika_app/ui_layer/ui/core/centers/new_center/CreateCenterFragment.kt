@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
 import co.ke.mshirika.mshirika_app.R
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.CreateCenter
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.request.CreateCenter
 import co.ke.mshirika.mshirika_app.databinding.FragmentCreateNewCenterBinding
 import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.fromShortDate
@@ -53,8 +53,8 @@ class CreateCenterFragment : MshirikaFragment<FragmentCreateNewCenterBinding>(
             binding.centerOffice.setAdapter(adapter)
         }
 
-        viewModel.errorState.collectLatestLifecycle { snack(it) }
-        viewModel.successState.collectLatestLifecycle { snack(it, LENGTH_SHORT) }
+        viewModel.errorState.observe(viewLifecycleOwner) { snack(it) }
+        viewModel.successState.observe(viewLifecycleOwner) { snack(it, LENGTH_SHORT) }
     }
 
     private fun snack(text: UIText, duration: Int = LENGTH_LONG) {

@@ -63,7 +63,6 @@
             android:id="@+id/confirm_transfer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{()->frag.transferClient()}"
             android:text="@string/confirm"
             app:iconGravity="end"
             app:icon="@drawable/ic_round_send_24" />

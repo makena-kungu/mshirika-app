@@ -2,6 +2,7 @@ package co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client.content
 
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import co.ke.mshirika.mshirika_app.R
 import co.ke.mshirika.mshirika_app.R.layout.fragment_new_client_family
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.templates.ClientTemplate
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.templates.client.ClientTemplate
 import co.ke.mshirika.mshirika_app.databinding.FragmentNewClientFamilyBinding
 import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client.CreateClientViewModel
@@ -55,6 +56,9 @@ class FamilyFragment : MshirikaFragment<FragmentNewClientFamilyBinding>(
                 binding.dob.setText(it.shortDate)
             }
         }
+        binding.addFamilyMember.setOnClickListener {
+            addFamilyMember()
+        }
     }
 
     private fun FragmentNewClientFamilyBinding.setupClearing() {
@@ -75,7 +79,7 @@ class FamilyFragment : MshirikaFragment<FragmentNewClientFamilyBinding>(
             maritalStatus.setAdapter(maritalStatusOptions)
 
             val familyMemberOptions = template.familyMemberOptions.relationshipIdOptions
-                .filter { it.name != "father-in_law" }
+                .filter { it.name != "father-in-law" }
                 .map { it.name }
             relationship.setAdapter(familyMemberOptions)
 
@@ -84,7 +88,8 @@ class FamilyFragment : MshirikaFragment<FragmentNewClientFamilyBinding>(
         }
     }
 
-    fun addFamilyMember() {
+    private fun addFamilyMember() {
+        Log.d(TAG, "addFamilyMember: adding")
         binding.apply {
             _template.get().apply {
                 addFam()
@@ -111,6 +116,10 @@ class FamilyFragment : MshirikaFragment<FragmentNewClientFamilyBinding>(
     }
 
     override fun onNextPressed() = true
+
+    companion object {
+        private const val TAG = "FamilyFragment"
+    }
 }
 
 class FamilyMembersAdapter : ListAdapter<FamilyMember, FamViewHolder>(FamilyMember) {

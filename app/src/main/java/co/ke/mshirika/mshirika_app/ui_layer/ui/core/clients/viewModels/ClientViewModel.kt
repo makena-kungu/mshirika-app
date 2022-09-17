@@ -5,12 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Transaction
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.Client
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.SavingsAccount
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.ConservativeLoanAccount
-import co.ke.mshirika.mshirika_app.data_layer.remote.response.AccountsResponse
-import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.Transaction
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.client.Cliente
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.client.SavingsAccount
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.loan.ConservativeLoanAccount
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.loan.DetailedLoanAccount
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.response.AccountsResponse
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.utils.Outcome
 import co.ke.mshirika.mshirika_app.data_layer.repositories.PreferencesStoreRepository
 import co.ke.mshirika.mshirika_app.data_layer.repositories.clients.ClientsRepo
 import co.ke.mshirika.mshirika_app.ui_layer.MshirikaViewModel
@@ -29,7 +30,7 @@ class ClientViewModel @Inject constructor(
     private val store: PreferencesStoreRepository
 ) : MshirikaViewModel() {
 
-    private val _client = Channel<Client>()
+    private val _client = Channel<Cliente>()
     private val _cuentas: Flow<AccountsResponse?> = _client.receiveAsFlow()
         .map {
             state[CLIENT_TAG] = it
@@ -64,7 +65,7 @@ class ClientViewModel @Inject constructor(
             list
         }
     }
-    private val client: Client get() = state[CLIENT_TAG]!!
+    private val client: Cliente get() = state[CLIENT_TAG]!!
 
     private val _tr = Channel<Boolean>()
     private val _lo = Channel<Boolean>()
@@ -90,7 +91,7 @@ class ClientViewModel @Inject constructor(
                 _tr.send(false)
                 if (outcome !is Outcome.Success) return@withContext list
                 val data = outcome.data ?: return@withContext list
-                val transactions = data.transactions
+                val transactions = data.transactions ?: emptyList()
                 list += transactions
                 list
             }
@@ -102,11 +103,15 @@ class ClientViewModel @Inject constructor(
 
     suspend fun authKey() = authKey.first()
 
-    fun client(client: Client) {
+    fun client(client: Cliente) {
         state[CLIENT_TAG] = client
         viewModelScope.launch {
             _client.send(client)
         }
+    }
+
+    suspend fun getDetailedLoan(loanId: Int): DetailedLoanAccount? = withContext(IO) {
+        repo.detailedLoans(loanId)
     }
 
     init {

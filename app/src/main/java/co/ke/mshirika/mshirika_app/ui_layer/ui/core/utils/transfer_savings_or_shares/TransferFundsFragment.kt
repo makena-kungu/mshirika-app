@@ -5,13 +5,10 @@ import android.view.View
 import android.widget.AdapterView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.ke.mshirika.mshirika_app.R
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.Client
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.SavingsAccount
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.templates.TransferFundsTemplateWithToClientsAccounts
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.templates.transfer_funds.TransferFundsTemplateWithToClientsAccounts
 import co.ke.mshirika.mshirika_app.databinding.FragmentTransferFundsBinding
 import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.fromShortDate
@@ -31,9 +28,12 @@ class TransferFundsFragment : MshirikaFragment<FragmentTransferFundsBinding>(
     //register an argument, client, to be passed to this fragment
 
     private val viewModel by viewModels<TransferFundsViewModel>()
-    private val args: TransferFundsFragmentArgs by navArgs()
-    private val _client: Client get() = args.client
-    private val account: SavingsAccount get() = args.account
+    private val args by navArgs<TransferFundsFragmentArgs>()
+
+    private val accountBalance: Double by lazy { args.accountBalance.toDouble() }
+    private val clientId: Int by lazy { args.clientId }
+    private val savingsAccountId: Int by lazy { args.savingsAccountId }
+    private val officeId: Int by lazy { args.officeId }
 
     private var _templateWithToClientsAccounts: TransferFundsTemplateWithToClientsAccounts? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,7 +41,7 @@ class TransferFundsFragment : MshirikaFragment<FragmentTransferFundsBinding>(
 
         binding.appBar.toolbar.setup(R.string.transfer)
         binding.setupFields()
-        binding.availableBalance.text = account.accountBalance.amt
+        binding.availableBalance.text = accountBalance.amt
         setupError()
         setupLoading()
         setupSuccess()
@@ -58,9 +58,9 @@ class TransferFundsFragment : MshirikaFragment<FragmentTransferFundsBinding>(
             description
         )
 
-        lifecycleScope.launch {
+        launch {
             try {
-                val template = requireNotNull(viewModel.getTemplate(_client.savingsAccountId))
+                val template = viewModel.getTemplate(savingsAccountId) ?: return@launch
                 val offices = template.toOfficeOptions.map { it.name }
                 office.setAdapter(offices)
 
@@ -68,13 +68,11 @@ class TransferFundsFragment : MshirikaFragment<FragmentTransferFundsBinding>(
                     val officeName = offices[position]
                     val office = template.toOfficeOptions.find { it.name == officeName }
                         ?: return@setOnItemClickListener
-                    lifecycleScope.launch {
-                        val templateWithToClients = requireNotNull(
-                            viewModel.getTemplate(
-                                _client.savingsAccountId,
-                                office.id
-                            )
-                        )
+                    launch clients@{
+                        val templateWithToClients = viewModel.getTemplate(
+                            savingsAccountId,
+                            office.id
+                        ) ?: return@clients
 
                         val clients = templateWithToClients
                             .toClientOptions
@@ -91,14 +89,12 @@ class TransferFundsFragment : MshirikaFragment<FragmentTransferFundsBinding>(
                                 it.value == accountTypes[position]
                             } ?: return@AccountSelected
 
-                            viewModel.viewModelScope.launch {
-                                val templateWithToClientsAccounts = requireNotNull(
-                                    viewModel.getTemplate(
-                                        _client.id,
-                                        templateWithToClients.toOffice.id,
-                                        accountType.id
-                                    )
-                                )
+                            launch accounts@{
+                                val templateWithToClientsAccounts = viewModel.getTemplate(
+                                    clientId,
+                                    templateWithToClients.toOffice.id,
+                                    accountType.id
+                                ) ?: return@accounts
                                 _templateWithToClientsAccounts = templateWithToClientsAccounts
 
                                 val accounts = templateWithToClientsAccounts.toAccountOptions.map {
@@ -122,20 +118,20 @@ class TransferFundsFragment : MshirikaFragment<FragmentTransferFundsBinding>(
 
 
     private fun setupError() {
-        viewModel.errorState.collectLatestLifecycle {
+        viewModel.errorState.observe(viewLifecycleOwner) {
             val text = it.text(requireContext())
             binding.root.snackS(text)
         }
     }
 
     private fun setupLoading() {
-        viewModel.loadingState.collectLatestLifecycle {
+        viewModel.loadingState.observe(viewLifecycleOwner) {
             binding.transferLoading.isVisible = it
         }
     }
 
     private fun setupSuccess() {
-        viewModel.successState.collectLatestLifecycle {
+        viewModel.successState.observe(viewLifecycleOwner) {
             binding.root.snackS(it.text(requireContext()))
             findNavController().navigateUp()
         }
@@ -158,7 +154,8 @@ class TransferFundsFragment : MshirikaFragment<FragmentTransferFundsBinding>(
             date = date.text().fromShortDate.mshirikaDate,
             description = description.text()
         )
-        viewModel.transfer(_client, transfer)
+        val client = Triple(clientId, savingsAccountId, officeId)
+        viewModel.transfer(client, transfer)
     }
 }
 

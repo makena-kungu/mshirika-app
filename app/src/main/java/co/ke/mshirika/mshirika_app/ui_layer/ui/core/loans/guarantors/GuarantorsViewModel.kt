@@ -3,18 +3,17 @@ package co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.guarantors
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.CreateGuarantor
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.Client
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.LoanWithGuarantors.Guarantor
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.templates.GuarantorsTemplateWithClient
-import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Feedback
-import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome
-import co.ke.mshirika.mshirika_app.data_layer.repositories.loans.LoansRepo
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.request.CreateGuarantor
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.client.Cliente
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.loan.LoanWithGuarantors
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.templates.guarantors.GuarantorsTemplateWithClient
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.utils.Feedback
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.utils.Outcome
 import co.ke.mshirika.mshirika_app.data_layer.repositories.SearchRepo
+import co.ke.mshirika.mshirika_app.data_layer.repositories.loans.LoansRepo
 import co.ke.mshirika.mshirika_app.ui_layer.MshirikaViewModel
 import co.ke.mshirika.mshirika_app.utility.ld
 import co.ke.mshirika.mshirika_app.utility.mld
-import dagger.assisted.Assisted
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -28,13 +27,13 @@ class GuarantorsViewModel @Inject constructor(
 ) : MshirikaViewModel() {
 
     private val _bottomSheetState = mld(DEFAULT)
-    private val _guarantors = Channel<List<Guarantor>>()
-    private val _clients = Channel<List<Client>>()
+    private val _guarantors = Channel<List<LoanWithGuarantors.Guarantor>>()
+    private val _clients = Channel<List<Cliente>>()
 
     val bottomSheetState: ld<BottomSheetState> get() = _bottomSheetState
-    val client: Client? get() = stateHandle[CLIENT]
+    val client: Cliente? get() = stateHandle[CLIENT]
     val clients get() = _clients.receiveAsFlow().asLiveData()
-    val data = stateHandle.get<Feedback<Client>>(DATA)?.pageItems ?: emptyList()
+    val data = stateHandle.get<Feedback<Cliente>>(DATA)?.pageItems ?: emptyList()
     val guarantors get() = _guarantors.receiveAsFlow().asLiveData()
     val template: GuarantorsTemplateWithClient get() = stateHandle[TEMPLATE]!!
 
@@ -42,7 +41,7 @@ class GuarantorsViewModel @Inject constructor(
         _bottomSheetState.value = state
     }
 
-    fun guarantors(guarantors: List<Guarantor>) {
+    fun guarantors(guarantors: List<LoanWithGuarantors.Guarantor>) {
         viewModelScope.launch {
             _guarantors.send(guarantors)
         }
@@ -60,7 +59,7 @@ class GuarantorsViewModel @Inject constructor(
         viewModelScope.launch {
             val outcome = searchRepo.searchClients(query)
             if (outcome is Outcome.Success) {
-                val data: Feedback<Client> = outcome.data ?: return@launch
+                val data: Feedback<Cliente> = outcome.data ?: return@launch
                 stateHandle[DATA] = data
                 _clients.send(data.pageItems)
             }
@@ -69,7 +68,7 @@ class GuarantorsViewModel @Inject constructor(
 
     fun addGuarantor(name: String, amount: Int, guarantorTypeId: Int, clientId: Int, loanId: Int) {
         if (data.isEmpty()) return
-        val g: Guarantor? = null
+        val g: LoanWithGuarantors.Guarantor? = null
         g?.guarantorType?.id
         val guarantor = data.first { it.displayName == name }
 
@@ -90,11 +89,11 @@ class GuarantorsViewModel @Inject constructor(
         }
     }
 
-    fun selectedClient(client: Client, loanId: Int) {
+    fun selectedClient(client: Cliente, loanId: Int) {
         stateHandle[CLIENT] = client
         viewModelScope.launch {
             val template: GuarantorsTemplateWithClient = loansRepo.guarantorsTemplate(
-                client.id,
+                clientId = client.id,
                 loanId = loanId
             ) ?: return@launch
             stateHandle[TEMPLATE] = template

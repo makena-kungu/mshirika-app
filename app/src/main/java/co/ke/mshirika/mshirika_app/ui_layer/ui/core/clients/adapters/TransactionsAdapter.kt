@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import co.ke.mshirika.mshirika_app.R
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Transaction
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.Transaction
 import co.ke.mshirika.mshirika_app.databinding.ItemTransactionBinding
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.mediumDate
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.amt
@@ -59,6 +59,7 @@ class TransactionsAdapter(
                 when (transactionType.value) {
                     "Deposit" -> R.drawable.ic_deposit
                     "Withdrawal" -> R.drawable.ic_withdraw
+                    "Pay Charge" ->R.drawable.ic_charge
                     else -> null
                 }?.also {
                     transactionImage.setImageResource(it)

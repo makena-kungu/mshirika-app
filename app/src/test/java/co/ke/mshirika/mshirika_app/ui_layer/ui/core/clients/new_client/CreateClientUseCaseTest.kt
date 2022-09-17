@@ -1,10 +1,8 @@
 package co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client
 
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.templates.ClientTemplate
-import co.ke.mshirika.mshirika_app.data_layer.repositories.clients.ClientsRepoImplTest
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.templates.client.ClientTemplate
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client.content.FamilyMember
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client.content.GeneralData
-import co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.guarantors.GuarantorsViewModel.Companion.TEMPLATE
 import com.google.gson.Gson
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -16,7 +14,7 @@ class CreateClientUseCaseTest {
 
     @Before
     fun setUp() {
-        useCase = CreateClientUseCase(ClientsRepoImplTest())
+        //useCase = CreateClientUseCase(ClientsRepoImplTest())
     }
 
     @Test

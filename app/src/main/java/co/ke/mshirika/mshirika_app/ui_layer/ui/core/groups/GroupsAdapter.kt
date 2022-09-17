@@ -6,16 +6,13 @@ import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Group
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.group.Grupo
 import co.ke.mshirika.mshirika_app.databinding.ItemGroupBinding
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.MshirikaPagingDataAdapter
-import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.drawable
-import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.randomColors
 
 class GroupsAdapter(
     private val listener: OnGroupClickListener
-) :
-    MshirikaPagingDataAdapter<Group, GroupsAdapter.GroupViewHolder>(Group) {
+) : MshirikaPagingDataAdapter<Grupo, GroupsAdapter.GroupViewHolder>(Grupo) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder =
         LayoutInflater.from(parent.context)
@@ -39,22 +36,8 @@ class GroupsAdapter(
             itemView.setOnClickListener(this)
         }
 
-        fun bind(group: Group) {
-            binding.bind(group)
-        }
-
-        private fun ItemGroupBinding.bind(group: Group) {
-            group.apply {
-                groupImage.apply {
-                    text = name[0].uppercase()
-                    context.randomColors.let {
-                        colorMapping[absoluteAdapterPosition] = it
-                        drawable(it)
-                    }
-                }
-
-                groupName.text = name
-            }
+        fun bind(group: Grupo) {
+            binding.group = group
         }
 
         override fun onClick(v: View?) {

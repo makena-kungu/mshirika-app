@@ -9,10 +9,4 @@ import com.google.android.material.appbar.MaterialToolbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CenterFragment : DetailsFragment<FragmentCenterBinding>(R.layout.fragment_center) {
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
-}
+class CenterFragment : DetailsFragment<FragmentCenterBinding>(R.layout.fragment_center)

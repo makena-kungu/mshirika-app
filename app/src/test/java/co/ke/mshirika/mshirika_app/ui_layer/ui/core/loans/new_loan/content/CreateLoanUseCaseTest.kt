@@ -1,7 +1,7 @@
 package co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans.new_loan.content
 
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.NewLoan
-import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.request.NewLoan
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.utils.Outcome
 import co.ke.mshirika.mshirika_app.data_layer.repositories.FakeLoansRepo
 import co.ke.mshirika.mshirika_app.data_layer.repositories.Util.template2
 import co.ke.mshirika.mshirika_app.data_layer.repositories.loans.LoansRepo

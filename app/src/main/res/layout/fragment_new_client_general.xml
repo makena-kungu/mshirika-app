@@ -147,6 +147,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/mobile_no_lo"
                     style="?textInputOutlinedDenseStyle"
+                    app:counterMaxLength="9"
                     app:prefixText="+254">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -207,23 +208,6 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/submit_date_lo"
-                    style="?textInputOutlinedDenseStyle"
-                    app:endIconContentDescription="@string/pick_date_desc"
-                    app:endIconDrawable="@drawable/ic_baseline_calendar_month_24"
-                    app:endIconMode="custom">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/submit_date"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:editable="false"
-                        android:hint="@string/submit_date"
-                        android:inputType="date"
-                        android:maxLines="1" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/national_id_lo"
                     style="?textInputOutlinedDenseStyle">
 
@@ -252,36 +236,6 @@
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!--<com.google.android.material.checkbox.MaterialCheckBox
-                    android:id="@+id/is_active"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/active" />
-
-                &lt;!&ndash;todo to be shown when is_active is checked&ndash;&gt;
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/activation_date_lo"
-                    style="?textInputOutlinedDenseStyle"
-                    app:endIconContentDescription="@string/pick_date_desc"
-                    app:endIconDrawable="@drawable/ic_baseline_calendar_month_24"
-                    app:endIconMode="custom">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:maxLines="1"
-                        android:id="@+id/activation_date"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/activation_date_"
-                        android:inputType="date" />
-                </com.google.android.material.textfield.TextInputLayout>-->
-
-                <!--<com.google.android.material.checkbox.MaterialCheckBox
-                    android:id="@+id/open_savings_account"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/open_savings_account" />-->
-
-                <!--todo to be shown when open savings account is checked-->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/savings_product_lo"
                     style="?textInputOutlinedExposedDropdownMenuStyle">
@@ -298,7 +252,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="10dp"
                     android:paddingBottom="10dp"
-                    app:constraint_referenced_ids="create_client_image,office_lo,legal_form_lo,first_name_lo,middle_name_lo,last_name_lo,dob_lo,mem_no_lo,mobile_no_lo,gender_group,is_staff,client_type_lo,client_classification_lo,submit_date_lo,national_id_lo,savings_product_lo,email_lo"
+                    app:constraint_referenced_ids="create_client_image,office_lo,legal_form_lo,first_name_lo,middle_name_lo,last_name_lo,dob_lo,mem_no_lo,mobile_no_lo,gender_group,is_staff,client_type_lo,client_classification_lo,national_id_lo,savings_product_lo,email_lo"
                     app:flow_firstHorizontalBias="0.5"
                     app:flow_firstHorizontalStyle="packed"
                     app:flow_firstVerticalStyle="spread"

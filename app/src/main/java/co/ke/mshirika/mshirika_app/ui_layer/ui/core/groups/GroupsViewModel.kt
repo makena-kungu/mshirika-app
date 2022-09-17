@@ -7,12 +7,11 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Group
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.group.Grupo
 import co.ke.mshirika.mshirika_app.data_layer.repositories.GroupsRepo
 import co.ke.mshirika.mshirika_app.data_layer.repositories.PreferencesStoreRepository
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.State
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.State.Normal
-import co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.State.Searching
 import co.ke.mshirika.mshirika_app.utility.Util.headers
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
@@ -27,7 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class GroupsViewModel @Inject constructor(
     private val repo: GroupsRepo,
-    private val prefRepo: PreferencesStoreRepository,
+    private val store: PreferencesStoreRepository,
     state: SavedStateHandle
 ) : ViewModel() {
 
@@ -38,18 +37,17 @@ class GroupsViewModel @Inject constructor(
         ).value ?: DEFAULT
     )
 
-    val data: Flow<PagingData<Group>>
-        get() = _state.flatMapLatest {
-            when (it) {
-                Searching -> repo.searched
-                Normal -> repo.groups
-            }
+    val data: Flow<PagingData<Grupo>> = store.isOffline.flatMapLatest {
+        when (it) {
+            true -> repo.grupos
+            false -> repo.groups
         }
+    }
 
     fun search(query: String) {
         Log.d(TAG, "search: query = $query")
         viewModelScope.launch(IO) {
-            val headers = prefRepo.authKey().headers
+            val headers = store.authKey().headers
             repo.search(headers, query)
         }
     }

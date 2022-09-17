@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/solid_bg">
+        <color android:color="?android:colorBackground" />
+    </item>
+
+    <item
+        android:id="@+id/logo"
+        android:drawable="@drawable/ic_mshirika"
+        android:gravity="center" />
+</layer-list>

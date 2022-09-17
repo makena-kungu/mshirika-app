@@ -2,14 +2,12 @@ package co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans
 
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.navGraphViewModels
 import co.ke.mshirika.mshirika_app.R
-import co.ke.mshirika.mshirika_app.data_layer.remote.response.RepaymentResponse
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.response.RepaymentResponse
 import co.ke.mshirika.mshirika_app.databinding.FragmentLoanRepaymentBinding
 import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.MshirikaFragment
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.fromShortDate
@@ -32,8 +30,9 @@ class LoanRepaymentFragment : MshirikaFragment<FragmentLoanRepaymentBinding>(
 ) {
 
     private val args by navArgs<LoanRepaymentFragmentArgs>()
+    private val loanId by lazy { args.loanId }
     private val toolbar get() = binding.appBar.toolbarLarge
-    private val viewModel by viewModels<LoansViewModel>({ requireParentFragment() })
+    private val viewModel by viewModels<LoansViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,11 +40,17 @@ class LoanRepaymentFragment : MshirikaFragment<FragmentLoanRepaymentBinding>(
         handleError()
         handleLoading()
         handleSuccess()
-        binding.loadAccount()
+
+        binding.apply {
+            loadAccount()
+            openBankCalendar()
+            openRepaymentCalendar()
+            setupOnRepayment()
+        }
     }
 
     private fun handleError() {
-        viewModel.errorState.collectLatestLifecycle { uiText ->
+        viewModel.errorState.observe(viewLifecycleOwner) { uiText ->
             when (uiText) {
                 is UIText.DynamicText -> Snackbar
                     .make(binding.root, uiText.text, LENGTH_LONG).apply {
@@ -66,13 +71,13 @@ class LoanRepaymentFragment : MshirikaFragment<FragmentLoanRepaymentBinding>(
     }
 
     private fun handleLoading() {
-        viewModel.loadingState.collectLatestLifecycle {
+        viewModel.loadingState.observe(viewLifecycleOwner) {
             binding.transactionsLoading.isVisible = it
         }
     }
 
     private fun handleSuccess() {
-        viewModel.successState.collectLatestLifecycle {
+        viewModel.successState.observe(viewLifecycleOwner) {
             Snackbar.make(binding.root, it.text(requireContext()), LENGTH_LONG).show()
         }
     }
@@ -114,18 +119,9 @@ class LoanRepaymentFragment : MshirikaFragment<FragmentLoanRepaymentBinding>(
             val repaymentDate = repaymentDate.s
             val bankDate = repaymentBankDate.s
 
-            val array = arrayOf(
-                amount,
-                type,
-                code,
-                repaymentDate,
-                bankDate
-            )
-            Log.d(TAG, "setupOnRepayment: ${array.joinToString()} ")
-
             launch {
                 val result = viewModel.repay(
-                    args.loanId,
+                    loanId,
                     amount,
                     type,
                     code,
@@ -153,18 +149,15 @@ class LoanRepaymentFragment : MshirikaFragment<FragmentLoanRepaymentBinding>(
     private fun FragmentLoanRepaymentBinding.loadAccount() {
         val adapter = LoanTransactionsAdapter()
         loanTransactions.adapter = adapter
-        lifecycleScope.launch {
+        launch {
             transactionsLoading.isVisible = true
-            val account = viewModel.detailedLoanAccount(args.loanId)
+            val account = viewModel.detailedLoanAccount(loanId)
+            Log.d(TAG, "loadAccount: account = $account")
             transactionsLoading.isVisible = false
             if (account == null) return@launch
             val transactions = account.transactions
             adapter.submitList(transactions)
         }
-    }
-
-    override fun onMenuItemClick(item: MenuItem?): Boolean {
-        TODO("Not yet implemented")
     }
 
     companion object {

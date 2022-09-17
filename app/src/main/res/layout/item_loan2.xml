@@ -11,7 +11,7 @@
 
         <variable
             name="loan"
-            type="co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.LoanFromClientAccounts" />
+            type="co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.loan.LoanFromClientAccounts" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -30,7 +30,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@{client_name}"
-                android:textAppearance="?textAppearanceHeadline4"
+                android:textAppearance="?textAppearanceHeadline5"
                 tools:text="Clients Name" />
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{loan.productName}"
-                android:textAppearance="?textAppearanceHeadline5"
+                android:textAppearance="?textAppearanceHeadline6"
                 tools:text="Product Name" />
 
             <androidx.recyclerview.widget.RecyclerView

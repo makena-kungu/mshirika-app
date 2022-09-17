@@ -38,6 +38,9 @@
         <item name="colorCustomPrimaryContainer">@color/md_theme_light_primaryContainer</item>
         <item name="colorNavHeader">@color/md_theme_light_primaryContainer</item>
 
+        <item name="textAppearanceHeadlineSmall">@style/TextAppearance.HeadlineSmall</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.Headline6</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.Headline5</item>
         <item name="textInputOutlinedDenseStyle">
             @style/Widget.Mshirika.TextInputLayout.OutlinedBox.Dense
         </item>
@@ -57,6 +60,7 @@
         <item name="searchViewStyle">@style/Widget.Mshirika.SearchView</item>
         <item name="singleLineInputField">@style/Widget.Mshirika.TextInputEditText.SingleLine</item>
 
+        <item name="tabStyle">@style/Widget.Mshirika.TabLayout</item>
         <item name="textInputEditText">@style/Widget.Mshirika.TextInputEditText</item>
         <item name="textInputEditTextDate">@style/Widget.Mshirika.TextInputEditText.Date</item>
         <item name="textInputOutlinedDateStyle">@style/Widget.Mshirika.TextInputLayout.Date</item>

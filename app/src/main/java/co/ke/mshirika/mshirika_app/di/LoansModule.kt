@@ -1,33 +1,31 @@
 package co.ke.mshirika.mshirika_app.di
 
-import co.ke.mshirika.mshirika_app.data_layer.pagingSource.LoansPagingSource
-import co.ke.mshirika.mshirika_app.data_layer.remote.services.LoansService
-import co.ke.mshirika.mshirika_app.data_layer.repositories.PreferencesStoreRepository
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.services.LoansService
 import co.ke.mshirika.mshirika_app.data_layer.repositories.loans.LoansRepo
 import co.ke.mshirika.mshirika_app.data_layer.repositories.loans.LoansRepoImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
-import dagger.hilt.android.scopes.ViewModelScoped
+import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import javax.inject.Singleton
 
 @Module(includes = [LoansModule.LoansBindModule::class])
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 object LoansModule {
 
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun provideLoansService(retrofit: Retrofit): LoansService {
         return retrofit.create(LoansService::class.java)
     }
 
     @Module
-    @InstallIn(ViewModelComponent::class)
-    interface LoansBindModule{
+    @InstallIn(SingletonComponent::class)
+    interface LoansBindModule {
         @Binds
-        @ViewModelScoped
-        fun bindLoanRepo(loansRepoImpl: LoansRepoImpl):LoansRepo
+        @Singleton
+        fun bindLoanRepo(loansRepoImpl: LoansRepoImpl): LoansRepo
     }
 }

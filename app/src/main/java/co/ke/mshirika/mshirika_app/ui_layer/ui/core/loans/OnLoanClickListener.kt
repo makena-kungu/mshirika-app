@@ -1,7 +1,7 @@
 package co.ke.mshirika.mshirika_app.ui_layer.ui.core.loans
 
 import android.view.View
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.ConservativeLoanAccount
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.loan.ConservativeLoanAccount
 
 interface OnLoanClickListener {
     fun onLoanClicked(

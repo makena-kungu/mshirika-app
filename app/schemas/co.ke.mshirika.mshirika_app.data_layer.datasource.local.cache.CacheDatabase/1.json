@@ -1,0 +1,972 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "70dfba7cffbf26f152d52b9918583bfe",
+    "entities": [
+      {
+        "tableName": "centers_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `accountNo` TEXT NOT NULL, `activationDate` TEXT NOT NULL, `active` INTEGER NOT NULL, `externalId` TEXT NOT NULL, `hierarchy` TEXT NOT NULL, `name` TEXT NOT NULL, `officeId` INTEGER NOT NULL, `officeName` TEXT NOT NULL, `status` TEXT NOT NULL, `timeline` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accountNo",
+            "columnName": "accountNo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "activationDate",
+            "columnName": "activationDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "active",
+            "columnName": "active",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "externalId",
+            "columnName": "externalId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hierarchy",
+            "columnName": "hierarchy",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "officeId",
+            "columnName": "officeId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "officeName",
+            "columnName": "officeName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timeline",
+            "columnName": "timeline",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "clients_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `accountNo` TEXT NOT NULL, `memberNumber` TEXT, `status` TEXT NOT NULL, `subStatus` TEXT NOT NULL, `active` INTEGER NOT NULL, `activationDate` TEXT NOT NULL, `fullname` TEXT, `displayName` TEXT NOT NULL, `mobileNo` TEXT, `dateOfBirth` TEXT, `gender` TEXT NOT NULL, `clientType` TEXT NOT NULL, `clientClassification` TEXT, `isStaff` INTEGER NOT NULL, `officeId` INTEGER NOT NULL, `officeName` TEXT, `staffId` INTEGER NOT NULL, `staffName` TEXT, `timeline` TEXT NOT NULL, `savingsAccountId` INTEGER NOT NULL, `legalForm` TEXT NOT NULL, `color` INTEGER NOT NULL, `hasImage` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accountNo",
+            "columnName": "accountNo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "memberNumber",
+            "columnName": "memberNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subStatus",
+            "columnName": "subStatus",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "active",
+            "columnName": "active",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "activationDate",
+            "columnName": "activationDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fullname",
+            "columnName": "fullname",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "displayName",
+            "columnName": "displayName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mobileNo",
+            "columnName": "mobileNo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dateOfBirth",
+            "columnName": "dateOfBirth",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "gender",
+            "columnName": "gender",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "clientType",
+            "columnName": "clientType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "clientClassification",
+            "columnName": "clientClassification",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isStaff",
+            "columnName": "isStaff",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "officeId",
+            "columnName": "officeId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "officeName",
+            "columnName": "officeName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "staffId",
+            "columnName": "staffId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "staffName",
+            "columnName": "staffName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "timeline",
+            "columnName": "timeline",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "savingsAccountId",
+            "columnName": "savingsAccountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "legalForm",
+            "columnName": "legalForm",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "color",
+            "columnName": "color",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hasImage",
+            "columnName": "hasImage",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "tables_latest_update",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `table_name` TEXT NOT NULL, `time` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tableName",
+            "columnName": "table_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "client_template",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `clientTypeOptions` TEXT NOT NULL, `clientClassificationOptions` TEXT NOT NULL, `savingProductOptions` TEXT NOT NULL, `familyMemberOptions` TEXT NOT NULL, `activationDate` TEXT NOT NULL, `isStaff` INTEGER NOT NULL, `officeId` INTEGER NOT NULL, `officeOptions` TEXT NOT NULL, `staffOptions` TEXT NOT NULL, `genderOptions` TEXT NOT NULL, `clientNonPersonConstitutionOptions` TEXT NOT NULL, `clientLegalFormOptions` TEXT NOT NULL, `isAddressEnabled` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "clientTypeOptions",
+            "columnName": "clientTypeOptions",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "clientClassificationOptions",
+            "columnName": "clientClassificationOptions",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "savingProductOptions",
+            "columnName": "savingProductOptions",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "familyMemberOptions",
+            "columnName": "familyMemberOptions",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "activationDate",
+            "columnName": "activationDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isStaff",
+            "columnName": "isStaff",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "officeId",
+            "columnName": "officeId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "officeOptions",
+            "columnName": "officeOptions",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "staffOptions",
+            "columnName": "staffOptions",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "genderOptions",
+            "columnName": "genderOptions",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "clientNonPersonConstitutionOptions",
+            "columnName": "clientNonPersonConstitutionOptions",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "clientLegalFormOptions",
+            "columnName": "clientLegalFormOptions",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isAddressEnabled",
+            "columnName": "isAddressEnabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "groups_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `active` INTEGER NOT NULL, `hierarchy` TEXT NOT NULL, `name` TEXT NOT NULL, `officeId` INTEGER NOT NULL, `officeName` TEXT NOT NULL, `status` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "active",
+            "columnName": "active",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hierarchy",
+            "columnName": "hierarchy",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "officeId",
+            "columnName": "officeId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "officeName",
+            "columnName": "officeName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "office_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `nameDecorated` TEXT NOT NULL, `externalId` TEXT NOT NULL, `openingDate` TEXT NOT NULL, `hierarchy` TEXT NOT NULL, `parentId` INTEGER NOT NULL, `parentName` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nameDecorated",
+            "columnName": "nameDecorated",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "externalId",
+            "columnName": "externalId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "openingDate",
+            "columnName": "openingDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hierarchy",
+            "columnName": "hierarchy",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parentId",
+            "columnName": "parentId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parentName",
+            "columnName": "parentName",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "loans_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `accountNo` TEXT NOT NULL, `status` TEXT NOT NULL, `clientId` INTEGER NOT NULL, `clientAccountNo` TEXT NOT NULL, `clientName` TEXT NOT NULL, `clientOfficeId` INTEGER NOT NULL, `loanProductId` INTEGER NOT NULL, `loanProductName` TEXT NOT NULL, `loanProductDescription` TEXT NOT NULL, `isLoanProductLinkedToFloatingRate` INTEGER NOT NULL, `loanOfficerId` INTEGER NOT NULL, `loanOfficerName` TEXT NOT NULL, `loanType` TEXT NOT NULL, `currency` TEXT NOT NULL, `principal` REAL NOT NULL, `approvedPrincipal` REAL NOT NULL, `proposedPrincipal` REAL NOT NULL, `termFrequency` INTEGER NOT NULL, `termPeriodFrequencyType` TEXT NOT NULL, `numberOfRepayments` INTEGER NOT NULL, `repaymentEvery` INTEGER NOT NULL, `repaymentFrequencyType` TEXT NOT NULL, `interestRatePerPeriod` REAL NOT NULL, `interestRateFrequencyType` TEXT NOT NULL, `annualInterestRate` REAL NOT NULL, `isFloatingInterestRate` INTEGER NOT NULL, `amortizationType` TEXT NOT NULL, `interestType` TEXT NOT NULL, `interestCalculationPeriodType` TEXT NOT NULL, `allowPartialPeriodInterestCalcualtion` INTEGER NOT NULL, `transactionProcessingStrategyId` INTEGER NOT NULL, `transactionProcessingStrategyName` TEXT NOT NULL, `graceOnArrearsAgeing` INTEGER NOT NULL, `interestChargedFromDate` TEXT NOT NULL, `expectedFirstRepaymentOnDate` TEXT NOT NULL, `syncDisbursementWithMeeting` INTEGER NOT NULL, `timeline` TEXT NOT NULL, `summary` TEXT NOT NULL, `feeChargesAtDisbursementCharged` REAL NOT NULL, `loanProductCounter` INTEGER NOT NULL, `multiDisburseLoan` INTEGER NOT NULL, `canDefineInstallmentAmount` INTEGER NOT NULL, `canDisburse` INTEGER NOT NULL, `canUseForTopup` INTEGER NOT NULL, `isTopup` INTEGER NOT NULL, `loanIdToClose` INTEGER NOT NULL, `inArrears` INTEGER NOT NULL, `isNPA` INTEGER NOT NULL, `daysInMonthType` TEXT NOT NULL, `daysInYearType` TEXT NOT NULL, `isInterestRecalculationEnabled` INTEGER NOT NULL, `interestRecalculationData` TEXT NOT NULL, `createStandingInstructionAtDisbursement` INTEGER NOT NULL, `paidInAdvance` TEXT NOT NULL, `isVariableInstallmentsAllowed` INTEGER NOT NULL, `minimumGap` INTEGER NOT NULL, `maximumGap` INTEGER NOT NULL, `isEqualAmortization` INTEGER NOT NULL, `isRatesEnabled` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accountNo",
+            "columnName": "accountNo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "clientId",
+            "columnName": "clientId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "clientAccountNo",
+            "columnName": "clientAccountNo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "clientName",
+            "columnName": "clientName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "clientOfficeId",
+            "columnName": "clientOfficeId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "loanProductId",
+            "columnName": "loanProductId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "loanProductName",
+            "columnName": "loanProductName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "loanProductDescription",
+            "columnName": "loanProductDescription",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isLoanProductLinkedToFloatingRate",
+            "columnName": "isLoanProductLinkedToFloatingRate",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "loanOfficerId",
+            "columnName": "loanOfficerId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "loanOfficerName",
+            "columnName": "loanOfficerName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "loanType",
+            "columnName": "loanType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currency",
+            "columnName": "currency",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "principal",
+            "columnName": "principal",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "approvedPrincipal",
+            "columnName": "approvedPrincipal",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "proposedPrincipal",
+            "columnName": "proposedPrincipal",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "termFrequency",
+            "columnName": "termFrequency",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "termPeriodFrequencyType",
+            "columnName": "termPeriodFrequencyType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "numberOfRepayments",
+            "columnName": "numberOfRepayments",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "repaymentEvery",
+            "columnName": "repaymentEvery",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "repaymentFrequencyType",
+            "columnName": "repaymentFrequencyType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "interestRatePerPeriod",
+            "columnName": "interestRatePerPeriod",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "interestRateFrequencyType",
+            "columnName": "interestRateFrequencyType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "annualInterestRate",
+            "columnName": "annualInterestRate",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isFloatingInterestRate",
+            "columnName": "isFloatingInterestRate",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amortizationType",
+            "columnName": "amortizationType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "interestType",
+            "columnName": "interestType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "interestCalculationPeriodType",
+            "columnName": "interestCalculationPeriodType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "allowPartialPeriodInterestCalcualtion",
+            "columnName": "allowPartialPeriodInterestCalcualtion",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "transactionProcessingStrategyId",
+            "columnName": "transactionProcessingStrategyId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "transactionProcessingStrategyName",
+            "columnName": "transactionProcessingStrategyName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "graceOnArrearsAgeing",
+            "columnName": "graceOnArrearsAgeing",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "interestChargedFromDate",
+            "columnName": "interestChargedFromDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "expectedFirstRepaymentOnDate",
+            "columnName": "expectedFirstRepaymentOnDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "syncDisbursementWithMeeting",
+            "columnName": "syncDisbursementWithMeeting",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timeline",
+            "columnName": "timeline",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "summary",
+            "columnName": "summary",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "feeChargesAtDisbursementCharged",
+            "columnName": "feeChargesAtDisbursementCharged",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "loanProductCounter",
+            "columnName": "loanProductCounter",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "multiDisburseLoan",
+            "columnName": "multiDisburseLoan",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "canDefineInstallmentAmount",
+            "columnName": "canDefineInstallmentAmount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "canDisburse",
+            "columnName": "canDisburse",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "canUseForTopup",
+            "columnName": "canUseForTopup",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isTopup",
+            "columnName": "isTopup",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "loanIdToClose",
+            "columnName": "loanIdToClose",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "inArrears",
+            "columnName": "inArrears",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isNPA",
+            "columnName": "isNPA",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "daysInMonthType",
+            "columnName": "daysInMonthType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "daysInYearType",
+            "columnName": "daysInYearType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isInterestRecalculationEnabled",
+            "columnName": "isInterestRecalculationEnabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "interestRecalculationData",
+            "columnName": "interestRecalculationData",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createStandingInstructionAtDisbursement",
+            "columnName": "createStandingInstructionAtDisbursement",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "paidInAdvance",
+            "columnName": "paidInAdvance",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isVariableInstallmentsAllowed",
+            "columnName": "isVariableInstallmentsAllowed",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "minimumGap",
+            "columnName": "minimumGap",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maximumGap",
+            "columnName": "maximumGap",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isEqualAmortization",
+            "columnName": "isEqualAmortization",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isRatesEnabled",
+            "columnName": "isRatesEnabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "transactions_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `accountId` INTEGER NOT NULL, `accountNo` TEXT NOT NULL, `amount` REAL NOT NULL, `currency` TEXT NOT NULL, `date` TEXT NOT NULL, `interestedPostedAsOn` INTEGER NOT NULL, `paymentDetailData` TEXT, `reversed` INTEGER NOT NULL, `runningBalance` REAL NOT NULL, `submittedByUsername` TEXT, `submittedOnDate` TEXT NOT NULL, `transactionType` TEXT NOT NULL, `transfer` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accountId",
+            "columnName": "accountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accountNo",
+            "columnName": "accountNo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currency",
+            "columnName": "currency",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "interestedPostedAsOn",
+            "columnName": "interestedPostedAsOn",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "paymentDetailData",
+            "columnName": "paymentDetailData",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "reversed",
+            "columnName": "reversed",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "runningBalance",
+            "columnName": "runningBalance",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "submittedByUsername",
+            "columnName": "submittedByUsername",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "submittedOnDate",
+            "columnName": "submittedOnDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "transactionType",
+            "columnName": "transactionType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "transfer",
+            "columnName": "transfer",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '70dfba7cffbf26f152d52b9918583bfe')"
+    ]
+  }
+}

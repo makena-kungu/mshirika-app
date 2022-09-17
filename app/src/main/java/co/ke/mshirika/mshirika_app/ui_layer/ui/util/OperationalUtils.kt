@@ -2,14 +2,27 @@ package co.ke.mshirika.mshirika_app.ui_layer.ui.util
 
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil.shortDate
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.datepicker.MaterialDatePicker.Builder.datePicker
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import java.time.*
 import java.util.*
 
 object OperationalUtils {
     private const val TAG = "OperationalUtils"
+
+    context (Fragment)
+    fun TextInputLayout.openDatePicker(@StringRes titleRes: Int, editText: TextInputEditText) {
+        setEndIconOnClickListener {
+            openDatePicker(titleRes) {
+                editText.setText(it.shortDate)
+            }
+        }
+    }
+
     fun Fragment.openDatePicker(@StringRes idRes: Int, action: (Long) -> Unit) =
         openDatePicker(getString(idRes), action)
 

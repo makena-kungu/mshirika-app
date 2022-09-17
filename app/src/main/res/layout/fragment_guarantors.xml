@@ -161,7 +161,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         app:constraint_referenced_ids="dragger,spacer,client_layout,relationship_layout,account_layout,amount_layout,submit"
-                        app:flow_verticalGap="5dp"
+                        app:flow_verticalGap="10dp"
                         app:flow_wrapMode="chain"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

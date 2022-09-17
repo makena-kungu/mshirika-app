@@ -8,16 +8,14 @@ import android.view.View
 import androidx.annotation.FloatRange
 import androidx.appcompat.widget.Toolbar.OnMenuItemClickListener
 import androidx.constraintlayout.motion.widget.MotionLayout
-import androidx.core.view.accessibility.AccessibilityEventCompat.setAction
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.navGraphViewModels
 import co.ke.mshirika.mshirika_app.R
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.Transaction
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.Client
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.loan.ConservativeLoanAccount
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.Transaction
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.client.Cliente
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.loan.ConservativeLoanAccount
 import co.ke.mshirika.mshirika_app.databinding.ContentLoansAndTransactionsBinding
 import co.ke.mshirika.mshirika_app.databinding.FragmentClientBinding
 import co.ke.mshirika.mshirika_app.ui_layer.model_fragments.DetailsFragment
@@ -32,6 +30,7 @@ import co.ke.mshirika.mshirika_app.ui_layer.ui.util.Transitions.itemToDetailReen
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.Transitions.itemToDetailsTransitionId
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.UIText
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.amt
+import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.background
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.drawable
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils.randomColors
 import com.bumptech.glide.Glide
@@ -43,15 +42,14 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.expandable.ExpandableWidget
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.math.abs
 
-private const val TAG = "ClientFragment"
 
 @AndroidEntryPoint
 class ClientFragment : DetailsFragment<FragmentClientBinding>(
@@ -59,7 +57,7 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(
 ), OnLoanClickListener, OnMenuItemClickListener, OnTransactionsItemClickListener {
 
     private val args by navArgs<ClientFragmentArgs>()
-    private val viewModel by navGraphViewModels<ClientViewModel>(R.id.clientFragment)
+    internal val viewModel by activityViewModels<ClientViewModel>()
     private val client get() = args.client
     private val _colors get() = args.colors
     private val imageUrl get() = args.clientImageUri
@@ -73,6 +71,7 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(
         super.onViewCreated(view, savedInstanceState)
         itemToDetailReentry(view)
         binding.fragment = this
+        binding.loansAndTransactions.fragment = this
         binding.apply {
             clientToolbar.setup(R.string.client)
             loadImage()
@@ -103,17 +102,23 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(
             R.id.edit -> {
                 edit()
             }
+            R.id.new_loan -> {
+                newLoan()
+            }
             R.id.withdraw -> {
                 withdraw()
-                true
             }
             R.id.charge -> {
                 charges()
-                true
             }
             R.id.transfer -> {
                 transfer()
-                true
+            }
+            R.id.send_sms -> {
+                sendSms()
+            }
+            R.id.more -> {
+                more()
             }
             else -> false
         }
@@ -137,8 +142,10 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(
                 imageUrl,
                 headers
             )
+
             Glide.with(requireActivity())
                 .load(url)
+                .error(R.drawable.ic_round_person_24)
                 .centerCrop()
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .addListener(listener)
@@ -147,7 +154,7 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(
     }
 
     private fun errorState() {
-        viewModel.errorState.collectLatestLifecycle { uiText ->
+        viewModel.errorState.observe(viewLifecycleOwner) { uiText ->
             var title: String? = null
             var action: (() -> Unit)? = null
 
@@ -161,7 +168,8 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(
                     uiText.text(requireContext())
                 }
                 is UIText.PlainText -> uiText.s
-            }
+                else -> null
+            } ?: return@observe
 
             Snackbar.make(
                 binding.root,
@@ -180,18 +188,18 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(
     }
 
     private fun loadingState() {
-        viewModel.loadingState.collectLatestLifecycle {
+        viewModel.loadingState.observe(viewLifecycleOwner) {
             binding.progressHorizontal.isVisible = it
         }
     }
 
-    context (FragmentClientBinding, Client) private
+    context (FragmentClientBinding, Cliente) private
     fun bindClient() {
         Log.d(TAG, "bindClient: starting")
 
         clientName.text = displayName
-        clientMobileNumber.text = mobileNo
-        clientMembershipNo.text = externalId
+        clientMobileNumber.text = getString(R.string.valid_phone, mobileNo)
+        clientMembershipNo.text = getString(R.string.member_no_resource, memberNumber)
     }
 
     private fun FragmentClientBinding.setupAppBar() {
@@ -226,7 +234,13 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(
         position: Int,
         container: View
     ) {
-        //todo view a loan
+        val directions = ClientFragmentDirections.actionClientFragmentToViewLoanFragment(
+            loanAccount.id,
+            loanAccount.clientId,
+            loanAccount.clientName
+        )
+
+        findNavController().navigate(directions)
     }
 
     override fun onLoanRepayClicked(
@@ -253,34 +267,56 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(
         )
     }
 
-    //todo the following methods
-    fun newSavingsAccount() {
-
-    }
-
-    fun newLoan() {
+    fun newLoan(): Boolean {
         val directions = ClientFragmentDirections.actionClientFragmentToNewLoanFragment(client)
         findNavController().navigate(directions)
+        return true
     }
 
     fun payment() {
-
+        val directions = ClientFragmentDirections.actionClientFragmentToPaymentFragment(
+            clientId = client.id,
+            savingsAccountId = client.savingsAccountId
+        )
+        findNavController().navigate(directions)
     }
 
-    private fun withdraw() {
-
+    private fun withdraw(): Boolean {
+        return true
     }
 
-    private fun transfer() {
+    private fun sendSms(): Boolean {
+        val directions = ClientFragmentDirections.actionClientFragmentToSendSmsFragment(client.id)
+        findNavController().navigate(directions)
+        return true
+    }
 
+    private fun transfer(): Boolean {
+        val cuenta = viewModel.cuentaDeAhorros.value ?: return false
+        val directions = ClientFragmentDirections.actionClientFragmentToTransferFundsFragment(
+            accountBalance = cuenta.accountBalance.toFloat(),
+            clientId = client.id,
+            officeId = client.officeId,
+            savingsAccountId = client.savingsAccountId
+        )
+        findNavController().navigate(directions)
+
+        return true
     }
 
     private fun edit() {
         // todo edit the client use the create client fragment only the general data
+        val directions = ClientFragmentDirections.actionClientFragmentToEditClientFragment(client)
+        findNavController().navigate(directions)
     }
 
-    private fun charges() {
+    private fun charges(): Boolean {
+        return true
+    }
 
+    fun more() {
+        val directions = ClientFragmentDirections.actionClientFragmentToMoreFragment(client.id)
+        findNavController().navigate(directions)
     }
 
     fun openTransactionHistoryFragment() {}
@@ -292,7 +328,7 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(
             target: Target<Drawable>?,
             isFirstResource: Boolean
         ): Boolean {
-            mBinding?.loadBackupImage()
+            nullableBinding?.loadBackupImage()
             return true
         }
 
@@ -301,8 +337,12 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(
         }
 
         private fun FragmentClientBinding.loadBackupImage() {
-            clientImage.visibility = View.INVISIBLE
-            clientImageError.apply {
+            //clientImage.visibility = View.INVISIBLE
+            clientImage.setImageResource(R.drawable.ic_round_person_24)
+            val colors = _colors ?: requireContext().randomColors
+            clientImage.background(colors)
+
+            /*clientImageError.apply {
                 isVisible = true
                 val colors = _colors ?: requireContext().randomColors
                 drawable(colors)
@@ -310,11 +350,10 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(
                 animate().apply {
                     scaleX(1f)
                     scaleY(1f)
-                    duration =
-                        resources.getInteger(R.integer.material_motion_duration_short_1).toLong()
+                    duration = resources.getInteger(R.integer.material_motion_duration_short_1).toLong()
                     start()
                 }
-            }
+            }*/
         }
 
         override fun onResourceReady(
@@ -345,7 +384,7 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(
             //the text size is as it is say if text-size = 28 then it would be 28sp in xml
             binding.apply {
                 clientName.textSize = textSize(28F, 20F, progress)
-                balance.textSize = textSize(24F, 14F, progress)
+                balance.textSize = textSize(20F, 14F, progress)
 
                 // error progress ranges from 0 - .4 if greater than .4, ignore it
                 if (progress > .4 && clientImageError.textSize > 30) {
@@ -353,7 +392,7 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(
                     return
                 }
                 val errorProgress = progress / .4f
-                clientImageError.textSize = textSize(60F, 30F, errorProgress)
+                clientImageError.textSize = textSize(50F, 30F, errorProgress)
             }
         }
 
@@ -381,5 +420,9 @@ class ClientFragment : DetailsFragment<FragmentClientBinding>(
             val diff = originalTextSize - finalTextSize
             return originalTextSize - abs(progress * diff)
         }
+    }
+
+    companion object {
+        private const val TAG = "ClientFragment"
     }
 }

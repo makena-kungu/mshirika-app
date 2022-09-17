@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui_layer.ui.core.loans.view_loan.GeneralLoanDataFragment">
+
+    <data>
+
+        <import type="co.ke.mshirika.mshirika_app.ui_layer.ui.util.ViewUtils" />
+
+        <import type="co.ke.mshirika.mshirika_app.ui_layer.ui.util.DateUtil" />
+
+        <variable
+            name="loan"
+            type="co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.core.loan.DetailedLoanAccount" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/loan_product"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:text="@{loan.loanProductName}"
+                android:textAppearance="?textAppearanceHeadline5"
+                tools:text="Devt Loan" />
+
+            <TextView
+                android:id="@+id/principal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:text="@string/principal"
+                android:textAppearance="?textAppearanceHeadline6" />
+
+            <TextView
+                android:id="@+id/principal_val"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:text="@{ViewUtils.getAmt(loan.principal)}"
+                android:textAppearance="?textAppearanceBodyMedium"
+                tools:text="15,000.00" />
+
+            <TextView
+                android:id="@+id/expected_repayment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:text="@string/expected_repayment"
+                android:textAppearance="?textAppearanceHeadline6" />
+
+            <TextView
+                android:id="@+id/expected_repayment_val"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:text="@{ViewUtils.getAmt(loan.summary.totalExpectedRepayment)}"
+                android:textAppearance="?textAppearanceBodyMedium"
+                tools:text="15,000.00" />
+
+            <TextView
+                android:id="@+id/amt_paid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:text="@string/amount_paid"
+                android:textAppearance="?textAppearanceHeadline6" />
+
+            <TextView
+                android:id="@+id/amt_paid_val"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:text="@{ViewUtils.getAmt(loan.summary.totalRepayment)}"
+                android:textAppearance="?textAppearanceBodyMedium"
+                tools:text="15,000.00" />
+
+            <TextView
+                android:id="@+id/balance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:text="@string/_balance"
+                android:textAppearance="?textAppearanceHeadline6" />
+
+            <TextView
+                android:id="@+id/balance_val"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:text="@{ViewUtils.getAmt(loan.summary.totalOutstanding)}"
+                android:textAppearance="?textAppearanceBodyMedium"
+                tools:text="15,000.00" />
+
+            <TextView
+                android:id="@+id/date_disbursed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:text="@string/disbursement_date1"
+                android:textAppearance="?textAppearanceHeadline6" />
+
+            <TextView
+                android:id="@+id/date_disbursed_val"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:text="@{DateUtil.getNullableMediumDate(loan.timeline.actualDisbursementDate)}"
+                android:textAppearance="?textAppearanceBodyMedium"
+                tools:text="28 Oct 2002" />
+
+            <TextView
+                android:id="@+id/summary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="8dp"
+                android:text="@string/summary"
+                android:textAppearance="?textAppearanceHeadline5" />
+
+            <TextView
+                android:id="@+id/principal_paid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:text="@string/principal_paid"
+                android:textAppearance="?textAppearanceHeadline6" />
+
+            <TextView
+                android:id="@+id/principal_paid_val"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:text="@{ViewUtils.getAmt(loan.summary.principalPaid)}"
+                android:textAppearance="?textAppearanceBodyMedium"
+                tools:text="12,144" />
+
+            <TextView
+                android:id="@+id/principal_bal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:text="@string/principal_balance"
+                android:textAppearance="?textAppearanceHeadline6" />
+
+            <TextView
+                android:id="@+id/principal_bal_val"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:text="@{ViewUtils.getAmt(loan.summary.principalOutstanding)}"
+                android:textAppearance="?textAppearanceBodyMedium"
+                tools:text="12,144" />
+
+            <TextView
+                android:id="@+id/interest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:text="@string/interest"
+                android:textAppearance="?textAppearanceHeadline6" />
+
+            <TextView
+                android:id="@+id/interest_val"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:text="@{ViewUtils.getAmt(loan.summary.interestCharged)}"
+                android:textAppearance="?textAppearanceBodyMedium"
+                tools:text="1,144" />
+
+            <TextView
+                android:id="@+id/interest_paid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:text="@string/interest_paid"
+                android:textAppearance="?textAppearanceHeadline6" />
+
+            <TextView
+                android:id="@+id/interest_paid_val"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:text="@{ViewUtils.getAmt(loan.summary.interestPaid)}"
+                android:textAppearance="?textAppearanceBodyMedium"
+                tools:text="1,000" />
+
+            <TextView
+                android:id="@+id/interest_bal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:text="@string/interest_bal"
+                android:textAppearance="?textAppearanceHeadline6" />
+
+            <TextView
+                android:id="@+id/interest_bal_val"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:text="@{ViewUtils.getAmt(loan.summary.interestOutstanding)}"
+                android:textAppearance="?textAppearanceBodyMedium"
+                tools:text="144" />
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/flow2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="loan_product,principal,principal_val,expected_repayment,expected_repayment_val,amt_paid,amt_paid_val,balance,balance_val,date_disbursed,date_disbursed_val,summary,principal_paid,principal_paid_val,principal_bal,principal_bal_val,interest,interest_val,interest_paid,interest_paid_val,interest_bal,interest_bal_val"
+                app:flow_verticalGap="8dp"
+                app:flow_wrapMode="aligned"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

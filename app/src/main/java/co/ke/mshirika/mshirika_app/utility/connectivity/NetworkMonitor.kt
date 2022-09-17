@@ -7,6 +7,7 @@ import android.net.Network
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import android.net.NetworkRequest
 import android.os.Build
+import android.util.Log
 import androidx.lifecycle.LiveData
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -21,12 +22,11 @@ class NetworkMonitor @Inject constructor(
     @ApplicationContext context: Context
 ) : LiveData<Boolean>() {
     //implement using the flow api
-    private val cm = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
-    private val networkCallback by lazy {
-        Callback()
-    }
+    private val connectivityManager =
+        context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+    private val networkCallback by lazy { Callback() }
     private val validNetworks = mutableSetOf<Network>()
-    var isOnline: Boolean
+    private var isOnline: Boolean
         get() {
             return value ?: false
         }
@@ -36,21 +36,25 @@ class NetworkMonitor @Inject constructor(
 
     override fun onActive() {
         super.onActive()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            cm.registerDefaultNetworkCallback(networkCallback)
-        else {
+        Log.d(TAG, "onActive: registering")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Log.d(TAG, "onActive: Nougat and higher")
+            connectivityManager.registerDefaultNetworkCallback(networkCallback)
+        } else {
+            Log.d(TAG, "onActive: lower than Nougat")
             NetworkRequest.Builder()
                 .addCapability(NET_CAPABILITY_INTERNET)
                 .build()
                 .also {
-                    cm.registerNetworkCallback(it, networkCallback)
+                    connectivityManager.registerNetworkCallback(it, networkCallback)
                 }
         }
     }
 
     override fun onInactive() {
         super.onInactive()
-        cm.unregisterNetworkCallback(networkCallback)
+        Log.d(TAG, "onInactive: unregistering")
+        connectivityManager.unregisterNetworkCallback(networkCallback)
     }
 
     private fun rerunValidityCheck() {
@@ -61,7 +65,7 @@ class NetworkMonitor @Inject constructor(
         override fun onAvailable(network: Network) {
             super.onAvailable(network)
 
-            cm.getNetworkCapabilities(network)?.apply {
+            connectivityManager.getNetworkCapabilities(network)?.apply {
                 if (!hasCapability(NET_CAPABILITY_INTERNET)) return
 
                 CoroutineScope(IO + Job()).launch {
@@ -81,5 +85,9 @@ class NetworkMonitor @Inject constructor(
             validNetworks -= network
             rerunValidityCheck()
         }
+    }
+
+    companion object {
+        private const val TAG = "NetworkMonitor"
     }
 }

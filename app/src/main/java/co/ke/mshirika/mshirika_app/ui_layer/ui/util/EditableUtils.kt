@@ -41,7 +41,7 @@ object EditableUtils {
                     isEnabled = inputFields.status
                 }
                 //check if it doesn't contain an error
-                isEnabled = inputFields.all { it.error.isEmpty() }
+                //isEnabled = inputFields.all { !it.error.isNullOrBlank() }
             }
         }
     }
@@ -77,7 +77,11 @@ object EditableUtils {
 
     fun EditText.clear() {
         text.clear()
-        // TODO: if the above does not work, use setText("")
+    }
+
+    fun  String.properCase() :String {
+        val s = lowercase()
+        return s.replaceFirstChar { it.uppercaseChar() }
     }
 
     infix fun <A, B, C> A.andd(pair: Pair<B, C>): Triple<A, B, C> =

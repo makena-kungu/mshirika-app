@@ -2,10 +2,9 @@ package co.ke.mshirika.mshirika_app.ui_layer.ui.core.utils.transfer_savings_or_s
 
 import androidx.lifecycle.viewModelScope
 import co.ke.mshirika.mshirika_app.R
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.TransferFunds
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.core.client.Client
-import co.ke.mshirika.mshirika_app.data_layer.remote.utils.Outcome
-import co.ke.mshirika.mshirika_app.data_layer.remote.utils.UNKNOWN_ERROR
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.request.TransferFunds
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.utils.Outcome
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.utils.UNKNOWN_ERROR
 import co.ke.mshirika.mshirika_app.data_layer.repositories.TransferFundsRepo
 import co.ke.mshirika.mshirika_app.ui_layer.MshirikaViewModel
 import co.ke.mshirika.mshirika_app.ui_layer.ui.util.plainText
@@ -26,7 +25,8 @@ class TransferFundsViewModel @Inject constructor(
     suspend fun getTemplate(client: Int, toOffice: Int, accountType: Int) =
         repo.getTemplate(client, toOffice, accountType)
 
-    fun transfer(client: Client, tr: TransferSavingsOrShares) {
+    fun transfer(client: Triple<Int, Int, Int>, tr: TransferSavingsOrShares) {
+        val (clientId, savingsAccountId, officeId) = client
         val transfer = TransferFunds(
             toOfficeId = tr.officeId,
             toClientId = tr.clientId,
@@ -35,10 +35,10 @@ class TransferFundsViewModel @Inject constructor(
             transferAmount = "${tr.amount}",
             transferDate = tr.date,
             transferDescription = tr.description,
-            fromAccountId = client.savingsAccountId.toString(),
+            fromAccountId = savingsAccountId.toString(),
             fromAccountType = 2.toString(),
-            fromClientId = client.id,
-            fromOfficeId = client.officeId
+            fromClientId = clientId,
+            fromOfficeId = officeId
         )
         viewModelScope.launch(Dispatchers.IO) {
             loadingChannel.send(true)

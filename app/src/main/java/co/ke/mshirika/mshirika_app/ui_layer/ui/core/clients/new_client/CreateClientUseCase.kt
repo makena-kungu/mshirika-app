@@ -1,8 +1,8 @@
 package co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client
 
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.request.CreateClient
-import co.ke.mshirika.mshirika_app.data_layer.remote.models.response.templates.ClientTemplate
-import co.ke.mshirika.mshirika_app.data_layer.remote.response.ClientCreationResponse
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.request.CreateClient
+import co.ke.mshirika.mshirika_app.data_layer.datasource.models.response.templates.client.ClientTemplate
+import co.ke.mshirika.mshirika_app.data_layer.datasource.remote.response.ClientCreationResponse
 import co.ke.mshirika.mshirika_app.data_layer.repositories.clients.ClientsRepo
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client.content.FamilyMember
 import co.ke.mshirika.mshirika_app.ui_layer.ui.core.clients.new_client.content.GeneralData
@@ -53,6 +53,7 @@ class CreateClientUseCase @Inject constructor(
                 }
 
                 val client = CreateClient(
+                    id = 0,
                     officeId = officeId,
                     firstname = firstName,
                     middlename = middleName,
